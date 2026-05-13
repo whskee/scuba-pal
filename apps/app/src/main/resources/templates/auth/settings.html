@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container narrow">
+        <h1>User Settings</h1>
+        <p th:if="${settingsSuccess}" class="success" th:text="${settingsSuccess}">Saved.</p>
+        <form class="card form-stack" th:action="@{/settings}" th:object="${settingsForm}" method="post"><label>Profile
+                image URL<input type="text" th:field="*{profileImageUrl}"
+                    placeholder="https://..." /></label><label>Bio<textarea th:field="*{bio}"
+                    maxlength="400"></textarea></label>
+            <div class="form-grid"><label>City<input type="text" th:field="*{city}" /></label><label>Country<input
+                        type="text" th:field="*{country}" /></label><label>Dive count<input type="text"
+                        th:field="*{diveCount}" /></label></div>
+            <h2>Change password</h2><label>New password<input type="password"
+                    th:field="*{newPassword}" /></label><label>Confirm new password<input type="password"
+                    th:field="*{confirmPassword}" /></label><button class="button" type="submit">Save Settings</button>
+        </form>
+    </div>
+</body>
+
+</html>

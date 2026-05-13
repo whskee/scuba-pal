@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Scuba Pal</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+    <script defer th:src="@{/js/register.js}" src="/js/register.js"></script>
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container narrow">
+        <button class="back-link" type="button" onclick="history.back()">← Back</button>
+        <section class="card">
+            <span class="pill">Join the community</span>
+            <h1>Create your Scuba Pal account</h1>
+            <p>Register as a diver, then log in to post, interact with profiles, and build your dive network.</p>
+
+            <form th:action="@{/register}" th:object="${registerRequest}" method="post" class="form-stack">
+                <div th:if="${#fields.hasErrors('*')}" class="error">
+                    <p>Please fix the registration form.</p>
+                    <ul>
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Validation error</li>
+                    </ul>
+                </div>
+
+                <label>Email
+                    <input type="email" th:field="*{email}" placeholder="you@example.com" required />
+                </label>
+
+                <label class="input-with-status">Username
+                    <span class="username-row">
+                        <input type="text" th:field="*{username}" data-username-input placeholder="reef_runner"
+                            minlength="3" maxlength="60" autocomplete="username" required />
+                        <span class="field-status-icon" data-username-icon aria-hidden="true"></span>
+                    </span>
+                    <span class="field-help" data-username-help>Choose a unique username.</span>
+                </label>
+
+                <label>Password
+                    <input type="password" th:field="*{password}" minlength="6" maxlength="120"
+                        autocomplete="new-password" required />
+                </label>
+
+                <div class="form-grid">
+                    <label>First name
+                        <input type="text" th:field="*{firstName}" placeholder="Maya" />
+                    </label>
+                    <label>Last name
+                        <input type="text" th:field="*{lastName}" placeholder="Patel" />
+                    </label>
+                </div>
+
+                <div class="form-grid">
+                    <label>Country
+                        <select th:field="*{country}" data-country-select required>
+                            <option value="United States">United States</option>
+                        </select>
+                    </label>
+                    <label>City
+                        <select th:field="*{city}" data-city-select th:attr="data-selected=*{city}" required>
+                            <option value="">Select a city</option>
+                        </select>
+                    </label>
+                </div>
+
+                <button class="button" type="submit">Create account</button>
+            </form>
+            <p class="muted">Already have an account? <a th:href="@{/login}">Log in</a>.</p>
+        </section>
+    </div>
+</body>
+
+</html>

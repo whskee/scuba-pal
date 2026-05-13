@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversation</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container narrow"
+        th:attr="data-conversation-id=${conversation.conversationId},data-unread-message-count=${unreadMessageCount}"><a
+            class="back-link" th:href="@{/messages}">← Back</a>
+        <h1 th:text="${conversation.otherUsername}">Conversation</h1>
+        <section class="card message-list">
+            <div th:each="message : ${messages}" class="message-bubble"
+                th:classappend="${message.sentByCurrentUser} ? ' mine' : ''"><strong
+                    th:text="${message.senderUsername}">sender</strong>
+                <p th:text="${message.messageText}">message</p><small class="muted"
+                    th:if="${message.sentByCurrentUser and message.readAt == null}">Sent</small><small class="muted"
+                    th:if="${message.sentByCurrentUser and message.readAt != null}"
+                    th:text="${'Read at ' + #temporals.format(message.readAt, 'MMM d, yyyy h:mm a')}">Read at
+                    time</small>
+            </div>
+            <p th:if="${#lists.isEmpty(messages)}" class="muted">No messages yet.</p>
+        </section>
+        <form class="card form-stack" th:action="@{'/messages/' + ${conversation.conversationId}}" method="post">
+            <label>Message<textarea name="messageText" maxlength="1000" required></textarea></label><button
+                class="button" type="submit">Send</button></form>
+    </div>
+    <script th:src="@{/js/messages.js}" src="/js/messages.js"></script>
+</body>
+
+</html>

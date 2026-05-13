@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scuba Pal</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body class="home-page">
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container">
+        <section class="hero hero-deepsea">
+            <div class="hero-content">
+                <span class="pill">Dive Community Platform</span>
+                <h1>DIVE DEEP.<br />CONNECT DEEPER.</h1>
+                <p>
+                    Scuba Pal brings authenticated diver accounts, buddy discovery, community trip logs, dive locations,
+                    shop discovery, certifications, and notifications into one ocean-first platform.
+                </p>
+                <div class="hero-actions">
+                    <a class="button" th:href="@{/feed}">Explore Feed</a>
+                    <a class="button secondary" th:href="@{/register}">Create Account</a>
+                    <a class="button ghost" th:href="@{/login}">Login</a>
+                </div>
+                <div class="hero-proof" aria-label="Platform highlights">
+                    <span class="proof-chip">✓ Verified diver profiles</span>
+                    <span class="proof-chip">✓ Buddy matching</span>
+                    <span class="proof-chip">✓ Dive map ready</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="feature-strip">
+            <div class="feature-mini"><strong>Plan smarter dives</strong><span>Browse locations, shops, and diver
+                    activity before you go.</span></div>
+            <div class="feature-mini"><strong>Find reliable buddies</strong><span>Filter local divers and view profiles
+                    before connecting.</span></div>
+            <div class="feature-mini"><strong>Share the logbook</strong><span>Post dive updates, trip notes, and
+                    community discoveries.</span></div>
+        </div>
+
+        <div class="section-title">
+            <h2>Platform Snapshot</h2>
+            <p>Clickable shortcuts into the core product.</p>
+        </div>
+        <section class="grid snapshot-grid">
+            <a class="card snapshot-card" th:href="@{/divers}" aria-label="View divers">
+                <span class="snapshot-icon">🤿</span>
+                <h3>Divers</h3>
+                <p class="kpi" th:text="${stats.users}">0</p>
+                <small>Meet certified buddies</small>
+            </a>
+            <a class="card snapshot-card" th:href="@{/feed}" aria-label="View community posts">
+                <span class="snapshot-icon">🌊</span>
+                <h3>Posts</h3>
+                <p class="kpi" th:text="${stats.posts}">0</p>
+                <small>Read trip logs and updates</small>
+            </a>
+            <a class="card snapshot-card" th:href="@{/locations}" aria-label="View dive locations">
+                <span class="snapshot-icon">🪸</span>
+                <h3>Dive Locations</h3>
+                <p class="kpi" th:text="${stats.locations}">0</p>
+                <small>Explore places to dive</small>
+            </a>
+            <a class="card snapshot-card" th:href="@{/locations}" aria-label="View dive shops">
+                <span class="snapshot-icon">⚓</span>
+                <h3>Dive Shops</h3>
+                <p class="kpi" th:text="${stats.shops}">0</p>
+                <small>Find local support</small>
+            </a>
+        </section>
+
+        <div class="section-title">
+            <h2>Trending Posts</h2>
+            <p>Fresh signal from the dive community.</p>
+        </div>
+        <section class="grid">
+            <article class="card feed-item" th:each="post : ${posts}">
+                <div class="feed-meta">
+                    <span class="avatar" th:text="${#strings.substring(post.username,0,1).toUpperCase()}">S</span>
+                    <strong th:text="${post.username}">username</strong>
+                </div>
+                <p th:text="${post.caption}">Caption</p>
+                <p class="muted">
+                    <span th:text="${post.likes}">0</span> likes
+                    ·
+                    <span th:text="${post.comments}">0</span> comments
+                </p>
+            </article>
+        </section>
+    </div>
+</body>
+
+</html>

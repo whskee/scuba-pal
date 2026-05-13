@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learn Scuba</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container">
+        <button class="back-link" type="button" onclick="history.back()">← Back</button>
+        <h1>Learn Scuba</h1>
+        <section class="grid">
+            <article class="card learn-card" th:each="article : ${articles}">
+                <div class="feed-meta">
+                    <span class="pill" th:text="${article.category}">Safety</span>
+                    <span class="muted" th:text="${article.estimatedMinutes + ' min'}">5 min</span>
+                </div>
+                <h3 th:text="${article.title}">Article title</h3>
+                <p th:text="${article.summary}">Article summary</p>
+                <p class="muted" th:text="${article.difficultyLevel}">Beginner</p>
+            </article>
+            <p th:if="${#lists.isEmpty(articles)}" class="muted">Learning content is being prepared.</p>
+        </section>
+    </div>
+</body>
+
+</html>

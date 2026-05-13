@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post | Scuba Pal</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container narrow">
+        <button class="back-link" type="button" onclick="history.back()">← Back</button>
+
+        <article class="card feed-item post-detail-card" th:attr="data-post-id=${post.postId}">
+            <span class="pill" th:text="${post.visibilityStatus}">PUBLIC</span>
+            <div class="feed-meta">
+                <span class="avatar" th:text="${#strings.substring(post.username,0,1).toUpperCase()}">S</span>
+                <div>
+                    <h1 th:text="${post.username}">username</h1>
+                    <p class="muted">Expanded community post</p>
+                </div>
+            </div>
+            <p class="post-caption" th:text="${post.caption}">caption</p>
+            <p class="muted"><strong data-like-count th:text="${post.likes}">0</strong> likes · <strong
+                    th:text="${post.comments}">0</strong> comments</p>
+
+            <form th:if="${loggedIn}" class="like-form" th:action="@{'/api/posts/' + ${post.postId} + '/like'}"
+                method="post">
+                <button class="button" type="submit"
+                    th:text="${post.likedByCurrentUser ? 'Unlike' : 'Like'}">Like</button>
+            </form>
+            <p th:unless="${loggedIn}" class="muted"><a th:href="@{/login}">Log in</a> to like or comment.</p>
+        </article>
+
+        <section class="card comments-card">
+            <h2>Comments</h2>
+            <p th:if="${commentError}" class="error" th:text="${commentError}">Comment error</p>
+
+            <form th:if="${loggedIn}" th:action="@{'/posts/' + ${post.postId} + '/comments'}" method="post"
+                class="form-stack">
+                <label>Add a comment
+                    <textarea name="commentText" placeholder="Add useful dive context..." maxlength="500"
+                        required></textarea>
+                </label>
+                <button class="button" type="submit">Comment</button>
+            </form>
+
+            <div class="comment-list">
+                <article class="comment" th:each="comment : ${post.commentList}">
+                    <strong th:text="${comment.username}">username</strong>
+                    <p th:text="${comment.commentText}">comment</p>
+                </article>
+                <p th:if="${#lists.isEmpty(post.commentList)}" class="muted">No comments yet. Be the first to start the
+                    thread.</p>
+            </div>
+        </section>
+    </div>
+    <script th:src="@{/js/feed.js}" src="/js/feed.js"></script>
+</body>
+
+</html>

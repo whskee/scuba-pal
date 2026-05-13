@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find a Buddy | Scuba Pal</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container">
+        <button class="back-link" type="button" onclick="history.back()">← Back</button>
+        <section class="card buddy-hero">
+            <span class="pill">Buddy Finder</span>
+            <h1>Find a dive buddy</h1>
+            <p class="muted">Browse public diver profiles by city and start building your local dive network.</p>
+            <form class="inline" th:action="@{/buddies}" method="get">
+                <input type="text" name="city" th:value="${city}" placeholder="Filter by city, e.g. San Diego" />
+                <button type="submit">Search</button>
+                <a class="button" th:href="@{/buddies}">Reset</a>
+            </form>
+        </section>
+
+        <section class="grid">
+            <article class="card" th:each="user : ${users}"
+                th:if="${city == null || city.isBlank() || (user.city != null && #strings.containsIgnoreCase(user.city, city))}">
+                <span class="pill" th:text="${user.role}">role</span>
+                <h3 th:text="${user.username}">username</h3>
+                <p th:text="${user.city + ', ' + user.country}">city</p>
+                <p>Dives logged: <strong th:text="${user.diveCount}">0</strong></p>
+                <a class="button" th:href="@{'/profile/' + ${user.id}}">View Profile</a>
+            </article>
+        </section>
+    </div>
+</body>
+
+</html>

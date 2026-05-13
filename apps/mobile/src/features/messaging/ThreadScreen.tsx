@@ -1,0 +1,195 @@
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, RefreshControl, SectionList, Text, View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Screen } from "@/components/Screen";
+import { Input } from "@/components/Input";
+import { messagesApi } from "./messagesApi";
+import { colors } from "@/theme/colors";
+import { useAuthStore } from "@/store/authStore";
+import { Message } from "@/types/models";
+import { formatDateHeader, formatMessageTime, localDateKey } from "@/utils/date";
+
+type MessageSection = {
+  title: string;
+  data: Message[];
+};
+
+function groupMessagesByLocalDate(messages: Message[]): MessageSection[] {
+  const sections = new Map<string, MessageSection>();
+  messages.forEach((message) => {
+    const key = localDateKey(message.createdAt);
+    const existing = sections.get(key);
+    if (existing) {
+      existing.data.push(message);
+      return;
+    }
+    sections.set(key, { title: formatDateHeader(message.createdAt), data: [message] });
+  });
+  return Array.from(sections.values());
+}
+
+export function ThreadScreen({ route, navigation }: any) {
+  const { conversationId, participant } = route.params;
+  const [body, setBody] = useState("");
+  const user = useAuthStore((s) => s.user);
+  const qc = useQueryClient();
+  const query = useQuery({
+    queryKey: ["thread", conversationId],
+    queryFn: () => messagesApi.thread(conversationId),
+    refetchInterval: 5000,
+    refetchOnMount: "always",
+    retry: 1
+  });
+  const sections = useMemo(() => groupMessagesByLocalDate(query.data ?? []), [query.data]);
+  const readMutation = useMutation({ mutationFn: () => messagesApi.markRead(conversationId), onSuccess: () => qc.invalidateQueries({ queryKey: ["conversations"] }) });
+  const sendMutation = useMutation({
+    mutationFn: () => messagesApi.send(conversationId, body.trim()),
+    onMutate: async () => {
+      const text = body.trim();
+      await qc.cancelQueries({ queryKey: ["thread", conversationId] });
+      const previous = qc.getQueryData<Message[]>(["thread", conversationId]);
+      setBody("");
+      qc.setQueryData<Message[]>(["thread", conversationId], (old = []) => [
+        ...old,
+        {
+          id: `pending-${Date.now()}`,
+          senderId: user?.id ?? "me",
+          body: text,
+          createdAt: new Date().toISOString(),
+          sentByCurrentUser: true
+        }
+      ]);
+      return { previous, text };
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previous) qc.setQueryData(["thread", conversationId], context.previous);
+      if (context?.text) setBody(context.text);
+    },
+    onSettled: () => {
+      qc.invalidateQueries({ queryKey: ["thread", conversationId] });
+      qc.invalidateQueries({ queryKey: ["conversations"] });
+    }
+  });
+
+  useEffect(() => {
+    readMutation.mutate();
+  }, [conversationId]);
+
+  useEffect(() => {
+    if (query.dataUpdatedAt) qc.invalidateQueries({ queryKey: ["conversations"] });
+  }, [query.dataUpdatedAt, qc]);
+
+  useFocusEffect(
+    useCallback(() => {
+      qc.invalidateQueries({ queryKey: ["thread", conversationId] });
+      qc.invalidateQueries({ queryKey: ["conversations"] });
+    }, [conversationId, qc])
+  );
+
+  return (
+    <Screen scroll={false}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} keyboardVerticalOffset={0}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 12, paddingBottom: 14, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Back to conversations"
+            onPress={() => navigation.goBack()}
+            style={({ pressed }) => ({
+              width: 42,
+              height: 42,
+              borderRadius: 21,
+              backgroundColor: colors.surface,
+              borderWidth: 1,
+              borderColor: colors.border,
+              alignItems: "center",
+              justifyContent: "center",
+              opacity: pressed ? 0.75 : 1
+            })}
+          >
+            <Ionicons name="chevron-back" size={24} color={colors.text} />
+          </Pressable>
+          <View style={{ flex: 1 }}>
+            <Text style={{ color: colors.text, fontSize: 22, fontWeight: "900" }} numberOfLines={1}>@{participant.username}</Text>
+            <Text style={{ color: colors.muted, marginTop: 2 }}>Private conversation</Text>
+          </View>
+        </View>
+
+        <SectionList
+          style={{ flex: 1 }}
+          sections={sections}
+          keyExtractor={(item) => String(item.id)}
+          contentContainerStyle={{ paddingVertical: 12, flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              tintColor={colors.primary}
+              refreshing={query.isRefetching && !query.isLoading}
+              onRefresh={() => query.refetch()}
+            />
+          }
+          stickySectionHeadersEnabled={false}
+          renderSectionHeader={({ section }) => (
+            <View style={{ alignItems: "center", marginVertical: 10 }}>
+              <Text style={{ color: colors.muted, fontSize: 12, fontWeight: "900", backgroundColor: colors.surface, borderRadius: 14, overflow: "hidden", paddingHorizontal: 12, paddingVertical: 6 }}>{section.title}</Text>
+            </View>
+          )}
+          renderItem={({ item }) => {
+            const mine = item.sentByCurrentUser ?? String(item.senderId) === String(user?.id);
+            return (
+              <View
+                style={{
+                  alignSelf: mine ? "flex-end" : "flex-start",
+                  backgroundColor: mine ? colors.primary : colors.surface,
+                  paddingHorizontal: 14,
+                  paddingVertical: 11,
+                  borderRadius: 22,
+                  borderBottomRightRadius: mine ? 7 : 22,
+                  borderBottomLeftRadius: mine ? 22 : 7,
+                  marginBottom: 10,
+                  maxWidth: "82%",
+                  borderColor: mine ? "transparent" : colors.border,
+                  borderWidth: mine ? 0 : 1
+                }}
+              >
+                <Text style={{ color: mine ? colors.textDark : colors.text, fontSize: 15, lineHeight: 21 }}>{item.body}</Text>
+                <Text style={{ color: mine ? "rgba(16,32,51,0.68)" : colors.muted, fontSize: 11, marginTop: 6, fontWeight: "800", alignSelf: "flex-end" }}>{formatMessageTime(item.createdAt)}</Text>
+                {mine && item.readAt ? (
+                  <Text style={{ color: "rgba(16,32,51,0.68)", fontSize: 11, marginTop: 4, fontWeight: "800" }}>Read {formatMessageTime(item.readAt)}</Text>
+                ) : null}
+              </View>
+            );
+          }}
+        />
+
+        <View style={{ backgroundColor: colors.surface, borderRadius: 28, padding: 8, borderColor: colors.border, borderWidth: 1, flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <Input
+            placeholder="Message..."
+            value={body}
+            onChangeText={setBody}
+            style={{ flex: 1, minHeight: 46, borderRadius: 23, paddingVertical: 12 }}
+          />
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Send message"
+            disabled={!body.trim() || sendMutation.isPending}
+            onPress={() => body.trim() && sendMutation.mutate()}
+            style={({ pressed }) => ({
+              width: 46,
+              height: 46,
+              borderRadius: 23,
+              backgroundColor: body.trim() ? colors.primary : colors.surface3,
+              alignItems: "center",
+              justifyContent: "center",
+              opacity: !body.trim() || sendMutation.isPending ? 0.55 : pressed ? 0.78 : 1,
+              transform: [{ scale: pressed ? 0.96 : 1 }]
+            })}
+          >
+            {sendMutation.isPending ? <ActivityIndicator color={colors.textDark} /> : <Ionicons name="send" size={19} color={colors.textDark} />}
+          </Pressable>
+        </View>
+      </KeyboardAvoidingView>
+    </Screen>
+  );
+}

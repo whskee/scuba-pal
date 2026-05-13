@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dive Locations</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container">
+        <button class="back-link" type="button" onclick="history.back()">← Back</button>
+        <h1>Dive Map</h1>
+        <form class="inline" method="get" th:action="@{/locations}">
+            <input type="text" name="city" placeholder="Filter by city" th:value="${city}" />
+            <button type="submit">Search</button>
+        </form>
+        <section class="grid">
+            <article class="card" th:each="location : ${locations}">
+                <span class="pill" th:text="${location.difficultyLevel}">BEGINNER</span>
+                <h3 th:text="${location.locationName}">Location Name</h3>
+                <p th:text="${location.description}">Description</p>
+                <p th:text="${location.city + ', ' + location.state + ', ' + location.country}">City</p>
+                <p>Popularity: <strong th:text="${location.popularityScore}">0</strong></p>
+            </article>
+        </section>
+        <div class="pagination" th:if="${locationPage != null and locationPage.totalPages > 1}"><a
+                th:if="${locationPage.hasPrevious()}"
+                th:href="@{/locations(city=${city}, page=${locationPage.number - 1}, size=${locationPage.size})}">Previous</a><span
+                th:text="${locationPage.number + 1}">1</span><span>/</span><span
+                th:text="${locationPage.totalPages}">1</span><a th:if="${locationPage.hasNext()}"
+                th:href="@{/locations(city=${city}, page=${locationPage.number + 1}, size=${locationPage.size})}">Next</a>
+        </div>
+    </div>
+</body>
+
+</html>

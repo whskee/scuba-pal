@@ -1,0 +1,216 @@
+import type { CommentView, DirectMessageView, FeedPostView, FollowSummaryView, PostDetailView, Profile, UserView } from "@/api/generated";
+import { normalizeApiDateString } from "@/utils/date";
+
+export type ID = string | number;
+
+type ProfileResponse = Partial<Profile> & {
+  profileId?: number;
+  userId?: number;
+  username?: string;
+};
+
+type ConversationView = {
+  conversationId?: number;
+  id?: number;
+  otherUserId?: number;
+  otherUsername?: string;
+  otherInitial?: string;
+  unreadCount?: number;
+  lastMessagePreview?: string;
+  updatedAt?: string;
+};
+
+type NotificationView = {
+  notificationId?: number;
+  id?: number;
+  title?: string;
+  message?: string;
+  body?: string;
+  read?: boolean;
+  createdAt?: string;
+  type?: string;
+};
+
+const fallbackPostImages = [
+  "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200",
+  "https://images.unsplash.com/photo-1518877593221-1f28583780b4?w=1200",
+  "https://images.unsplash.com/photo-1580019542155-247062e19ce4?w=1200",
+  "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?w=1200"
+];
+
+export function fallbackPostImage(id: ID): string {
+  const numeric = typeof id === "number" ? id : Number.parseInt(String(id), 10);
+  const index = Number.isFinite(numeric) ? Math.abs(numeric) % fallbackPostImages.length : 0;
+  return fallbackPostImages[index];
+}
+
+export type User = {
+  id: ID;
+  username: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phoneNumber?: string;
+  city?: string;
+  country?: string;
+  profileImageUrl?: string;
+  bio?: string;
+  diveCount?: number;
+  followersCount?: number;
+  followingCount?: number;
+  followedByMe?: boolean;
+};
+
+export type AuthResponse = {
+  token?: string;
+  accessToken?: string;
+  jwt?: string;
+  user?: User;
+} & Partial<User>;
+
+export type Comment = {
+  id: ID;
+  userId: ID;
+  username: string;
+  body: string;
+  createdAt: string;
+};
+
+export type Post = {
+  id: ID;
+  author: User;
+  content: string;
+  imageUrl?: string;
+  createdAt: string;
+  likeCount: number;
+  commentCount: number;
+  likedByMe: boolean;
+  comments?: Comment[];
+};
+
+export type Notification = {
+  id: ID;
+  title: string;
+  body: string;
+  read: boolean;
+  createdAt: string;
+  type?: string;
+};
+
+export type Conversation = {
+  id: ID;
+  participant: User;
+  lastMessage?: string;
+  unreadCount: number;
+  updatedAt: string;
+};
+
+export type Message = {
+  id: ID;
+  senderId: ID;
+  receiverId?: ID;
+  body: string;
+  createdAt: string;
+  readAt?: string | null;
+  sentByCurrentUser?: boolean;
+};
+
+export type ApiErrorBody = {
+  message?: string;
+  error?: string;
+  detail?: string;
+  status?: number;
+};
+
+export function toUser(input?: UserView | Profile | ProfileResponse | null, follow?: FollowSummaryView): User {
+  const profile = input as ProfileResponse | undefined;
+  const profileUser = (profile as Profile | undefined)?.user;
+  const view = input as UserView | undefined;
+  const id = view?.id ?? profile?.userId ?? profileUser?.id ?? profile?.id ?? profile?.profileId ?? 0;
+  const username = view?.username ?? profile?.username ?? profileUser?.username ?? `diver-${id || "unknown"}`;
+
+  return {
+    id,
+    username,
+    email: view?.email ?? profileUser?.email,
+    firstName: profile?.firstName,
+    lastName: profile?.lastName,
+    phoneNumber: profile?.phoneNumber,
+    city: view?.city ?? profile?.city,
+    country: view?.country ?? profile?.country,
+    profileImageUrl: view?.profileImageUrl ?? profile?.profileImageUrl,
+    bio: view?.bio ?? profile?.bio,
+    diveCount: view?.diveCount ?? profile?.diveCount ?? 0,
+    followersCount: follow?.followerCount ?? 0,
+    followingCount: follow?.followingCount ?? 0,
+    followedByMe: follow?.followedByCurrentUser ?? false
+  };
+}
+
+export function toComment(input?: CommentView | null): Comment {
+  return {
+    id: input?.commentId ?? `${input?.userId ?? "unknown"}-${input?.createdAt ?? Date.now()}`,
+    userId: input?.userId ?? 0,
+    username: input?.username ?? "diver",
+    body: input?.commentText ?? "",
+    createdAt: normalizeApiDateString(input?.createdAt ?? new Date().toISOString())
+  };
+}
+
+export function toPost(input: FeedPostView | PostDetailView): Post {
+  const detail = input as PostDetailView;
+  const id = input.postId ?? 0;
+  const imageUrl = (input as FeedPostView & PostDetailView & { imageUrl?: string }).imageUrl;
+  return {
+    id,
+    author: {
+      id: input.userId ?? 0,
+      username: input.username ?? "diver"
+    },
+    content: input.caption ?? "",
+    imageUrl: imageUrl || fallbackPostImage(id),
+    createdAt: normalizeApiDateString(input.createdAt ?? new Date().toISOString()),
+    likeCount: input.likes ?? 0,
+    commentCount: input.comments ?? detail.commentList?.length ?? 0,
+    likedByMe: "likedByCurrentUser" in input ? input.likedByCurrentUser ?? false : false,
+    comments: detail.commentList?.map(toComment)
+  };
+}
+
+export function toConversation(input: unknown): Conversation {
+  const conversation = input as ConversationView;
+  const otherUserId = conversation.otherUserId ?? 0;
+  return {
+    id: conversation.conversationId ?? conversation.id ?? 0,
+    participant: {
+      id: otherUserId,
+      username: conversation.otherUsername ?? (conversation.otherInitial ? `diver-${conversation.otherInitial}` : "diver")
+    },
+    lastMessage: conversation.lastMessagePreview ?? "No messages yet",
+    unreadCount: conversation.unreadCount ?? 0,
+    updatedAt: normalizeApiDateString(conversation.updatedAt ?? new Date().toISOString())
+  };
+}
+
+export function toMessage(input: DirectMessageView): Message {
+  return {
+    id: input.messageId ?? `${input.senderUserId ?? "unknown"}-${input.createdAt ?? Date.now()}`,
+    senderId: input.senderUserId ?? 0,
+    body: input.messageText ?? "",
+    createdAt: normalizeApiDateString(input.createdAt ?? new Date().toISOString()),
+    readAt: input.readAt ? normalizeApiDateString(input.readAt) : input.readAt,
+    sentByCurrentUser: input.sentByCurrentUser
+  };
+}
+
+export function toNotification(input: unknown): Notification {
+  const notification = input as NotificationView;
+  return {
+    id: notification.notificationId ?? notification.id ?? 0,
+    title: notification.title ?? "Notification",
+    body: notification.message ?? notification.body ?? "",
+    read: notification.read ?? false,
+    createdAt: normalizeApiDateString(notification.createdAt ?? new Date().toISOString()),
+    type: notification.type
+  };
+}

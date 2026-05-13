@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: scubapal-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: scubapal
+      POSTGRES_USER: scubapal
+      POSTGRES_PASSWORD: scubapal
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: scubapal-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # SMTP server for Spring Boot
+      - "8025:8025" # Mailpit web inbox
+
+volumes:
+  postgres_data:
+# volumes:
+#   postgres_data:
+#     external: true
+#     name: scuba-pal_postgres_data

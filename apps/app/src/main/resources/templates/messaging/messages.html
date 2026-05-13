@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Messages</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container">
+        <h1>Messages <span class="bubble large" th:if="${unreadMessageCount > 0}"
+                th:text="${unreadMessageCount}">0</span></h1>
+        <section class="grid"><a class="card conversation-card" th:each="conversation : ${conversations}"
+                th:href="@{'/messages/' + ${conversation.conversationId}}">
+                <div class="feed-meta"><span class="avatar" th:text="${conversation.otherInitial}">D</span><strong
+                        th:text="${conversation.otherUsername}">diver</strong><span class="bubble"
+                        th:if="${conversation.unreadCount > 0}" th:text="${conversation.unreadCount}">0</span></div>
+                <p class="muted" th:text="${conversation.lastMessagePreview}">Open conversation</p>
+            </a>
+            <p th:if="${#lists.isEmpty(conversations)}" class="muted">No conversations yet. Visit a diver profile and
+                click Message.</p>
+        </section>
+        <div class="pagination" th:if="${conversationPage != null and conversationPage.totalPages > 1}"><a
+                th:if="${conversationPage.hasPrevious()}"
+                th:href="@{/messages(page=${conversationPage.number - 1}, size=${conversationPage.size})}">Previous</a><span
+                th:text="${conversationPage.number + 1}">1</span><span>/</span><span
+                th:text="${conversationPage.totalPages}">1</span><a th:if="${conversationPage.hasNext()}"
+                th:href="@{/messages(page=${conversationPage.number + 1}, size=${conversationPage.size})}">Next</a>
+        </div>
+    </div>
+</body>
+
+</html>

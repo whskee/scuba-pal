@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diver Profile</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container">
+        <article class="card profile-card">
+            <div class="profile-badge"><img class="profile-photo" th:if="${user.profileImageUrl}"
+                    th:src="${user.profileImageUrl}" alt="Profile image" /><span class="profile-photo"
+                    th:unless="${user.profileImageUrl}"
+                    th:text="${#strings.substring(user.username,0,1).toUpperCase()}">S</span>
+                <div>
+                    <h1 th:text="${user.username}">username</h1><span class="pill" th:text="${user.role}">user</span>
+                </div>
+            </div>
+            <p>Email: <span th:text="${user.email}">email</span></p>
+            <p>Location: <span th:text="${(user.city ?: 'Unknown') + ', ' + (user.country ?: 'Unknown')}">city</span>
+            </p>
+            <p>Dive Count: <strong th:text="${user.diveCount}">0</strong></p>
+            <p th:if="${user.bio}" th:text="${user.bio}">bio</p>
+            <div class="follow-stats"><span><strong th:text="${followSummary.followerCount}">0</strong>
+                    followers</span><span><strong th:text="${followSummary.followingCount}">0</strong> following</span>
+            </div>
+            <div class="feed-actions" th:if="${currentUser != null and currentUser.id != user.id}">
+                <form th:if="${!followSummary.followedByCurrentUser}"
+                    th:action="@{'/profile/' + ${user.id} + '/follow'}" method="post"><button class="button"
+                        type="submit">Follow</button></form>
+                <form th:if="${followSummary.followedByCurrentUser}"
+                    th:action="@{'/profile/' + ${user.id} + '/unfollow'}" method="post"><button class="button secondary"
+                        type="submit">Unfollow</button></form>
+                <form th:action="@{'/messages/start/' + ${user.id}}" method="post"><button class="button"
+                        type="submit">Message</button></form>
+            </div>
+        </article>
+        <section class="grid">
+            <article class="card">
+                <h2>Followers</h2>
+                <p th:if="${#lists.isEmpty(followSummary.followers)}" class="muted">No followers yet.</p><a
+                    class="follow-row" th:each="follower : ${followSummary.followers}"
+                    th:href="@{'/profile/' + ${follower.id}}"><span class="avatar"
+                        th:text="${#strings.substring(follower.username,0,1).toUpperCase()}">D</span><strong
+                        th:text="${follower.username}">diver</strong></a>
+            </article>
+            <article class="card">
+                <h2>Following</h2>
+                <p th:if="${#lists.isEmpty(followSummary.following)}" class="muted">Not following anyone yet.</p><a
+                    class="follow-row" th:each="following : ${followSummary.following}"
+                    th:href="@{'/profile/' + ${following.id}}"><span class="avatar"
+                        th:text="${#strings.substring(following.username,0,1).toUpperCase()}">D</span><strong
+                        th:text="${following.username}">diver</strong></a>
+            </article>
+        </section>
+        <section class="section-title">
+            <h2 th:text="${user.username + ' posts'}">Posts</h2>
+        </section>
+        <section class="grid">
+            <article class="card" th:each="post : ${posts}">
+                <p th:text="${post.caption}">caption</p>
+                <p class="muted"><strong th:text="${post.likes}">0</strong> likes · <strong
+                        th:text="${post.comments}">0</strong> comments</p><a class="button secondary"
+                    th:href="@{'/posts/' + ${post.postId}}">Expand Post</a>
+            </article>
+            <p th:if="${#lists.isEmpty(posts)}" class="muted">No posts yet.</p>
+        </section>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+# ========================
+# Build / Compiled Output
+# ========================
+target/
+build/
+out/
+*.class
+*.jar
+*.war
+*.ear
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+
+# ========================
+# IDE - IntelliJ
+# ========================
+.idea/
+*.iml
+
+# ========================
+# IDE - VS Code
+# ========================
+.vscode/
+
+# ========================
+# OS files
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Environment / Secrets
+# ========================
+.env
+.env.*
+!.env.example
+!.env.template
+application-local.yml
+application-local.properties
+
+# ========================
+# Maven Wrapper (keep or remove depending on team)
+# ========================
+# Keep these normally:
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+
+# ========================
+# Gradle
+# ========================
+.gradle/
+
+# ========================
+# Node (if you add frontend later)
+# ========================
+node_modules/
+
+# ========================
+# Test output
+# ========================
+coverage/
+
+
+# docs/
+
+
+# Files to exclude
+*.webloc
+tmp/

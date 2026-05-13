@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Scuba Pal</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container narrow">
+        <button class="back-link" type="button" onclick="history.back()">← Back</button>
+        <section class="card">
+            <span class="pill">Secure Access</span>
+            <h1>Log in</h1>
+            <p>Use seeded demo credentials: <strong>admin / admin123</strong> or <strong>maya_dives / password</strong>.
+            </p>
+            <p th:if="${param.error}" class="error">Invalid username or password.</p>
+            <p th:if="${param.logout}" class="success">You have been logged out.</p>
+            <p th:if="${registrationSuccess}" class="success" th:text="${registrationSuccess}">Account created.</p>
+            <form th:action="@{/login}" method="post" class="form-stack">
+                <label>Username
+                    <input type="text" name="username" required autofocus />
+                </label>
+                <label>Password
+                    <input type="password" name="password" required />
+                </label>
+                <button class="button" type="submit">Login</button>
+            </form>
+            <p class="muted"><a th:href="@{/forgot-password}">Forgot password?</a></p>
+            <p class="muted">No account yet? <a th:href="@{/register}">Create one</a>.</p>
+        </section>
+    </div>
+</body>
+
+</html>

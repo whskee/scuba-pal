@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "Scuba Pal",
+    "slug": "scuba-pal-mobile-expo",
+    "scheme": "scubapal",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.scubapal.mobile"
+    },
+    "android": {
+      "package": "com.scubapal.mobile",
+      "adaptiveIcon": {
+        "backgroundColor": "#071827"
+      }
+    },
+    "extra": {
+      "apiBaseUrl": "http://192.168.0.251:8080",
+      "requestTimeoutMs": 15000
+    }
+  }
+}

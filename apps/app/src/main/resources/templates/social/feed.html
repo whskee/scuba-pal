@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scuba Pal Feed</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="app-shell" th:classappend="${loggedIn} ? '' : ' guest-shell'">
+        <aside class="card side-nav" th:if="${currentUser}">
+            <div class="profile-badge"><img class="profile-photo" th:if="${currentUser.profileImageUrl}"
+                    th:src="${currentUser.profileImageUrl}" alt="Profile image" /><span class="profile-photo"
+                    th:unless="${currentUser.profileImageUrl}"
+                    th:text="${#strings.substring(currentUser.username,0,1).toUpperCase()}">S</span><strong
+                    th:text="${currentUser.username}">you</strong></div><a th:href="@{/feed}">View feed</a><a
+                href="#compose">Create post</a><a th:href="@{/locations}">Discover cool facts</a><a
+                th:href="@{/locations}">Learn</a><a th:href="@{/divers}">Connect</a><a th:href="@{/messages}">Messages
+                <span class="bubble" th:if="${unreadMessageCount > 0}" th:text="${unreadMessageCount}">0</span></a><a
+                th:href="@{/notifications}">Notifications <span class="bubble" th:if="${unreadNotificationCount > 0}"
+                    th:text="${unreadNotificationCount}">0</span></a><a th:href="@{/settings}">User settings</a>
+            <form class="side-logout" th:action="@{/logout}" method="post"><button type="submit">Logout</button></form>
+        </aside>
+        <main class="main-panel">
+            <div class="section-title">
+                <div><span class="pill">Community</span>
+                    <h1>Community Feed</h1>
+                </div>
+                <p>Share trip notes, questions, visibility reports, and buddy plans.</p>
+            </div>
+            <section id="compose" class="card compose-card" th:if="${loggedIn}">
+                <h2>Create a post</h2>
+                <form th:action="@{/posts}" th:object="${createPostForm}" method="post" class="form-stack"><label>What
+                        did you discover underwater?<textarea th:field="*{caption}" maxlength="500"
+                            required></textarea></label><label>Visibility<select th:field="*{visibilityStatus}">
+                            <option value="PUBLIC">Public</option>
+                            <option value="PRIVATE">Private</option>
+                        </select></label><button class="button" type="submit">Post to Feed</button></form>
+            </section>
+            <section class="guest-feed-hero" th:unless="${loggedIn}">
+                <div><span class="pill">Open water community</span>
+                    <h2>Preview real diver updates before you join.</h2>
+                    <p>Scuba Pal is becoming a home feed for dive logs, buddy plans, location discoveries, and questions
+                        from people who actually dive. Create an account to like posts, follow divers, message buddies,
+                        and build your profile.</p>
+                    <div class="hero-actions"><a class="button" th:href="@{/register}">Join Scuba Pal</a><a
+                            class="button secondary" th:href="@{/login}">Login</a></div>
+                </div>
+                <div class="guest-feed-card"><strong>What you unlock</strong><span>Follow divers</span><span>Message
+                        buddies</span><span>Save your dive identity</span></div>
+            </section>
+            <p th:if="${postSuccess}" class="success" th:text="${postSuccess}">Posted.</p>
+            <p th:if="${postError}" class="error" th:text="${postError}">Post error.</p>
+            <section class="grid feed-grid">
+                <article class="card feed-item" th:each="post : ${posts}" th:attr="data-post-id=${post.postId}"><span
+                        class="pill" th:text="${post.visibilityStatus}">PUBLIC</span>
+                    <div class="feed-meta"><span class="avatar"
+                            th:text="${#strings.substring(post.username,0,1).toUpperCase()}">S</span><a
+                            th:href="@{'/profile/' + ${post.userId}}"><strong
+                                th:text="${post.username}">username</strong></a></div>
+                    <p th:text="${post.caption}">caption</p>
+                    <p class="muted"><strong data-like-count th:text="${post.likes}">0</strong> likes · <strong
+                            th:text="${post.comments}">0</strong> comments</p>
+                    <div class="feed-actions">
+                        <form th:if="${loggedIn}" class="like-form"
+                            th:action="@{'/api/posts/' + ${post.postId} + '/like'}" method="post"><button class="button"
+                                type="submit">Like / Unlike</button></form><a class="button secondary"
+                            th:href="@{'/posts/' + ${post.postId}}">Expand Post</a>
+                    </div>
+                </article>
+            </section>
+            <div class="pagination" th:if="${postPage != null and postPage.totalPages > 1}"><a
+                    th:if="${postPage.hasPrevious()}"
+                    th:href="@{/feed(page=${postPage.number - 1}, size=${postPage.size})}">Previous</a><span
+                    th:text="${postPage.number + 1}">1</span><span>/</span><span
+                    th:text="${postPage.totalPages}">1</span><a th:if="${postPage.hasNext()}"
+                    th:href="@{/feed(page=${postPage.number + 1}, size=${postPage.size})}">Next</a></div>
+        </main>
+    </div>
+    <script th:src="@{/js/feed.js}" src="/js/feed.js"></script>
+</body>
+
+</html>
