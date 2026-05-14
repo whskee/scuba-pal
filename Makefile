@@ -7,7 +7,7 @@ DOCS_DIR := apps/docs
 
 .PHONY: help
 help:
-	@echo "TheWavs commands:"
+	@echo "ScubaPal commands:"
 	@echo ""
 	@echo "  make api-dev       Run Spring Boot API"
 	@echo "  make api-test      Run backend tests"
