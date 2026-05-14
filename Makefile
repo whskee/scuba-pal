@@ -1,63 +1,78 @@
 SHELL := /bin/bash
 
-.PHONY: help dev test build clean package compose-up compose-down compose-pull mailpit openapi-generate create-javadoc create-astro-docs open-astro-docs
+API_DIR := apps/api
+WEB_DIR := apps/web
+MOBILE_DIR := apps/mobile
+DOCS_DIR := apps/docs
 
+.PHONY: help
 help:
-	@echo "Available commands:"
-	@echo "  make dev      	- run Spring Boot"
-	@echo "  make test     	- run tests"
-	@echo "  make build    	- compile project"
-	@echo "  make package  	- create jar"
-	@echo "  make clean    	- clean build files"
-	@echo "  make compose-up  	- start Docker containers"
-	@echo -e "\n======================== GENERATORS ========================"
-	@echo "  make openapi-generate		- generate OpenAPI clients"
-	@echo "  make create-javadoc		- create Javadoc"
-	@echo "  make create-astro-docs	- create Astro documentation"
-	@echo -e "\n======================== DOCUMENTATION ========================"
-	@echo "  make open-astro-docs		- open Astro documentation"
+	@echo "TheWavs commands:"
+	@echo ""
+	@echo "  make api-dev       Run Spring Boot API"
+	@echo "  make api-test      Run backend tests"
+	@echo "  make api-build     Build backend"
+	@echo "  make db-up         Start local database"
+	@echo "  make db-down       Stop local database"
+	@echo ""
+	@echo "  make web-dev       Run Next.js web app"
+	@echo "  make web-build     Build Next.js web app"
+	@echo ""
+	@echo "  make mobile-dev    Run Expo mobile app"
+	@echo ""
+	@echo "  make docs-dev      Run Astro docs"
+	@echo "  make docs-build    Build Astro docs"
+	@echo ""
+	@echo "  make test          Run all tests"
+	@echo "  make clean         Clean build artifacts"
 
-# dev:
-# 	./mvnw spring-boot:run
+.PHONY: api-dev
+api-dev:
+	cd $(API_DIR) && ./mvnw spring-boot:run
 
-dev:
-	SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
+.PHONY: api-test
+api-test:
+	cd $(API_DIR) && ./mvnw test
 
-test:
-	./mvnw test
+.PHONY: api-build
+api-build:
+	cd $(API_DIR) && ./mvnw clean package
 
-build:
-	./mvnw clean compile
+.PHONY: db-up
+db-up:
+	cd $(API_DIR) && docker compose up -d
 
-package:
-	./mvnw clean package
+.PHONY: db-down
+db-down:
+	cd $(API_DIR) && docker compose down
 
+.PHONY: web-dev
+web-dev:
+	cd $(WEB_DIR) && npm run dev
+
+.PHONY: web-build
+web-build:
+	cd $(WEB_DIR) && npm run build
+
+.PHONY: mobile-dev
+mobile-dev:
+	cd $(MOBILE_DIR) && npm run start
+
+.PHONY: docs-dev
+docs-dev:
+	cd $(DOCS_DIR) && npm run dev
+
+.PHONY: docs-build
+docs-build:
+	cd $(DOCS_DIR) && npm run build
+
+.PHONY: test
+test: api-test
+	@echo "All tests complete."
+
+.PHONY: clean
 clean:
-	./mvnw clean
-
-compose-pull:
-	docker compose pull
-
-compose-up:
-	docker-compose up -d
-
-compose-down:
-	docker compose down
-
-# ======================== GENERATORS ========================
-mailpit:
-	open http://localhost:8025
-
-openapi-generate:
-	./mvnw openapi-generator:generate -DgeneratorName=spring -DinputSpec=src/main/resources/api.yaml -Doutput=generated
-
-create-javadoc:
-	./mvnw javadoc:javadoc
-
-# ======================== DOCUMENTATION ========================
-# DOCUMENTATION_DIR := docs
-create-astro-docs:
-	npm create astro@latest -- --template starlight
-
-open-astro-docs:
-	open http://localhost:4321/scuba-pal-app && cd docs && npm run dev
+	cd $(API_DIR) && ./mvnw clean
+	rm -rf $(WEB_DIR)/.next
+	rm -rf $(DOCS_DIR)/dist
+	rm -rf $(MOBILE_DIR)/.expo
