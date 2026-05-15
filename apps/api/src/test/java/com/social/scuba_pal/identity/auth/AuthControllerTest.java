@@ -27,7 +27,7 @@ class AuthControllerTest {
     @Test
     void registerCreatesUserAndReturnsCreated() {
         RegisterRequest request = new RegisterRequest("dana@example.com", "dana", "Password123!", "Dana", "Diver", "Phoenix", "USA");
-        UserView view = new UserView(1L, "dana", "dana@example.com", "user", "Phoenix", "USA", 0, null, null);
+        UserView view = new UserView(1L, "dana", "Dana", "Diver", "dana@example.com", "user", "Phoenix", "USA", 0, null, null);
         when(userService.register(request)).thenReturn(view);
 
         var response = authController.register(request);
@@ -40,7 +40,7 @@ class AuthControllerTest {
     @Test
     void loginAuthenticatesBeforeReturningUser() {
         LoginRequest request = new LoginRequest("dana", "Password123!");
-        UserView view = new UserView(1L, "dana", "dana@example.com", "user", null, null, 0, null, null);
+        UserView view = new UserView(1L, "dana", "Dana", "Diver", "dana@example.com", "user", null, null, 0, null, null);
         when(userService.login(request)).thenReturn(view);
 
         var response = authController.login(request);

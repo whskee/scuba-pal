@@ -17,7 +17,9 @@
                     th:unless="${user.profileImageUrl}"
                     th:text="${#strings.substring(user.username,0,1).toUpperCase()}">S</span>
                 <div>
-                    <h1 th:text="${user.username}">username</h1><span class="pill" th:text="${user.role}">user</span>
+                    <h1 th:text="${user.displayName()}">Diver Name</h1>
+                    <p class="muted" th:text="${'@' + user.username}">@username</p>
+                    <span class="pill" th:text="${user.role}">user</span>
                 </div>
             </div>
             <p>Email: <span th:text="${user.email}">email</span></p>
@@ -30,10 +32,10 @@
             </div>
             <div class="feed-actions" th:if="${currentUser != null and currentUser.id != user.id}">
                 <form th:if="${!followSummary.followedByCurrentUser}"
-                    th:action="@{'/profile/' + ${user.id} + '/follow'}" method="post"><button class="button"
+                    th:action="@{'/profile/' + ${user.username} + '/follow'}" method="post"><button class="button"
                         type="submit">Follow</button></form>
                 <form th:if="${followSummary.followedByCurrentUser}"
-                    th:action="@{'/profile/' + ${user.id} + '/unfollow'}" method="post"><button class="button secondary"
+                    th:action="@{'/profile/' + ${user.username} + '/unfollow'}" method="post"><button class="button secondary"
                         type="submit">Unfollow</button></form>
                 <form th:action="@{'/messages/start/' + ${user.id}}" method="post"><button class="button"
                         type="submit">Message</button></form>
@@ -44,17 +46,17 @@
                 <h2>Followers</h2>
                 <p th:if="${#lists.isEmpty(followSummary.followers)}" class="muted">No followers yet.</p><a
                     class="follow-row" th:each="follower : ${followSummary.followers}"
-                    th:href="@{'/profile/' + ${follower.id}}"><span class="avatar"
+                    th:href="@{'/profile/' + ${follower.username}}"><span class="avatar"
                         th:text="${#strings.substring(follower.username,0,1).toUpperCase()}">D</span><strong
-                        th:text="${follower.username}">diver</strong></a>
+                        th:text="${follower.displayName()}">diver</strong></a>
             </article>
             <article class="card">
                 <h2>Following</h2>
                 <p th:if="${#lists.isEmpty(followSummary.following)}" class="muted">Not following anyone yet.</p><a
                     class="follow-row" th:each="following : ${followSummary.following}"
-                    th:href="@{'/profile/' + ${following.id}}"><span class="avatar"
+                    th:href="@{'/profile/' + ${following.username}}"><span class="avatar"
                         th:text="${#strings.substring(following.username,0,1).toUpperCase()}">D</span><strong
-                        th:text="${following.username}">diver</strong></a>
+                        th:text="${following.displayName()}">diver</strong></a>
             </article>
         </section>
         <section class="section-title">
@@ -62,6 +64,7 @@
         </section>
         <section class="grid">
             <article class="card" th:each="post : ${posts}">
+                <img th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt="" style="width:100%; border-radius:18px; margin-bottom:12px; object-fit:cover; max-height:260px;">
                 <p th:text="${post.caption}">caption</p>
                 <p class="muted"><strong th:text="${post.likes}">0</strong> likes · <strong
                         th:text="${post.comments}">0</strong> comments</p><a class="button secondary"

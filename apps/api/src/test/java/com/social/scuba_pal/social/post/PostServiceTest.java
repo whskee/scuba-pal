@@ -3,6 +3,7 @@ package com.social.scuba_pal.social.post;
 import com.social.scuba_pal.identity.role.Role;
 import com.social.scuba_pal.identity.user.User;
 import com.social.scuba_pal.identity.user.UserRepository;
+import com.social.scuba_pal.media.MediaStorageService;
 import com.social.scuba_pal.shared.VisibilityStatus;
 import com.social.scuba_pal.social.comment.PostCommentRepository;
 import com.social.scuba_pal.social.like.PostLike;
@@ -29,6 +30,7 @@ class PostServiceTest {
     @Mock UserRepository userRepository;
     @Mock PostLikeRepository postLikeRepository;
     @Mock PostCommentRepository postCommentRepository;
+    @Mock MediaStorageService mediaStorageService;
     @InjectMocks PostService postService;
 
     @Test

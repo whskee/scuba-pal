@@ -82,6 +82,7 @@
                     <span class="avatar" th:text="${#strings.substring(post.username,0,1).toUpperCase()}">S</span>
                     <strong th:text="${post.username}">username</strong>
                 </div>
+                <img th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt="" style="width:100%; border-radius:18px; margin:12px 0; object-fit:cover; max-height:260px;">
                 <p th:text="${post.caption}">Caption</p>
                 <p class="muted">
                     <span th:text="${post.likes}">0</span> likes

@@ -38,7 +38,9 @@
                             required></textarea></label><label>Visibility<select th:field="*{visibilityStatus}">
                             <option value="PUBLIC">Public</option>
                             <option value="PRIVATE">Private</option>
-                        </select></label><button class="button" type="submit">Post to Feed</button></form>
+                        </select></label><label>Uploaded image URL<input type="text" th:field="*{mediaUrl}"
+                            placeholder="https://your-bucket.s3.us-west-2.amazonaws.com/users/..."></label><button
+                        class="button" type="submit">Post to Feed</button></form>
             </section>
             <section class="guest-feed-hero" th:unless="${loggedIn}">
                 <div><span class="pill">Open water community</span>
@@ -59,8 +61,9 @@
                         class="pill" th:text="${post.visibilityStatus}">PUBLIC</span>
                     <div class="feed-meta"><span class="avatar"
                             th:text="${#strings.substring(post.username,0,1).toUpperCase()}">S</span><a
-                            th:href="@{'/profile/' + ${post.userId}}"><strong
+                            th:href="@{'/profile/' + ${post.username}}"><strong
                                 th:text="${post.username}">username</strong></a></div>
+                    <img th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt="" style="width:100%; border-radius:18px; margin:12px 0; object-fit:cover; max-height:320px;">
                     <p th:text="${post.caption}">caption</p>
                     <p class="muted"><strong data-like-count th:text="${post.likes}">0</strong> likes · <strong
                             th:text="${post.comments}">0</strong> comments</p>

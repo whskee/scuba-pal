@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class CreatePostForm {
@@ -13,4 +15,10 @@ public class CreatePostForm {
     private String caption = "";
 
     private VisibilityStatus visibilityStatus = VisibilityStatus.PUBLIC;
+
+    private String mediaUrl = "";
+
+    public List<String> mediaUrls() {
+        return mediaUrl == null || mediaUrl.isBlank() ? List.of() : List.of(mediaUrl.trim());
+    }
 }

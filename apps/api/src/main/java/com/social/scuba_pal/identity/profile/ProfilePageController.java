@@ -23,10 +23,11 @@ public class ProfilePageController {
     }
 
     @GetMapping("/buddies")
-    public String buddies(@RequestParam(required = false) String city,
-                          @RequestParam(defaultValue = "0") int page,
-                          @RequestParam(defaultValue = "12") int size,
-                          Model model) {
+    public String buddies(
+            @RequestParam(required = false) String city,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size,
+            Model model) {
         var userPage = userService.getAllUsers(pageable(page, size));
         model.addAttribute("city", city);
         model.addAttribute("userPage", userPage);
@@ -36,40 +37,49 @@ public class ProfilePageController {
 
     @GetMapping("/divers")
     public String divers(@RequestParam(defaultValue = "0") int page,
-                         @RequestParam(defaultValue = "12") int size,
-                         Model model) {
+            @RequestParam(defaultValue = "12") int size,
+            Model model) {
         var userPage = userService.getAllUsers(pageable(page, size));
         model.addAttribute("userPage", userPage);
         model.addAttribute("users", userPage.getContent());
         return "social/divers";
     }
 
-    @GetMapping("/profile/{id}")
-    public String profile(@PathVariable Long id,
-                          @RequestParam(defaultValue = "0") int page,
-                          @RequestParam(defaultValue = "6") int size,
-                          Model model,
-                          Authentication auth) {
-        String username = loggedIn(auth) ? auth.getName() : null;
-        var posts = postService.getPostsByUser(id, PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 30)));
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("profile", userService.getUser(id));
+    @GetMapping("/profile/{username}")
+    public String profile(@PathVariable String username,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size,
+            Model model,
+            Authentication auth) {
+        var user = looksNumeric(username)
+                ? userService.getUser(Long.valueOf(username))
+                : userService.getUserByUsername(username);
+        if (looksNumeric(username)) {
+            return "redirect:/profile/" + user.username();
+        }
+        String currentUsername = loggedIn(auth) ? auth.getName() : null;
+        var posts = postService.getPostsByUser(user.id(),
+                PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 30)));
+        model.addAttribute("user", user);
+        model.addAttribute("profile", user);
         model.addAttribute("postPage", posts);
         model.addAttribute("posts", posts.getContent());
-        model.addAttribute("followSummary", followService.getSummary(id, username, pageable(page, size)));
+        model.addAttribute("followSummary", followService.getSummary(user.id(), currentUsername, pageable(page, size)));
         return "social/profile";
     }
 
-    @PostMapping("/profile/{id}/follow")
-    public String followUser(@PathVariable Long id, Authentication auth) {
-        followService.follow(auth.getName(), id);
-        return "redirect:/profile/" + id;
+    @PostMapping("/profile/{username}/follow")
+    public String followUser(@PathVariable String username, Authentication auth) {
+        var user = userService.getUserByUsername(username);
+        followService.follow(auth.getName(), user.id());
+        return "redirect:/profile/" + user.username();
     }
 
-    @PostMapping("/profile/{id}/unfollow")
-    public String unfollowUser(@PathVariable Long id, Authentication auth) {
-        followService.unfollow(auth.getName(), id);
-        return "redirect:/profile/" + id;
+    @PostMapping("/profile/{username}/unfollow")
+    public String unfollowUser(@PathVariable String username, Authentication auth) {
+        var user = userService.getUserByUsername(username);
+        followService.unfollow(auth.getName(), user.id());
+        return "redirect:/profile/" + user.username();
     }
 
     private Pageable pageable(int page, int size) {
@@ -78,5 +88,9 @@ public class ProfilePageController {
 
     private boolean loggedIn(Authentication auth) {
         return auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName());
+    }
+
+    private boolean looksNumeric(String value) {
+        return value != null && value.matches("\\d+");
     }
 }

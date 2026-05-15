@@ -3,6 +3,7 @@ package com.social.scuba_pal.identity.profile;
 import com.social.scuba_pal.identity.role.Role;
 import com.social.scuba_pal.identity.user.User;
 import com.social.scuba_pal.identity.user.UserRepository;
+import com.social.scuba_pal.media.MediaStorageService;
 import com.social.scuba_pal.shared.VisibilityStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,8 @@ class ProfileServiceTest {
     ProfileRepository profileRepository;
     @Mock
     UserRepository userRepository;
+    @Mock
+    MediaStorageService mediaStorageService;
     @InjectMocks
     ProfileService profileService;
 

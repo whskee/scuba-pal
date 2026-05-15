@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Alert, Image, Modal, Pressable, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Screen } from "@/components/Screen";
 import { Button } from "@/components/Button";
@@ -9,6 +10,7 @@ import { colors } from "@/theme/colors";
 import { profileApi } from "./profileApi";
 import { socialApi } from "@/features/social/socialApi";
 import { messagesApi } from "@/features/messaging/messagesApi";
+import { mediaApi } from "@/features/media/mediaApi";
 import { useAuthStore } from "@/store/authStore";
 import { User } from "@/types/models";
 
@@ -94,6 +96,7 @@ export function ProfileScreen({ route, navigation }: any) {
   const qc = useQueryClient();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState<ProfileForm>({ firstName: "", lastName: "", bio: "", profileImageUrl: "" });
+  const [profileAsset, setProfileAsset] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const showBack = !mine;
 
   const query = useQuery({
@@ -114,6 +117,7 @@ export function ProfileScreen({ route, navigation }: any) {
       bio: user.bio ?? "",
       profileImageUrl: user.profileImageUrl ?? ""
     });
+    setProfileAsset(null);
   }, [user]);
 
   const followMutation = useMutation({
@@ -134,15 +138,18 @@ export function ProfileScreen({ route, navigation }: any) {
   });
 
   const updateMutation = useMutation({
-    mutationFn: () =>
-      profileApi.updateMe({
+    mutationFn: async () => {
+      const upload = profileAsset ? await mediaApi.uploadImageAsset(profileAsset, "PROFILE_IMAGE") : null;
+      return profileApi.updateMe({
         firstName: form.firstName.trim(),
         lastName: form.lastName.trim(),
         bio: form.bio.trim(),
-        profileImageUrl: form.profileImageUrl.trim() || undefined
-      }),
+        profileImageUrl: upload?.publicUrl ?? (form.profileImageUrl.trim() || undefined)
+      });
+    },
     onSuccess: async (updated) => {
       await updateStoredUser(updated);
+      setProfileAsset(null);
       setEditing(false);
       qc.setQueryData(["profile", userId], updated);
       qc.invalidateQueries({ queryKey: ["profile", userId] });
@@ -151,6 +158,23 @@ export function ProfileScreen({ route, navigation }: any) {
       Alert.alert("Could not update profile", error?.message ?? "Check the backend profile update endpoint.");
     }
   });
+
+  const pickProfileImage = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert("Photo access needed", "Allow photo library access to update your profile image.");
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.84
+    });
+    if (!result.canceled) {
+      setProfileAsset(result.assets[0]);
+    }
+  };
 
   return (
     <Screen>
@@ -270,7 +294,7 @@ export function ProfileScreen({ route, navigation }: any) {
       <Modal visible={editing} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setEditing(false)}>
         <Screen>
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-            <Pressable onPress={() => setEditing(false)} style={{ padding: 10 }}>
+            <Pressable onPress={() => { setEditing(false); setProfileAsset(null); }} style={{ padding: 10 }}>
               <Text style={{ color: colors.text, fontSize: 16, fontWeight: "800" }}>Cancel</Text>
             </Pressable>
             <Text style={{ color: colors.text, fontSize: 18, fontWeight: "900" }}>Edit profile</Text>
@@ -280,14 +304,18 @@ export function ProfileScreen({ route, navigation }: any) {
           </View>
 
           <View style={{ alignItems: "center", marginTop: 8 }}>
-            <Avatar user={user ? { ...user, profileImageUrl: form.profileImageUrl } : undefined} size={116} />
-            <Text style={{ color: colors.muted, marginTop: 12, textAlign: "center" }}>Paste an image URL for now. Later you can swap this with Expo ImagePicker + backend upload.</Text>
+            <Pressable onPress={pickProfileImage} disabled={updateMutation.isPending} style={({ pressed }) => ({ opacity: pressed ? 0.78 : 1 })}>
+              <Avatar user={user ? { ...user, profileImageUrl: profileAsset?.uri ?? form.profileImageUrl } : undefined} size={116} editable />
+            </Pressable>
+            <Pressable onPress={pickProfileImage} disabled={updateMutation.isPending} style={({ pressed }) => ({ marginTop: 12, borderRadius: 18, borderWidth: 1, borderColor: colors.border, paddingVertical: 12, paddingHorizontal: 16, flexDirection: "row", alignItems: "center", gap: 8, opacity: pressed ? 0.74 : 1 })}>
+              <Ionicons name="image-outline" size={19} color={colors.primary} />
+              <Text style={{ color: colors.text, fontWeight: "900" }}>{profileAsset ? "Change selected photo" : "Choose profile photo"}</Text>
+            </Pressable>
           </View>
 
           <View style={{ gap: 12 }}>
             <Input placeholder="First name" value={form.firstName} onChangeText={(firstName) => setForm((prev) => ({ ...prev, firstName }))} />
             <Input placeholder="Last name" value={form.lastName} onChangeText={(lastName) => setForm((prev) => ({ ...prev, lastName }))} />
-            <Input placeholder="Profile image URL" autoCapitalize="none" value={form.profileImageUrl} onChangeText={(profileImageUrl) => setForm((prev) => ({ ...prev, profileImageUrl }))} />
             <Input placeholder="Bio" multiline value={form.bio} onChangeText={(bio) => setForm((prev) => ({ ...prev, bio }))} />
           </View>
         </Screen>

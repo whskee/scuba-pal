@@ -216,6 +216,10 @@ h2 { font-size: clamp(28px, 4vw, 38px); }
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+.diver-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
 .card {
     background: var(--card);
     border: 1px solid var(--line);
@@ -228,6 +232,37 @@ h2 { font-size: clamp(28px, 4vw, 38px); }
 
 .card h3,
 .card h2 { margin-top: 0; }
+
+.diver-card {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+}
+
+.diver-card-header {
+    display: grid;
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+}
+
+.diver-avatar {
+    width: 74px;
+    height: 74px;
+    border-radius: 24px;
+    object-fit: cover;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+    color: white;
+    font-size: 26px;
+    font-weight: 900;
+    box-shadow: 0 16px 34px rgba(0, 124, 146, 0.18);
+}
+
+.diver-card h3 {
+    margin: 10px 0 4px;
+}
 
 .snapshot-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
 

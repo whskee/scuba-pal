@@ -9,6 +9,9 @@ import com.social.scuba_pal.identity.user.User;
 import com.social.scuba_pal.shared.VisibilityStatus;
 import com.social.scuba_pal.shared.domain.SoftDeletableAuditableEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,4 +33,8 @@ public class Post extends SoftDeletableAuditableEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "visibility_status", nullable = false)
     private VisibilityStatus visibilityStatus = VisibilityStatus.PUBLIC;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("displayOrder ASC, id ASC")
+    private List<PostMedia> media = new ArrayList<>();
 }

@@ -4,6 +4,7 @@ import com.social.scuba_pal.identity.auth.PasswordResetToken;
 import com.social.scuba_pal.identity.auth.PasswordResetTokenRepository;
 import com.social.scuba_pal.identity.profile.ProfileRepository;
 import com.social.scuba_pal.identity.role.RoleRepository;
+import com.social.scuba_pal.media.MediaStorageService;
 import com.social.scuba_pal.shared.mail.EmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,7 @@ class UserServicePasswordResetTest {
                 passwordResetTokenRepository,
                 mock(PasswordEncoder.class),
                 emailService,
+                mock(MediaStorageService.class),
                 "http://localhost:8080/"
         );
     }

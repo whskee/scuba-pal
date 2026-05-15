@@ -13,13 +13,20 @@
     <div class="container">
         <button class="back-link" type="button" onclick="history.back()">← Back</button>
         <h1>Discover Divers</h1>
-        <section class="grid">
-            <article class="card" th:each="user : ${users}">
-                <span class="pill" th:text="${user.role}">role</span>
-                <h3 th:text="${user.username}">username</h3>
-                <p th:text="${user.city + ', ' + user.country}">city</p>
+        <section class="grid diver-grid">
+            <article class="card diver-card" th:each="user : ${users}">
+                <div class="diver-card-header">
+                    <img class="diver-avatar" th:if="${user.profileImageUrl}" th:src="${user.profileImageUrl}" alt="" />
+                    <span class="diver-avatar" th:unless="${user.profileImageUrl}" th:text="${user.initials()}">D</span>
+                    <div>
+                        <span class="pill" th:text="${user.role}">role</span>
+                        <h3 th:text="${user.displayName()}">Diver Name</h3>
+                        <p class="muted" th:text="${'@' + user.username}">@username</p>
+                    </div>
+                </div>
+                <p th:text="${user.locationDisplay()}">city</p>
                 <p>Dives logged: <strong th:text="${user.diveCount}">0</strong></p>
-                <a class="button" th:href="@{'/profile/' + ${user.id}}">View Profile</a>
+                <a class="button" th:href="@{'/profile/' + ${user.username}}">View Profile</a>
             </article>
         </section>
     </div>

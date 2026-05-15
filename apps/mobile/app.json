@@ -11,7 +11,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.scubapal.mobile"
+      "bundleIdentifier": "com.scubapal.mobile",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Scuba Pal lets you choose dive photos for posts and your profile image."
+      }
     },
     "android": {
       "package": "com.scubapal.mobile",

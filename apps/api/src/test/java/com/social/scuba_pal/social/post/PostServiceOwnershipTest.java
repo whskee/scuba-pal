@@ -2,6 +2,7 @@ package com.social.scuba_pal.social.post;
 
 import com.social.scuba_pal.identity.user.User;
 import com.social.scuba_pal.identity.user.UserRepository;
+import com.social.scuba_pal.media.MediaStorageService;
 import com.social.scuba_pal.shared.VisibilityStatus;
 import com.social.scuba_pal.social.comment.PostCommentRepository;
 import com.social.scuba_pal.social.like.PostLikeRepository;
@@ -23,6 +24,7 @@ class PostServiceOwnershipTest {
     @Mock UserRepository userRepository;
     @Mock PostLikeRepository postLikeRepository;
     @Mock PostCommentRepository postCommentRepository;
+    @Mock MediaStorageService mediaStorageService;
     @InjectMocks PostService postService;
 
     @Test
@@ -36,7 +38,7 @@ class PostServiceOwnershipTest {
         when(postRepository.findByIdWithUser(10L)).thenReturn(Optional.of(post));
 
         assertThrows(AccessDeniedException.class,
-                () -> postService.updatePost(10L, new CreatePostRequest(1L, "new", VisibilityStatus.PUBLIC), "intruder"));
+                () -> postService.updatePost(10L, new CreatePostRequest(1L, "new", VisibilityStatus.PUBLIC, null), "intruder"));
         verify(postRepository, never()).save(any());
     }
 

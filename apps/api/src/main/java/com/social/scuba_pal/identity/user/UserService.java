@@ -8,6 +8,7 @@ import com.social.scuba_pal.identity.profile.Profile;
 import com.social.scuba_pal.identity.profile.ProfileRepository;
 import com.social.scuba_pal.identity.role.Role;
 import com.social.scuba_pal.identity.role.RoleRepository;
+import com.social.scuba_pal.media.MediaStorageService;
 import com.social.scuba_pal.shared.VisibilityStatus;
 import com.social.scuba_pal.shared.exception.ResourceNotFoundException;
 import com.social.scuba_pal.shared.mail.EmailService;
@@ -40,6 +41,7 @@ public class UserService {
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final MediaStorageService mediaStorageService;
     private final String appBaseUrl;
 
     public UserService(UserRepository userRepository,
@@ -48,6 +50,7 @@ public class UserService {
             PasswordResetTokenRepository passwordResetTokenRepository,
             PasswordEncoder passwordEncoder,
             EmailService emailService,
+            MediaStorageService mediaStorageService,
             @Value("${app.base-url:http://localhost:8080}") String appBaseUrl) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -55,6 +58,7 @@ public class UserService {
         this.passwordResetTokenRepository = passwordResetTokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.mediaStorageService = mediaStorageService;
         this.appBaseUrl = appBaseUrl;
     }
 
@@ -194,6 +198,14 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public UserView getUserByUsername(String username) {
+        User user = userRepository.findByUsernameWithRole(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
+        Profile profile = profileRepository.findByUserId(user.getId()).orElse(null);
+        return toUserView(user, profile);
+    }
+
+    @Transactional(readOnly = true)
     public UserView getCurrentUser(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
@@ -211,7 +223,7 @@ public class UserService {
             p.setDiveCount(0);
             return p;
         });
-        profile.setProfileImageUrl(blankToNull(form.getProfileImageUrl()));
+        profile.setProfileImageUrl(normalizeMediaUrl(form.getProfileImageUrl()));
         profile.setBio(blankToNull(form.getBio()));
         profile.setCity(blankToNull(form.getCity()));
         profile.setCountry(blankToNull(form.getCountry()));
@@ -269,12 +281,18 @@ public class UserService {
         return new UserView(
                 user.getId(),
                 user.getUsername(),
+                profile != null ? profile.getFirstName() : null,
+                profile != null ? profile.getLastName() : null,
                 user.getEmail(),
                 user.getRole().getName(),
                 profile != null ? profile.getCity() : null,
                 profile != null ? profile.getCountry() : null,
                 profile != null ? profile.getDiveCount() : 0,
                 profile != null ? profile.getBio() : null,
-                profile != null ? profile.getProfileImageUrl() : null);
+                profile != null ? normalizeMediaUrl(profile.getProfileImageUrl()) : null);
+    }
+
+    private String normalizeMediaUrl(String mediaUrl) {
+        return mediaUrl == null || mediaUrl.isBlank() ? null : mediaStorageService.normalizeManagedUrl(mediaUrl);
     }
 }

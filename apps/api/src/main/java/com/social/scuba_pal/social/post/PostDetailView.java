@@ -12,6 +12,8 @@ public record PostDetailView(
         String username,
         String caption,
         VisibilityStatus visibilityStatus,
+        String imageUrl,
+        List<String> mediaUrls,
         long likes,
         long comments,
         boolean likedByCurrentUser,

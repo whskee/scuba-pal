@@ -4,6 +4,7 @@ import com.social.scuba_pal.identity.profile.ProfileRepository;
 import com.social.scuba_pal.identity.role.Role;
 import com.social.scuba_pal.identity.user.User;
 import com.social.scuba_pal.identity.user.UserRepository;
+import com.social.scuba_pal.media.MediaStorageService;
 import com.social.scuba_pal.notification.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +28,7 @@ class FollowServiceTest {
     @Mock UserFollowRepository userFollowRepository;
     @Mock ProfileRepository profileRepository;
     @Mock NotificationService notificationService;
+    @Mock MediaStorageService mediaStorageService;
     @InjectMocks FollowService followService;
 
     @Test

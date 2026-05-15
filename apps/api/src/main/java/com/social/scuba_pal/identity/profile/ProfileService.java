@@ -2,6 +2,7 @@ package com.social.scuba_pal.identity.profile;
 
 import com.social.scuba_pal.identity.user.User;
 import com.social.scuba_pal.identity.user.UserRepository;
+import com.social.scuba_pal.media.MediaStorageService;
 import com.social.scuba_pal.shared.VisibilityStatus;
 import com.social.scuba_pal.shared.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
     private final UserRepository userRepository;
+    private final MediaStorageService mediaStorageService;
 
-    public ProfileService(ProfileRepository profileRepository, UserRepository userRepository) {
+    public ProfileService(ProfileRepository profileRepository, UserRepository userRepository, MediaStorageService mediaStorageService) {
         this.profileRepository = profileRepository;
         this.userRepository = userRepository;
+        this.mediaStorageService = mediaStorageService;
     }
 
     public ProfileResponse getByUserId(Long userId) {
@@ -47,7 +50,7 @@ public class ProfileService {
         profile.setCountry(input.country());
         profile.setDateOfBirth(input.dateOfBirth());
         profile.setBio(input.bio());
-        profile.setProfileImageUrl(input.profileImageUrl());
+        profile.setProfileImageUrl(normalizeMediaUrl(input.profileImageUrl()));
         profile.setVisibilityStatus(
                 input.visibilityStatus() != null ? input.visibilityStatus() : VisibilityStatus.PUBLIC);
         profile.setDiveCount(input.diveCount() != null ? input.diveCount() : 0);
@@ -70,7 +73,7 @@ public class ProfileService {
                 input.visibilityStatus() != null ? input.visibilityStatus() : existing.getVisibilityStatus());
         existing.setDiveCount(input.diveCount() != null ? input.diveCount() : existing.getDiveCount());
         existing.setBio(input.bio());
-        existing.setProfileImageUrl(input.profileImageUrl());
+        existing.setProfileImageUrl(normalizeMediaUrl(input.profileImageUrl()));
 
         return toResponse(profileRepository.save(existing));
     }
@@ -92,8 +95,12 @@ public class ProfileService {
                 profile.getVisibilityStatus(),
                 profile.getDiveCount(),
                 profile.getBio(),
-                profile.getProfileImageUrl(),
+                normalizeMediaUrl(profile.getProfileImageUrl()),
                 profile.getCreatedAt(),
                 profile.getUpdatedAt());
+    }
+
+    private String normalizeMediaUrl(String mediaUrl) {
+        return mediaUrl == null || mediaUrl.isBlank() ? null : mediaStorageService.normalizeManagedUrl(mediaUrl);
     }
 }

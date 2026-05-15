@@ -4,6 +4,7 @@ import com.social.scuba_pal.identity.profile.ProfileRepository;
 import com.social.scuba_pal.identity.user.User;
 import com.social.scuba_pal.identity.user.UserRepository;
 import com.social.scuba_pal.identity.user.UserView;
+import com.social.scuba_pal.media.MediaStorageService;
 import com.social.scuba_pal.notification.NotificationService;
 import com.social.scuba_pal.shared.exception.ResourceNotFoundException;
 
@@ -18,15 +19,18 @@ public class FollowService {
     private final UserFollowRepository userFollowRepository;
     private final ProfileRepository profileRepository;
     private final NotificationService notificationService;
+    private final MediaStorageService mediaStorageService;
 
     public FollowService(UserRepository userRepository,
                          UserFollowRepository userFollowRepository,
                          ProfileRepository profileRepository,
-                         NotificationService notificationService) {
+                         NotificationService notificationService,
+                         MediaStorageService mediaStorageService) {
         this.userRepository = userRepository;
         this.userFollowRepository = userFollowRepository;
         this.profileRepository = profileRepository;
         this.notificationService = notificationService;
+        this.mediaStorageService = mediaStorageService;
     }
 
     @Transactional
@@ -87,11 +91,14 @@ public class FollowService {
 
     private UserView toView(User user) {
         var profile = profileRepository.findByUserId(user.getId()).orElse(null);
-        return new UserView(user.getId(), user.getUsername(), user.getEmail(), user.getRole().getName(),
+        return new UserView(user.getId(), user.getUsername(),
+                profile != null ? profile.getFirstName() : null,
+                profile != null ? profile.getLastName() : null,
+                user.getEmail(), user.getRole().getName(),
                 profile != null ? profile.getCity() : null,
                 profile != null ? profile.getCountry() : null,
                 profile != null ? profile.getDiveCount() : 0,
                 profile != null ? profile.getBio() : null,
-                profile != null ? profile.getProfileImageUrl() : null);
+                profile != null && profile.getProfileImageUrl() != null ? mediaStorageService.normalizeManagedUrl(profile.getProfileImageUrl()) : null);
     }
 }

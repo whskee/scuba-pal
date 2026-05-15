@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/users/*/follow-summary", "/api/users/*/followers", "/api/users/*/following").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/users/*/follow").authenticated()
                         .requestMatchers("/api/notifications/**").authenticated()
+                        .requestMatchers("/api/media/**").authenticated()
                         .requestMatchers("/api/posts", "/api/posts/**", "/api/profiles/**").authenticated()
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "MODERATOR")
                         .anyRequest().authenticated()
@@ -79,6 +80,7 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/img/**",
+                                "/media/**",
                                 "/error",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",

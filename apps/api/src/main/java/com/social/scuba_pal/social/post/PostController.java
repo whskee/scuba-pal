@@ -34,7 +34,11 @@ public class PostController {
     public ResponseEntity<FeedPostView> createForCurrentUser(@Valid @RequestBody CreateCurrentUserPostRequest request,
                                                              Authentication authentication) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(postService.createPostForUsername(authentication.getName(), request.caption(), request.safeVisibilityStatus()));
+                .body(postService.createPostForUsername(
+                        authentication.getName(),
+                        request.caption(),
+                        request.safeVisibilityStatus(),
+                        request.mediaUrls()));
     }
 
     @GetMapping

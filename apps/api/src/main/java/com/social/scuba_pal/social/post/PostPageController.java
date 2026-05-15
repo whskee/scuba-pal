@@ -38,7 +38,7 @@ public class PostPageController {
             ra.addFlashAttribute("postError", "Post caption cannot be blank.");
             return "redirect:/feed";
         }
-        postService.createPostForUsername(auth.getName(), form.getCaption(), form.getVisibilityStatus());
+        postService.createPostForUsername(auth.getName(), form.getCaption(), form.getVisibilityStatus(), form.mediaUrls());
         ra.addFlashAttribute("postSuccess", "Your post is live.");
         return "redirect:/feed";
     }

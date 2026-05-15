@@ -1,4 +1,5 @@
 import type { CommentView, DirectMessageView, FeedPostView, FollowSummaryView, PostDetailView, Profile, UserView } from "@/api/generated";
+import { env } from "@/config/env";
 import { normalizeApiDateString } from "@/utils/date";
 
 export type ID = string | number;
@@ -44,6 +45,14 @@ export function fallbackPostImage(id: ID): string {
   return fallbackPostImages[index];
 }
 
+function resolveMediaUrl(url?: string | null): string | undefined {
+  if (!url?.trim()) return undefined;
+  const trimmed = url.trim();
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("file://")) return trimmed;
+  const baseUrl = env.apiBaseUrl.replace(/\/+$/, "");
+  return `${baseUrl}/${trimmed.replace(/^\/+/, "")}`;
+}
+
 export type User = {
   id: ID;
   username: string;
@@ -81,6 +90,7 @@ export type Post = {
   author: User;
   content: string;
   imageUrl?: string;
+  mediaUrls?: string[];
   createdAt: string;
   likeCount: number;
   commentCount: number;
@@ -138,7 +148,7 @@ export function toUser(input?: UserView | Profile | ProfileResponse | null, foll
     phoneNumber: profile?.phoneNumber,
     city: view?.city ?? profile?.city,
     country: view?.country ?? profile?.country,
-    profileImageUrl: view?.profileImageUrl ?? profile?.profileImageUrl,
+    profileImageUrl: resolveMediaUrl(view?.profileImageUrl ?? profile?.profileImageUrl),
     bio: view?.bio ?? profile?.bio,
     diveCount: view?.diveCount ?? profile?.diveCount ?? 0,
     followersCount: follow?.followerCount ?? 0,
@@ -160,7 +170,9 @@ export function toComment(input?: CommentView | null): Comment {
 export function toPost(input: FeedPostView | PostDetailView): Post {
   const detail = input as PostDetailView;
   const id = input.postId ?? 0;
-  const imageUrl = (input as FeedPostView & PostDetailView & { imageUrl?: string }).imageUrl;
+  const mediaInput = input as FeedPostView & PostDetailView & { imageUrl?: string; mediaUrls?: string[] };
+  const imageUrl = resolveMediaUrl(mediaInput.imageUrl ?? mediaInput.mediaUrls?.[0]);
+  const mediaUrls = mediaInput.mediaUrls?.map(resolveMediaUrl).filter(Boolean) as string[] | undefined;
   return {
     id,
     author: {
@@ -169,6 +181,7 @@ export function toPost(input: FeedPostView | PostDetailView): Post {
     },
     content: input.caption ?? "",
     imageUrl: imageUrl || fallbackPostImage(id),
+    mediaUrls: mediaUrls ?? (imageUrl ? [imageUrl] : []),
     createdAt: normalizeApiDateString(input.createdAt ?? new Date().toISOString()),
     likeCount: input.likes ?? 0,
     commentCount: input.comments ?? detail.commentList?.length ?? 0,
