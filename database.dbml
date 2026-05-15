@@ -7,6 +7,22 @@ Table "certification"."certification_agencies" {
   "updated_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
 }
 
+TableGroup "certification" {
+  "certification"."certification_levels"
+  "certification"."user_certifications"
+}
+
+DiagramView identity_view {
+  TableGroups {
+    certification
+  }
+
+  Schemas {
+    identity
+  }
+}
+
+
 Table "certification"."certification_levels" {
   "certification_level_id" int8 [pk, not null, increment]
   "certification_agency_id" int8 [not null]
