@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS messaging.direct_messages (
     conversation_id BIGINT NOT NULL REFERENCES messaging.conversations(conversation_id),
     sender_user_id BIGINT NOT NULL REFERENCES identity.users(user_id),
     message_text VARCHAR(1000) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     read_at TIMESTAMP
 );
 
