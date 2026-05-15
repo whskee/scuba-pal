@@ -27,7 +27,7 @@ CREATE TABLE identity.profiles
     (
         profile_id        BIGSERIAL PRIMARY KEY                                    ,
         user_id           BIGINT NOT NULL UNIQUE REFERENCES identity.users(user_id),
-        profile_image_url VARCHAR(500)
+        profile_image_url VARCHAR(500),
         first_name        VARCHAR(80)                                              ,
         last_name         VARCHAR(80)                                              ,
         phone_number      VARCHAR(40)                                              ,
