@@ -2,7 +2,7 @@ name: scuba-pal
 services:
   db:
     image: postgres:18
-    container_name: postgres-db
+    container_name: postgres
     restart: unless-stopped
     ports:
       - "5432:5432"
