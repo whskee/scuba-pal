@@ -7,9 +7,35 @@ Table "certification"."certification_agencies" {
   "updated_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
 }
 
+TableGroup "identity" {
+  "identity"."flyway_schema_history"
+  "identity"."roles"
+  "identity"."users"
+  "identity"."profiles"
+  "identity"."password_reset_tokens"
+}
+
 TableGroup "certification" {
   "certification"."certification_levels"
   "certification"."user_certifications"
+}
+
+TableGroup "dive" {
+  "dive"."dive_locations"
+  "dive"."dive_shops"
+}
+
+TableGroup "social" {
+  "social"."user_follows"
+  "social"."posts"
+  "social"."post_media"
+  "social"."post_likes"
+  "social"."post_comments"
+}
+
+TableGroup "messaging" {
+  "messaging"."conversations"
+  "messaging"."direct_messages"
 }
 
 DiagramView identity_view {
@@ -341,3 +367,28 @@ Ref "posts_user_id_fkey":"identity"."users"."user_id" < "social"."posts"."user_i
 Ref "user_follows_followed_user_id_fkey":"identity"."users"."user_id" < "social"."user_follows"."followed_user_id"
 
 Ref "user_follows_follower_user_id_fkey":"identity"."users"."user_id" < "social"."user_follows"."follower_user_id"
+
+
+DiagramView Default {
+  Tables {
+    certification.certification_levels
+    certification.user_certifications
+    dive.dive_locations
+    dive.dive_shops
+    identity.flyway_schema_history
+    identity.roles
+    identity.users
+    identity.profiles
+    identity.password_reset_tokens
+    learn.articles
+    messaging.conversations
+    messaging.direct_messages
+    notification.notifications
+    social.user_follows
+    social.posts
+    social.post_media
+    social.post_likes
+    social.post_comments
+    certification.certification_agencies
+  }
+}
