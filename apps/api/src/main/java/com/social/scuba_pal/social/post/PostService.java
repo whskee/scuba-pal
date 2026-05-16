@@ -10,6 +10,8 @@ import com.social.scuba_pal.social.comment.PostComment;
 import com.social.scuba_pal.social.comment.PostCommentRepository;
 import com.social.scuba_pal.social.like.PostLike;
 import com.social.scuba_pal.social.like.PostLikeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -21,6 +23,8 @@ import java.util.Objects;
 
 @Service
 public class PostService {
+
+    private static final Logger log = LoggerFactory.getLogger(PostService.class);
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -247,7 +251,17 @@ public class PostService {
         return post.getMedia().stream()
                 .map(PostMedia::getMediaUrl)
                 .filter(Objects::nonNull)
-                .map(mediaStorageService::normalizeManagedUrl)
+                .map(url -> normalizeStoredMediaUrl(post, url))
+                .filter(Objects::nonNull)
                 .toList();
+    }
+
+    private String normalizeStoredMediaUrl(Post post, String mediaUrl) {
+        try {
+            return mediaStorageService.normalizeManagedUrl(mediaUrl);
+        } catch (IllegalArgumentException ex) {
+            log.warn("Ignoring invalid media URL on post {}: {}", post.getId(), mediaUrl);
+            return null;
+        }
     }
 }

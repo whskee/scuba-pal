@@ -49,6 +49,25 @@ class PostServiceTest {
     }
 
     @Test
+    void publicFeedSkipsInvalidStoredMediaUrls() {
+        var post = post(1L, user(1L, "dana"), VisibilityStatus.PUBLIC);
+        PostMedia media = new PostMedia();
+        media.setId(7L);
+        media.setPost(post);
+        media.setMediaUrl("https://images.example.com/not-managed.jpg");
+        media.setMediaType("IMAGE");
+        post.getMedia().add(media);
+        when(postRepository.findByVisibilityStatusOrderByCreatedAtDesc(eq(VisibilityStatus.PUBLIC), any())).thenReturn(new PageImpl<>(List.of(post)));
+        when(mediaStorageService.normalizeManagedUrl("https://images.example.com/not-managed.jpg")).thenThrow(new IllegalArgumentException("Media URL must come from Scuba Pal uploads."));
+
+        var page = postService.getPublicFeed(PageRequest.of(0, 10));
+
+        assertEquals(1, page.getTotalElements());
+        assertNull(page.getContent().get(0).imageUrl());
+        assertTrue(page.getContent().get(0).mediaUrls().isEmpty());
+    }
+
+    @Test
     void toggleLikeCreatesLikeWhenMissing() {
         User dana = user(1L, "dana");
         Post post = post(5L, user(2L, "kai"), VisibilityStatus.PUBLIC);
