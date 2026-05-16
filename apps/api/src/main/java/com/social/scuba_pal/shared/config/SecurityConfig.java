@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/notifications/**").authenticated()
                         .requestMatchers("/api/media/**").authenticated()
                         .requestMatchers("/api/posts", "/api/posts/**", "/api/profiles/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/*").authenticated()
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "MODERATOR")
                         .anyRequest().authenticated()
                 )
