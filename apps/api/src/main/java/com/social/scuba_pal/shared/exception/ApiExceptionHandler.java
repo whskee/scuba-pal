@@ -2,6 +2,7 @@ package com.social.scuba_pal.shared.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,5 +29,10 @@ public class ApiExceptionHandler {
                 .map(err -> err.getField() + " " + err.getDefaultMessage())
                 .orElse("Invalid request");
         return ResponseEntity.badRequest().body(new MessageResponse(message));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<MessageResponse> handleBadCredentials() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Wrong username or password."));
     }
 }
