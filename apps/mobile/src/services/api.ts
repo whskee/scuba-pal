@@ -25,7 +25,22 @@ export const api = axios.create({
   }
 });
 
+const PUBLIC_AUTH_PATHS = [
+  "/api/auth/register",
+  "/api/auth/login",
+  "/api/auth/username-available",
+  "/api/auth/forgot-password",
+  "/api/auth/reset-password"
+];
+
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const requestPath = config.url ?? "";
+  const isPublicAuthRequest = PUBLIC_AUTH_PATHS.some((path) => requestPath.endsWith(path) || requestPath.includes(path));
+  if (isPublicAuthRequest) {
+    delete config.headers.Authorization;
+    return config;
+  }
+
   const token = useAuthStore.getState().token;
   if (token) {
     config.headers.Authorization = token.startsWith("Basic ") || token.startsWith("Bearer ") ? token : `Bearer ${token}`;
