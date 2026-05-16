@@ -33,6 +33,7 @@ function groupMessagesByLocalDate(messages: Message[]): MessageSection[] {
 export function ThreadScreen({ route, navigation }: any) {
   const { conversationId, participant } = route.params;
   const [body, setBody] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
   const user = useAuthStore((s) => s.user);
   const qc = useQueryClient();
   const query = useQuery({
@@ -77,16 +78,22 @@ export function ThreadScreen({ route, navigation }: any) {
     readMutation.mutate();
   }, [conversationId]);
 
-  useEffect(() => {
-    if (query.dataUpdatedAt) qc.invalidateQueries({ queryKey: ["conversations"] });
-  }, [query.dataUpdatedAt, qc]);
-
   useFocusEffect(
     useCallback(() => {
       qc.invalidateQueries({ queryKey: ["thread", conversationId] });
       qc.invalidateQueries({ queryKey: ["conversations"] });
     }, [conversationId, qc])
   );
+
+  const refreshThread = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await query.refetch();
+      await qc.invalidateQueries({ queryKey: ["conversations"] });
+    } finally {
+      setRefreshing(false);
+    }
+  }, [qc, query]);
 
   return (
     <Screen scroll={false}>
@@ -125,8 +132,8 @@ export function ThreadScreen({ route, navigation }: any) {
           refreshControl={
             <RefreshControl
               tintColor={colors.primary}
-              refreshing={query.isRefetching && !query.isLoading}
-              onRefresh={() => query.refetch()}
+              refreshing={refreshing}
+              onRefresh={refreshThread}
             />
           }
           stickySectionHeadersEnabled={false}

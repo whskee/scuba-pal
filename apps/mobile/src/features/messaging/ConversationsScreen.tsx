@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Pressable, RefreshControl, Text, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -27,6 +27,7 @@ function MiniAvatar({ user }: { user: User }) {
 
 export function ConversationsScreen({ navigation }: any) {
   const qc = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
   const query = useQuery<Conversation[]>({
     queryKey: ["conversations"],
     queryFn: () => messagesApi.conversations(),
@@ -41,6 +42,15 @@ export function ConversationsScreen({ navigation }: any) {
       qc.invalidateQueries({ queryKey: ["conversations"] });
     }, [qc])
   );
+
+  const refreshConversations = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await query.refetch();
+    } finally {
+      setRefreshing(false);
+    }
+  }, [query]);
 
   return (
     <Screen scroll={false}>
@@ -60,8 +70,8 @@ export function ConversationsScreen({ navigation }: any) {
         refreshControl={
           <RefreshControl
             tintColor={colors.primary}
-            refreshing={query.isRefetching && !query.isLoading}
-            onRefresh={() => query.refetch()}
+            refreshing={refreshing}
+            onRefresh={refreshConversations}
           />
         }
         ListEmptyComponent={!query.isLoading ? <EmptyState title="No conversations" body="Start by opening a diver profile and messaging them." /> : null}
