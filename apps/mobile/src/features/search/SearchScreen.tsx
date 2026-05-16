@@ -83,8 +83,8 @@ export function SearchScreen({ navigation }: any) {
         keyboardShouldPersistTaps="handled"
         ListEmptyComponent={
           <EmptyState
-            title={query.isFetching ? "Searching..." : "No users found"}
-            body={term.trim() ? "Try a different username." : "Start typing to search all Scuba Pal users."}
+            title={query.isFetching ? "Searching..." : query.isError ? "Could not load users" : "No users found"}
+            body={query.isError && query.error instanceof Error ? query.error.message : term.trim() ? "Try a different username." : "Start typing to search all Scuba Pal users."}
           />
         }
         renderItem={({ item }) => (
