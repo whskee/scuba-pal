@@ -1,4 +1,4 @@
-package com.social.scuba_pal.shared.domain;
+package com.social.scuba_pal.shared.domain.address;
 
 public final class AddressConstants {
 
