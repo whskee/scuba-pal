@@ -51,14 +51,9 @@ CREATE TABLE social.post_comments (
     deleted_at        TIMESTAMP
 );
 
-CREATE INDEX idx_posts_user_id
-          ON social.posts (user_id);
-
-CREATE INDEX idx_post_comments_post_id
-          ON social.post_comments (post_id);
-
-CREATE INDEX idx_post_likes_post_id
-          ON social.post_likes (post_id);
+CREATE INDEX idx_posts_user_id ON social.posts (user_id);
+CREATE INDEX idx_post_comments_post_id ON social.post_comments (post_id);
+CREATE INDEX idx_post_likes_post_id ON social.post_likes (post_id);
 
 -- SEED DATA
 INSERT INTO social.user_follows (follower_user_id, followed_user_id)
