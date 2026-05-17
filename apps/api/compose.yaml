@@ -1,21 +1,22 @@
 name: scuba-pal
 services:
-  db:
+  postgres:
     image: postgres:18
-    container_name: postgres
+    # Use `docker ps` to check for running containers and their names.
+    # container_name: postgres       Don't hardcode the container name to avoid conflicts with existing containers.
     restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: scubapal
-      POSTGRES_USER: scubapal
-      POSTGRES_PASSWORD: scubapal
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql
 
   mailpit:
     image: axllent/mailpit:latest
-    container_name: mailpit
+    # container_name: mailpit
     restart: unless-stopped
     ports:
       - "1025:1025" # SMTP server for Spring Boot
@@ -27,3 +28,10 @@ volumes:
 #   postgres_data:
 #     external: true
 #     name: scuba-pal_postgres_data
+
+# networks:
+# #   scuba-pal:
+# #     name: scuba-pal
+
+#   dev-db-admin:
+#     external: true
