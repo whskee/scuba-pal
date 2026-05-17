@@ -9,9 +9,9 @@ in vscode, once you get Docker up and running, `Cmd + Shift + P` and dbml, gener
 
 from `apps/api/src/main/resources/application.properties`:
 
-username and password are in `compose.yaml`
+username and password are in `.env`
 
-`postgresql://localhost:5432/scubapal`
+`postgresql://localhost:5432/scuba_pal`
 
-`postgresql://<username>:<password>@localhost:5432/scubapal`
-`postgresql://scubapal:scubapal@localhost:5432/scubapal`
+`postgresql://<username>:<password>@localhost:5432/<database_name>`
+`postgresql://scuba_pal_app:scuba_pal@localhost:5432/scuba_pal`
