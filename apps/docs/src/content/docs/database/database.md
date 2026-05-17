@@ -20,3 +20,5 @@ The app uses PostgreSQL schemas (`identity`, `social`, `dive`, `certification`, 
 > [!IMPORTANT]
 > - Security is currently open for MVP/demo speed.
 > - Replace plaintext password handling with BCrypt/JWT before production.
+
+1. Here are some [conventions](https://www.claravine.com/database-naming-conventions/)
