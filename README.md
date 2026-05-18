@@ -21,16 +21,21 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf w
 - Spring Boot 3.3
 - Spring Web, Data JPA, Security, Validation
 - Flyway migrations
+- REST, OpenAPI, Swagger UI
 - PostgreSQL
 - Thymeleaf frontend
+- TypeScript OpenAPI client generation
+- Local Infra - Docker, pgAdmin, Mailpit
+- AWS S3, RDS, EC2
 
-- __Backend__: Java 25, Spring Boot 3.3, Spring Security, Spring Data JPA
-- __Database__: PostgreSQL, Flyway
-- __Web__: Thymeleaf
-- __API__: REST, OpenAPI, Swagger UI
-- __Mobile-ready__: TypeScript OpenAPI client generation
-- __Local infra__: Docker, pgAdmin, Mailpit
-- __Cloud target__: AWS S3, RDS, EC2
+
+<!-- Backend: Java 25, Spring Boot 3.3, Spring Security, Spring Data JPA
+Database: PostgreSQL, Flyway
+Web: Thymeleaf
+API: REST, OpenAPI, Swagger UI
+Mobile-ready: TypeScript OpenAPI client generation
+Local infra: Docker, pgAdmin, Mailpit
+Cloud target: AWS S3, RDS, EC2 -->
 
 ---
 
