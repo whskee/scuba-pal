@@ -31,6 +31,7 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf w
 
 | Domain       |                                   Tools                                   |
 | ------------ | :-----------------------------------------------------------------------: |
+| Database     |          PostgreSQL, pgAdmin4, Flyway, AWS RDS, DBML, dbdiagram           |
 | Backend      | Java 25, Spring Boot 3.3, Spring Security, Data JPA, Security, Validation |
 | Web          |                                 Thymeleaf                                 |
 | Mobile       |       React Native Expo TypeScript Axios OpenAPI client generation        |
