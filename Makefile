@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-API_DIR := apps/api
+APP_DIR := apps/app
 WEB_DIR := apps/web
 MOBILE_DIR := apps/mobile
 DOCS_DIR := apps/docs
@@ -9,9 +9,9 @@ DOCS_DIR := apps/docs
 help:
 	@echo "ScubaPal commands:"
 	@echo ""
-	@echo "  make api-dev       Run Spring Boot API"
-	@echo "  make api-test      Run backend tests"
-	@echo "  make api-build     Build backend"
+	@echo "  make app-dev       Run Spring Boot App"
+	@echo "  make app-test      Run backend tests"
+	@echo "  make app-build     Build backend"
 	@echo "  make db-up         Start local database"
 	@echo "  make db-down       Stop local database"
 	@echo ""
@@ -26,25 +26,25 @@ help:
 	@echo "  make test          Run all tests"
 	@echo "  make clean         Clean build artifacts"
 
-.PHONY: api-dev
-api-dev:
-	cd $(API_DIR) && ./mvnw spring-boot:run
+.PHONY: app-dev
+app-dev:
+	cd $(APP_DIR) && ./mvnw spring-boot:run
 
-.PHONY: api-test
-api-test:
-	cd $(API_DIR) && ./mvnw test
+.PHONY: app-test
+app-test:
+	cd $(APP_DIR) && ./mvnw test
 
-.PHONY: api-build
-api-build:
-	cd $(API_DIR) && ./mvnw clean package
+.PHONY: app-build
+app-build:
+	cd $(APP_DIR) && ./mvnw clean package
 
 .PHONY: db-up
 db-up:
-	cd $(API_DIR) && docker compose up -d
+	cd $(APP_DIR) && docker compose up -d
 
 .PHONY: db-down
 db-down:
-	cd $(API_DIR) && docker compose down
+	cd $(APP_DIR) && docker compose down
 
 .PHONY: web-dev
 web-dev:
@@ -67,12 +67,12 @@ docs-build:
 	cd $(DOCS_DIR) && npm run build
 
 .PHONY: test
-test: api-test
+test: app-test
 	@echo "All tests complete."
 
 .PHONY: clean
 clean:
-	cd $(API_DIR) && ./mvnw clean
+	cd $(APP_DIR) && ./mvnw clean
 	rm -rf $(WEB_DIR)/.next
 	rm -rf $(DOCS_DIR)/dist
 	rm -rf $(MOBILE_DIR)/.expo
