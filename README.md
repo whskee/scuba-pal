@@ -34,11 +34,11 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf w
 | [Documentation](https://diataxis.fr) |                              Astro Starlight                              |                     |
 |               Database               |                       DBML, PostgreSQL, Flyway, S3                        | pgAdmin4, dbdiagram |
 |               Backend                | Java 25, Spring Boot 3.3, Spring Security, Data JPA, Security, Validation |                     |
-|                 API                  |                         REST, OpenAPI, Swagger UI                         |                     |
+|   [API](https://www.openapis.org)    |      REST, OpenAPI, [Swagger UI](https://swagger.io/specification/)       |                     |
 |                 Web                  |                                 Thymeleaf                                 |                     |
-|                Mobile                |      React Native Expo (TypeScript Axios OpenAPI client generation)       |  OpenAPI Generator  |
+|      [Mobile](https://expo.dev)      |      React Native Expo (TypeScript Axios OpenAPI client generation)       |  OpenAPI Generator  |
 |             Local infra              |                         Docker, pgAdmin, Mailpit                          |                     |
-|                Cloud                 |                             AWS S3, RDS, EC2                              |                     |
+|   [Cloud](https://aws.amazon.com/)   |                             AWS S3, RDS, EC2                              |                     |
 
 
 <!-- Backend: Java 25, Spring Boot 3.3, Spring Security, Spring Data JPA
