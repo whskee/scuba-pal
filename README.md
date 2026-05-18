@@ -29,15 +29,16 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf w
 - AWS S3, RDS, EC2 -->
 
 
-|   Domain    |                                   Core                                    |        Tools        |
-| :---------: | :-----------------------------------------------------------------------: | :-----------------: |
-|  Database   |                DBML, PostgreSQL, Flyway, AWS S3, AWS RDS,                 | pgAdmin4, dbdiagram |
-|   Backend   | Java 25, Spring Boot 3.3, Spring Security, Data JPA, Security, Validation |                     |
-|     Web     |                                 Thymeleaf                                 |                     |
-|   Mobile    |      React Native Expo (TypeScript Axios OpenAPI client generation)       |  OpenAPI Generator  |
-|     API     |                         REST, OpenAPI, Swagger UI                         |                     |
-| Local infra |                         Docker, pgAdmin, Mailpit                          |                     |
-|    Cloud    |                             AWS S3, RDS, EC2                              |                     |
+|                Domain                |                                   Core                                    |        Tools        |
+| :----------------------------------: | :-----------------------------------------------------------------------: | :-----------------: |
+| [Documentation](https://diataxis.fr) |                              Astro Starlight                              |                     |
+|               Database               |                       DBML, PostgreSQL, Flyway, S3                        | pgAdmin4, dbdiagram |
+|               Backend                | Java 25, Spring Boot 3.3, Spring Security, Data JPA, Security, Validation |                     |
+|                 API                  |                         REST, OpenAPI, Swagger UI                         |                     |
+|                 Web                  |                                 Thymeleaf                                 |                     |
+|                Mobile                |      React Native Expo (TypeScript Axios OpenAPI client generation)       |  OpenAPI Generator  |
+|             Local infra              |                         Docker, pgAdmin, Mailpit                          |                     |
+|                Cloud                 |                             AWS S3, RDS, EC2                              |                     |
 
 
 <!-- Backend: Java 25, Spring Boot 3.3, Spring Security, Spring Data JPA
