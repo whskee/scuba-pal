@@ -26,7 +26,17 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf w
 
 ---
 
+## Start
+- [Spring Initializr](https://start.spring.io)
+- [Vaadin Start](https://start.vaadin.com/app)
+- [OpenAPI Generator](https://github.com/openapitools/openapi-generator)
+- [Generate DBML](https://dbml.dbdiagram.io/home)
+
 ## Links for local testing
 - [Scuba Pal App](http://localhost:8080)
+  - [Swagger](http://localhost:8080/swagger-ui/index.html)
+  - [OpenAPI JSON](http://localhost:8080/v3/api-docs)
 - [pgAdmin](http://localhost:5050)
 - [Mailpit](http://localhost:8025)
+
+
