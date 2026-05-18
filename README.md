@@ -17,7 +17,7 @@ Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Acce
 
 Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf web frontend, REST APIs, authentication, profiles, posts, messaging, notifications, dive locations, PostgreSQL/Flyway migrations, and OpenAPI docs for native/mobile clients.
 
-- Java 25
+<!-- - Java 25
 - Spring Boot 3.3
 - Spring Web, Data JPA, Security, Validation
 - Flyway migrations
@@ -26,7 +26,7 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf w
 - Thymeleaf frontend
 - TypeScript OpenAPI client generation
 - Local Infra - Docker, pgAdmin, Mailpit
-- AWS S3, RDS, EC2
+- AWS S3, RDS, EC2 -->
 
 
 | Domain       |                                   Tools                                   |
