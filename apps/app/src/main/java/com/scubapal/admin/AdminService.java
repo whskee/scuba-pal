@@ -30,12 +30,10 @@ public class AdminService {
     }
 
     public AdminStatsView getStats() {
-        return new AdminStatsView(
-                userRepository.count(),
-                postRepository.count(),
-                diveLocationRepository.count(),
-                diveShopRepository.count(),
-                notificationRepository.count()
-        );
+        return new AdminStatsView(userRepository.count(),
+                                  postRepository.count(),
+                                  diveLocationRepository.count(),
+                                  diveShopRepository.count(),
+                                  notificationRepository.count());
     }
 }
