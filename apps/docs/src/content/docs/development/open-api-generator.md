@@ -19,3 +19,34 @@ openapi-generator-cli generate \
   -g typescript-fetch \
   -o mobile/api
 ```
+
+# New recommended version
+
+```bash
+cd scuba-pal-mobile-expo
+
+npm install axios
+npm install -D @openapitools/openapi-generator-cli
+
+npx openapi-generator-cli generate \
+  -i http://localhost:8080/v3/api-docs \
+  -g typescript-axios \
+  -o src/api/generated \
+  --additional-properties=supportsES6=true,useSingleRequestParameter=true,stringEnums=true
+```
+
+## Modified
+
+```bash
+cd apps/mobile
+
+npm install axios
+npm install -D @openapitools/openapi-generator-cli
+
+npx openapi-generator-cli generate \
+  -i http://localhost:8080/v3/api-docs \
+  -g typescript-axios \
+  -o src/api/generated \
+  --additional-properties=supportsES6=true,useSingleRequestParameter=true,stringEnums=true
+```
+
