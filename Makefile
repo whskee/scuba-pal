@@ -19,6 +19,7 @@ help:
 	@echo "  make web-build     Build Next.js web app"
 	@echo ""
 	@echo "  make mobile-dev    Run Expo mobile app"
+	@echo "  make mobile-openapi-generate  Generate OpenAPI client for mobile app"
 	@echo ""
 	@echo "  make docs-dev      Run Astro docs"
 	@echo "  make docs-build    Build Astro docs"
@@ -58,6 +59,10 @@ web-build:
 mobile-dev:
 	cd $(MOBILE_DIR) && npm run start
 
+.PHONY: mobile-openapi-generate
+mobile-openapi-generate:
+	cd $(MOBILE_DIR) && npm run generate:openapi
+
 .PHONY: docs-dev
 docs-dev:
 	cd $(DOCS_DIR) && npm run dev
@@ -76,3 +81,10 @@ clean:
 	rm -rf $(WEB_DIR)/.next
 	rm -rf $(DOCS_DIR)/dist
 	rm -rf $(MOBILE_DIR)/.expo
+
+.PHONY: openapi-generator-typescript-axios
+openapi-generator-typescript-axios:
+	openapi-generator generate \
+	-i http://localhost:8080/v3/api-docs \
+	-g typescript-axios \
+	-o mobile/src/api/generated
