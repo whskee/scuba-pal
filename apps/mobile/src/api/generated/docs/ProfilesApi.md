@@ -1,35 +1,36 @@
-# ProfileControllerApi
+# ProfilesApi
 
 All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**create**](#create) | **POST** /api/profiles/{userId} | |
-|[**get**](#get) | **GET** /api/profiles/{userId} | |
-|[**update1**](#update1) | **PUT** /api/profiles/{userId} | |
+|[**create**](#create) | **POST** /api/profiles/{userId} | Create profile|
+|[**get**](#get) | **GET** /api/profiles/{userId} | Get profile|
+|[**update1**](#update1) | **PUT** /api/profiles/{userId} | Update profile|
 
 # **create**
-> Profile create(profile)
+> ProfileResponse create(upsertProfileRequest)
 
+Creates a profile for a user if one does not already exist.
 
 ### Example
 
 ```typescript
 import {
-    ProfileControllerApi,
+    ProfilesApi,
     Configuration,
-    Profile
+    UpsertProfileRequest
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new ProfileControllerApi(configuration);
+const apiInstance = new ProfilesApi(configuration);
 
 let userId: number; // (default to undefined)
-let profile: Profile; //
+let upsertProfileRequest: UpsertProfileRequest; //
 
 const { status, data } = await apiInstance.create(
     userId,
-    profile
+    upsertProfileRequest
 );
 ```
 
@@ -37,13 +38,13 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **profile** | **Profile**|  | |
+| **upsertProfileRequest** | **UpsertProfileRequest**|  | |
 | **userId** | [**number**] |  | defaults to undefined|
 
 
 ### Return type
 
-**Profile**
+**ProfileResponse**
 
 ### Authorization
 
@@ -58,24 +59,27 @@ const { status, data } = await apiInstance.create(
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | OK |  -  |
+|**201** | Profile created |  -  |
+|**400** | Invalid request |  -  |
+|**404** | User not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get**
-> Profile get()
+> ProfileResponse get()
 
+Returns profile details for a user.
 
 ### Example
 
 ```typescript
 import {
-    ProfileControllerApi,
+    ProfilesApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new ProfileControllerApi(configuration);
+const apiInstance = new ProfilesApi(configuration);
 
 let userId: number; // (default to undefined)
 
@@ -93,7 +97,7 @@ const { status, data } = await apiInstance.get(
 
 ### Return type
 
-**Profile**
+**ProfileResponse**
 
 ### Authorization
 
@@ -108,32 +112,34 @@ const { status, data } = await apiInstance.get(
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | OK |  -  |
+|**200** | Profile returned |  -  |
+|**404** | Profile not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update1**
-> Profile update1(profile)
+> ProfileResponse update1(upsertProfileRequest)
 
+Updates profile details for a user.
 
 ### Example
 
 ```typescript
 import {
-    ProfileControllerApi,
+    ProfilesApi,
     Configuration,
-    Profile
+    UpsertProfileRequest
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new ProfileControllerApi(configuration);
+const apiInstance = new ProfilesApi(configuration);
 
 let userId: number; // (default to undefined)
-let profile: Profile; //
+let upsertProfileRequest: UpsertProfileRequest; //
 
 const { status, data } = await apiInstance.update1(
     userId,
-    profile
+    upsertProfileRequest
 );
 ```
 
@@ -141,13 +147,13 @@ const { status, data } = await apiInstance.update1(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **profile** | **Profile**|  | |
+| **upsertProfileRequest** | **UpsertProfileRequest**|  | |
 | **userId** | [**number**] |  | defaults to undefined|
 
 
 ### Return type
 
-**Profile**
+**ProfileResponse**
 
 ### Authorization
 
@@ -162,7 +168,9 @@ const { status, data } = await apiInstance.update1(
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | OK |  -  |
+|**200** | Profile updated |  -  |
+|**400** | Invalid request |  -  |
+|**404** | Profile not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

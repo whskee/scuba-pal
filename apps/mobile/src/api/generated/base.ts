@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * ScubaPal API
- * Authentication, users, posts, messaging, notifications, dive locations
+ * Authentication, users, posts, messaging, notifications, dive locations, learn content
  *
  * The version of the OpenAPI document: v1
  * Contact: chinmayabidkar@hotmail.com

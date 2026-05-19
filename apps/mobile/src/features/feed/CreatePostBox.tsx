@@ -17,7 +17,11 @@ export function CreatePostBox() {
   const mutation = useMutation({
     mutationFn: async () => {
       const upload = asset ? await mediaApi.uploadImageAsset(asset, "POST_IMAGE") : null;
-      return feedApi.create({ content: content.trim(), mediaUrls: upload ? [upload.publicUrl] : [] });
+      const uploadedUrl = upload?.publicUrl ?? upload?.objectKey;
+      if (upload && !uploadedUrl) {
+        throw new Error("The backend uploaded the image but did not return a usable media URL.");
+      }
+      return feedApi.create({ content: content.trim(), mediaUrls: uploadedUrl ? [uploadedUrl] : [] });
     },
     onSuccess: () => {
       setContent("");

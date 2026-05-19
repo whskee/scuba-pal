@@ -1,36 +1,18 @@
-import type { CommentView, DirectMessageView, FeedPostView, FollowSummaryView, PostDetailView, Profile, UserView } from "@/api/generated";
+import type {
+  CommentView,
+  ConversationView,
+  DirectMessageView,
+  FeedPostView,
+  FollowSummaryView,
+  NotificationView,
+  PostDetailView,
+  ProfileResponse,
+  UserView
+} from "@/api/generated";
 import { env } from "@/config/env";
 import { normalizeApiDateString } from "@/utils/date";
 
 export type ID = string | number;
-
-type ProfileResponse = Partial<Profile> & {
-  profileId?: number;
-  userId?: number;
-  username?: string;
-};
-
-type ConversationView = {
-  conversationId?: number;
-  id?: number;
-  otherUserId?: number;
-  otherUsername?: string;
-  otherInitial?: string;
-  unreadCount?: number;
-  lastMessagePreview?: string;
-  updatedAt?: string;
-};
-
-type NotificationView = {
-  notificationId?: number;
-  id?: number;
-  title?: string;
-  message?: string;
-  body?: string;
-  read?: boolean;
-  createdAt?: string;
-  type?: string;
-};
 
 const fallbackPostImages = [
   "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200",
@@ -61,6 +43,7 @@ export type User = {
   email?: string;
   phoneNumber?: string;
   city?: string;
+  state?: string;
   country?: string;
   profileImageUrl?: string;
   bio?: string;
@@ -132,21 +115,21 @@ export type ApiErrorBody = {
   status?: number;
 };
 
-export function toUser(input?: UserView | Profile | ProfileResponse | null, follow?: FollowSummaryView): User {
+export function toUser(input?: UserView | ProfileResponse | null, follow?: FollowSummaryView): User {
   const profile = input as ProfileResponse | undefined;
-  const profileUser = (profile as Profile | undefined)?.user;
   const view = input as UserView | undefined;
-  const id = view?.id ?? profile?.userId ?? profileUser?.id ?? profile?.id ?? profile?.profileId ?? 0;
-  const username = view?.username ?? profile?.username ?? profileUser?.username ?? `diver-${id || "unknown"}`;
+  const id = view?.id ?? profile?.userId ?? profile?.profileId ?? 0;
+  const username = view?.username ?? profile?.username ?? `diver-${id || "unknown"}`;
 
   return {
     id,
     username,
-    email: view?.email ?? profileUser?.email,
-    firstName: profile?.firstName,
-    lastName: profile?.lastName,
+    email: view?.email,
+    firstName: view?.firstName ?? profile?.firstName,
+    lastName: view?.lastName ?? profile?.lastName,
     phoneNumber: profile?.phoneNumber,
     city: view?.city ?? profile?.city,
+    state: profile?.state,
     country: view?.country ?? profile?.country,
     profileImageUrl: resolveMediaUrl(view?.profileImageUrl ?? profile?.profileImageUrl),
     bio: view?.bio ?? profile?.bio,
@@ -170,9 +153,10 @@ export function toComment(input?: CommentView | null): Comment {
 export function toPost(input: FeedPostView | PostDetailView): Post {
   const detail = input as PostDetailView;
   const id = input.postId ?? 0;
-  const mediaInput = input as FeedPostView & PostDetailView & { imageUrl?: string; mediaUrls?: string[] };
+  const mediaInput = input as FeedPostView & PostDetailView;
   const imageUrl = resolveMediaUrl(mediaInput.imageUrl ?? mediaInput.mediaUrls?.[0]);
-  const mediaUrls = mediaInput.mediaUrls?.map(resolveMediaUrl).filter(Boolean) as string[] | undefined;
+  const mediaUrls = mediaInput.mediaUrls?.map(resolveMediaUrl).filter((url): url is string => !!url);
+
   return {
     id,
     author: {
@@ -190,18 +174,17 @@ export function toPost(input: FeedPostView | PostDetailView): Post {
   };
 }
 
-export function toConversation(input: unknown): Conversation {
-  const conversation = input as ConversationView;
-  const otherUserId = conversation.otherUserId ?? 0;
+export function toConversation(input: ConversationView): Conversation {
+  const otherUserId = input.otherUserId ?? 0;
   return {
-    id: conversation.conversationId ?? conversation.id ?? 0,
+    id: input.conversationId ?? 0,
     participant: {
       id: otherUserId,
-      username: conversation.otherUsername ?? (conversation.otherInitial ? `diver-${conversation.otherInitial}` : "diver")
+      username: input.otherUsername ?? (input.otherInitial ? `diver-${input.otherInitial}` : "diver")
     },
-    lastMessage: conversation.lastMessagePreview ?? "No messages yet",
-    unreadCount: conversation.unreadCount ?? 0,
-    updatedAt: normalizeApiDateString(conversation.updatedAt ?? new Date().toISOString())
+    lastMessage: input.lastMessagePreview ?? "No messages yet",
+    unreadCount: input.unreadCount ?? 0,
+    updatedAt: normalizeApiDateString(input.updatedAt ?? new Date().toISOString())
   };
 }
 
@@ -216,14 +199,13 @@ export function toMessage(input: DirectMessageView): Message {
   };
 }
 
-export function toNotification(input: unknown): Notification {
-  const notification = input as NotificationView;
+export function toNotification(input: NotificationView): Notification {
   return {
-    id: notification.notificationId ?? notification.id ?? 0,
-    title: notification.title ?? "Notification",
-    body: notification.message ?? notification.body ?? "",
-    read: notification.read ?? false,
-    createdAt: normalizeApiDateString(notification.createdAt ?? new Date().toISOString()),
-    type: notification.type
+    id: input.notificationId ?? 0,
+    title: input.title ?? "Notification",
+    body: input.message ?? "",
+    read: input.read ?? false,
+    createdAt: normalizeApiDateString(input.createdAt ?? new Date().toISOString()),
+    type: undefined
   };
 }

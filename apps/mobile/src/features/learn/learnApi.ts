@@ -1,5 +1,8 @@
-import { api, unwrap } from "@/services/api";
+import { LearnApi, LearnArticleResponse } from "@/api/generated";
+import { api, apiConfig, unwrap } from "@/services/api";
 import { normalizeApiDateString } from "@/utils/date";
+
+const generatedLearnApi = new LearnApi(apiConfig, undefined, api);
 
 export type LearnArticle = {
   id: number;
@@ -11,18 +14,6 @@ export type LearnArticle = {
   difficultyLevel: string;
   estimatedMinutes: number;
   updatedAt: string;
-};
-
-type LearnArticleResponse = {
-  articleId?: number;
-  slug?: string;
-  title?: string;
-  summary?: string;
-  content?: string;
-  category?: string;
-  difficultyLevel?: string;
-  estimatedMinutes?: number;
-  updatedAt?: string;
 };
 
 function toLearnArticle(input: LearnArticleResponse): LearnArticle {
@@ -41,7 +32,12 @@ function toLearnArticle(input: LearnArticleResponse): LearnArticle {
 
 export const learnApi = {
   async articles(): Promise<LearnArticle[]> {
-    const response = await unwrap<LearnArticleResponse[]>(api.get("/api/learn/articles"));
+    const response = await unwrap(generatedLearnApi.articles());
     return response.map(toLearnArticle);
+  },
+
+  async article(slug: string): Promise<LearnArticle> {
+    const response = await unwrap(generatedLearnApi.article(slug));
+    return toLearnArticle(response);
   }
 };

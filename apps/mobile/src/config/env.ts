@@ -1,7 +1,5 @@
 import Constants from "expo-constants";
 
-const LOOPBACK_HOSTS = new Set(["localhost", "127.0.0.1", "0.0.0.0"]);
-
 type ExtraConfig = {
   apiBaseUrl?: string;
   apiUrl?: string;
@@ -18,7 +16,7 @@ function stripApiSuffix(value: string) {
   return stripTrailingSlash(value).replace(/\/api$/, "");
 }
 
-function assertUsableApiBaseUrl(value: string) {
+function assertValidApiBaseUrl(value: string) {
   let parsed: URL;
   try {
     parsed = new URL(value);
@@ -28,12 +26,6 @@ function assertUsableApiBaseUrl(value: string) {
 
   if (!/^https?:$/.test(parsed.protocol)) {
     throw new Error("EXPO_PUBLIC_API_BASE_URL must start with http:// or https://.");
-  }
-
-  if (LOOPBACK_HOSTS.has(parsed.hostname)) {
-    throw new Error(
-      "EXPO_PUBLIC_API_BASE_URL points to localhost. For Expo Go on a physical phone, use your Mac LAN IP, for example http://192.168.1.25:8080."
-    );
   }
 }
 
@@ -48,11 +40,13 @@ if (!configuredBaseUrl) {
 }
 
 const apiBaseUrl = stripApiSuffix(configuredBaseUrl);
-assertUsableApiBaseUrl(apiBaseUrl);
+assertValidApiBaseUrl(apiBaseUrl);
 
 export const env = {
   // Backend root URL, not /api.
-  // Physical Expo Go example: http://192.168.1.25:8080
+  // iOS simulator: http://localhost:8080
+  // Android emulator: http://10.0.2.2:8080
+  // Physical Expo Go device: http://YOUR_MAC_LAN_IP:8080
   apiBaseUrl,
-  requestTimeoutMs: extra?.requestTimeoutMs ?? Number(process.env.EXPO_PUBLIC_REQUEST_TIMEOUT_MS ?? 15000),
+  requestTimeoutMs: extra?.requestTimeoutMs ?? Number(process.env.EXPO_PUBLIC_REQUEST_TIMEOUT_MS ?? 15000)
 };

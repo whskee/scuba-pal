@@ -1,4 +1,4 @@
-import { CreateCommentRequest, PostsApi } from "@/api/generated";
+import { CreateCommentRequest, CreateCurrentUserPostRequest, PostsApi } from "@/api/generated";
 import { api, apiConfig, unwrap } from "@/services/api";
 import { ID, Post, toPost } from "@/types/models";
 
@@ -16,8 +16,8 @@ export const feedApi = {
   },
 
   async userPosts(userId: ID, page = 0, size = 20): Promise<Post[]> {
-    const response = await unwrap<{ content?: unknown[]; posts?: unknown[] }>(api.get(`/api/posts/users/${userId}`, { params: { page, size } }));
-    return (response.content ?? response.posts ?? []).map((item) => toPost(item as any));
+    const response = await unwrap(generatedPostsApi.getByUser(Number(userId), page, size));
+    return (response.content ?? []).map(toPost);
   },
 
   async detail(postId: ID): Promise<Post> {
@@ -26,8 +26,12 @@ export const feedApi = {
   },
 
   async create(input: CreatePostInput): Promise<Post> {
-    const payload = { caption: input.content, visibilityStatus: "PUBLIC", mediaUrls: input.mediaUrls ?? [] };
-    const response = await unwrap<any>(api.post("/api/posts/me", payload));
+    const payload: CreateCurrentUserPostRequest = {
+      caption: input.content,
+      visibilityStatus: "PUBLIC",
+      mediaUrls: input.mediaUrls ?? []
+    };
+    const response = await unwrap(generatedPostsApi.createForCurrentUser(payload));
     return toPost(response);
   },
 

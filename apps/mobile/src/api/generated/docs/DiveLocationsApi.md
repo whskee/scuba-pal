@@ -1,31 +1,33 @@
-# FollowControllerApi
+# DiveLocationsApi
 
 All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**follow**](#follow) | **POST** /api/users/{userId}/follow | |
-|[**unfollow**](#unfollow) | **DELETE** /api/users/{userId}/follow | |
+|[**create3**](#create3) | **POST** /api/locations | Create dive location|
+|[**getAll2**](#getall2) | **GET** /api/locations | List dive locations|
 
-# **follow**
-> FollowSummaryView follow()
+# **create3**
+> DiveLocationResponse create3(createLocationRequest)
 
+Creates a new dive location.
 
 ### Example
 
 ```typescript
 import {
-    FollowControllerApi,
-    Configuration
+    DiveLocationsApi,
+    Configuration,
+    CreateLocationRequest
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new FollowControllerApi(configuration);
+const apiInstance = new DiveLocationsApi(configuration);
 
-let userId: number; // (default to undefined)
+let createLocationRequest: CreateLocationRequest; //
 
-const { status, data } = await apiInstance.follow(
-    userId
+const { status, data } = await apiInstance.create3(
+    createLocationRequest
 );
 ```
 
@@ -33,12 +35,12 @@ const { status, data } = await apiInstance.follow(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **userId** | [**number**] |  | defaults to undefined|
+| **createLocationRequest** | **CreateLocationRequest**|  | |
 
 
 ### Return type
 
-**FollowSummaryView**
+**DiveLocationResponse**
 
 ### Authorization
 
@@ -46,36 +48,39 @@ const { status, data } = await apiInstance.follow(
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | OK |  -  |
+|**201** | Location created |  -  |
+|**400** | Invalid request |  -  |
+|**401** | Authentication required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **unfollow**
-> FollowSummaryView unfollow()
+# **getAll2**
+> Array<DiveLocationResponse> getAll2()
 
+Returns dive locations, optionally filtered by city.
 
 ### Example
 
 ```typescript
 import {
-    FollowControllerApi,
+    DiveLocationsApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new FollowControllerApi(configuration);
+const apiInstance = new DiveLocationsApi(configuration);
 
-let userId: number; // (default to undefined)
+let city: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.unfollow(
-    userId
+const { status, data } = await apiInstance.getAll2(
+    city
 );
 ```
 
@@ -83,12 +88,12 @@ const { status, data } = await apiInstance.unfollow(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **userId** | [**number**] |  | defaults to undefined|
+| **city** | [**string**] |  | (optional) defaults to undefined|
 
 
 ### Return type
 
-**FollowSummaryView**
+**Array<DiveLocationResponse>**
 
 ### Authorization
 
@@ -103,7 +108,7 @@ const { status, data } = await apiInstance.unfollow(
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | OK |  -  |
+|**200** | Location list returned |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

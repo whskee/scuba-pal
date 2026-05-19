@@ -1,18 +1,11 @@
 import axios from "axios";
 import type { ImagePickerAsset } from "expo-image-picker";
-import { api, unwrap } from "@/services/api";
+import { CreateMediaUploadRequest, MediaApi, MediaUploadResponse } from "@/api/generated";
+import { api, apiConfig, unwrap } from "@/services/api";
 
 export type MediaUploadPurpose = "PROFILE_IMAGE" | "POST_IMAGE";
 
-type MediaUploadResponse = {
-  objectKey: string;
-  uploadUrl: string;
-  publicUrl: string;
-  method: "PUT";
-  headers: Record<string, string>;
-  expiresAt: string;
-  maxBytes: number;
-};
+const generatedMediaApi = new MediaApi(apiConfig, undefined, api);
 
 function contentTypeForAsset(asset: ImagePickerAsset): string {
   if (asset.mimeType) return asset.mimeType;
@@ -34,26 +27,35 @@ async function blobFromUri(uri: string): Promise<Blob> {
 }
 
 export const mediaApi = {
-  async uploadImageAsset(asset: ImagePickerAsset, purpose: MediaUploadPurpose): Promise<MediaUploadResponse> {
+  async createUpload(asset: ImagePickerAsset, purpose: MediaUploadPurpose): Promise<{ upload: MediaUploadResponse; blob: Blob }> {
     const blob = await blobFromUri(asset.uri);
     const contentType = contentTypeForAsset(asset);
-    const response = await unwrap<MediaUploadResponse>(api.post("/api/media/uploads", {
+    const payload: CreateMediaUploadRequest = {
       purpose,
       contentType,
       fileName: asset.fileName ?? `upload.${contentType.split("/")[1] ?? "jpg"}`,
       contentLength: asset.fileSize ?? blob.size
-    }));
+    };
 
-    if (blob.size > response.maxBytes) {
+    const upload = await unwrap(generatedMediaApi.createUpload(payload));
+
+    if (upload.maxBytes !== undefined && blob.size > upload.maxBytes) {
       throw new Error("That image is too large to upload.");
     }
 
-    await axios.put(response.uploadUrl, blob, {
-      headers: response.headers,
+    return { upload, blob };
+  },
+
+  async uploadImageAsset(asset: ImagePickerAsset, purpose: MediaUploadPurpose): Promise<MediaUploadResponse> {
+    const { upload, blob } = await this.createUpload(asset, purpose);
+    if (!upload.uploadUrl) throw new Error("The backend did not return a media upload URL.");
+
+    await axios.put(upload.uploadUrl, blob, {
+      headers: upload.headers ?? {},
       timeout: 60000,
       transformRequest: [(data) => data]
     });
 
-    return response;
+    return upload;
   }
 };

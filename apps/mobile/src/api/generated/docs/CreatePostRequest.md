@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **userId** | **number** |  | [default to undefined]
 **caption** | **string** |  | [default to undefined]
 **visibilityStatus** | **string** |  | [default to undefined]
+**mediaUrls** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -18,6 +19,7 @@ const instance: CreatePostRequest = {
     userId,
     caption,
     visibilityStatus,
+    mediaUrls,
 };
 ```
 

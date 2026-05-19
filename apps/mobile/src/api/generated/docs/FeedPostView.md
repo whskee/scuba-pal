@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **username** | **string** |  | [optional] [default to undefined]
 **caption** | **string** |  | [optional] [default to undefined]
 **visibilityStatus** | **string** |  | [optional] [default to undefined]
+**imageUrl** | **string** |  | [optional] [default to undefined]
+**mediaUrls** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 **likes** | **number** |  | [optional] [default to undefined]
 **comments** | **number** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
@@ -25,6 +27,8 @@ const instance: FeedPostView = {
     username,
     caption,
     visibilityStatus,
+    imageUrl,
+    mediaUrls,
     likes,
     comments,
     createdAt,

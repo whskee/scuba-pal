@@ -1,14 +1,13 @@
-# Profile
+# ProfileResponse
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**createdAt** | **string** |  | [optional] [default to undefined]
-**updatedAt** | **string** |  | [optional] [default to undefined]
-**user** | [**User**](User.md) |  | [optional] [default to undefined]
+**profileId** | **number** |  | [optional] [default to undefined]
+**userId** | **number** |  | [optional] [default to undefined]
+**username** | **string** |  | [optional] [default to undefined]
 **firstName** | **string** |  | [optional] [default to undefined]
 **lastName** | **string** |  | [optional] [default to undefined]
 **phoneNumber** | **string** |  | [optional] [default to undefined]
@@ -20,17 +19,18 @@ Name | Type | Description | Notes
 **diveCount** | **number** |  | [optional] [default to undefined]
 **bio** | **string** |  | [optional] [default to undefined]
 **profileImageUrl** | **string** |  | [optional] [default to undefined]
+**createdAt** | **string** |  | [optional] [default to undefined]
+**updatedAt** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { Profile } from './api';
+import { ProfileResponse } from './api';
 
-const instance: Profile = {
-    id,
-    createdAt,
-    updatedAt,
-    user,
+const instance: ProfileResponse = {
+    profileId,
+    userId,
+    username,
     firstName,
     lastName,
     phoneNumber,
@@ -42,6 +42,8 @@ const instance: Profile = {
     diveCount,
     bio,
     profileImageUrl,
+    createdAt,
+    updatedAt,
 };
 ```
 

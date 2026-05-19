@@ -1,13 +1,11 @@
-# DiveLocation
+# DiveLocationResponse
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**createdAt** | **string** |  | [optional] [default to undefined]
-**updatedAt** | **string** |  | [optional] [default to undefined]
+**locationId** | **number** |  | [optional] [default to undefined]
 **locationName** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **city** | **string** |  | [optional] [default to undefined]
@@ -21,12 +19,10 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { DiveLocation } from './api';
+import { DiveLocationResponse } from './api';
 
-const instance: DiveLocation = {
-    id,
-    createdAt,
-    updatedAt,
+const instance: DiveLocationResponse = {
+    locationId,
     locationName,
     description,
     city,

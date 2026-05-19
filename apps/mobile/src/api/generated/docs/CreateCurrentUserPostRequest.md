@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **caption** | **string** |  | [default to undefined]
 **visibilityStatus** | **string** |  | [optional] [default to undefined]
+**mediaUrls** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -16,6 +17,7 @@ import { CreateCurrentUserPostRequest } from './api';
 const instance: CreateCurrentUserPostRequest = {
     caption,
     visibilityStatus,
+    mediaUrls,
 };
 ```
 

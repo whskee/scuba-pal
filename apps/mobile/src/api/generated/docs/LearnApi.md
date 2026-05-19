@@ -1,31 +1,32 @@
-# MessagingControllerApi
+# LearnApi
 
 All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**markRead**](#markread) | **POST** /api/messages/{conversationId}/read | |
-|[**messages**](#messages) | **GET** /api/messages/{conversationId} | |
+|[**article**](#article) | **GET** /api/learn/articles/{slug} | Get learn article|
+|[**articles**](#articles) | **GET** /api/learn/articles | List learn articles|
 
-# **markRead**
-> UnreadCountView markRead()
+# **article**
+> LearnArticleResponse article()
 
+Returns one published scuba education article by slug.
 
 ### Example
 
 ```typescript
 import {
-    MessagingControllerApi,
+    LearnApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new MessagingControllerApi(configuration);
+const apiInstance = new LearnApi(configuration);
 
-let conversationId: number; // (default to undefined)
+let slug: string; // (default to undefined)
 
-const { status, data } = await apiInstance.markRead(
-    conversationId
+const { status, data } = await apiInstance.article(
+    slug
 );
 ```
 
@@ -33,12 +34,12 @@ const { status, data } = await apiInstance.markRead(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **conversationId** | [**number**] |  | defaults to undefined|
+| **slug** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**UnreadCountView**
+**LearnArticleResponse**
 
 ### Authorization
 
@@ -57,44 +58,32 @@ const { status, data } = await apiInstance.markRead(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **messages**
-> PageDirectMessageView messages()
+# **articles**
+> Array<LearnArticleResponse> articles()
 
+Returns published scuba education articles.
 
 ### Example
 
 ```typescript
 import {
-    MessagingControllerApi,
+    LearnApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new MessagingControllerApi(configuration);
+const apiInstance = new LearnApi(configuration);
 
-let conversationId: number; // (default to undefined)
-let page: number; // (optional) (default to 0)
-let size: number; // (optional) (default to 50)
-
-const { status, data } = await apiInstance.messages(
-    conversationId,
-    page,
-    size
-);
+const { status, data } = await apiInstance.articles();
 ```
 
 ### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **conversationId** | [**number**] |  | defaults to undefined|
-| **page** | [**number**] |  | (optional) defaults to 0|
-| **size** | [**number**] |  | (optional) defaults to 50|
+This endpoint does not have any parameters.
 
 
 ### Return type
 
-**PageDirectMessageView**
+**Array<LearnArticleResponse>**
 
 ### Authorization
 
