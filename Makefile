@@ -87,4 +87,4 @@ openapi-generator-typescript-axios:
 	openapi-generator generate \
 	-i http://localhost:8080/v3/api-docs \
 	-g typescript-axios \
-	-o mobile/src/api/generated
+	-o apps/mobile/src/api/generated
