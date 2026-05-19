@@ -64,4 +64,24 @@ Cloud target: AWS S3, RDS, EC2 -->
 - [pgAdmin](http://localhost:5050)
 - [Mailpit](http://localhost:8025)
 
+---
+
+## CI/CD
+
+| Domain | Tools                              |
+| ------ | ---------------------------------- |
+| Mobile | [Fastlane](https://fastlane.tools) |
+| UI     |                                    |
+
+
+
+# Java Frameworks
+| Domain                                                                     | Tools                                                                   |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [Documentation](https://treblle.com/blog/best-openapi-documentation-tools) |                                                                         |
+| Quarkus                                                                    | [Quarkus](https://quarkus.io), [Funqy](https://quarkus.io/guides/funqy) |
+| Vaadin                                                                     | [Vaadin](https://vaadin.com/docs/latest/getting-started/quick-start)    |
+|                                                                            |                                                                         |
+
+
 
