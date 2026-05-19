@@ -36,7 +36,8 @@ public class SettingsPageController {
                                  BindingResult br,
                                  Authentication auth,
                                  RedirectAttributes ra) {
-        if (br.hasErrors()) return "auth/settings";
+        if (br.hasErrors())
+            return "auth/settings";
         try {
             userService.updateSettings(auth.getName(), form);
         } catch (IllegalArgumentException ex) {
