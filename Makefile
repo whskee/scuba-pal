@@ -1,9 +1,9 @@
 SHELL := /bin/bash
 
-APP_DIR := apps/app
-WEB_DIR := apps/web
-MOBILE_DIR := apps/mobile
-DOCS_DIR := apps/docs
+APP_DIR := app
+WEB_DIR := web
+MOBILE_DIR := mobile
+DOCS_DIR := docs
 
 .PHONY: help
 help:
