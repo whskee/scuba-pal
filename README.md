@@ -39,6 +39,7 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf w
 |      [Mobile](https://expo.dev)      |      React Native Expo (TypeScript Axios OpenAPI client generation)       |  OpenAPI Generator  |
 |             Local infra              |                         Docker, pgAdmin, Mailpit                          |                     |
 |   [Cloud](https://aws.amazon.com/)   |                             AWS S3, RDS, EC2                              |                     |
+|    [CI/CD](https://12factor.net)     |           GitHub Workflows, [Fastlane](https://fastlane.tools)            |                     |
 
 
 <!-- Backend: Java 25, Spring Boot 3.3, Spring Security, Spring Data JPA
@@ -65,24 +66,3 @@ Cloud target: AWS S3, RDS, EC2 -->
 - [Mailpit](http://localhost:8025)
 
 ---
-
-## CI/CD
-
-| Domain | Tools                              |
-| ------ | ---------------------------------- |
-| Mobile | [Fastlane](https://fastlane.tools) |
-| UI     |                                    |
-
-
-
-# Java Frameworks
-| Domain                                                                     | Tools                                                                   |
-| -------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [Documentation](https://treblle.com/blog/best-openapi-documentation-tools) |                                                                         |
-| Quarkus                                                                    | [Quarkus](https://quarkus.io), [Funqy](https://quarkus.io/guides/funqy) |
-| Vaadin                                                                     | [Vaadin](https://vaadin.com/docs/latest/getting-started/quick-start)    |
-|                                                                            |                                                                         |
-
-
-
-https://gist.github.com/mattmc3/38a85e6a4ca1093816c08d4815fbebfb
