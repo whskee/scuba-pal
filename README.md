@@ -66,3 +66,6 @@ Cloud target: AWS S3, RDS, EC2 -->
 - [Mailpit](http://localhost:8025)
 
 ---
+
+# ✅ To-do
+- [ ] [Fail on missing .env variables](https://www.youtube.com/watch?v=6hAGbp8I5ow)
