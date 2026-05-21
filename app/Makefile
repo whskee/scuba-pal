@@ -1,10 +1,11 @@
 SHELL := /bin/bash
 
-.PHONY: help dev test build clean package compose-up compose-down compose-pull mailpit openapi-generate create-javadoc create-astro-docs open-astro-docs
+.PHONY: help dev prod test build clean package compose-up compose-down compose-pull mailpit openapi-generate create-javadoc create-astro-docs open-astro-docs
 
 help:
 	@echo "Available commands:"
-	@echo "  make dev      	- run Spring Boot"
+	@echo "  make dev      	- run Spring Boot in development mode"
+	@echo "  make prod     	- run Spring Boot in production mode"
 	@echo "  make test     	- run tests"
 	@echo "  make build    	- compile project"
 	@echo "  make package  	- create jar"
@@ -17,11 +18,14 @@ help:
 	@echo -e "\n======================== DOCUMENTATION ========================"
 	@echo "  make open-astro-docs		- open Astro documentation"
 
-# dev:
+# run:
 # 	./mvnw spring-boot:run
 
 dev:
 	SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
+
+prod:
+	SPRING_PROFILES_ACTIVE=prod ./mvnw spring-boot:run
 
 test:
 	./mvnw test
