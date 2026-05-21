@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 import com.scubapal.shared.domain.AuditableEntity;
+import com.scubapal.shared.domain.address.Coordinates;
 
 @Getter
 @Setter
@@ -26,9 +25,11 @@ public class DiveLocation extends AuditableEntity {
     private String city;
     private String state;
     private String country;
+    // @Embedded
+    // private Address address;
 
-    private BigDecimal latitude;
-    private BigDecimal longitude;
+    @Embedded
+    private Coordinates coordinates;
 
     @Column(name = "difficulty_level")
     private String difficultyLevel;

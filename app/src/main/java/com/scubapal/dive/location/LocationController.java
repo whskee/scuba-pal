@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.scubapal.shared.domain.address.Coordinates;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Tag(name = "Dive Locations", description = "Endpoints for discovering and creating dive locations")
@@ -43,6 +46,11 @@ public class LocationController {
     }
 
     private DiveLocationResponse toResponse(DiveLocation location) {
+        // Handle the case where coordinates might be null in the database
+        Coordinates coordinates = location.getCoordinates();
+        BigDecimal latitude = (coordinates != null) ? coordinates.getLatitude() : null;
+        BigDecimal longitude = (coordinates != null) ? coordinates.getLongitude() : null;
+
         return new DiveLocationResponse(
                 location.getId(),
                 location.getLocationName(),
@@ -50,8 +58,8 @@ public class LocationController {
                 location.getCity(),
                 location.getState(),
                 location.getCountry(),
-                location.getLatitude(),
-                location.getLongitude(),
+                latitude,
+                longitude,
                 location.getDifficultyLevel(),
                 location.getPopularityScore()
         );
