@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import com.scubapal.identity.user.User;
 import com.scubapal.shared.VisibilityStatus;
 import com.scubapal.shared.domain.AuditableEntity;
+import com.scubapal.shared.domain.Gender;
 
 @Getter
 @Setter
@@ -28,6 +29,10 @@ public class Profile extends AuditableEntity {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    private Gender gender;
 
     @Column(name = "phone_number")
     private String phoneNumber;
