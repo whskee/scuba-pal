@@ -72,14 +72,16 @@ INSERT INTO social.posts (user_id, caption, post_type, visibility_status)
             (3, 'Logged my 200th dive today at Molokini Crater. Still speechless.', 'TEXT', 'PUBLIC'),
             (4, 'Anyone heading to Key Largo this weekend for wreck dives?', 'TEXT', 'PUBLIC'),
             (6, 'Sometimes, I stare at rocks and wonder...', 'TEXT', 'PUBLIC'),
-            (6, 'The secret to happiness is loving everything you hate.', 'TEXT', 'PUBLIC');
+            (6, 'The secret to happiness is loving everything you hate.', 'TEXT', 'PUBLIC'),
+            (7, 'Guess what!', 'TEXT', 'PUBLIC');
 
 INSERT INTO social.post_media (post_id, media_url, media_type)
      VALUES (1, '/media/post-images/la-jolla-dive.jpeg', 'IMAGE'),
             (2, '/media/post-images/molokini-crater-whale.jpeg', 'IMAGE'),
             (3, '/media/post-images/key-largo-wreck.jpeg', 'IMAGE'),
             (4, '/media/post-images/colorful-rock.jpg', 'IMAGE'),
-            (5, '/media/post-images/happiness-pills.jpeg', 'IMAGE');
+            (5, '/media/post-images/happiness-pills.jpeg', 'IMAGE'),
+            (6, '/media/post-images/binary-fu.jpeg', 'IMAGE');
 
 INSERT INTO social.post_likes (post_id, user_id)
      VALUES (1, 3),

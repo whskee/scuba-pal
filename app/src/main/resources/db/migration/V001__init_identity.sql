@@ -79,7 +79,8 @@ INSERT INTO identity.users (email, username, password_hash, role_id, email_verif
             ('liam@scubapal.app', 'liam_ocean', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('sara@scubapal.app', 'sara_reef', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('shop@bluehorizon.com', 'blue_horizon', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-            ('chinmayabidkar@hotmail.com', 'cbidkar', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            ('chinmayabidkar@hotmail.com', 'cbidkar', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+            ('joule_thief@gmail.com', 'joule_thief', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 INSERT INTO identity.profiles (user_id, first_name, last_name, city, state, country, visibility_status, dive_count, bio)
      VALUES (1, 'Admin', 'User', 'Miami', 'Florida', 'USA', 'PUBLIC', 320, 'Keeping the reef-friendly community running.'),
@@ -87,10 +88,12 @@ INSERT INTO identity.profiles (user_id, first_name, last_name, city, state, coun
             (3, 'Liam', 'Chen', 'Honolulu', 'Hawaii', 'USA', 'PUBLIC', 203, 'Wreck diving specialist and rescue diver.'),
             (4, 'Sara', 'Martinez', 'Key Largo', 'Florida', 'USA', 'PUBLIC', 98, 'Open water instructor, always chasing clear visibility.'),
             (5, 'Blue', 'Horizon', 'Key Largo', 'Florida', 'USA', 'PUBLIC', 0, 'Daily guided charters and equipment rental.'),
-            (6, 'Chinmaya', 'Bidkar', 'Phoenix', 'Arizona', 'USA', 'PUBLIC', 1, 'Passionate about life. Just getting started with diving!');
+            (6, 'Chinmaya', 'Bidkar', 'Phoenix', 'Arizona', 'USA', 'PUBLIC', 1, 'Passionate about life. Just getting started with diving!'),
+            (7, 'Joule', 'Thief', 'San Francisco', 'California', 'USA', 'PUBLIC', 45, 'I steal energy');
 
 -- UPDATE users SET avatar_url = 'profile-images/awkward-face.jpeg' WHERE user_id = 1;
-UPDATE identity.profiles SET profile_image_url = 'profile-images/greek-boy.jpeg' WHERE user_id = 1;
-UPDATE identity.profiles SET profile_image_url = 'profile-images/some-scenery.jpeg' WHERE user_id = 2;
-UPDATE identity.profiles SET profile_image_url = 'profile-images/awkward-face.jpeg' WHERE user_id = 3;
-UPDATE identity.profiles SET profile_image_url = 'profile-images/classy-chinmaya.jpeg' WHERE user_id = 6;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/greek-boy.jpeg' WHERE user_id = 1;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/some-scenery.jpeg' WHERE user_id = 2;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/awkward-face.jpeg' WHERE user_id = 3;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/classy-chinmaya.jpeg' WHERE user_id = 6;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/joule-thief-cat.jpeg' WHERE user_id = 7;
