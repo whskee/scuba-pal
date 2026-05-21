@@ -28,6 +28,7 @@ CREATE TABLE identity.profiles (
     profile_image_url VARCHAR(500),
     first_name        VARCHAR(80),
     last_name         VARCHAR(80),
+    gender            VARCHAR(20),
     phone_number      VARCHAR(40),
     city              VARCHAR(120),
     state             VARCHAR(120),
@@ -67,21 +68,29 @@ ON identity.password_reset_tokens (
 
 -- SEED DATA
 INSERT INTO identity.roles (role_name, role_description)
-     VALUES ('admin', 'Platform administrator'),
+     VALUES ('admin', 'Platform Administrator'),
             ('user', 'Default diver account'),
-            ('shop_owner', 'Dive shop manager'),
-            ('moderator', 'Community moderator');
+            ('shop_owner', 'Dive Shop Manager'),
+            ('moderator', 'Community Moderator');
 
 INSERT INTO identity.users (email, username, password_hash, role_id, email_verified_at, last_login_at)
      VALUES ('admin@scubapal.app', 'admin', '$2a$10$lm50JthtxmqRaf6ohIDU.eR9bx.RBC5Ex54UjMghUd43V/Am4DgC2', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('maya@scubapal.app', 'maya_dives', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('liam@scubapal.app', 'liam_ocean', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('sara@scubapal.app', 'sara_reef', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-            ('shop@bluehorizon.com', 'blue_horizon', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            ('shop@bluehorizon.com', 'blue_horizon', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+            ('chinmayabidkar@hotmail.com', 'cbidkar', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 INSERT INTO identity.profiles (user_id, first_name, last_name, city, state, country, visibility_status, dive_count, bio)
      VALUES (1, 'Admin', 'User', 'Miami', 'Florida', 'USA', 'PUBLIC', 320, 'Keeping the reef-friendly community running.'),
             (2, 'Maya', 'Patel', 'San Diego', 'California', 'USA', 'PUBLIC', 128, 'Underwater photographer and night diver.'),
             (3, 'Liam', 'Chen', 'Honolulu', 'Hawaii', 'USA', 'PUBLIC', 203, 'Wreck diving specialist and rescue diver.'),
             (4, 'Sara', 'Martinez', 'Key Largo', 'Florida', 'USA', 'PUBLIC', 98, 'Open water instructor, always chasing clear visibility.'),
-            (5, 'Blue', 'Horizon', 'Key Largo', 'Florida', 'USA', 'PUBLIC', 0, 'Daily guided charters and equipment rental.');
+            (5, 'Blue', 'Horizon', 'Key Largo', 'Florida', 'USA', 'PUBLIC', 0, 'Daily guided charters and equipment rental.'),
+            (6, 'Chinmaya', 'Bidkar', 'Phoenix', 'Arizona', 'USA', 'PUBLIC', 1, 'Passionate about life. Just getting started with diving!');
+
+-- UPDATE users SET avatar_url = 'profile-images/awkward-face.jpeg' WHERE user_id = 1;
+UPDATE identity.profiles SET profile_image_url = 'profile-images/greek-boy.jpeg' WHERE user_id = 1;
+UPDATE identity.profiles SET profile_image_url = 'profile-images/some-scenery.jpeg' WHERE user_id = 2;
+UPDATE identity.profiles SET profile_image_url = 'profile-images/awkward-face.jpeg' WHERE user_id = 3;
+UPDATE identity.profiles SET profile_image_url = 'profile-images/classy-chinmaya.jpeg' WHERE user_id = 6;
