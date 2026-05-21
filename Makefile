@@ -28,6 +28,11 @@ help:
 	@echo "  make test          Run all tests"
 	@echo "  make clean         Clean build artifacts"
 
+.PHONY: app-reset
+app-reset:
+	cd $(APP_DIR) && docker compose down -v
+	cd $(APP_DIR) && docker compose up -d
+
 .PHONY: app-dev
 app-dev:
 	cd $(APP_DIR) && SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
