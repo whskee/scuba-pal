@@ -9,7 +9,8 @@ DOCS_DIR := docs
 help:
 	@echo "ScubaPal commands:"
 	@echo ""
-	@echo "  make app-dev       Run Spring Boot App"
+	@echo "  make app-dev       Run Spring Boot App in development mode"
+	@echo "  make app-prod      Run Spring Boot App in production mode"
 	@echo "  make app-test      Run backend tests"
 	@echo "  make app-build     Build backend"
 	@echo "  make db-up         Start local database"
@@ -29,7 +30,11 @@ help:
 
 .PHONY: app-dev
 app-dev:
-	cd $(APP_DIR) && ./mvnw spring-boot:run
+	cd $(APP_DIR) && SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
+
+.PHONY: app-prod
+app-prod:
+	cd $(APP_DIR) && SPRING_PROFILES_ACTIVE=prod ./mvnw spring-boot:run
 
 .PHONY: app-test
 app-test:
