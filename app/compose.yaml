@@ -30,6 +30,7 @@ services:
 
 volumes:
   postgres_data:
+    name: scuba_pal_postgres_data
 
 networks:
   default:
