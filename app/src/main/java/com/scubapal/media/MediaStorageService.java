@@ -218,6 +218,9 @@ public class MediaStorageService {
         return value.replaceAll("^/+", "");
     }
 
-    public record StoredMedia(byte[] bytes, String contentType) {
+    public record StoredMedia(
+            byte[] bytes,
+            String contentType
+    ) {
     }
 }
