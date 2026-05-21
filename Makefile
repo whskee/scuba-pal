@@ -44,6 +44,10 @@ app-test:
 app-build:
 	cd $(APP_DIR) && ./mvnw clean package
 
+.PHONY: flyway-clean
+flyway-clean:
+	cd $(APP_DIR) && ./mvnw flyway:clean
+
 .PHONY: db-up
 db-up:
 	cd $(APP_DIR) && docker compose up -d

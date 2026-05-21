@@ -36,6 +36,9 @@ build:
 package:
 	./mvnw clean package
 
+flyway-clean:
+	SPRING_PROFILES_ACTIVE=dev ./mvnw flyway:clean
+
 clean:
 	./mvnw clean
 
