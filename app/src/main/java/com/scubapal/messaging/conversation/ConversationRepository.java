@@ -25,7 +25,7 @@ public interface ConversationRepository extends JpaRepository<Conversation, Long
         SELECT c FROM Conversation c
         WHERE c.userOne.id = :userId OR c.userTwo.id = :userId
         ORDER BY COALESCE(
-            (SELECT MAX(m.createdAt) FROM DirectMessage m WHERE m.conversation.id = c.id),
+            (SELECT MAX(m.createdAt) FROM Message m WHERE m.conversation.id = c.id),
             c.createdAt
         ) DESC
     """, countQuery = """

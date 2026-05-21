@@ -1,7 +1,7 @@
 import type {
   CommentView,
   ConversationView,
-  DirectMessageView,
+  MessageView,
   FeedPostView,
   FollowSummaryView,
   NotificationView,
@@ -188,7 +188,7 @@ export function toConversation(input: ConversationView): Conversation {
   };
 }
 
-export function toMessage(input: DirectMessageView): Message {
+export function toMessage(input: MessageView): Message {
   return {
     id: input.messageId ?? `${input.senderUserId ?? "unknown"}-${input.createdAt ?? Date.now()}`,
     senderId: input.senderUserId ?? 0,

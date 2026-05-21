@@ -12,20 +12,20 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface DirectMessageRepository extends JpaRepository<DirectMessage, Long> {
+public interface MessageRepository extends JpaRepository<Message, Long> {
     @Query("""
-        SELECT m FROM DirectMessage m
+        SELECT m FROM Message m
         JOIN FETCH m.sender
         WHERE m.conversation.id = :conversationId
         ORDER BY m.createdAt ASC
     """)
-    List<DirectMessage> findByConversationIdOrderByCreatedAtAsc(Long conversationId);
+    List<Message> findByConversationIdOrderByCreatedAtAsc(Long conversationId);
 
     @EntityGraph(attributePaths = "sender")
-    Page<DirectMessage> findByConversationIdOrderByCreatedAtAsc(Long conversationId, Pageable pageable);
+    Page<Message> findByConversationIdOrderByCreatedAtAsc(Long conversationId, Pageable pageable);
 
     @Query("""
-        SELECT COUNT(m) FROM DirectMessage m
+        SELECT COUNT(m) FROM Message m
         WHERE m.conversation.id = :conversationId
           AND m.sender.id <> :userId
           AND m.readAt IS NULL
@@ -33,7 +33,7 @@ public interface DirectMessageRepository extends JpaRepository<DirectMessage, Lo
     long countUnreadInConversation(@Param("conversationId") Long conversationId, @Param("userId") Long userId);
 
     @Query("""
-        SELECT COUNT(m) FROM DirectMessage m
+        SELECT COUNT(m) FROM Message m
         WHERE (m.conversation.userOne.id = :userId OR m.conversation.userTwo.id = :userId)
           AND m.sender.id <> :userId
           AND m.readAt IS NULL
@@ -42,7 +42,7 @@ public interface DirectMessageRepository extends JpaRepository<DirectMessage, Lo
 
     @Modifying
     @Query("""
-        UPDATE DirectMessage m
+        UPDATE Message m
         SET m.readAt = :readAt
         WHERE m.conversation.id = :conversationId
           AND m.sender.id <> :readerId
@@ -50,5 +50,5 @@ public interface DirectMessageRepository extends JpaRepository<DirectMessage, Lo
     """)
     int markConversationMessagesRead(@Param("conversationId") Long conversationId, @Param("readerId") Long readerId, @Param("readAt") LocalDateTime readAt);
 
-    Optional<DirectMessage> findTopByConversationIdOrderByCreatedAtDesc(Long conversationId);
+    Optional<Message> findTopByConversationIdOrderByCreatedAtDesc(Long conversationId);
 }

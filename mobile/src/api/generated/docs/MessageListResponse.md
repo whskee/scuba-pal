@@ -1,19 +1,19 @@
-# DirectMessageListResponse
+# MessageListResponse
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**messages** | [**Array&lt;DirectMessageView&gt;**](DirectMessageView.md) |  | [optional] [default to undefined]
+**messages** | [**Array&lt;MessageView&gt;**](MessageView.md) |  | [optional] [default to undefined]
 **page** | [**PageMetaResponse**](PageMetaResponse.md) |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { DirectMessageListResponse } from './api';
+import { MessageListResponse } from './api';
 
-const instance: DirectMessageListResponse = {
+const instance: MessageListResponse = {
     messages,
     page,
 };

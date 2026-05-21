@@ -26,7 +26,7 @@ TableGroup "social" {
 
 TableGroup "messaging" {
   "messaging"."conversations"
-  "messaging"."direct_messages"
+  "messaging"."messages"
 }
 
 DiagramView identity_view {
@@ -220,8 +220,8 @@ Table "messaging"."conversations" {
   }
 }
 
-Table "messaging"."direct_messages" {
-  "direct_message_id" int8 [pk, not null, increment]
+Table "messaging"."messages" {
+  "message_id" int8 [pk, not null, increment]
   "conversation_id" int8 [not null]
   "sender_user_id" int8 [not null]
   "message_text" varchar(1000) [not null]
@@ -229,8 +229,8 @@ Table "messaging"."direct_messages" {
   "read_at" timestamp
 
   Indexes {
-    conversation_id [type: btree, name: "idx_direct_messages_conversation"]
-    (conversation_id, sender_user_id, read_at) [type: btree, name: "idx_direct_messages_unread"]
+    conversation_id [type: btree, name: "idx_messages_conversation"]
+    (conversation_id, sender_user_id, read_at) [type: btree, name: "idx_messages_unread"]
   }
 }
 
@@ -335,9 +335,9 @@ Ref "conversations_user_one_id_fkey":"identity"."users"."user_id" < "messaging".
 
 Ref "conversations_user_two_id_fkey":"identity"."users"."user_id" < "messaging"."conversations"."user_two_id"
 
-Ref "direct_messages_conversation_id_fkey":"messaging"."conversations"."conversation_id" < "messaging"."direct_messages"."conversation_id"
+Ref "messages_conversation_id_fkey":"messaging"."conversations"."conversation_id" < "messaging"."messages"."conversation_id"
 
-Ref "direct_messages_sender_user_id_fkey":"identity"."users"."user_id" < "messaging"."direct_messages"."sender_user_id"
+Ref "messages_sender_user_id_fkey":"identity"."users"."user_id" < "messaging"."messages"."sender_user_id"
 
 Ref "notifications_user_id_fkey":"identity"."users"."user_id" < "notification"."notifications"."user_id"
 

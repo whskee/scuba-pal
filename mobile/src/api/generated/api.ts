@@ -104,19 +104,6 @@ export const CreatePostRequestVisibilityStatusEnum = {
 
 export type CreatePostRequestVisibilityStatusEnum = typeof CreatePostRequestVisibilityStatusEnum[keyof typeof CreatePostRequestVisibilityStatusEnum];
 
-export interface DirectMessageListResponse {
-    'messages'?: Array<DirectMessageView>;
-    'page'?: PageMetaResponse;
-}
-export interface DirectMessageView {
-    'messageId'?: number;
-    'senderUserId'?: number;
-    'senderUsername'?: string;
-    'messageText'?: string;
-    'createdAt'?: string;
-    'readAt'?: string;
-    'sentByCurrentUser'?: boolean;
-}
 export interface DiveLocationResponse {
     'locationId'?: number;
     'locationName'?: string;
@@ -180,8 +167,21 @@ export interface MediaUploadResponse {
     'expiresAt'?: string;
     'maxBytes'?: number;
 }
+export interface MessageListResponse {
+    'messages'?: Array<MessageView>;
+    'page'?: PageMetaResponse;
+}
 export interface MessageResponse {
     'message'?: string;
+}
+export interface MessageView {
+    'messageId'?: number;
+    'senderUserId'?: number;
+    'senderUsername'?: string;
+    'messageText'?: string;
+    'createdAt'?: string;
+    'readAt'?: string;
+    'sentByCurrentUser'?: boolean;
 }
 export interface NotificationListResponse {
     'notifications'?: Array<NotificationView>;
@@ -2111,7 +2111,7 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async messages(conversationId: number, page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DirectMessageListResponse>> {
+        async messages(conversationId: number, page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageListResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.messages(conversationId, page, size, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MessagingApi.messages']?.[localVarOperationServerIndex]?.url;
@@ -2183,7 +2183,7 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        messages(conversationId: number, page?: number, size?: number, options?: RawAxiosRequestConfig): AxiosPromise<DirectMessageListResponse> {
+        messages(conversationId: number, page?: number, size?: number, options?: RawAxiosRequestConfig): AxiosPromise<MessageListResponse> {
             return localVarFp.messages(conversationId, page, size, options).then((request) => request(axios, basePath));
         },
         /**

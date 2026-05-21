@@ -15,9 +15,9 @@ import com.scubapal.shared.domain.CreatedEntity;
 @Setter
 @NoArgsConstructor
 @Entity
-@AttributeOverride(name = "id", column = @Column(name = "direct_message_id"))
-@Table(schema = "messaging", name = "direct_messages")
-public class DirectMessage extends CreatedEntity {
+@AttributeOverride(name = "id", column = @Column(name = "message_id"))
+@Table(schema = "messaging", name = "messages")
+public class Message extends CreatedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "conversation_id", nullable = false)

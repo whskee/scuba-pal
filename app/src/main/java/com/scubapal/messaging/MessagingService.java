@@ -10,9 +10,9 @@ import com.scubapal.identity.user.UserRepository;
 import com.scubapal.messaging.conversation.Conversation;
 import com.scubapal.messaging.conversation.ConversationRepository;
 import com.scubapal.messaging.conversation.ConversationView;
-import com.scubapal.messaging.message.DirectMessage;
-import com.scubapal.messaging.message.DirectMessageRepository;
-import com.scubapal.messaging.message.DirectMessageView;
+import com.scubapal.messaging.message.Message;
+import com.scubapal.messaging.message.MessageRepository;
+import com.scubapal.messaging.message.MessageView;
 import com.scubapal.notification.NotificationService;
 import com.scubapal.shared.exception.ResourceNotFoundException;
 
@@ -22,16 +22,16 @@ import java.util.List;
 @Service
 public class MessagingService {
         private final ConversationRepository conversationRepository;
-        private final DirectMessageRepository directMessageRepository;
+        private final MessageRepository messageRepository;
         private final UserRepository userRepository;
         private final NotificationService notificationService;
 
         public MessagingService(ConversationRepository conversationRepository,
-                        DirectMessageRepository directMessageRepository,
-                        UserRepository userRepository,
-                        NotificationService notificationService) {
+                                MessageRepository messageRepository,
+                                UserRepository userRepository,
+                                NotificationService notificationService) {
                 this.conversationRepository = conversationRepository;
-                this.directMessageRepository = directMessageRepository;
+                this.messageRepository = messageRepository;
                 this.userRepository = userRepository;
                 this.notificationService = notificationService;
         }
@@ -53,7 +53,7 @@ public class MessagingService {
         public long countUnreadMessages(String username) {
                 User me = userRepository.findByUsername(username)
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-                return directMessageRepository.countUnreadForUser(me.getId());
+                return messageRepository.countUnreadForUser(me.getId());
         }
 
         @Transactional
@@ -85,20 +85,20 @@ public class MessagingService {
         }
 
         @Transactional
-        public List<DirectMessageView> getMessages(String username, Long conversationId) {
+        public List<MessageView> getMessages(String username, Long conversationId) {
                 return getMessages(username, conversationId, Pageable.ofSize(50)).getContent();
         }
 
         @Transactional
-        public Page<DirectMessageView> getMessages(String username, Long conversationId, Pageable pageable) {
+        public Page<MessageView> getMessages(String username, Long conversationId, Pageable pageable) {
                 markConversationRead(username, conversationId);
                 User me = userRepository.findByUsername(username)
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
                 Conversation conversation = conversationRepository.findById(conversationId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found"));
                 ensureParticipant(conversation, me.getId());
-                return directMessageRepository.findByConversationIdOrderByCreatedAtAsc(conversationId, pageable)
-                                .map(m -> new DirectMessageView(m.getId(), m.getSender().getId(),
+                return messageRepository.findByConversationIdOrderByCreatedAtAsc(conversationId, pageable)
+                                .map(m -> new MessageView(m.getId(), m.getSender().getId(),
                                                 m.getSender().getUsername(),
                                                 m.getMessageText(), m.getCreatedAt(), m.getReadAt(),
                                                 m.getSender().getId().equals(me.getId())));
@@ -111,7 +111,7 @@ public class MessagingService {
                 Conversation conversation = conversationRepository.findById(conversationId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found"));
                 ensureParticipant(conversation, me.getId());
-                directMessageRepository.markConversationMessagesRead(conversationId, me.getId(), LocalDateTime.now());
+                messageRepository.markConversationMessagesRead(conversationId, me.getId(), LocalDateTime.now());
         }
 
         @Transactional
@@ -123,12 +123,13 @@ public class MessagingService {
                 Conversation conversation = conversationRepository.findById(conversationId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found"));
                 ensureParticipant(conversation, me.getId());
-                DirectMessage message = new DirectMessage();
+                Message message = new Message();
                 message.setConversation(conversation);
                 message.setSender(me);
                 message.setMessageText(messageText.trim());
-                directMessageRepository.save(message);
-                User receiver = conversation.getUserOne().getId().equals(me.getId()) ? conversation.getUserTwo()
+                messageRepository.save(message);
+                User receiver = conversation.getUserOne().getId().equals(me.getId())
+                                ? conversation.getUserTwo()
                                 : conversation.getUserOne();
                 notificationService.createForUser(receiver, "New message", me.getUsername() + " sent you a message.");
         }
@@ -142,13 +143,13 @@ public class MessagingService {
         private ConversationView toConversationView(Conversation c, Long meId) {
                 User other = c.getUserOne().getId().equals(meId) ? c.getUserTwo() : c.getUserOne();
                 String initial = other.getUsername().substring(0, 1).toUpperCase();
-                long unread = directMessageRepository.countUnreadInConversation(c.getId(), meId);
-                var latestMessage = directMessageRepository.findTopByConversationIdOrderByCreatedAtDesc(c.getId());
+                long unread = messageRepository.countUnreadInConversation(c.getId(), meId);
+                var latestMessage = messageRepository.findTopByConversationIdOrderByCreatedAtDesc(c.getId());
                 String preview = latestMessage
-                                .map(DirectMessage::getMessageText)
+                                .map(Message::getMessageText)
                                 .map(text -> text.length() > 90 ? text.substring(0, 90) + "..." : text)
                                 .orElse("No messages yet");
-                LocalDateTime updatedAt = latestMessage.map(DirectMessage::getCreatedAt).orElse(c.getCreatedAt());
+                LocalDateTime updatedAt = latestMessage.map(Message::getCreatedAt).orElse(c.getCreatedAt());
                 return new ConversationView(c.getId(), other.getId(), other.getUsername(), initial, unread, preview,
                                 updatedAt);
         }

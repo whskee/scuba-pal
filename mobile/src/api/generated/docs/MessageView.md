@@ -1,4 +1,4 @@
-# DirectMessageView
+# MessageView
 
 
 ## Properties
@@ -16,9 +16,9 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { DirectMessageView } from './api';
+import { MessageView } from './api';
 
-const instance: DirectMessageView = {
+const instance: MessageView = {
     messageId,
     senderUserId,
     senderUsername,

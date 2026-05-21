@@ -13,8 +13,8 @@ import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.messaging.conversation.Conversation;
 import com.scubapal.messaging.conversation.ConversationRepository;
-import com.scubapal.messaging.message.DirectMessage;
-import com.scubapal.messaging.message.DirectMessageRepository;
+import com.scubapal.messaging.message.Message;
+import com.scubapal.messaging.message.MessageRepository;
 import com.scubapal.notification.NotificationService;
 
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 class MessagingServiceTest {
 
     @Mock ConversationRepository conversationRepository;
-    @Mock DirectMessageRepository directMessageRepository;
+    @Mock MessageRepository messageRepository;
     @Mock UserRepository userRepository;
     @Mock NotificationService notificationService;
     @InjectMocks MessagingService messagingService;
@@ -44,7 +44,7 @@ class MessagingServiceTest {
 
         messagingService.sendMessage("dana", 10L, "  hey there  ");
 
-        verify(directMessageRepository).save(argThat(message ->
+        verify(messageRepository).save(argThat(message ->
                 message.getConversation().equals(conversation)
                         && message.getSender().equals(dana)
                         && message.getMessageText().equals("hey there")
@@ -57,15 +57,15 @@ class MessagingServiceTest {
         User dana = user(1L, "dana");
         User kai = user(2L, "kai");
         Conversation conversation = conversation(10L, dana, kai);
-        DirectMessage unreadFromKai = message(100L, conversation, kai, "hello", null);
-        DirectMessage readFromDana = message(101L, conversation, dana, "yo", LocalDateTime.now());
+        Message unreadFromKai = message(100L, conversation, kai, "hello", null);
+        Message readFromDana = message(101L, conversation, dana, "yo", LocalDateTime.now());
         when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
         when(conversationRepository.findById(10L)).thenReturn(Optional.of(conversation));
-        when(directMessageRepository.findByConversationIdOrderByCreatedAtAsc(eq(10L), any())).thenReturn(new PageImpl<>(List.of(unreadFromKai, readFromDana)));
+        when(messageRepository.findByConversationIdOrderByCreatedAtAsc(eq(10L), any())).thenReturn(new PageImpl<>(List.of(unreadFromKai, readFromDana)));
 
         var page = messagingService.getMessages("dana", 10L, PageRequest.of(0, 50));
 
-        verify(directMessageRepository).markConversationMessagesRead(eq(10L), eq(1L), any(LocalDateTime.class));
+        verify(messageRepository).markConversationMessagesRead(eq(10L), eq(1L), any(LocalDateTime.class));
         assertEquals(2, page.getTotalElements());
         assertFalse(page.getContent().get(0).sentByCurrentUser());
         assertTrue(page.getContent().get(1).sentByCurrentUser());
@@ -76,7 +76,7 @@ class MessagingServiceTest {
     void countUnreadMessagesDelegatesToRepositoryForCurrentUser() {
         User dana = user(1L, "dana");
         when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
-        when(directMessageRepository.countUnreadForUser(1L)).thenReturn(7L);
+        when(messageRepository.countUnreadForUser(1L)).thenReturn(7L);
 
         long unread = messagingService.countUnreadMessages("dana");
 
@@ -105,8 +105,8 @@ class MessagingServiceTest {
         return conversation;
     }
 
-    private static DirectMessage message(Long id, Conversation conversation, User sender, String text, LocalDateTime readAt) {
-        DirectMessage message = new DirectMessage();
+    private static Message message(Long id, Conversation conversation, User sender, String text, LocalDateTime readAt) {
+        Message message = new Message();
         message.setId(id);
         message.setConversation(conversation);
         message.setSender(sender);

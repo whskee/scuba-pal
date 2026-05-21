@@ -119,7 +119,7 @@ const { status, data } = await apiInstance.markRead2(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **messages**
-> DirectMessageListResponse messages()
+> MessageListResponse messages()
 
 Returns paged direct messages for a conversation and marks unread items as read.
 
@@ -156,7 +156,7 @@ const { status, data } = await apiInstance.messages(
 
 ### Return type
 
-**DirectMessageListResponse**
+**MessageListResponse**
 
 ### Authorization
 

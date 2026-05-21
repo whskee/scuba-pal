@@ -9,8 +9,8 @@ CREATE TABLE messaging.conversations (
     CONSTRAINT conversations_not_self CHECK (user_one_id <> user_two_id)
 );
 
-CREATE TABLE IF NOT EXISTS messaging.direct_messages (
-    direct_message_id BIGSERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS messaging.messages (
+    message_id BIGSERIAL PRIMARY KEY,
     conversation_id   BIGINT NOT NULL REFERENCES messaging.conversations(conversation_id),
     sender_user_id    BIGINT NOT NULL REFERENCES identity.users(user_id),
     message_text      VARCHAR(1000) NOT NULL,
@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS messaging.direct_messages (
 
 CREATE INDEX IF NOT EXISTS idx_conversations_user_one ON messaging.conversations(user_one_id);
 CREATE INDEX IF NOT EXISTS idx_conversations_user_two ON messaging.conversations(user_two_id);
-CREATE INDEX IF NOT EXISTS idx_direct_messages_conversation ON messaging.direct_messages(conversation_id);
-CREATE INDEX IF NOT EXISTS idx_direct_messages_unread ON messaging.direct_messages(conversation_id, sender_user_id, read_at);
+CREATE INDEX IF NOT EXISTS idx_messages_conversation ON messaging.messages(conversation_id);
+CREATE INDEX IF NOT EXISTS idx_messages_unread ON messaging.messages(conversation_id, sender_user_id, read_at);

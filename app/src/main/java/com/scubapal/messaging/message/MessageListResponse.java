@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.scubapal.shared.api.PageMetaResponse;
 
-public record DirectMessageListResponse(
-        List<DirectMessageView> messages,
+public record MessageListResponse(
+        List<MessageView> messages,
         PageMetaResponse page
 ) {
 }

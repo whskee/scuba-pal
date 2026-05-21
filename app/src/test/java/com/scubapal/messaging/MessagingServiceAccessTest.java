@@ -10,7 +10,7 @@ import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.messaging.conversation.Conversation;
 import com.scubapal.messaging.conversation.ConversationRepository;
-import com.scubapal.messaging.message.DirectMessageRepository;
+import com.scubapal.messaging.message.MessageRepository;
 import com.scubapal.notification.NotificationService;
 import com.scubapal.shared.exception.ResourceNotFoundException;
 
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class MessagingServiceAccessTest {
     @Mock ConversationRepository conversationRepository;
-    @Mock DirectMessageRepository directMessageRepository;
+    @Mock MessageRepository messageRepository;
     @Mock UserRepository userRepository;
     @Mock NotificationService notificationService;
     @InjectMocks MessagingService messagingService;

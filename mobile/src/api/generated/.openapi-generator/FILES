@@ -15,8 +15,6 @@ docs/CreateCurrentUserPostRequest.md
 docs/CreateLocationRequest.md
 docs/CreateMediaUploadRequest.md
 docs/CreatePostRequest.md
-docs/DirectMessageListResponse.md
-docs/DirectMessageView.md
 docs/DiveLocationResponse.md
 docs/DiveLocationsApi.md
 docs/FeedPostView.md
@@ -27,7 +25,9 @@ docs/LearnArticleResponse.md
 docs/LoginRequest.md
 docs/MediaApi.md
 docs/MediaUploadResponse.md
+docs/MessageListResponse.md
 docs/MessageResponse.md
+docs/MessageView.md
 docs/MessagingApi.md
 docs/NotificationListResponse.md
 docs/NotificationView.md

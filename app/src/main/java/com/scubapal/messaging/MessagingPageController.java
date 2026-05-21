@@ -21,11 +21,10 @@ public class MessagingPageController {
     }
 
     @GetMapping("/messages")
-    public String messages(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size,
-            Model model,
-            Authentication auth) {
+    public String messages(@RequestParam(defaultValue = "0") int page,
+                           @RequestParam(defaultValue = "20") int size,
+                           Model model,
+                           Authentication auth) {
         var conversationPage = messagingService.getConversations(auth.getName(), pageable(page, size));
         model.addAttribute("conversationPage", conversationPage);
         model.addAttribute("conversations", conversationPage.getContent());
@@ -33,12 +32,11 @@ public class MessagingPageController {
     }
 
     @GetMapping("/messages/{conversationId}")
-    public String conversation(
-            @PathVariable Long conversationId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size,
-            Model model,
-            Authentication auth) {
+    public String conversation(@PathVariable Long conversationId,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "50") int size,
+                               Model model,
+                               Authentication auth) {
         var messagePage = messagingService.getMessages(auth.getName(), conversationId, pageable(page, size));
         model.addAttribute("conversation", messagingService.getConversation(auth.getName(), conversationId));
         model.addAttribute("messagePage", messagePage);
@@ -48,10 +46,9 @@ public class MessagingPageController {
     }
 
     @PostMapping("/messages/{conversationId}")
-    public String sendMessage(
-            @PathVariable Long conversationId,
-            @RequestParam String messageText,
-            Authentication auth) {
+    public String sendMessage(@PathVariable Long conversationId,
+                              @RequestParam String messageText,
+                              Authentication auth) {
         messagingService.sendMessage(auth.getName(), conversationId, messageText);
         return "redirect:/messages/" + conversationId;
     }
