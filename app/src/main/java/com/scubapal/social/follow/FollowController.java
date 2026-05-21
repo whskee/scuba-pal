@@ -45,7 +45,6 @@ public class FollowController {
         return followService.unfollow(authentication.getName(), userId);
     }
 
-
     @GetMapping("/{userId}/follow-summary")
     @Operation(summary = "Get follow summary", description = "Returns follower/following counts and whether the current user follows the target user.")
     @ApiResponses({

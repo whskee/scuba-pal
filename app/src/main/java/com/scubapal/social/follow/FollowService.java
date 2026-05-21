@@ -37,7 +37,8 @@ public class FollowService {
     public FollowSummaryView follow(String username, Long targetUserId) {
         User me = currentUser(username);
         User target = userRepository.findByIdWithRole(targetUserId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        if (me.getId().equals(targetUserId)) throw new IllegalArgumentException("You cannot follow yourself.");
+        if (me.getId().equals(targetUserId))
+            throw new IllegalArgumentException("You cannot follow yourself.");
         if (!userFollowRepository.existsByFollowerIdAndFollowedId(me.getId(), targetUserId)) {
             UserFollow follow = new UserFollow();
             follow.setFollower(me);
