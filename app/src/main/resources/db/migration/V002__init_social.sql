@@ -60,18 +60,42 @@ INSERT INTO social.user_follows (follower_user_id, followed_user_id)
      VALUES (2, 3),
             (2, 4),
             (3, 2),
-            (4, 2);
+            (4, 2),
+            (1, 6),
+            (2, 6),
+            (3, 6),
+            (4, 6),
+            (5, 6);
 
 INSERT INTO social.posts (user_id, caption, post_type, visibility_status)
      VALUES (2, 'Morning dive at La Jolla was unreal. Leopard sharks and crystal visibility.', 'TEXT', 'PUBLIC'),
             (3, 'Logged my 200th dive today at Molokini Crater. Still speechless.', 'TEXT', 'PUBLIC'),
-            (4, 'Anyone heading to Key Largo this weekend for wreck dives?', 'TEXT', 'PUBLIC');
+            (4, 'Anyone heading to Key Largo this weekend for wreck dives?', 'TEXT', 'PUBLIC'),
+            (6, 'Sometimes, I stare at rocks and wonder...', 'TEXT', 'PUBLIC'),
+            (6, 'The secret to happiness is loving everything you hate.', 'TEXT', 'PUBLIC');
+
+INSERT INTO social.post_media (post_id, media_url, media_type)
+     VALUES (1, '/media/post-images/la-jolla-dive.jpeg', 'IMAGE'),
+            (2, '/media/post-images/molokini-crater-whale.jpeg', 'IMAGE'),
+            (3, '/media/post-images/key-largo-wreck.jpeg', 'IMAGE'),
+            (4, '/media/post-images/colorful-rock.jpg', 'IMAGE'),
+            (5, '/media/post-images/happiness-pills.jpeg', 'IMAGE');
 
 INSERT INTO social.post_likes (post_id, user_id)
      VALUES (1, 3),
             (1, 4),
             (2, 2),
-            (3, 2);
+            (3, 2),
+            (4, 1),
+            (4, 2),
+            (4, 3),
+            (4, 4),
+            (4, 5),
+            (5, 1),
+            (5, 2),
+            (5, 3),
+            (5, 4),
+            (5, 5);
 
 INSERT INTO social.post_comments (post_id, user_id, comment_text)
      VALUES (1, 3, 'That visibility report just made my day.'),
