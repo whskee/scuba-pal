@@ -17,38 +17,33 @@ Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Acce
 
 Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf web frontend, REST APIs, authentication, profiles, posts, messaging, notifications, dive locations, PostgreSQL/Flyway migrations, and OpenAPI docs for native/mobile clients.
 
-<!-- - Java 25
-- Spring Boot 3.3
-- Spring Web, Data JPA, Security, Validation
-- Flyway migrations
-- REST, OpenAPI, Swagger UI
-- PostgreSQL
-- Thymeleaf frontend
-- TypeScript OpenAPI client generation
-- Local Infra - Docker, pgAdmin, Mailpit
-- AWS S3, RDS, EC2 -->
+
+|                Domain                |                              Core                              |           Tools           |
+| :----------------------------------: | :------------------------------------------------------------: | :-----------------------: |
+| [Documentation](https://diataxis.fr) |                        Astro Starlight                         |                           |
+|             Local Infra              |                    Mailpit, Docker, pgAdmin                    |                           |
+|                 Auth                 |                  Spring Security, Validation                   |                           |
+|               Storage                |                             AWS S3                             |                           |
+|               Database               |             PostgreSQL, Flyway migrations, AWS RDS             | pgAdmin4, dbdiagram, DBML |
+|               Backend                |           Java 25, Spring Boot 3.3, Spring Security,           |                           |
+|   [API](https://www.openapis.org)    | REST, OpenAPI, [Swagger UI](https://swagger.io/specification/) |                           |
+|                 Web                  |                     Thymeleaf, Spring Web                      |                           |
+|      [Mobile](https://expo.dev)      | React Native Expo (TypeScript OpenAPI client generation Axios) |     OpenAPI Generator     |
+|             Local infra              |                    Docker, pgAdmin, Mailpit                    |                           |
+|   [Cloud](https://aws.amazon.com/)   |                        AWS S3, RDS, EC2                        |                           |
+|    [CI/CD](https://12factor.net)     |      GitHub Workflows, [Fastlane](https://fastlane.tools)      |                           |
 
 
-|                Domain                |                                   Core                                    |        Tools        |
-| :----------------------------------: | :-----------------------------------------------------------------------: | :-----------------: |
-| [Documentation](https://diataxis.fr) |                              Astro Starlight                              |                     |
-|               Database               |                       DBML, PostgreSQL, Flyway, S3                        | pgAdmin4, dbdiagram |
-|               Backend                | Java 25, Spring Boot 3.3, Spring Security, Data JPA, Security, Validation |                     |
-|   [API](https://www.openapis.org)    |      REST, OpenAPI, [Swagger UI](https://swagger.io/specification/)       |                     |
-|                 Web                  |                                 Thymeleaf                                 |                     |
-|      [Mobile](https://expo.dev)      |      React Native Expo (TypeScript Axios OpenAPI client generation)       |  OpenAPI Generator  |
-|             Local infra              |                         Docker, pgAdmin, Mailpit                          |                     |
-|   [Cloud](https://aws.amazon.com/)   |                             AWS S3, RDS, EC2                              |                     |
-|    [CI/CD](https://12factor.net)     |           GitHub Workflows, [Fastlane](https://fastlane.tools)            |                     |
 
+Backend
 
-<!-- Backend: Java 25, Spring Boot 3.3, Spring Security, Spring Data JPA
-Database: PostgreSQL, Flyway
-Web: Thymeleaf
-API: REST, OpenAPI, Swagger UI
-Mobile-ready: TypeScript OpenAPI client generation
-Local infra: Docker, pgAdmin, Mailpit
-Cloud target: AWS S3, RDS, EC2 -->
+| Domain  | Framework                   |
+| ------- | --------------------------- |
+| Auth    | Spring Security, Validation |
+| ORM     | Spring Data JPA             |
+| Storage | AWS S3                      |
+| Mailing | Mailpit Local               |
+|         |                             |
 
 ---
 
