@@ -50,20 +50,9 @@ CREATE TABLE identity.password_reset_tokens (
     created_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_profiles_city
-ON identity.profiles (
-    city
-);
-
-CREATE INDEX idx_password_reset_tokens_token
-ON identity.password_reset_tokens (
-    token
-);
-
-CREATE INDEX idx_password_reset_tokens_user_id
-ON identity.password_reset_tokens (
-    user_id
-);
+CREATE INDEX idx_profiles_city ON identity.profiles(city);
+CREATE INDEX idx_password_reset_tokens_token ON identity.password_reset_tokens(token);
+CREATE INDEX idx_password_reset_tokens_user_id ON identity.password_reset_tokens (user_id);
 
 
 -- SEED DATA
