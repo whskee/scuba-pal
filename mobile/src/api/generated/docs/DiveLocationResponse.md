@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **locationId** | **number** |  | [optional] [default to undefined]
 **locationName** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
+**imageUrl** | **string** |  | [optional] [default to undefined]
 **city** | **string** |  | [optional] [default to undefined]
 **state** | **string** |  | [optional] [default to undefined]
 **country** | **string** |  | [optional] [default to undefined]
@@ -25,6 +26,7 @@ const instance: DiveLocationResponse = {
     locationId,
     locationName,
     description,
+    imageUrl,
     city,
     state,
     country,

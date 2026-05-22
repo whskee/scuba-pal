@@ -40,6 +40,7 @@ export function ConversationsScreen({ navigation }: any) {
   useFocusEffect(
     React.useCallback(() => {
       qc.invalidateQueries({ queryKey: ["conversations"] });
+      qc.invalidateQueries({ queryKey: ["unreadMessages"] });
     }, [qc])
   );
 

@@ -16,6 +16,8 @@ docs/CreateLocationRequest.md
 docs/CreateMediaUploadRequest.md
 docs/DiveLocationResponse.md
 docs/DiveLocationsApi.md
+docs/DiveShopResponse.md
+docs/DiveShopsApi.md
 docs/FeedPostView.md
 docs/FollowSummaryView.md
 docs/FollowsApi.md

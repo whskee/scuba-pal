@@ -34,7 +34,12 @@ function initials(user?: User) {
 
 function Avatar({ user, size = 104, editable = false }: { user?: User; size?: number; editable?: boolean }) {
   const profileImageUrl = user?.profileImageUrl?.trim();
-  const hasImage = !!profileImageUrl;
+  const [failedUrl, setFailedUrl] = useState<string | undefined>();
+  const hasImage = !!profileImageUrl && failedUrl !== profileImageUrl;
+
+  useEffect(() => {
+    setFailedUrl(undefined);
+  }, [profileImageUrl]);
 
   return (
     <View
@@ -52,7 +57,11 @@ function Avatar({ user, size = 104, editable = false }: { user?: User; size?: nu
     >
       <View style={{ flex: 1, borderRadius: size / 2, backgroundColor: colors.background, padding: 3 }}>
         {hasImage ? (
-          <Image source={{ uri: profileImageUrl }} style={{ width: "100%", height: "100%", borderRadius: size / 2 }} />
+          <Image
+            source={{ uri: profileImageUrl }}
+            onError={() => setFailedUrl(profileImageUrl)}
+            style={{ width: "100%", height: "100%", borderRadius: size / 2 }}
+          />
         ) : (
           <View style={{ flex: 1, borderRadius: size / 2, backgroundColor: colors.surface2, alignItems: "center", justifyContent: "center" }}>
             <Text style={{ color: colors.text, fontSize: size * 0.32, fontWeight: "900" }}>{initials(user)}</Text>
@@ -88,6 +97,7 @@ function Stat({ value, label, onPress }: { value: number; label: string; onPress
 
 export function ProfileScreen({ route, navigation }: any) {
   const routeUserId = route.params?.userId;
+  const routeUser = route.params?.user as User | undefined;
   const currentUser = useAuthStore((s) => s.user);
   const updateStoredUser = useAuthStore((s) => s.updateUser);
   const logout = useAuthStore((s) => s.logout);
@@ -98,11 +108,14 @@ export function ProfileScreen({ route, navigation }: any) {
   const [form, setForm] = useState<ProfileForm>({ firstName: "", lastName: "", bio: "", profileImageUrl: "" });
   const [profileAsset, setProfileAsset] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const showBack = !mine;
+  const initialUser = routeUser ?? (mine ? currentUser : undefined);
 
   const query = useQuery({
     queryKey: ["profile", userId],
     queryFn: () => (mine ? profileApi.me() : profileApi.user(userId)),
     enabled: !!userId,
+    initialData: initialUser,
+    refetchOnMount: "always",
     retry: 1
   });
 
@@ -152,7 +165,9 @@ export function ProfileScreen({ route, navigation }: any) {
       setProfileAsset(null);
       setEditing(false);
       qc.setQueryData(["profile", userId], updated);
-      qc.invalidateQueries({ queryKey: ["profile", userId] });
+      qc.invalidateQueries({ queryKey: ["feed"] });
+      qc.invalidateQueries({ queryKey: ["search"] });
+      qc.invalidateQueries({ queryKey: ["userPosts", userId] });
     },
     onError: (error: any) => {
       Alert.alert("Could not update profile", error?.message ?? "Check the backend profile update endpoint.");

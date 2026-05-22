@@ -55,6 +55,7 @@ public class LocationController {
                 location.getId(),
                 location.getLocationName(),
                 location.getDescription(),
+                location.getImageUrl(),
                 location.getCity(),
                 location.getState(),
                 location.getCountry(),

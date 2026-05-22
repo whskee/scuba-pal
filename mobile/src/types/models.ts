@@ -1,6 +1,8 @@
 import type {
   CommentView,
   ConversationView,
+  DiveLocationResponse,
+  DiveShopResponse,
   MessageView,
   FeedPostView,
   FollowSummaryView,
@@ -13,19 +15,6 @@ import { env } from "@/config/env";
 import { normalizeApiDateString } from "@/utils/date";
 
 export type ID = string | number;
-
-const fallbackPostImages = [
-  "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200",
-  "https://images.unsplash.com/photo-1518877593221-1f28583780b4?w=1200",
-  "https://images.unsplash.com/photo-1580019542155-247062e19ce4?w=1200",
-  "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?w=1200"
-];
-
-export function fallbackPostImage(id: ID): string {
-  const numeric = typeof id === "number" ? id : Number.parseInt(String(id), 10);
-  const index = Number.isFinite(numeric) ? Math.abs(numeric) % fallbackPostImages.length : 0;
-  return fallbackPostImages[index];
-}
 
 function resolveMediaUrl(url?: string | null): string | undefined {
   if (!url?.trim()) return undefined;
@@ -51,6 +40,38 @@ export type User = {
   followersCount?: number;
   followingCount?: number;
   followedByMe?: boolean;
+};
+
+export type DiveLocation = {
+  id: ID;
+  name: string;
+  description?: string;
+  imageUrl?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  latitude?: number;
+  longitude?: number;
+  difficultyLevel?: string;
+  popularityScore?: number;
+};
+
+export type DiveShop = {
+  id: ID;
+  name: string;
+  description?: string;
+  imageUrl?: string;
+  phoneNumber?: string;
+  email?: string;
+  websiteUrl?: string;
+  streetAddress?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  latitude?: number;
+  longitude?: number;
+  locationId?: ID;
+  locationName?: string;
 };
 
 export type AuthResponse = {
@@ -102,6 +123,7 @@ export type Message = {
   id: ID;
   senderId: ID;
   receiverId?: ID;
+  senderProfileImageUrl?: string;
   body: string;
   createdAt: string;
   readAt?: string | null;
@@ -140,6 +162,42 @@ export function toUser(input?: UserView | ProfileResponse | null, follow?: Follo
   };
 }
 
+export function toDiveLocation(input: DiveLocationResponse): DiveLocation {
+  return {
+    id: input.locationId ?? input.locationName ?? 0,
+    name: input.locationName ?? "Dive location",
+    description: input.description,
+    imageUrl: resolveMediaUrl(input.imageUrl),
+    city: input.city,
+    state: input.state,
+    country: input.country,
+    latitude: input.latitude,
+    longitude: input.longitude,
+    difficultyLevel: input.difficultyLevel,
+    popularityScore: input.popularityScore
+  };
+}
+
+export function toDiveShop(input: DiveShopResponse): DiveShop {
+  return {
+    id: input.shopId ?? input.shopName ?? 0,
+    name: input.shopName ?? "Dive shop",
+    description: input.description,
+    imageUrl: resolveMediaUrl(input.imageUrl),
+    phoneNumber: input.phoneNumber,
+    email: input.email,
+    websiteUrl: input.websiteUrl,
+    streetAddress: input.streetAddress,
+    city: input.city,
+    state: input.state,
+    country: input.country,
+    latitude: input.latitude,
+    longitude: input.longitude,
+    locationId: input.locationId,
+    locationName: input.locationName
+  };
+}
+
 export function toComment(input?: CommentView | null): Comment {
   return {
     id: input?.commentId ?? `${input?.userId ?? "unknown"}-${input?.createdAt ?? Date.now()}`,
@@ -161,10 +219,11 @@ export function toPost(input: FeedPostView | PostDetailView): Post {
     id,
     author: {
       id: input.userId ?? 0,
-      username: input.username ?? "diver"
+      username: input.username ?? "diver",
+      profileImageUrl: resolveMediaUrl(input.authorProfileImageUrl)
     },
     content: input.caption ?? "",
-    imageUrl: imageUrl || fallbackPostImage(id),
+    imageUrl,
     mediaUrls: mediaUrls ?? (imageUrl ? [imageUrl] : []),
     createdAt: normalizeApiDateString(input.createdAt ?? new Date().toISOString()),
     likeCount: input.likes ?? 0,
@@ -180,7 +239,8 @@ export function toConversation(input: ConversationView): Conversation {
     id: input.conversationId ?? 0,
     participant: {
       id: otherUserId,
-      username: input.otherUsername ?? (input.otherInitial ? `diver-${input.otherInitial}` : "diver")
+      username: input.otherUsername ?? (input.otherInitial ? `diver-${input.otherInitial}` : "diver"),
+      profileImageUrl: resolveMediaUrl(input.otherProfileImageUrl)
     },
     lastMessage: input.lastMessagePreview ?? "No messages yet",
     unreadCount: input.unreadCount ?? 0,
@@ -192,6 +252,7 @@ export function toMessage(input: MessageView): Message {
   return {
     id: input.messageId ?? `${input.senderUserId ?? "unknown"}-${input.createdAt ?? Date.now()}`,
     senderId: input.senderUserId ?? 0,
+    senderProfileImageUrl: resolveMediaUrl(input.senderProfileImageUrl),
     body: input.messageText ?? "",
     createdAt: normalizeApiDateString(input.createdAt ?? new Date().toISOString()),
     readAt: input.readAt ? normalizeApiDateString(input.readAt) : input.readAt,

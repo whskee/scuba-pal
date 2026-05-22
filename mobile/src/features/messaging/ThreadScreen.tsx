@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, RefreshControl, SectionList, Text, View } from "react-native";
+import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, Pressable, RefreshControl, SectionList, Text, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -44,7 +44,14 @@ export function ThreadScreen({ route, navigation }: any) {
     retry: 1
   });
   const sections = useMemo(() => groupMessagesByLocalDate(query.data ?? []), [query.data]);
-  const readMutation = useMutation({ mutationFn: () => messagesApi.markRead(conversationId), onSuccess: () => qc.invalidateQueries({ queryKey: ["conversations"] }) });
+  const participantInitial = participant.username?.[0]?.toUpperCase() ?? "D";
+  const readMutation = useMutation({
+    mutationFn: () => messagesApi.markRead(conversationId),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["conversations"] });
+      qc.invalidateQueries({ queryKey: ["unreadMessages"] });
+    }
+  });
   const sendMutation = useMutation({
     mutationFn: () => messagesApi.send(conversationId, body.trim()),
     onMutate: async () => {
@@ -71,6 +78,7 @@ export function ThreadScreen({ route, navigation }: any) {
     onSettled: () => {
       qc.invalidateQueries({ queryKey: ["thread", conversationId] });
       qc.invalidateQueries({ queryKey: ["conversations"] });
+      qc.invalidateQueries({ queryKey: ["unreadMessages"] });
     }
   });
 
@@ -82,6 +90,7 @@ export function ThreadScreen({ route, navigation }: any) {
     useCallback(() => {
       qc.invalidateQueries({ queryKey: ["thread", conversationId] });
       qc.invalidateQueries({ queryKey: ["conversations"] });
+      qc.invalidateQueries({ queryKey: ["unreadMessages"] });
     }, [conversationId, qc])
   );
 
@@ -90,6 +99,7 @@ export function ThreadScreen({ route, navigation }: any) {
     try {
       await query.refetch();
       await qc.invalidateQueries({ queryKey: ["conversations"] });
+      await qc.invalidateQueries({ queryKey: ["unreadMessages"] });
     } finally {
       setRefreshing(false);
     }
@@ -117,6 +127,13 @@ export function ThreadScreen({ route, navigation }: any) {
           >
             <Ionicons name="chevron-back" size={24} color={colors.text} />
           </Pressable>
+          {participant.profileImageUrl ? (
+            <Image source={{ uri: participant.profileImageUrl }} style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: colors.surface2 }} />
+          ) : (
+            <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: colors.primary, alignItems: "center", justifyContent: "center" }}>
+              <Text style={{ color: colors.textDark, fontWeight: "900", fontSize: 16 }}>{participantInitial}</Text>
+            </View>
+          )}
           <View style={{ flex: 1 }}>
             <Text style={{ color: colors.text, fontSize: 22, fontWeight: "900" }} numberOfLines={1}>@{participant.username}</Text>
             <Text style={{ color: colors.muted, marginTop: 2 }}>Private conversation</Text>
@@ -144,27 +161,46 @@ export function ThreadScreen({ route, navigation }: any) {
           )}
           renderItem={({ item }) => {
             const mine = item.sentByCurrentUser ?? String(item.senderId) === String(user?.id);
+            const senderImage = item.senderProfileImageUrl || (!mine ? participant.profileImageUrl : undefined);
             return (
               <View
                 style={{
                   alignSelf: mine ? "flex-end" : "flex-start",
-                  backgroundColor: mine ? colors.primary : colors.surface,
-                  paddingHorizontal: 14,
-                  paddingVertical: 11,
-                  borderRadius: 22,
-                  borderBottomRightRadius: mine ? 7 : 22,
-                  borderBottomLeftRadius: mine ? 22 : 7,
+                  flexDirection: "row",
+                  alignItems: "flex-end",
+                  gap: 8,
                   marginBottom: 10,
                   maxWidth: "82%",
-                  borderColor: mine ? "transparent" : colors.border,
-                  borderWidth: mine ? 0 : 1
                 }}
               >
-                <Text style={{ color: mine ? colors.textDark : colors.text, fontSize: 15, lineHeight: 21 }}>{item.body}</Text>
-                <Text style={{ color: mine ? "rgba(16,32,51,0.68)" : colors.muted, fontSize: 11, marginTop: 6, fontWeight: "800", alignSelf: "flex-end" }}>{formatMessageTime(item.createdAt)}</Text>
-                {mine && item.readAt ? (
-                  <Text style={{ color: "rgba(16,32,51,0.68)", fontSize: 11, marginTop: 4, fontWeight: "800" }}>Read {formatMessageTime(item.readAt)}</Text>
+                {!mine ? (
+                  senderImage ? (
+                    <Image source={{ uri: senderImage }} style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: colors.surface2 }} />
+                  ) : (
+                    <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: colors.primary, alignItems: "center", justifyContent: "center" }}>
+                      <Text style={{ color: colors.textDark, fontWeight: "900", fontSize: 12 }}>{participantInitial}</Text>
+                    </View>
+                  )
                 ) : null}
+                <View
+                  style={{
+                    backgroundColor: mine ? colors.primary : colors.surface,
+                    paddingHorizontal: 14,
+                    paddingVertical: 11,
+                    borderRadius: 22,
+                    borderBottomRightRadius: mine ? 7 : 22,
+                    borderBottomLeftRadius: mine ? 22 : 7,
+                    borderColor: mine ? "transparent" : colors.border,
+                    borderWidth: mine ? 0 : 1,
+                    flexShrink: 1
+                  }}
+                >
+                  <Text style={{ color: mine ? colors.textDark : colors.text, fontSize: 15, lineHeight: 21 }}>{item.body}</Text>
+                  <Text style={{ color: mine ? "rgba(16,32,51,0.68)" : colors.muted, fontSize: 11, marginTop: 6, fontWeight: "800", alignSelf: "flex-end" }}>{formatMessageTime(item.createdAt)}</Text>
+                  {mine && item.readAt ? (
+                    <Text style={{ color: "rgba(16,32,51,0.68)", fontSize: 11, marginTop: 4, fontWeight: "800" }}>Read {formatMessageTime(item.readAt)}</Text>
+                  ) : null}
+                </View>
               </View>
             );
           }}

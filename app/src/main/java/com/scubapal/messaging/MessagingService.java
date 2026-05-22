@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scubapal.identity.profile.Profile;
+import com.scubapal.identity.profile.ProfileRepository;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.messaging.conversation.Conversation;
@@ -18,21 +20,27 @@ import com.scubapal.shared.exception.ResourceNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class MessagingService {
         private final ConversationRepository conversationRepository;
         private final MessageRepository messageRepository;
         private final UserRepository userRepository;
+        private final ProfileRepository profileRepository;
         private final NotificationService notificationService;
 
         public MessagingService(ConversationRepository conversationRepository,
                                 MessageRepository messageRepository,
                                 UserRepository userRepository,
+                                ProfileRepository profileRepository,
                                 NotificationService notificationService) {
                 this.conversationRepository = conversationRepository;
                 this.messageRepository = messageRepository;
                 this.userRepository = userRepository;
+                this.profileRepository = profileRepository;
                 this.notificationService = notificationService;
         }
 
@@ -45,8 +53,11 @@ public class MessagingService {
         public Page<ConversationView> getConversations(String username, Pageable pageable) {
                 User me = userRepository.findByUsername(username)
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-                return conversationRepository.findPageForUser(me.getId(), pageable)
-                                .map(c -> toConversationView(c, me.getId()));
+                Page<Conversation> conversations = conversationRepository.findPageForUser(me.getId(), pageable);
+                Map<Long, Profile> profilesByUserId = loadProfilesForUsers(conversations.getContent().stream()
+                                .map(c -> otherParticipant(c, me.getId()).getId())
+                                .toList());
+                return conversations.map(c -> toConversationView(c, me.getId(), profilesByUserId));
         }
 
         @Transactional(readOnly = true)
@@ -81,7 +92,8 @@ public class MessagingService {
                 Conversation c = conversationRepository.findById(conversationId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found"));
                 ensureParticipant(c, me.getId());
-                return toConversationView(c, me.getId());
+                Map<Long, Profile> profilesByUserId = loadProfilesForUsers(List.of(otherParticipant(c, me.getId()).getId()));
+                return toConversationView(c, me.getId(), profilesByUserId);
         }
 
         @Transactional
@@ -97,9 +109,14 @@ public class MessagingService {
                 Conversation conversation = conversationRepository.findById(conversationId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found"));
                 ensureParticipant(conversation, me.getId());
-                return messageRepository.findByConversationIdOrderByCreatedAtAsc(conversationId, pageable)
-                                .map(m -> new MessageView(m.getId(), m.getSender().getId(),
+                Page<Message> messages = messageRepository.findByConversationIdOrderByCreatedAtAsc(conversationId, pageable);
+                Map<Long, Profile> profilesByUserId = loadProfilesForUsers(messages.getContent().stream()
+                                .map(m -> m.getSender().getId())
+                                .distinct()
+                                .toList());
+                return messages.map(m -> new MessageView(m.getId(), m.getSender().getId(),
                                                 m.getSender().getUsername(),
+                                                profileImageUrl(profilesByUserId.get(m.getSender().getId())),
                                                 m.getMessageText(), m.getCreatedAt(), m.getReadAt(),
                                                 m.getSender().getId().equals(me.getId())));
         }
@@ -140,8 +157,12 @@ public class MessagingService {
                 }
         }
 
-        private ConversationView toConversationView(Conversation c, Long meId) {
-                User other = c.getUserOne().getId().equals(meId) ? c.getUserTwo() : c.getUserOne();
+        private User otherParticipant(Conversation c, Long meId) {
+                return c.getUserOne().getId().equals(meId) ? c.getUserTwo() : c.getUserOne();
+        }
+
+        private ConversationView toConversationView(Conversation c, Long meId, Map<Long, Profile> profilesByUserId) {
+                User other = otherParticipant(c, meId);
                 String initial = other.getUsername().substring(0, 1).toUpperCase();
                 long unread = messageRepository.countUnreadInConversation(c.getId(), meId);
                 var latestMessage = messageRepository.findTopByConversationIdOrderByCreatedAtDesc(c.getId());
@@ -150,7 +171,20 @@ public class MessagingService {
                                 .map(text -> text.length() > 90 ? text.substring(0, 90) + "..." : text)
                                 .orElse("No messages yet");
                 LocalDateTime updatedAt = latestMessage.map(Message::getCreatedAt).orElse(c.getCreatedAt());
-                return new ConversationView(c.getId(), other.getId(), other.getUsername(), initial, unread, preview,
-                                updatedAt);
+                return new ConversationView(c.getId(), other.getId(), other.getUsername(), initial,
+                                profileImageUrl(profilesByUserId.get(other.getId())), unread, preview, updatedAt);
+        }
+
+        private Map<Long, Profile> loadProfilesForUsers(List<Long> userIds) {
+                List<Long> distinctIds = userIds.stream().distinct().toList();
+                if (distinctIds.isEmpty()) {
+                        return Map.of();
+                }
+                return profileRepository.findAllByUserIdsWithUser(distinctIds).stream()
+                                .collect(Collectors.toMap(profile -> profile.getUser().getId(), Function.identity()));
+        }
+
+        private String profileImageUrl(Profile profile) {
+                return profile != null ? profile.getProfileImageUrl() : null;
         }
 }

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Alert, Text } from "react-native";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Screen } from "@/components/Screen";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
@@ -11,6 +11,7 @@ import { colors } from "@/theme/colors";
 export function RegisterScreen() {
   const [form, setForm] = useState({ username: "", email: "", password: "", firstName: "", lastName: "" });
   const setSession = useAuthStore((s) => s.setSession);
+  const qc = useQueryClient();
 
   const formError = useMemo(() => {
     if (!form.firstName.trim()) return "Enter your first name.";
@@ -23,7 +24,10 @@ export function RegisterScreen() {
 
   const mutation = useMutation({
     mutationFn: authApi.register,
-    onSuccess: async ({ user, token }) => setSession(user, token),
+    onSuccess: async ({ user, token }) => {
+      await setSession(user, token);
+      qc.removeQueries({ queryKey: ["search"] });
+    },
     onError: (error: Error) => Alert.alert("Registration failed", error.message)
   });
 

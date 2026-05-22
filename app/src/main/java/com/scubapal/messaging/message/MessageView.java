@@ -6,6 +6,7 @@ public record MessageView(
         Long messageId,
         Long senderUserId,
         String senderUsername,
+        String senderProfileImageUrl,
         String messageText,
         LocalDateTime createdAt,
         LocalDateTime readAt,

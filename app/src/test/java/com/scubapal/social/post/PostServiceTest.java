@@ -1,5 +1,6 @@
 package com.scubapal.social.post;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -8,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
+import com.scubapal.identity.profile.ProfileRepository;
 import com.scubapal.identity.role.Role;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
@@ -30,10 +32,16 @@ class PostServiceTest {
 
     @Mock PostRepository postRepository;
     @Mock UserRepository userRepository;
+    @Mock ProfileRepository profileRepository;
     @Mock PostLikeRepository postLikeRepository;
     @Mock PostCommentRepository postCommentRepository;
     @Mock MediaStorageService mediaStorageService;
     @InjectMocks PostService postService;
+
+    @BeforeEach
+    void setUp() {
+        when(profileRepository.findAllByUserIdsWithUser(anyCollection())).thenReturn(List.of());
+    }
 
     @Test
     void publicFeedOnlyAsksRepositoryForPublicPosts() {

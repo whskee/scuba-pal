@@ -2,10 +2,15 @@ package com.scubapal.messaging;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import com.scubapal.messaging.message.MessageView;
+
+import java.util.List;
 
 @Controller
 public class MessagingPageController {
@@ -53,7 +58,29 @@ public class MessagingPageController {
         return "redirect:/messages/" + conversationId;
     }
 
+    @GetMapping(value = "/messages/{conversationId}/updates", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ConversationPollResponse updates(@PathVariable Long conversationId,
+                                            @RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "50") int size,
+                                            Authentication auth) {
+        List<MessageView> messages = messagingService.getMessages(auth.getName(), conversationId, pageable(page, size)).getContent();
+        return new ConversationPollResponse(messages, messagingService.countUnreadMessages(auth.getName()));
+    }
+
+    @PostMapping(value = "/messages/{conversationId}/send", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ConversationPollResponse sendMessageInline(@PathVariable Long conversationId,
+                                                      @RequestParam String messageText,
+                                                      Authentication auth) {
+        messagingService.sendMessage(auth.getName(), conversationId, messageText);
+        return updates(conversationId, 0, 50, auth);
+    }
+
     private Pageable pageable(int page, int size) {
         return PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 100));
+    }
+
+    private record ConversationPollResponse(List<MessageView> messages, long unreadMessageCount) {
     }
 }

@@ -9,6 +9,7 @@ All URIs are relative to *http://localhost:8080*
 |[**messages**](#messages) | **GET** /api/messages/{conversationId} | List direct messages|
 |[**sendMessage**](#sendmessage) | **POST** /api/messages/{conversationId} | Send direct message|
 |[**startConversation**](#startconversation) | **POST** /api/messages/conversations/{otherUserId} | Start conversation|
+|[**unreadCount1**](#unreadcount1) | **GET** /api/messages/unread-count | Get unread message count|
 
 # **conversations**
 > ConversationListResponse conversations()
@@ -286,6 +287,51 @@ const { status, data } = await apiInstance.startConversation(
 |**400** | Invalid request |  -  |
 |**401** | Authentication required |  -  |
 |**404** | User not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **unreadCount1**
+> UnreadCountView unreadCount1()
+
+Returns unread message and notification counters for the authenticated user.
+
+### Example
+
+```typescript
+import {
+    MessagingApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new MessagingApi(configuration);
+
+const { status, data } = await apiInstance.unreadCount1();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**UnreadCountView**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Unread counters returned |  -  |
+|**401** | Authentication required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -22,6 +22,9 @@ public class DiveLocation extends AuditableEntity {
     @Column(length = 600)
     private String description;
 
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
     private String city;
     private String state;
     private String country;

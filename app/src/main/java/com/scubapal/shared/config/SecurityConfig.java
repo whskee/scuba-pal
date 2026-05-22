@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/learn", "/api/learn/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/locations", "/api/locations/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/shops", "/api/shops/**").permitAll()
                         .requestMatchers("/api/locations", "/api/locations/**").hasAnyRole("ADMIN", "SHOP_OWNER", "MODERATOR")
                         .requestMatchers(HttpMethod.POST, "/api/users/*/follow", "/api/messages/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/users/*/follow-summary", "/api/users/*/followers", "/api/users/*/following").permitAll()

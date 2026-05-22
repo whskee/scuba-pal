@@ -3,8 +3,8 @@ const dateOnlyPattern = /^\d{4}-\d{2}-\d{2}$/;
 
 export function normalizeApiDateString(value?: string | null): string {
   if (!value) return new Date().toISOString();
-  if (dateOnlyPattern.test(value)) return `${value}T00:00:00Z`;
-  return timezoneSuffixPattern.test(value) ? value : `${value}Z`;
+  if (dateOnlyPattern.test(value)) return `${value}T00:00:00`;
+  return timezoneSuffixPattern.test(value) ? value : value;
 }
 
 export function parseApiDate(value?: string | null): Date {

@@ -11,24 +11,39 @@
 <body>
     <div th:replace="~{layout/nav :: nav}"></div>
     <div class="container narrow"
-        th:attr="data-conversation-id=${conversation.conversationId},data-unread-message-count=${unreadMessageCount}"><a
-            class="back-link" th:href="@{/messages}">← Back</a>
-        <h1 th:text="${conversation.otherUsername}">Conversation</h1>
-        <section class="card message-list">
-            <div th:each="message : ${messages}" class="message-bubble"
-                th:classappend="${message.sentByCurrentUser} ? ' mine' : ''"><strong
-                    th:text="${message.senderUsername}">sender</strong>
-                <p th:text="${message.messageText}">message</p><small class="muted"
-                    th:if="${message.sentByCurrentUser and message.readAt == null}">Sent</small><small class="muted"
-                    th:if="${message.sentByCurrentUser and message.readAt != null}"
-                    th:text="${'Read at ' + #temporals.format(message.readAt, 'MMM d, yyyy h:mm a')}">Read at
-                    time</small>
+        th:attr="data-conversation-id=${conversation.conversationId},data-unread-message-count=${unreadMessageCount},data-messages-url=@{'/messages/' + ${conversation.conversationId} + '/updates'},data-send-url=@{'/messages/' + ${conversation.conversationId} + '/send'}">
+        <a class="back-link" th:href="@{/messages}">← Back</a>
+        <div class="conversation-heading">
+            <img class="profile-photo" th:if="${!#strings.isEmpty(conversation.otherProfileImageUrl)}"
+                th:src="${conversation.otherProfileImageUrl}" alt="" />
+            <span class="profile-photo" th:unless="${!#strings.isEmpty(conversation.otherProfileImageUrl)}"
+                th:text="${conversation.otherInitial}">D</span>
+            <h1 th:text="${conversation.otherUsername}">Conversation</h1>
+        </div>
+        <section class="card message-list" data-message-list>
+            <div th:each="message : ${messages}" class="message-row"
+                th:classappend="${message.sentByCurrentUser} ? ' mine' : ''">
+                <img class="message-avatar"
+                    th:if="${!message.sentByCurrentUser and !#strings.isEmpty(message.senderProfileImageUrl)}"
+                    th:src="${message.senderProfileImageUrl}" alt="" />
+                <span class="message-avatar"
+                    th:if="${!message.sentByCurrentUser and #strings.isEmpty(message.senderProfileImageUrl)}"
+                    th:text="${#strings.toUpperCase(#strings.substring(message.senderUsername, 0, 1))}">D</span>
+                <div class="message-bubble"><strong th:text="${message.senderUsername}">sender</strong>
+                    <p th:text="${message.messageText}">message</p><small class="muted"
+                        th:if="${message.sentByCurrentUser and message.readAt == null}">Sent</small><small class="muted"
+                        th:if="${message.sentByCurrentUser and message.readAt != null}"
+                        th:text="${'Read at ' + #temporals.format(message.readAt, 'MMM d, yyyy h:mm a')}">Read at
+                        time</small>
+                </div>
             </div>
-            <p th:if="${#lists.isEmpty(messages)}" class="muted">No messages yet.</p>
+            <p th:if="${#lists.isEmpty(messages)}" class="muted" data-empty-messages>No messages yet.</p>
         </section>
-        <form class="card form-stack" th:action="@{'/messages/' + ${conversation.conversationId}}" method="post">
+        <form class="card form-stack" th:action="@{'/messages/' + ${conversation.conversationId}}" method="post"
+            data-message-form>
             <label>Message<textarea name="messageText" maxlength="1000" required></textarea></label><button
-                class="button" type="submit">Send</button></form>
+                class="button" type="submit">Send</button>
+        </form>
     </div>
     <script th:src="@{/js/messages.js}" src="/js/messages.js"></script>
 </body>

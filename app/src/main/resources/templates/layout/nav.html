@@ -17,7 +17,7 @@
                 th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/divers')} ? 'active'">Divers</a>
             <a th:if="${currentUser}" th:href="@{/messages}"
                 th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/messages')} ? 'active'">Messages <span class="bubble unread-message-badge"
-                    th:if="${unreadMessageCount > 0}" th:text="${unreadMessageCount}">0</span></a>
+                    th:style="${unreadMessageCount > 0} ? '' : 'display:none'" th:text="${unreadMessageCount}">0</span></a>
             <a th:if="${currentUser}" th:href="@{/notifications}"
                 th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/notifications')} ? 'active'">Notifications <span class="bubble"
                     th:if="${unreadNotificationCount > 0}" th:text="${unreadNotificationCount}">0</span></a>

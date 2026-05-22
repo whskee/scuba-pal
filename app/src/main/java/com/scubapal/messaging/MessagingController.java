@@ -62,6 +62,17 @@ public class MessagingController {
                 return messagingService.getConversation(authentication.getName(), conversationId);
         }
 
+        @GetMapping("/unread-count")
+        @Operation(summary = "Get unread message count", description = "Returns unread message and notification counters for the authenticated user.")
+        @ApiResponses({
+                        @ApiResponse(responseCode = "200", description = "Unread counters returned"),
+                        @ApiResponse(responseCode = "401", description = "Authentication required")
+        })
+        public UnreadCountView unreadCount(Authentication authentication) {
+                return new UnreadCountView(messagingService.countUnreadMessages(authentication.getName()),
+                                notificationService.countUnread(authentication.getName()));
+        }
+
         @PostMapping("/{conversationId}/read")
         @Operation(summary = "Mark conversation messages as read", description = "Marks all unread messages in a conversation as read for the authenticated user.")
         @ApiResponses({

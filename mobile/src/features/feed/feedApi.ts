@@ -1,5 +1,5 @@
 import { CreateCommentRequest, CreateCurrentUserPostRequest, PostsApi } from "@/api/generated";
-import { api, apiConfig, unwrap } from "@/services/api";
+import { api, apiConfig, pageParams, PagedResult, toApiNumberId, toPageMeta, unwrap } from "@/services/api";
 import { ID, Post, toPost } from "@/types/models";
 
 const generatedPostsApi = new PostsApi(apiConfig, undefined, api);
@@ -10,18 +10,36 @@ export type CreatePostInput = {
 };
 
 export const feedApi = {
+  async feedPage(page = 0, size = 20): Promise<PagedResult<Post>> {
+    const params = pageParams(page, size);
+    const response = await unwrap(generatedPostsApi.getAll3(params.page, params.size));
+    return {
+      items: (response.content ?? []).map(toPost),
+      page: toPageMeta(response.page)
+    };
+  },
+
   async feed(page = 0, size = 20): Promise<Post[]> {
-    const response = await unwrap(generatedPostsApi.getAll2(page, size));
-    return (response.content ?? []).map(toPost);
+    const response = await feedApi.feedPage(page, size);
+    return response.items;
+  },
+
+  async userPostsPage(userId: ID, page = 0, size = 20): Promise<PagedResult<Post>> {
+    const params = pageParams(page, size);
+    const response = await unwrap(generatedPostsApi.getByUser(toApiNumberId(userId, "user id"), params.page, params.size));
+    return {
+      items: (response.content ?? []).map(toPost),
+      page: toPageMeta(response.page)
+    };
   },
 
   async userPosts(userId: ID, page = 0, size = 20): Promise<Post[]> {
-    const response = await unwrap(generatedPostsApi.getByUser(Number(userId), page, size));
-    return (response.content ?? []).map(toPost);
+    const response = await feedApi.userPostsPage(userId, page, size);
+    return response.items;
   },
 
   async detail(postId: ID): Promise<Post> {
-    const response = await unwrap(generatedPostsApi.getById1(Number(postId)));
+    const response = await unwrap(generatedPostsApi.getById1(toApiNumberId(postId, "post id")));
     return toPost(response);
   },
 
@@ -36,20 +54,21 @@ export const feedApi = {
   },
 
   async like(postId: ID): Promise<Post> {
-    const response = await unwrap(generatedPostsApi.like(Number(postId)));
+    const response = await unwrap(generatedPostsApi.like(toApiNumberId(postId, "post id")));
     return toPost(response);
   },
 
   // The current backend contract exposes POST /api/posts/{id}/like only.
   // Treat unlike as the same toggle endpoint until the backend adds DELETE /like.
   async unlike(postId: ID): Promise<Post> {
-    const response = await unwrap(generatedPostsApi.like(Number(postId)));
+    const response = await unwrap(generatedPostsApi.like(toApiNumberId(postId, "post id")));
     return toPost(response);
   },
 
   async comment(postId: ID, body: string): Promise<Post> {
-    const payload: CreateCommentRequest = { commentText: body };
-    const response = await unwrap(generatedPostsApi.comment(Number(postId), payload));
+    const commentText = body.trim();
+    const payload: CreateCommentRequest = { commentText };
+    const response = await unwrap(generatedPostsApi.comment(toApiNumberId(postId, "post id"), payload));
     return toPost(response);
   }
 };

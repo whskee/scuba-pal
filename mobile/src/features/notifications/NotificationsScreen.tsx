@@ -33,14 +33,12 @@ export function NotificationsScreen() {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["notifications"] });
-      qc.invalidateQueries({ queryKey: ["unreadNotifications"] });
     }
   });
 
   useFocusEffect(
     React.useCallback(() => {
       qc.invalidateQueries({ queryKey: ["notifications"] });
-      qc.invalidateQueries({ queryKey: ["unreadNotifications"] });
     }, [qc])
   );
 

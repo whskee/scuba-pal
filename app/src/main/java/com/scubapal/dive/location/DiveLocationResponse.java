@@ -6,6 +6,7 @@ public record DiveLocationResponse(
         Long locationId,
         String locationName,
         String description,
+        String imageUrl,
         String city,
         String state,
         String country,

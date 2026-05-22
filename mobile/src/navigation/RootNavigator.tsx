@@ -19,7 +19,7 @@ import { ProfileConnectionsScreen } from "@/features/profile/ProfileConnectionsS
 import { ProfileDivesScreen } from "@/features/profile/ProfileDivesScreen";
 import { LearnScreen } from "@/features/learn/LearnScreen";
 import { SearchScreen } from "@/features/search/SearchScreen";
-import { notificationsApi } from "@/features/notifications/notificationsApi";
+import { messagesApi } from "@/features/messaging/messagesApi";
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -47,6 +47,36 @@ const tabBarStyle = {
 function shouldHideTabBar(tabName: string, route: any) {
   const focusedRoute = getFocusedRouteNameFromRoute(route);
   return (tabName === "Feed" && focusedRoute === "PostDetail") || (tabName === "Messages" && focusedRoute === "Thread");
+}
+
+function TabIcon({ name, color, size, badge }: { name: keyof typeof Ionicons.glyphMap; color: string; size: number; badge?: number }) {
+  return (
+    <View style={{ width: size + 18, height: size + 12, alignItems: "center", justifyContent: "center" }}>
+      <Ionicons name={name} color={color} size={size} />
+      {badge ? (
+        <View
+          pointerEvents="none"
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            minWidth: 18,
+            height: 18,
+            borderRadius: 9,
+            paddingHorizontal: 5,
+            backgroundColor: colors.primary,
+            borderWidth: 2,
+            borderColor: "rgba(15,36,55,0.96)",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 2
+          }}
+        >
+          <Text style={{ color: colors.textDark, fontSize: 10, fontWeight: "900" }}>{badge > 99 ? "99+" : badge}</Text>
+        </View>
+      ) : null}
+    </View>
+  );
 }
 
 function FeedStack() {
@@ -91,7 +121,7 @@ function ProfileStack() {
 
 function AppTabs() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const unread = useQuery({ queryKey: ["unreadNotifications"], queryFn: notificationsApi.unreadCount, enabled: isAuthenticated, refetchInterval: 30000, retry: 1 });
+  const unreadMessages = useQuery({ queryKey: ["unreadMessages"], queryFn: messagesApi.unreadCount, enabled: isAuthenticated, refetchInterval: 30000, retry: 1 });
   return (
     <Tabs.Navigator screenOptions={({ route }) => ({
       headerShown: false,
@@ -101,13 +131,13 @@ function AppTabs() {
       tabBarInactiveTintColor: colors.muted,
       tabBarIcon: ({ color, size, focused }) => {
         const map: Record<string, keyof typeof Ionicons.glyphMap> = { Feed: focused ? "grid" : "grid-outline", Search: focused ? "search" : "search-outline", Messages: focused ? "chatbubbles" : "chatbubbles-outline", Notifications: focused ? "notifications" : "notifications-outline", ProfileStack: focused ? "person-circle" : "person-circle-outline" };
-        return <Ionicons name={map[route.name] ?? "ellipse"} color={color} size={size} />;
+        return <TabIcon name={map[route.name] ?? "ellipse"} color={color} size={size} badge={route.name === "Messages" ? unreadMessages.data?.count : undefined} />;
       }
     })}>
       <Tabs.Screen name="Feed" component={FeedStack} />
       <Tabs.Screen name="Search" component={SearchStack} />
       <Tabs.Screen name="Messages" component={MessagesStack} />
-      <Tabs.Screen name="Notifications" component={NotificationsScreen} options={{ tabBarBadge: unread.data?.count ? unread.data.count : undefined }} />
+      <Tabs.Screen name="Notifications" component={NotificationsScreen} />
       <Tabs.Screen name="ProfileStack" component={ProfileStack} options={{ title: "Profile" }} />
     </Tabs.Navigator>
   );

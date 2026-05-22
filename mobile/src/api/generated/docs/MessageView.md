@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **messageId** | **number** |  | [optional] [default to undefined]
 **senderUserId** | **number** |  | [optional] [default to undefined]
 **senderUsername** | **string** |  | [optional] [default to undefined]
+**senderProfileImageUrl** | **string** |  | [optional] [default to undefined]
 **messageText** | **string** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 **readAt** | **string** |  | [optional] [default to undefined]
@@ -22,6 +23,7 @@ const instance: MessageView = {
     messageId,
     senderUserId,
     senderUsername,
+    senderProfileImageUrl,
     messageText,
     createdAt,
     readAt,

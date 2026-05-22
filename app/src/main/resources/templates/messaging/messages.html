@@ -15,7 +15,9 @@
                 th:text="${unreadMessageCount}">0</span></h1>
         <section class="grid"><a class="card conversation-card" th:each="conversation : ${conversations}"
                 th:href="@{'/messages/' + ${conversation.conversationId}}">
-                <div class="feed-meta"><span class="avatar" th:text="${conversation.otherInitial}">D</span><strong
+                <div class="feed-meta"><img class="avatar image-avatar" th:if="${conversation.otherProfileImageUrl}"
+                        th:src="${conversation.otherProfileImageUrl}" alt="" /><span class="avatar"
+                        th:unless="${conversation.otherProfileImageUrl}" th:text="${conversation.otherInitial}">D</span><strong
                         th:text="${conversation.otherUsername}">diver</strong><span class="bubble"
                         th:if="${conversation.unreadCount > 0}" th:text="${conversation.unreadCount}">0</span></div>
                 <p class="muted" th:text="${conversation.lastMessagePreview}">Open conversation</p>

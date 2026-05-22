@@ -7,6 +7,7 @@ public record ConversationView(
         Long otherUserId,
         String otherUsername,
         String otherInitial,
+        String otherProfileImageUrl,
         long unreadCount,
         String lastMessagePreview,
         LocalDateTime updatedAt

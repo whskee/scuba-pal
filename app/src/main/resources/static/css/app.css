@@ -567,11 +567,17 @@ textarea:focus {
 .side-nav a:hover { background: rgba(0,188,212,.13); color: var(--accent-dark); }
 .profile-badge { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
 .profile-photo { width: 48px; height: 48px; border-radius: 17px; object-fit: cover; background: linear-gradient(135deg, var(--accent-light), var(--accent-dark)); color:white; display:grid; place-items:center; font-weight:900; }
+.image-avatar { object-fit: cover; color: transparent; }
 .main-panel { min-width: 0; }
 .feed-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .message-list { display: grid; gap: 10px; }
-.message-bubble { max-width: 76%; padding: 12px 14px; border-radius: 18px; background: rgba(255,255,255,.74); border: 1px solid rgba(0,188,212,.14); }
-.message-bubble.mine { margin-left: auto; background: rgba(0,188,212,.14); }
+.conversation-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.conversation-heading h1 { margin: 0; }
+.message-row { display: flex; align-items: flex-end; gap: 9px; max-width: 82%; }
+.message-row.mine { justify-self: end; justify-content: flex-end; }
+.message-avatar { flex: 0 0 34px; width: 34px; height: 34px; border-radius: 17px; object-fit: cover; background: linear-gradient(135deg, var(--accent-light), var(--accent-dark)); color: white; display: grid; place-items: center; font-size: 13px; font-weight: 900; }
+.message-bubble { max-width: 100%; padding: 12px 14px; border-radius: 18px; background: rgba(255,255,255,.74); border: 1px solid rgba(0,188,212,.14); }
+.message-row.mine .message-bubble { background: rgba(0,188,212,.14); }
 @media (max-width: 860px) { .app-shell { grid-template-columns: 1fr; padding: 14px; } .side-nav { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); } .nav-links { width: 100%; } }
 @media (max-width: 520px) { .side-nav { grid-template-columns: 1fr; } .button, a.button, button.button, button { width: 100%; } input[type='text'], input[type='password'], input[type='email'], select { min-width: 0; } }
 

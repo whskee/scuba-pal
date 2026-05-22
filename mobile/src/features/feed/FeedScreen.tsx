@@ -11,7 +11,6 @@ import { feedApi } from "./feedApi";
 import { CreatePostBox } from "./CreatePostBox";
 import { PinterestPostCard } from "./PinterestPostCard";
 import { FeedPill } from "./FeedPill";
-import { guestFeed } from "./mockFeed";
 
 const filters = ["For you", "Local", "Buddies", "Gear", "Training"];
 
@@ -27,7 +26,7 @@ export function FeedScreen({ navigation }: any) {
   const [activeFilter, setActiveFilter] = useState("For you");
   const qc = useQueryClient();
   const query = useQuery({ queryKey: ["feed"], queryFn: () => feedApi.feed(), enabled: isAuthenticated, refetchOnMount: "always", retry: 1 });
-  const posts = isAuthenticated ? query.data ?? [] : guestFeed;
+  const posts = query.data ?? [];
   const columns = useMemo(() => splitColumns(posts), [posts]);
 
   const likeMutation = useMutation({

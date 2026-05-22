@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import com.scubapal.identity.role.Role;
+import com.scubapal.identity.profile.ProfileRepository;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.messaging.conversation.Conversation;
@@ -31,6 +32,7 @@ class MessagingServiceTest {
     @Mock ConversationRepository conversationRepository;
     @Mock MessageRepository messageRepository;
     @Mock UserRepository userRepository;
+    @Mock ProfileRepository profileRepository;
     @Mock NotificationService notificationService;
     @InjectMocks MessagingService messagingService;
 
@@ -62,6 +64,7 @@ class MessagingServiceTest {
         when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
         when(conversationRepository.findById(10L)).thenReturn(Optional.of(conversation));
         when(messageRepository.findByConversationIdOrderByCreatedAtAsc(eq(10L), any())).thenReturn(new PageImpl<>(List.of(unreadFromKai, readFromDana)));
+        when(profileRepository.findAllByUserIdsWithUser(anyCollection())).thenReturn(List.of());
 
         var page = messagingService.getMessages("dana", 10L, PageRequest.of(0, 50));
 

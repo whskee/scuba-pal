@@ -4,16 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { Post } from "@/types/models";
 import { colors } from "@/theme/colors";
 
-const fallbackImages = [
-  "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900",
-  "https://images.unsplash.com/photo-1518877593221-1f28583780b4?w=900",
-  "https://images.unsplash.com/photo-1580019542155-247062e19ce4?w=900",
-  "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?w=900"
-];
-
 export function PinterestPostCard({ post, index, onLike, onAuthorPress, onPress }: { post: Post; index: number; onLike: () => void; onAuthorPress?: () => void; onPress?: () => void }) {
   const [saved, setSaved] = useState(false);
-  const image = post.imageUrl || fallbackImages[index % fallbackImages.length];
+  const image = post.imageUrl;
   const imageHeight = useMemo(() => 190 + ((index * 53) % 130), [index]);
   const displayName = post.author?.username || "diver";
 
@@ -22,7 +15,13 @@ export function PinterestPostCard({ post, index, onLike, onAuthorPress, onPress 
       <Pressable onPress={onPress} style={({ pressed }) => ({ opacity: pressed ? 0.92 : 1, transform: [{ scale: pressed ? 0.99 : 1 }] })}>
         <View style={{ backgroundColor: colors.card, borderRadius: 28, overflow: "hidden", shadowColor: colors.shadow, shadowOpacity: 0.2, shadowRadius: 18, shadowOffset: { width: 0, height: 10 }, elevation: 5 }}>
           <View>
-            <Image source={{ uri: image }} style={{ width: "100%", height: imageHeight, backgroundColor: colors.surface2 }} />
+            {image ? (
+              <Image source={{ uri: image }} style={{ width: "100%", height: imageHeight, backgroundColor: colors.surface2 }} />
+            ) : (
+              <View style={{ width: "100%", minHeight: 132, backgroundColor: colors.cardSoft, alignItems: "center", justifyContent: "center", padding: 18 }}>
+                <Ionicons name="chatbubble-ellipses-outline" size={30} color={colors.mutedDark} />
+              </View>
+            )}
             <View style={{ position: "absolute", top: 10, right: 10, flexDirection: "row", gap: 8 }}>
               <Pressable onPress={(event) => { event.stopPropagation(); onLike(); }} style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: post.likedByMe ? "rgba(255,122,144,0.18)" : "rgba(255,255,255,0.88)", alignItems: "center", justifyContent: "center" }}>
                 <Ionicons name={post.likedByMe ? "heart" : "heart-outline"} size={20} color={post.likedByMe ? colors.accent : colors.textDark} />

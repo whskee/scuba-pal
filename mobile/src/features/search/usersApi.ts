@@ -10,7 +10,11 @@ export const usersApi = {
     const term = username.trim().toLowerCase();
     return allUsers
       .map((user) => toUser(user))
-      .filter((user) => !term || user.username.toLowerCase().includes(term))
+      .filter((user) => {
+        if (!term) return true;
+        const name = `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim().toLowerCase();
+        return user.username.toLowerCase().includes(term) || name.includes(term) || user.city?.toLowerCase().includes(term);
+      })
       .slice(0, 50);
   }
 };

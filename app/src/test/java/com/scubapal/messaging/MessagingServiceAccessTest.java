@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.scubapal.identity.profile.ProfileRepository;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.messaging.conversation.Conversation;
@@ -24,6 +25,7 @@ class MessagingServiceAccessTest {
     @Mock ConversationRepository conversationRepository;
     @Mock MessageRepository messageRepository;
     @Mock UserRepository userRepository;
+    @Mock ProfileRepository profileRepository;
     @Mock NotificationService notificationService;
     @InjectMocks MessagingService messagingService;
 

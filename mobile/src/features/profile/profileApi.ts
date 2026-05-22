@@ -1,5 +1,5 @@
 import { ProfileResponse, ProfilesApi, UpsertProfileRequest, UserManagementApi } from "@/api/generated";
-import { api, apiConfig, unwrap } from "@/services/api";
+import { api, apiConfig, toApiNumberId, unwrap } from "@/services/api";
 import { useAuthStore } from "@/store/authStore";
 import { ID, User, toUser } from "@/types/models";
 import { socialApi } from "@/features/social/socialApi";
@@ -10,7 +10,7 @@ const generatedUsersApi = new UserManagementApi(apiConfig, undefined, api);
 function currentUserId(): number {
   const id = useAuthStore.getState().user?.id;
   if (id === undefined || id === null) throw new Error("You must be logged in to load this profile.");
-  return Number(id);
+  return toApiNumberId(id, "current user id");
 }
 
 function userToProfilePatch(input: Partial<User>): UpsertProfileRequest {
@@ -56,11 +56,12 @@ export const profileApi = {
   },
 
   async user(userId: ID): Promise<User> {
+    const apiUserId = toApiNumberId(userId, "user id");
     try {
-      const profile = await unwrap<ProfileResponse>(generatedProfilesApi.get(Number(userId)));
+      const profile = await unwrap<ProfileResponse>(generatedProfilesApi.get(apiUserId));
       return withSocialStats(toUser(profile));
     } catch {
-      const user = await unwrap(generatedUsersApi.getById(Number(userId)));
+      const user = await unwrap(generatedUsersApi.getById(apiUserId));
       return withSocialStats(toUser(user));
     }
   }

@@ -3,6 +3,7 @@ package com.scubapal.dive.shop;
 import com.scubapal.dive.location.DiveLocation;
 import com.scubapal.shared.domain.AuditableEntity;
 import com.scubapal.shared.domain.address.Address;
+import com.scubapal.shared.domain.address.Coordinates;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -34,6 +35,9 @@ public class DiveShop extends AuditableEntity {
     @Column(name = "website_url")
     private String websiteUrl;
 
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
     // @Column(name = "street_address")
     // private String streetAddress;
 
@@ -44,4 +48,7 @@ public class DiveShop extends AuditableEntity {
     @Embedded
     @AttributeOverride(name = "street", column = @Column(name = "street_address"))
     private Address address;
+
+    @Embedded
+    private Coordinates coordinates;
 }

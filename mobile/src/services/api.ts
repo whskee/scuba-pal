@@ -2,7 +2,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { env } from "@/config/env";
 import { useAuthStore } from "@/store/authStore";
 import { ApiErrorBody } from "@/types/models";
-import { Configuration } from "@/api/generated";
+import { Configuration, PageMetaResponse } from "@/api/generated";
 
 export class ApiError extends Error {
   readonly status?: number;
@@ -77,4 +77,36 @@ export const apiConfig = new Configuration({
 
 export function unwrap<T>(promise: Promise<{ data: T }>): Promise<T> {
   return promise.then((r) => r.data);
+}
+
+export type PageMeta = Required<Pick<PageMetaResponse, "page" | "size" | "totalElements" | "totalPages" | "hasNext">>;
+
+export type PagedResult<T> = {
+  items: T[];
+  page: PageMeta;
+};
+
+export function toPageMeta(page?: PageMetaResponse): PageMeta {
+  return {
+    page: page?.page ?? 0,
+    size: page?.size ?? 0,
+    totalElements: page?.totalElements ?? 0,
+    totalPages: page?.totalPages ?? 0,
+    hasNext: page?.hasNext ?? false
+  };
+}
+
+export function toApiNumberId(value: string | number, label = "id"): number {
+  const id = typeof value === "number" ? value : Number(value);
+  if (!Number.isSafeInteger(id) || id <= 0) {
+    throw new ApiError(`Invalid ${label}.`, undefined, "INVALID_ID");
+  }
+  return id;
+}
+
+export function pageParams(page = 0, size = 20): { page: number; size: number } {
+  return {
+    page: Math.max(0, Math.trunc(page)),
+    size: Math.min(Math.max(1, Math.trunc(size)), 100)
+  };
 }

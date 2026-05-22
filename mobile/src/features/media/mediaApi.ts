@@ -47,7 +47,7 @@ export const mediaApi = {
   },
 
   async uploadImageAsset(asset: ImagePickerAsset, purpose: MediaUploadPurpose): Promise<MediaUploadResponse> {
-    const { upload, blob } = await this.createUpload(asset, purpose);
+    const { upload, blob } = await mediaApi.createUpload(asset, purpose);
     if (!upload.uploadUrl) throw new Error("The backend did not return a media upload URL.");
 
     await axios.put(upload.uploadUrl, blob, {

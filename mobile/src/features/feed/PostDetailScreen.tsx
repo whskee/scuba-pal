@@ -10,8 +10,6 @@ import { Comment, Post } from "@/types/models";
 import { feedApi } from "./feedApi";
 import { formatRelativeTime } from "@/utils/date";
 
-const fallbackImage = "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200";
-
 function CommentRow({ comment, onAuthorPress }: { comment: Comment; onAuthorPress: () => void }) {
   return (
     <View style={{ backgroundColor: colors.surface, borderRadius: 22, padding: 13, borderWidth: 1, borderColor: colors.border, marginBottom: 10 }}>
@@ -86,7 +84,7 @@ export function PostDetailScreen({ route, navigation }: any) {
   const insets = useSafeAreaInsets();
   const query = useQuery({ queryKey: ["post", postId], queryFn: () => feedApi.detail(postId), initialData: initialPost, enabled: !!postId, refetchOnMount: "always", retry: 1 });
   const post = query.data;
-  const image = useMemo(() => post?.imageUrl || fallbackImage, [post?.imageUrl]);
+  const image = useMemo(() => post?.imageUrl, [post?.imageUrl]);
 
   const likeMutation = useMutation({
     mutationFn: () => (post?.likedByMe ? feedApi.unlike(post.id) : feedApi.like(post?.id ?? postId)),
@@ -146,7 +144,13 @@ export function PostDetailScreen({ route, navigation }: any) {
           ListHeaderComponent={
             <View>
               <View style={{ width: "100%", backgroundColor: colors.surface2 }}>
-                <Image source={{ uri: image }} style={{ width: "100%", height: 360, backgroundColor: colors.surface2 }} resizeMode="cover" />
+                {image ? (
+                  <Image source={{ uri: image }} style={{ width: "100%", height: 360, backgroundColor: colors.surface2 }} resizeMode="cover" />
+                ) : (
+                  <View style={{ width: "100%", height: 220, backgroundColor: colors.surface2, alignItems: "center", justifyContent: "center" }}>
+                    <Ionicons name="chatbubble-ellipses-outline" size={38} color={colors.muted} />
+                  </View>
+                )}
                 <Pressable
                   onPress={() => navigation.goBack()}
                   style={{ position: "absolute", top: 14, left: 14, width: 42, height: 42, borderRadius: 21, backgroundColor: "rgba(7,17,31,0.72)", alignItems: "center", justifyContent: "center" }}
@@ -156,8 +160,15 @@ export function PostDetailScreen({ route, navigation }: any) {
               </View>
 
               <View style={{ padding: 18, gap: 14 }}>
-                <Pressable onPress={openAuthor} style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                  <View>
+                <Pressable onPress={openAuthor} style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+                  {post.author.profileImageUrl ? (
+                    <Image source={{ uri: post.author.profileImageUrl }} style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: colors.surface2 }} />
+                  ) : (
+                    <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: colors.primary, alignItems: "center", justifyContent: "center" }}>
+                      <Text style={{ color: colors.textDark, fontWeight: "900", fontSize: 16 }}>{post.author.username[0]?.toUpperCase() ?? "D"}</Text>
+                    </View>
+                  )}
+                  <View style={{ flex: 1 }}>
                     <Text style={{ color: colors.text, fontSize: 18, fontWeight: "900" }}>@{post.author.username}</Text>
                     <Text style={{ color: colors.muted, marginTop: 3 }}>{formatRelativeTime(post.createdAt)}</Text>
                   </View>

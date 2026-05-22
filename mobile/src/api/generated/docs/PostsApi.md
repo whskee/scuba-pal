@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost:8080*
 |[**createForCurrentUser**](#createforcurrentuser) | **POST** /api/posts/me | |
 |[**delete1**](#delete1) | **DELETE** /api/posts/{id} | |
 |[**deleteComment**](#deletecomment) | **DELETE** /api/posts/{postId}/comments/{commentId} | |
-|[**getAll2**](#getall2) | **GET** /api/posts | |
+|[**getAll3**](#getall3) | **GET** /api/posts | |
 |[**getById1**](#getbyid1) | **GET** /api/posts/{id} | |
 |[**getByUser**](#getbyuser) | **GET** /api/posts/users/{userId} | |
 |[**like**](#like) | **POST** /api/posts/{id}/like | |
@@ -223,8 +223,8 @@ const { status, data } = await apiInstance.deleteComment(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getAll2**
-> PagedModelFeedPostView getAll2()
+# **getAll3**
+> PagedModelFeedPostView getAll3()
 
 
 ### Example
@@ -241,7 +241,7 @@ const apiInstance = new PostsApi(configuration);
 let page: number; // (optional) (default to 0)
 let size: number; // (optional) (default to 10)
 
-const { status, data } = await apiInstance.getAll2(
+const { status, data } = await apiInstance.getAll3(
     page,
     size
 );

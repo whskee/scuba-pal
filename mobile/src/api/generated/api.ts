@@ -47,6 +47,7 @@ export interface ConversationView {
     'otherUserId'?: number;
     'otherUsername'?: string;
     'otherInitial'?: string;
+    'otherProfileImageUrl'?: string;
     'unreadCount'?: number;
     'lastMessagePreview'?: string;
     'updatedAt'?: string;
@@ -95,6 +96,7 @@ export interface DiveLocationResponse {
     'locationId'?: number;
     'locationName'?: string;
     'description'?: string;
+    'imageUrl'?: string;
     'city'?: string;
     'state'?: string;
     'country'?: string;
@@ -102,6 +104,23 @@ export interface DiveLocationResponse {
     'longitude'?: number;
     'difficultyLevel'?: string;
     'popularityScore'?: number;
+}
+export interface DiveShopResponse {
+    'shopId'?: number;
+    'shopName'?: string;
+    'description'?: string;
+    'phoneNumber'?: string;
+    'email'?: string;
+    'websiteUrl'?: string;
+    'imageUrl'?: string;
+    'streetAddress'?: string;
+    'city'?: string;
+    'state'?: string;
+    'country'?: string;
+    'latitude'?: number;
+    'longitude'?: number;
+    'locationId'?: number;
+    'locationName'?: string;
 }
 export interface FeedPostView {
     'postId'?: number;
@@ -166,6 +185,7 @@ export interface MessageView {
     'messageId'?: number;
     'senderUserId'?: number;
     'senderUsername'?: string;
+    'senderProfileImageUrl'?: string;
     'messageText'?: string;
     'createdAt'?: string;
     'readAt'?: string;
@@ -1156,6 +1176,112 @@ export class DiveLocationsApi extends BaseAPI {
 
 
 /**
+ * DiveShopsApi - axios parameter creator
+ */
+export const DiveShopsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Returns dive shops, optionally filtered by shop name, city, state, country, or linked dive location.
+         * @summary List dive shops
+         * @param {string} [q]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAll2: async (q?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/shops`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (q !== undefined) {
+                localVarQueryParameter['q'] = q;
+            }
+
+            localVarHeaderParameter['Accept'] = '*/*';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DiveShopsApi - functional programming interface
+ */
+export const DiveShopsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DiveShopsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Returns dive shops, optionally filtered by shop name, city, state, country, or linked dive location.
+         * @summary List dive shops
+         * @param {string} [q]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAll2(q?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DiveShopResponse>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAll2(q, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DiveShopsApi.getAll2']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * DiveShopsApi - factory interface
+ */
+export const DiveShopsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DiveShopsApiFp(configuration)
+    return {
+        /**
+         * Returns dive shops, optionally filtered by shop name, city, state, country, or linked dive location.
+         * @summary List dive shops
+         * @param {string} [q]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAll2(q?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<DiveShopResponse>> {
+            return localVarFp.getAll2(q, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DiveShopsApi - object-oriented interface
+ */
+export class DiveShopsApi extends BaseAPI {
+    /**
+     * Returns dive shops, optionally filtered by shop name, city, state, country, or linked dive location.
+     * @summary List dive shops
+     * @param {string} [q]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getAll2(q?: string, options?: RawAxiosRequestConfig) {
+        return DiveShopsApiFp(this.configuration).getAll2(q, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * FollowsApi - axios parameter creator
  */
 export const FollowsApiAxiosParamCreator = function (configuration?: Configuration) {
@@ -2068,6 +2194,40 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Returns unread message and notification counters for the authenticated user.
+         * @summary Get unread message count
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unreadCount1: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/messages/unread-count`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            localVarHeaderParameter['Accept'] = '*/*';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -2146,6 +2306,18 @@ export const MessagingApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['MessagingApi.startConversation']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Returns unread message and notification counters for the authenticated user.
+         * @summary Get unread message count
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async unreadCount1(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnreadCountView>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.unreadCount1(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MessagingApi.unreadCount1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -2208,6 +2380,15 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          */
         startConversation(otherUserId: number, options?: RawAxiosRequestConfig): AxiosPromise<ConversationView> {
             return localVarFp.startConversation(otherUserId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns unread message and notification counters for the authenticated user.
+         * @summary Get unread message count
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unreadCount1(options?: RawAxiosRequestConfig): AxiosPromise<UnreadCountView> {
+            return localVarFp.unreadCount1(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2273,6 +2454,16 @@ export class MessagingApi extends BaseAPI {
      */
     public startConversation(otherUserId: number, options?: RawAxiosRequestConfig) {
         return MessagingApiFp(this.configuration).startConversation(otherUserId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns unread message and notification counters for the authenticated user.
+     * @summary Get unread message count
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public unreadCount1(options?: RawAxiosRequestConfig) {
+        return MessagingApiFp(this.configuration).unreadCount1(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2771,7 +2962,7 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAll2: async (page?: number, size?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAll3: async (page?: number, size?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/posts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3079,10 +3270,10 @@ export const PostsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAll2(page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelFeedPostView>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAll2(page, size, options);
+        async getAll3(page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelFeedPostView>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAll3(page, size, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PostsApi.getAll2']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PostsApi.getAll3']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3203,8 +3394,8 @@ export const PostsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAll2(page?: number, size?: number, options?: RawAxiosRequestConfig): AxiosPromise<PagedModelFeedPostView> {
-            return localVarFp.getAll2(page, size, options).then((request) => request(axios, basePath));
+        getAll3(page?: number, size?: number, options?: RawAxiosRequestConfig): AxiosPromise<PagedModelFeedPostView> {
+            return localVarFp.getAll3(page, size, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3311,8 +3502,8 @@ export class PostsApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getAll2(page?: number, size?: number, options?: RawAxiosRequestConfig) {
-        return PostsApiFp(this.configuration).getAll2(page, size, options).then((request) => request(this.axios, this.basePath));
+    public getAll3(page?: number, size?: number, options?: RawAxiosRequestConfig) {
+        return PostsApiFp(this.configuration).getAll3(page, size, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4009,6 +4200,4 @@ export class UserManagementApi extends BaseAPI {
         return UserManagementApiFp(this.configuration).update(id, registerRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
-
-
 

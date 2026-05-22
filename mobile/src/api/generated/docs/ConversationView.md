@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **otherUserId** | **number** |  | [optional] [default to undefined]
 **otherUsername** | **string** |  | [optional] [default to undefined]
 **otherInitial** | **string** |  | [optional] [default to undefined]
+**otherProfileImageUrl** | **string** |  | [optional] [default to undefined]
 **unreadCount** | **number** |  | [optional] [default to undefined]
 **lastMessagePreview** | **string** |  | [optional] [default to undefined]
 **updatedAt** | **string** |  | [optional] [default to undefined]
@@ -23,6 +24,7 @@ const instance: ConversationView = {
     otherUserId,
     otherUsername,
     otherInitial,
+    otherProfileImageUrl,
     unreadCount,
     lastMessagePreview,
     updatedAt,
