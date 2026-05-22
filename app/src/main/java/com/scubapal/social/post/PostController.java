@@ -73,7 +73,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public FeedPostView update(@PathVariable Long id, @Valid @RequestBody CreatePostRequest request, Authentication authentication) {
+    public FeedPostView update(@PathVariable Long id, @Valid @RequestBody UpdatePostRequest request, Authentication authentication) {
         return postService.updatePost(id, request, authentication.getName());
     }
 
