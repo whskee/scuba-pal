@@ -32,7 +32,7 @@ public class PostMedia extends CreatedEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "media_type", nullable = false, length = 20)
-    private PostMediaType mediaType = PostMediaType.IMAGE;
+    private MediaType mediaType = MediaType.IMAGE;
 
     @Column(name = "display_order", nullable = false)
     private Integer displayOrder = 0;

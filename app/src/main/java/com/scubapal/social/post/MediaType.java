@@ -1,6 +1,6 @@
 package com.scubapal.social.post;
 
-public enum PostMediaType {
+public enum MediaType {
     IMAGE,
     VIDEO
 }
