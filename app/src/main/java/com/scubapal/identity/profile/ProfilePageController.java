@@ -59,7 +59,9 @@ public class ProfilePageController {
             return "redirect:/profile/" + user.username();
         }
         String currentUsername = loggedIn(auth) ? auth.getName() : null;
-        var posts = postService.getPostsByUser(user.id(),
+        // var posts = postService.getPostsByUser(user.id(),
+        //         PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 30)));
+        var posts = postService.getPublicPostsByUser(user.id(),
                 PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 30)));
         model.addAttribute("user", user);
         model.addAttribute("profile", user);
