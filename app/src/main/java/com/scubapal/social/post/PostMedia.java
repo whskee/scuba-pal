@@ -5,6 +5,8 @@ import com.scubapal.shared.domain.CreatedEntity;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,8 +30,9 @@ public class PostMedia extends CreatedEntity {
     @Column(name = "media_url", nullable = false, length = 500)
     private String mediaUrl;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "media_type", nullable = false, length = 20)
-    private String mediaType = "IMAGE";
+    private PostMediaType mediaType = PostMediaType.IMAGE;
 
     @Column(name = "display_order", nullable = false)
     private Integer displayOrder = 0;
