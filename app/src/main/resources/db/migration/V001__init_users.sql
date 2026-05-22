@@ -78,7 +78,7 @@ INSERT INTO identity.profiles (user_id, first_name, last_name, city, state, coun
             (5, 'Blue', 'Horizon', 'Key Largo', 'Florida', 'USA', 'PUBLIC', 0, 'Daily guided charters and equipment rental.'),
             (6, 'Chinmaya', 'Bidkar', 'Phoenix', 'Arizona', 'USA', 'PUBLIC', 1, 'Passionate about life. Just getting started with diving!'),
             (7, 'Joule', 'Thief', 'San Francisco', 'California', 'USA', 'PUBLIC', 45, 'I steal energy'),
-            (8, 'Heuristic', 'Smith', 'Seattle', 'Washington', 'USA', 'PUBLIC', 60, 'Efficient but suboptimal. Admissible but inconsistent.');
+            (8, 'Heuristic', 'Lovuh', 'Seattle', 'Washington', 'USA', 'PUBLIC', 60, 'Efficient but suboptimal. Admissible but inconsistent.');
 
 -- UPDATE users SET avatar_url = 'profile-images/awkward-face.jpeg' WHERE user_id = 1;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/greek-boy.jpeg' WHERE user_id = 1;
