@@ -235,7 +235,7 @@ h2 { font-size: clamp(28px, 4vw, 38px); }
 
 .diver-card {
     display: grid;
-    gap: 14px;
+    /* gap: 14px; */
     align-content: start;
 }
 
