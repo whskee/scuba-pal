@@ -10,3 +10,5 @@ the use profile pic should be displayed in posts. currently it does not display 
 
 
 implement payment support
+
+this is my post. feel free to find any bugs or anything I can do better. anything I missed, or if I didn't follow proper conventions? prioritize robustness and production ready code.
