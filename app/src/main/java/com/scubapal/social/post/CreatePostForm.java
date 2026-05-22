@@ -1,6 +1,7 @@
 package com.scubapal.social.post;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import com.scubapal.shared.VisibilityStatus;
 @Setter
 public class CreatePostForm {
     @NotBlank
+    @Size(max = 500)
     private String caption = "";
 
     private VisibilityStatus visibilityStatus = VisibilityStatus.PUBLIC;
