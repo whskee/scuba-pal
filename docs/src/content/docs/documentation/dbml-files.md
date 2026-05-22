@@ -14,4 +14,7 @@ username and password are in `.env`
 `postgresql://localhost:5432/scuba_pal`
 
 `postgresql://<username>:<password>@localhost:5432/<database_name>`
-`postgresql://scuba_pal_app:scuba_pal@localhost:5432/scuba_pal`
+
+```
+postgresql://scuba_pal_app:scuba_pal@localhost:5432/scuba_pal
+```
