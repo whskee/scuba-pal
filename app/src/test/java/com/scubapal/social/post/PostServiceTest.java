@@ -12,6 +12,7 @@ import com.scubapal.identity.role.Role;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.media.MediaStorageService;
+import com.scubapal.media.MediaType;
 import com.scubapal.shared.VisibilityStatus;
 import com.scubapal.social.comment.PostCommentRepository;
 import com.scubapal.social.like.PostLike;
@@ -56,7 +57,7 @@ class PostServiceTest {
         media.setId(7L);
         media.setPost(post);
         media.setMediaUrl("https://images.example.com/not-managed.jpg");
-        media.setMediaType("IMAGE");
+        media.setMediaType(MediaType.IMAGE);
         post.getMedia().add(media);
         when(postRepository.findByVisibilityStatusOrderByCreatedAtDesc(eq(VisibilityStatus.PUBLIC), any())).thenReturn(new PageImpl<>(List.of(post)));
         when(mediaStorageService.normalizeManagedUrl("https://images.example.com/not-managed.jpg")).thenThrow(new IllegalArgumentException("Media URL must come from Scuba Pal uploads."));

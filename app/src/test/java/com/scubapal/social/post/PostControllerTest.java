@@ -17,13 +17,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PostControllerTest {
 
-    @Mock PostService postService;
-    @InjectMocks PostController postController;
+    @Mock
+    PostService postService;
+    @InjectMocks
+    PostController postController;
 
     @Test
     void getAllClampsPaginationAndSortsNewestFirst() {
@@ -42,7 +45,21 @@ class PostControllerTest {
     @Test
     void likeReturnsUpdatedPostDetailInsteadOfRedirectingOrRefreshing() {
         var auth = new UsernamePasswordAuthenticationToken("dana", "password");
-        var detail = new PostDetailView(10L, 2L, "kai", "Nice dive", VisibilityStatus.PUBLIC, null, List.of(), 1, 0, true, LocalDateTime.now(), List.of());
+        var detail = new PostDetailView(
+                10L,
+                2L,
+                "kai",
+                "https://example.com/avatar.jpg",
+                "Nice dive",
+                VisibilityStatus.PUBLIC,
+                null,
+                List.of(),
+                1,
+                0,
+                true,
+                LocalDateTime.now(),
+                List.of()
+        );
         when(postService.toggleLike(10L, "dana")).thenReturn(detail);
 
         PostDetailView response = postController.like(10L, auth);
@@ -55,7 +72,19 @@ class PostControllerTest {
 
     @Test
     void feedEndpointReturnsPagedContent() {
-        var item = new FeedPostView(1L, 1L, "dana", "hello", VisibilityStatus.PUBLIC, null, List.of(), 0, 0, LocalDateTime.now());
+        var item = new FeedPostView(
+                1L,
+                1L,
+                "dana",
+                "https://example.com/avatar.jpg",
+                "hello",
+                VisibilityStatus.PUBLIC,
+                null,
+                List.of(),
+                0,
+                0,
+                LocalDateTime.now()
+        );
         when(postService.getPublicFeed(any(Pageable.class))).thenReturn(new PageImpl<>(List.of(item)));
 
         Page<FeedPostView> page = postController.getAll(0, 10);

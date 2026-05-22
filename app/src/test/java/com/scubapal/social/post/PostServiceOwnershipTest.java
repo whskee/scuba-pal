@@ -9,6 +9,7 @@ import org.springframework.security.access.AccessDeniedException;
 
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
+import com.scubapal.identity.profile.ProfileRepository;
 import com.scubapal.media.MediaStorageService;
 import com.scubapal.shared.VisibilityStatus;
 import com.scubapal.social.comment.PostCommentRepository;
@@ -23,6 +24,7 @@ import static org.mockito.Mockito.*;
 class PostServiceOwnershipTest {
     @Mock PostRepository postRepository;
     @Mock UserRepository userRepository;
+    @Mock ProfileRepository profileRepository;
     @Mock PostLikeRepository postLikeRepository;
     @Mock PostCommentRepository postCommentRepository;
     @Mock MediaStorageService mediaStorageService;
@@ -39,7 +41,7 @@ class PostServiceOwnershipTest {
         when(postRepository.findByIdWithUser(10L)).thenReturn(Optional.of(post));
 
         assertThrows(AccessDeniedException.class,
-                () -> postService.updatePost(10L, new CreatePostRequest(1L, "new", VisibilityStatus.PUBLIC, null), "intruder"));
+                () -> postService.updatePost(10L, new UpdatePostRequest("new", VisibilityStatus.PUBLIC, null), "intruder"));
         verify(postRepository, never()).save(any());
     }
 
