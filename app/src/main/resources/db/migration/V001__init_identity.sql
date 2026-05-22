@@ -1,5 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS identity;
-
 CREATE TABLE identity.roles (
     role_id          BIGSERIAL PRIMARY KEY,
     role_name        VARCHAR(50) NOT NULL UNIQUE,

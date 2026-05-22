@@ -1,5 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS notification;
-
 CREATE TABLE notification.notifications (
     notification_id BIGSERIAL PRIMARY KEY,
     user_id         BIGINT NOT NULL REFERENCES identity.users(user_id),

@@ -1,5 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS messaging;
-
 CREATE TABLE messaging.conversations (
     conversation_id BIGSERIAL PRIMARY KEY,
     user_one_id     BIGINT NOT NULL REFERENCES identity.users(user_id),

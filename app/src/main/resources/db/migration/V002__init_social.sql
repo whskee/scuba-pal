@@ -1,8 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS social;
-CREATE SCHEMA IF NOT EXISTS dive;
-CREATE SCHEMA IF NOT EXISTS certification;
-CREATE SCHEMA IF NOT EXISTS notification;
-
 CREATE TABLE social.user_follows (
     user_follow_id   BIGSERIAL PRIMARY KEY,
     follower_user_id BIGINT NOT NULL REFERENCES identity.users(user_id),

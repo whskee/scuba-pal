@@ -1,5 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS certification;
-
 CREATE TABLE certification.certification_agencies (
     certification_agency_id BIGSERIAL PRIMARY KEY,
     agency_name             VARCHAR(120) NOT NULL UNIQUE,

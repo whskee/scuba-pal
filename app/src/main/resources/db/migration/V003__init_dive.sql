@@ -1,5 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS dive;
-
 CREATE TABLE dive.dive_locations (
     dive_location_id BIGSERIAL PRIMARY KEY,
     location_name    VARCHAR(180) NOT NULL,

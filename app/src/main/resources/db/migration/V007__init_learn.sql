@@ -1,5 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS learn;
-
 CREATE TABLE learn.articles (
     learn_article_id  BIGSERIAL PRIMARY KEY,
     slug              VARCHAR(140) NOT NULL UNIQUE,
