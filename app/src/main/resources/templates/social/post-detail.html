@@ -16,13 +16,18 @@
         <article class="card feed-item post-detail-card" th:attr="data-post-id=${post.postId}">
             <span class="pill" th:text="${post.visibilityStatus}">PUBLIC</span>
             <div class="feed-meta">
-                <span class="avatar" th:text="${#strings.substring(post.username,0,1).toUpperCase()}">S</span>
-                <div>
-                    <h1 th:text="${post.username}">username</h1>
-                    <p class="muted">Expanded community post</p>
-                </div>
+                <img class="avatar" th:if="${post.authorProfileImageUrl}" th:src="${post.authorProfileImageUrl}"
+                    alt="Profile image" />
+
+                <span class="avatar" th:unless="${post.authorProfileImageUrl}"
+                    th:text="${#strings.substring(post.username,0,1).toUpperCase()}">S</span>
+
+                <a th:href="@{'/profile/' + ${post.username}}">
+                    <strong th:text="${post.username}">username</strong>
+                </a>
             </div>
-            <img th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt="" style="width:100%; border-radius:24px; margin:18px 0; object-fit:cover; max-height:520px;">
+            <img th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt=""
+                style="width:100%; border-radius:24px; margin:18px 0; object-fit:cover; max-height:520px;">
             <p class="post-caption" th:text="${post.caption}">caption</p>
             <p class="muted"><strong data-like-count th:text="${post.likes}">0</strong> likes · <strong
                     th:text="${post.comments}">0</strong> comments</p>

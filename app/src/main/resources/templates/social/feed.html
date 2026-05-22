@@ -59,10 +59,17 @@
             <section class="grid feed-grid">
                 <article class="card feed-item" th:each="post : ${posts}" th:attr="data-post-id=${post.postId}"><span
                         class="pill" th:text="${post.visibilityStatus}">PUBLIC</span>
-                    <div class="feed-meta"><span class="avatar"
-                            th:text="${#strings.substring(post.username,0,1).toUpperCase()}">S</span><a
-                            th:href="@{'/profile/' + ${post.username}}"><strong
-                                th:text="${post.username}">username</strong></a></div>
+                    <div class="feed-meta">
+                        <img class="avatar" th:if="${post.authorProfileImageUrl}" th:src="${post.authorProfileImageUrl}"
+                            alt="Profile image" />
+
+                        <span class="avatar" th:unless="${post.authorProfileImageUrl}"
+                            th:text="${#strings.substring(post.username,0,1).toUpperCase()}">S</span>
+
+                        <a th:href="@{'/profile/' + ${post.username}}">
+                            <strong th:text="${post.username}">username</strong>
+                        </a>
+                    </div>
                     <img th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt="" style="width:100%; border-radius:18px; margin:12px 0; object-fit:cover; max-height:320px;">
                     <p th:text="${post.caption}">caption</p>
                     <p class="muted"><strong data-like-count th:text="${post.likes}">0</strong> likes · <strong
