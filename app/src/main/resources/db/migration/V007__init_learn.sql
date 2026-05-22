@@ -11,8 +11,8 @@ CREATE TABLE learn.articles (
     estimated_minutes INTEGER NOT NULL DEFAULT 5,
     display_order     INTEGER NOT NULL DEFAULT 0,
     is_published      BOOLEAN NOT NULL DEFAULT true,
-    created_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_learn_articles_published_order

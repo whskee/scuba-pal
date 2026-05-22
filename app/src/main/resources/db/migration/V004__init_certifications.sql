@@ -5,8 +5,8 @@ CREATE TABLE certification.certification_agencies (
     agency_name             VARCHAR(120) NOT NULL UNIQUE,
     agency_code             VARCHAR(30) NOT NULL UNIQUE,
     website_url             VARCHAR(255),
-    created_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at              TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at              TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE certification.certification_levels (
@@ -16,8 +16,8 @@ CREATE TABLE certification.certification_levels (
     certification_code      VARCHAR(50),
     description             VARCHAR(500),
     display_order           INTEGER NOT NULL DEFAULT 0,
-    created_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at              TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at              TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE certification.user_certifications (
@@ -27,10 +27,10 @@ CREATE TABLE certification.user_certifications (
     certification_number   VARCHAR(100),
     issued_on              DATE,
     expires_on             DATE,
-    verified_at            TIMESTAMP,
+    verified_at            TIMESTAMPTZ,
     verification_status    VARCHAR(20) NOT NULL DEFAULT 'PENDING',
-    created_at             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at             TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at             TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- SEED DATA

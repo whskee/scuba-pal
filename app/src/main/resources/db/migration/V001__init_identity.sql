@@ -4,8 +4,8 @@ CREATE TABLE identity.roles (
     role_id          BIGSERIAL PRIMARY KEY,
     role_name        VARCHAR(50) NOT NULL UNIQUE,
     role_description VARCHAR(255),
-    created_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at       TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at       TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE identity.users (
@@ -15,11 +15,11 @@ CREATE TABLE identity.users (
     password_hash     VARCHAR(255) NOT NULL,
     role_id           BIGINT NOT NULL REFERENCES identity.roles(role_id),
     is_active         BOOLEAN NOT NULL DEFAULT true,
-    email_verified_at TIMESTAMP,
-    last_login_at     TIMESTAMP,
-    created_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at        TIMESTAMP
+    email_verified_at TIMESTAMPTZ,
+    last_login_at     TIMESTAMPTZ,
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at        TIMESTAMPTZ
 );
 
 CREATE TABLE identity.profiles (
@@ -37,17 +37,17 @@ CREATE TABLE identity.profiles (
     visibility_status VARCHAR(20) NOT NULL DEFAULT 'PUBLIC',
     dive_count        INTEGER NOT NULL DEFAULT 0,
     bio               VARCHAR(400),
-    created_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE identity.password_reset_tokens (
     password_reset_token_id BIGSERIAL PRIMARY KEY,
     user_id                 BIGINT NOT NULL REFERENCES identity.users(user_id),
     token                   VARCHAR(120) NOT NULL UNIQUE,
-    expires_at              TIMESTAMP NOT NULL,
-    used_at                 TIMESTAMP,
-    created_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    expires_at              TIMESTAMPTZ NOT NULL,
+    used_at                 TIMESTAMPTZ,
+    created_at              TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_profiles_city ON identity.profiles(city);

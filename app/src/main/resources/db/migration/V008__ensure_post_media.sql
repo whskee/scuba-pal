@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS social.post_media (
     media_url     VARCHAR(500) NOT NULL,
     media_type    VARCHAR(20) NOT NULL,
     display_order INTEGER NOT NULL DEFAULT 0,
-    created_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX if

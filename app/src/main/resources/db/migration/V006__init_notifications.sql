@@ -6,7 +6,7 @@ CREATE TABLE notification.notifications (
     title           VARCHAR(180) NOT NULL,
     MESSAGE         VARCHAR(500) NOT NULL,
     is_read         BOOLEAN NOT NULL DEFAULT false,
-    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX if NOT EXISTS idx_notifications_user_read

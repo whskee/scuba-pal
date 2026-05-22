@@ -11,8 +11,8 @@ CREATE TABLE dive.dive_locations (
     longitude        NUMERIC(10, 7),
     difficulty_level VARCHAR(30),
     popularity_score INTEGER NOT NULL DEFAULT 0,
-    created_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at       TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at       TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE dive.dive_shops (
@@ -29,8 +29,8 @@ CREATE TABLE dive.dive_shops (
     country          VARCHAR(120),
     latitude         NUMERIC(10, 7),
     longitude        NUMERIC(10, 7),
-    created_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at       TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at       TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_dive_locations_city ON dive.dive_locations (city);

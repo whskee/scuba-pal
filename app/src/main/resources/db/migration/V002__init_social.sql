@@ -7,7 +7,7 @@ CREATE TABLE social.user_follows (
     user_follow_id   BIGSERIAL PRIMARY KEY,
     follower_user_id BIGINT NOT NULL REFERENCES identity.users(user_id),
     followed_user_id BIGINT NOT NULL REFERENCES identity.users(user_id),
-    created_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at       TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT user_follows_unique_pair UNIQUE (follower_user_id, followed_user_id),
     CONSTRAINT user_follows_not_self CHECK (follower_user_id <> followed_user_id)
 );
@@ -18,9 +18,9 @@ CREATE TABLE social.posts (
     caption           VARCHAR(500),
     post_type         VARCHAR(20) NOT NULL DEFAULT 'TEXT',
     visibility_status VARCHAR(20) NOT NULL DEFAULT 'PUBLIC',
-    created_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at        TIMESTAMP
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at        TIMESTAMPTZ
 );
 
 CREATE TABLE social.post_media (
@@ -29,14 +29,14 @@ CREATE TABLE social.post_media (
     media_url     VARCHAR(500) NOT NULL,
     media_type    VARCHAR(20) NOT NULL,
     display_order INTEGER NOT NULL DEFAULT 0,
-    created_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE social.post_likes (
     post_like_id BIGSERIAL PRIMARY KEY,
     post_id      BIGINT NOT NULL REFERENCES social.posts(post_id),
     user_id      BIGINT NOT NULL REFERENCES identity.users(user_id),
-    created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at   TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT post_likes_unique_pair UNIQUE (post_id, user_id)
 );
 
@@ -46,9 +46,9 @@ CREATE TABLE social.post_comments (
     user_id           BIGINT NOT NULL REFERENCES identity.users(user_id),
     comment_text      VARCHAR(500) NOT NULL,
     parent_comment_id BIGINT REFERENCES social.post_comments(post_comment_id),
-    created_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at        TIMESTAMP
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at        TIMESTAMPTZ
 );
 
 CREATE INDEX idx_posts_user_id ON social.posts (user_id);
