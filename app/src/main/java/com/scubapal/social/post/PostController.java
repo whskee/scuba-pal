@@ -25,10 +25,10 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping
-    public ResponseEntity<FeedPostView> create(@Valid @RequestBody CreatePostRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(request));
-    }
+    // @PostMapping
+    // public ResponseEntity<FeedPostView> create(@Valid @RequestBody CreatePostRequest request) {
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(request));
+    // }
 
     @PostMapping("/me")
     public ResponseEntity<FeedPostView> createForCurrentUser(@Valid @RequestBody CreateCurrentUserPostRequest request,
