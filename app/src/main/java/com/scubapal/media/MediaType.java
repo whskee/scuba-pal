@@ -1,4 +1,4 @@
-package com.scubapal.social.post;
+package com.scubapal.media;
 
 public enum MediaType {
     IMAGE,

@@ -1,5 +1,6 @@
 package com.scubapal.social.post;
 
+import com.scubapal.media.MediaType;
 import com.scubapal.shared.domain.CreatedEntity;
 
 import jakarta.persistence.AttributeOverride;
