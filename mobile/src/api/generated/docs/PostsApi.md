@@ -5,11 +5,10 @@ All URIs are relative to *http://localhost:8080*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**comment**](#comment) | **POST** /api/posts/{id}/comments | |
-|[**create2**](#create2) | **POST** /api/posts | |
 |[**createForCurrentUser**](#createforcurrentuser) | **POST** /api/posts/me | |
 |[**delete1**](#delete1) | **DELETE** /api/posts/{id} | |
 |[**deleteComment**](#deletecomment) | **DELETE** /api/posts/{postId}/comments/{commentId} | |
-|[**getAll1**](#getall1) | **GET** /api/posts | |
+|[**getAll2**](#getall2) | **GET** /api/posts | |
 |[**getById1**](#getbyid1) | **GET** /api/posts/{id} | |
 |[**getByUser**](#getbyuser) | **GET** /api/posts/users/{userId} | |
 |[**like**](#like) | **POST** /api/posts/{id}/like | |
@@ -52,57 +51,6 @@ const { status, data } = await apiInstance.comment(
 ### Return type
 
 **PostDetailView**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **create2**
-> FeedPostView create2(createPostRequest)
-
-
-### Example
-
-```typescript
-import {
-    PostsApi,
-    Configuration,
-    CreatePostRequest
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new PostsApi(configuration);
-
-let createPostRequest: CreatePostRequest; //
-
-const { status, data } = await apiInstance.create2(
-    createPostRequest
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **createPostRequest** | **CreatePostRequest**|  | |
-
-
-### Return type
-
-**FeedPostView**
 
 ### Authorization
 
@@ -275,8 +223,8 @@ const { status, data } = await apiInstance.deleteComment(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getAll1**
-> PagedModelFeedPostView getAll1()
+# **getAll2**
+> PagedModelFeedPostView getAll2()
 
 
 ### Example
@@ -293,7 +241,7 @@ const apiInstance = new PostsApi(configuration);
 let page: number; // (optional) (default to 0)
 let size: number; // (optional) (default to 10)
 
-const { status, data } = await apiInstance.getAll1(
+const { status, data } = await apiInstance.getAll2(
     page,
     size
 );
@@ -538,7 +486,7 @@ const { status, data } = await apiInstance.search(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update2**
-> FeedPostView update2(createPostRequest)
+> FeedPostView update2(updatePostRequest)
 
 
 ### Example
@@ -547,18 +495,18 @@ const { status, data } = await apiInstance.search(
 import {
     PostsApi,
     Configuration,
-    CreatePostRequest
+    UpdatePostRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new PostsApi(configuration);
 
 let id: number; // (default to undefined)
-let createPostRequest: CreatePostRequest; //
+let updatePostRequest: UpdatePostRequest; //
 
 const { status, data } = await apiInstance.update2(
     id,
-    createPostRequest
+    updatePostRequest
 );
 ```
 
@@ -566,7 +514,7 @@ const { status, data } = await apiInstance.update2(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **createPostRequest** | **CreatePostRequest**|  | |
+| **updatePostRequest** | **UpdatePostRequest**|  | |
 | **id** | [**number**] |  | defaults to undefined|
 
 

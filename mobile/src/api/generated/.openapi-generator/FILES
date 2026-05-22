@@ -14,7 +14,6 @@ docs/CreateCommentRequest.md
 docs/CreateCurrentUserPostRequest.md
 docs/CreateLocationRequest.md
 docs/CreateMediaUploadRequest.md
-docs/CreatePostRequest.md
 docs/DiveLocationResponse.md
 docs/DiveLocationsApi.md
 docs/FeedPostView.md
@@ -43,6 +42,7 @@ docs/RegisterRequest.md
 docs/SendMessageRequest.md
 docs/UnreadCountView.md
 docs/UnreadNotificationCountView.md
+docs/UpdatePostRequest.md
 docs/UpsertProfileRequest.md
 docs/UserListResponse.md
 docs/UserManagementApi.md

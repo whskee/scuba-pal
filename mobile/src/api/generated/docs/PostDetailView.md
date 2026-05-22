@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **postId** | **number** |  | [optional] [default to undefined]
 **userId** | **number** |  | [optional] [default to undefined]
 **username** | **string** |  | [optional] [default to undefined]
+**authorProfileImageUrl** | **string** |  | [optional] [default to undefined]
 **caption** | **string** |  | [optional] [default to undefined]
 **visibilityStatus** | **string** |  | [optional] [default to undefined]
 **imageUrl** | **string** |  | [optional] [default to undefined]
@@ -27,6 +28,7 @@ const instance: PostDetailView = {
     postId,
     userId,
     username,
+    authorProfileImageUrl,
     caption,
     visibilityStatus,
     imageUrl,

@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**create3**](#create3) | **POST** /api/locations | Create dive location|
-|[**getAll2**](#getall2) | **GET** /api/locations | List dive locations|
+|[**create2**](#create2) | **POST** /api/locations | Create dive location|
+|[**getAll1**](#getall1) | **GET** /api/locations | List dive locations|
 
-# **create3**
-> DiveLocationResponse create3(createLocationRequest)
+# **create2**
+> DiveLocationResponse create2(createLocationRequest)
 
 Creates a new dive location.
 
@@ -26,7 +26,7 @@ const apiInstance = new DiveLocationsApi(configuration);
 
 let createLocationRequest: CreateLocationRequest; //
 
-const { status, data } = await apiInstance.create3(
+const { status, data } = await apiInstance.create2(
     createLocationRequest
 );
 ```
@@ -61,8 +61,8 @@ const { status, data } = await apiInstance.create3(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getAll2**
-> Array<DiveLocationResponse> getAll2()
+# **getAll1**
+> Array<DiveLocationResponse> getAll1()
 
 Returns dive locations, optionally filtered by city.
 
@@ -79,7 +79,7 @@ const apiInstance = new DiveLocationsApi(configuration);
 
 let city: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getAll2(
+const { status, data } = await apiInstance.getAll1(
     city
 );
 ```

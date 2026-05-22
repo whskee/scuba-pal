@@ -34,6 +34,7 @@ export interface CommentView {
     'commentId'?: number;
     'userId'?: number;
     'username'?: string;
+    'authorProfileImageUrl'?: string;
     'commentText'?: string;
     'createdAt'?: string;
 }
@@ -90,20 +91,6 @@ export const CreateMediaUploadRequestPurposeEnum = {
 
 export type CreateMediaUploadRequestPurposeEnum = typeof CreateMediaUploadRequestPurposeEnum[keyof typeof CreateMediaUploadRequestPurposeEnum];
 
-export interface CreatePostRequest {
-    'userId': number;
-    'caption': string;
-    'visibilityStatus': CreatePostRequestVisibilityStatusEnum;
-    'mediaUrls'?: Array<string>;
-}
-
-export const CreatePostRequestVisibilityStatusEnum = {
-    Public: 'PUBLIC',
-    Private: 'PRIVATE',
-} as const;
-
-export type CreatePostRequestVisibilityStatusEnum = typeof CreatePostRequestVisibilityStatusEnum[keyof typeof CreatePostRequestVisibilityStatusEnum];
-
 export interface DiveLocationResponse {
     'locationId'?: number;
     'locationName'?: string;
@@ -120,6 +107,7 @@ export interface FeedPostView {
     'postId'?: number;
     'userId'?: number;
     'username'?: string;
+    'authorProfileImageUrl'?: string;
     'caption'?: string;
     'visibilityStatus'?: FeedPostViewVisibilityStatusEnum;
     'imageUrl'?: string;
@@ -215,6 +203,7 @@ export interface PostDetailView {
     'postId'?: number;
     'userId'?: number;
     'username'?: string;
+    'authorProfileImageUrl'?: string;
     'caption'?: string;
     'visibilityStatus'?: PostDetailViewVisibilityStatusEnum;
     'imageUrl'?: string;
@@ -278,6 +267,19 @@ export interface UnreadCountView {
 export interface UnreadNotificationCountView {
     'unreadNotificationCount'?: number;
 }
+export interface UpdatePostRequest {
+    'caption': string;
+    'visibilityStatus': UpdatePostRequestVisibilityStatusEnum;
+    'mediaUrls'?: Array<string>;
+}
+
+export const UpdatePostRequestVisibilityStatusEnum = {
+    Public: 'PUBLIC',
+    Private: 'PRIVATE',
+} as const;
+
+export type UpdatePostRequestVisibilityStatusEnum = typeof UpdatePostRequestVisibilityStatusEnum[keyof typeof UpdatePostRequestVisibilityStatusEnum];
+
 export interface UpsertProfileRequest {
     'firstName'?: string;
     'lastName'?: string;
@@ -986,9 +988,9 @@ export const DiveLocationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create3: async (createLocationRequest: CreateLocationRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        create2: async (createLocationRequest: CreateLocationRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'createLocationRequest' is not null or undefined
-            assertParamExists('create3', 'createLocationRequest', createLocationRequest)
+            assertParamExists('create2', 'createLocationRequest', createLocationRequest)
             const localVarPath = `/api/locations`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1025,7 +1027,7 @@ export const DiveLocationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAll2: async (city?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAll1: async (city?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/locations`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1073,10 +1075,10 @@ export const DiveLocationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async create3(createLocationRequest: CreateLocationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DiveLocationResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create3(createLocationRequest, options);
+        async create2(createLocationRequest: CreateLocationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DiveLocationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create2(createLocationRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DiveLocationsApi.create3']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DiveLocationsApi.create2']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -1086,10 +1088,10 @@ export const DiveLocationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAll2(city?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DiveLocationResponse>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAll2(city, options);
+        async getAll1(city?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DiveLocationResponse>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAll1(city, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DiveLocationsApi.getAll2']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DiveLocationsApi.getAll1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -1108,8 +1110,8 @@ export const DiveLocationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create3(createLocationRequest: CreateLocationRequest, options?: RawAxiosRequestConfig): AxiosPromise<DiveLocationResponse> {
-            return localVarFp.create3(createLocationRequest, options).then((request) => request(axios, basePath));
+        create2(createLocationRequest: CreateLocationRequest, options?: RawAxiosRequestConfig): AxiosPromise<DiveLocationResponse> {
+            return localVarFp.create2(createLocationRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns dive locations, optionally filtered by city.
@@ -1118,8 +1120,8 @@ export const DiveLocationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAll2(city?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<DiveLocationResponse>> {
-            return localVarFp.getAll2(city, options).then((request) => request(axios, basePath));
+        getAll1(city?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<DiveLocationResponse>> {
+            return localVarFp.getAll1(city, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1135,8 +1137,8 @@ export class DiveLocationsApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public create3(createLocationRequest: CreateLocationRequest, options?: RawAxiosRequestConfig) {
-        return DiveLocationsApiFp(this.configuration).create3(createLocationRequest, options).then((request) => request(this.axios, this.basePath));
+    public create2(createLocationRequest: CreateLocationRequest, options?: RawAxiosRequestConfig) {
+        return DiveLocationsApiFp(this.configuration).create2(createLocationRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1146,8 +1148,8 @@ export class DiveLocationsApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getAll2(city?: string, options?: RawAxiosRequestConfig) {
-        return DiveLocationsApiFp(this.configuration).getAll2(city, options).then((request) => request(this.axios, this.basePath));
+    public getAll1(city?: string, options?: RawAxiosRequestConfig) {
+        return DiveLocationsApiFp(this.configuration).getAll1(city, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2648,44 +2650,6 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {CreatePostRequest} createPostRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        create2: async (createPostRequest: CreatePostRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'createPostRequest' is not null or undefined
-            assertParamExists('create2', 'createPostRequest', createPostRequest)
-            const localVarPath = `/api/posts`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-            localVarHeaderParameter['Accept'] = '*/*';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(createPostRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {CreateCurrentUserPostRequest} createCurrentUserPostRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2807,7 +2771,7 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAll1: async (page?: number, size?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAll2: async (page?: number, size?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/posts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3010,15 +2974,15 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @param {number} id 
-         * @param {CreatePostRequest} createPostRequest 
+         * @param {UpdatePostRequest} updatePostRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update2: async (id: number, createPostRequest: CreatePostRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        update2: async (id: number, updatePostRequest: UpdatePostRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('update2', 'id', id)
-            // verify required parameter 'createPostRequest' is not null or undefined
-            assertParamExists('update2', 'createPostRequest', createPostRequest)
+            // verify required parameter 'updatePostRequest' is not null or undefined
+            assertParamExists('update2', 'updatePostRequest', updatePostRequest)
             const localVarPath = `/api/posts/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -3042,7 +3006,7 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(createPostRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(updatePostRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3069,18 +3033,6 @@ export const PostsApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.comment(id, createCommentRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PostsApi.comment']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {CreatePostRequest} createPostRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async create2(createPostRequest: CreatePostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedPostView>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create2(createPostRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PostsApi.create2']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3127,10 +3079,10 @@ export const PostsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAll1(page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelFeedPostView>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAll1(page, size, options);
+        async getAll2(page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelFeedPostView>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAll2(page, size, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PostsApi.getAll1']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PostsApi.getAll2']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3187,12 +3139,12 @@ export const PostsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
-         * @param {CreatePostRequest} createPostRequest 
+         * @param {UpdatePostRequest} updatePostRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async update2(id: number, createPostRequest: CreatePostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedPostView>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.update2(id, createPostRequest, options);
+        async update2(id: number, updatePostRequest: UpdatePostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedPostView>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.update2(id, updatePostRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PostsApi.update2']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -3215,15 +3167,6 @@ export const PostsApiFactory = function (configuration?: Configuration, basePath
          */
         comment(id: number, createCommentRequest: CreateCommentRequest, options?: RawAxiosRequestConfig): AxiosPromise<PostDetailView> {
             return localVarFp.comment(id, createCommentRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {CreatePostRequest} createPostRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        create2(createPostRequest: CreatePostRequest, options?: RawAxiosRequestConfig): AxiosPromise<FeedPostView> {
-            return localVarFp.create2(createPostRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3260,8 +3203,8 @@ export const PostsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAll1(page?: number, size?: number, options?: RawAxiosRequestConfig): AxiosPromise<PagedModelFeedPostView> {
-            return localVarFp.getAll1(page, size, options).then((request) => request(axios, basePath));
+        getAll2(page?: number, size?: number, options?: RawAxiosRequestConfig): AxiosPromise<PagedModelFeedPostView> {
+            return localVarFp.getAll2(page, size, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3305,12 +3248,12 @@ export const PostsApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @param {number} id 
-         * @param {CreatePostRequest} createPostRequest 
+         * @param {UpdatePostRequest} updatePostRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update2(id: number, createPostRequest: CreatePostRequest, options?: RawAxiosRequestConfig): AxiosPromise<FeedPostView> {
-            return localVarFp.update2(id, createPostRequest, options).then((request) => request(axios, basePath));
+        update2(id: number, updatePostRequest: UpdatePostRequest, options?: RawAxiosRequestConfig): AxiosPromise<FeedPostView> {
+            return localVarFp.update2(id, updatePostRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3328,16 +3271,6 @@ export class PostsApi extends BaseAPI {
      */
     public comment(id: number, createCommentRequest: CreateCommentRequest, options?: RawAxiosRequestConfig) {
         return PostsApiFp(this.configuration).comment(id, createCommentRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {CreatePostRequest} createPostRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    public create2(createPostRequest: CreatePostRequest, options?: RawAxiosRequestConfig) {
-        return PostsApiFp(this.configuration).create2(createPostRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3378,8 +3311,8 @@ export class PostsApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getAll1(page?: number, size?: number, options?: RawAxiosRequestConfig) {
-        return PostsApiFp(this.configuration).getAll1(page, size, options).then((request) => request(this.axios, this.basePath));
+    public getAll2(page?: number, size?: number, options?: RawAxiosRequestConfig) {
+        return PostsApiFp(this.configuration).getAll2(page, size, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3428,12 +3361,12 @@ export class PostsApi extends BaseAPI {
     /**
      * 
      * @param {number} id 
-     * @param {CreatePostRequest} createPostRequest 
+     * @param {UpdatePostRequest} updatePostRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public update2(id: number, createPostRequest: CreatePostRequest, options?: RawAxiosRequestConfig) {
-        return PostsApiFp(this.configuration).update2(id, createPostRequest, options).then((request) => request(this.axios, this.basePath));
+    public update2(id: number, updatePostRequest: UpdatePostRequest, options?: RawAxiosRequestConfig) {
+        return PostsApiFp(this.configuration).update2(id, updatePostRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

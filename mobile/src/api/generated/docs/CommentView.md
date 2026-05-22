@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **commentId** | **number** |  | [optional] [default to undefined]
 **userId** | **number** |  | [optional] [default to undefined]
 **username** | **string** |  | [optional] [default to undefined]
+**authorProfileImageUrl** | **string** |  | [optional] [default to undefined]
 **commentText** | **string** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 
@@ -20,6 +21,7 @@ const instance: CommentView = {
     commentId,
     userId,
     username,
+    authorProfileImageUrl,
     commentText,
     createdAt,
 };
