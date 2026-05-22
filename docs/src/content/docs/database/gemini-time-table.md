@@ -1,3 +1,8 @@
+---
+title: Time - Gemini
+description: Gemini info on Time.
+---
+
 The primary difference is that TIMESTAMP is stored without a time zone, while TIMESTAMPTZ stores an absolute point in time by factoring in the time zone (Time Zone). [1] 
 ## Key Differences at a Glance
 

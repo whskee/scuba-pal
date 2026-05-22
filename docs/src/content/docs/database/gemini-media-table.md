@@ -1,3 +1,8 @@
+---
+title: Media - Gemini
+description: Gemini info on Media.
+---
+
 Neither is inherently "better," but extending com.socialapp.shared.BaseEntity is generally the safer, more standard approach. The difference dictates whether you are using explicit imports or relying on classes in the same package.
 ## public class Post extends com.socialapp.shared.BaseEntity {
 

@@ -1,6 +1,6 @@
 ---
-title: Gemini Reference
-description: A reference page in my new Starlight docs site.
+title: Timestamp - Gemini
+description: Gemini info on timestamps.
 ---
 
 ---
