@@ -19,11 +19,16 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
 
     @Query("""
-        SELECT DISTINCT p
-        FROM Post p
-        JOIN FETCH p.user
-        LEFT JOIN FETCH p.media
-        WHERE p.id = :postId
-    """)
+                SELECT DISTINCT p
+                FROM Post p
+                JOIN FETCH p.user
+                LEFT JOIN FETCH p.media
+                WHERE p.id = :postId
+            """)
     Optional<Post> findByIdWithUser(Long postId);
+
+    @EntityGraph(attributePaths = "user")
+    Page<Post> findByUserIdAndVisibilityStatusOrderByCreatedAtDesc(Long userId,
+                                                                   VisibilityStatus visibilityStatus,
+                                                                   Pageable pageable);
 }
