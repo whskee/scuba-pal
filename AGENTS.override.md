@@ -7,3 +7,6 @@ Messaging should be in the messaging tab, it should never go under notification.
 
 
 the use profile pic should be displayed in posts. currently it does not display that.
+
+
+implement payment support
