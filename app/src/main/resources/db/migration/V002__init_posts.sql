@@ -41,6 +41,18 @@ CREATE INDEX idx_posts_user_id ON social.posts (user_id);
 CREATE INDEX idx_post_comments_post_id ON social.post_comments (post_id);
 CREATE INDEX idx_post_likes_post_id ON social.post_likes (post_id);
 
+CREATE INDEX idx_posts_visibility_created_at
+          ON social.posts(visibility_status, created_at DESC);
+
+CREATE INDEX idx_posts_user_visibility_created_at
+          ON social.posts(user_id, visibility_status, created_at DESC);
+
+CREATE INDEX idx_post_media_post_display_order
+          ON social.post_media(post_id, display_order);
+
+CREATE INDEX idx_post_comments_post_created_at
+          ON social.post_comments(post_id, created_at);
+
 -- SEED DATA
 INSERT INTO social.posts (user_id, caption, post_type, visibility_status)
      VALUES (2, 'Morning dive at La Jolla was unreal. Leopard sharks and crystal visibility.', 'TEXT', 'PUBLIC'),
