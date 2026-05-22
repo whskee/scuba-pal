@@ -17,13 +17,22 @@
             <input type="text" name="city" placeholder="Filter by city" th:value="${city}" />
             <button type="submit">Search</button>
         </form>
+        <!-- TODO: Add location filtering and sorting options -->
+        <!-- TODO: does not have placeholder image yet -->
         <section class="grid">
-            <article class="card" th:each="location : ${locations}">
-                <span class="pill" th:text="${location.difficultyLevel}">BEGINNER</span>
-                <h3 th:text="${location.locationName}">Location Name</h3>
-                <p th:text="${location.description}">Description</p>
-                <p th:text="${location.city + ', ' + location.state + ', ' + location.country}">City</p>
-                <p>Popularity: <strong th:text="${location.popularityScore}">0</strong></p>
+            <article class="card location-card" th:each="location : ${locations}">
+                <img class="location-photo" th:src="${location.imageUrl != null and !#strings.isEmpty(location.imageUrl)
+                ? location.imageUrl
+                : '/img/dive-location-placeholder.svg'}" th:alt="${location.locationName + ' dive site'}"
+                    onerror="this.onerror=null;this.src='/img/dive-location-placeholder.svg';" />
+
+                <div class="location-card-body">
+                    <span class="pill" th:text="${location.difficultyLevel}">BEGINNER</span>
+                    <h3 th:text="${location.locationName}">Location Name</h3>
+                    <p th:text="${location.description}">Description</p>
+                    <p th:text="${location.city + ', ' + location.state + ', ' + location.country}">City</p>
+                    <p>Popularity: <strong th:text="${location.popularityScore}">0</strong></p>
+                </div>
             </article>
         </section>
         <div class="pagination" th:if="${locationPage != null and locationPage.totalPages > 1}"><a
