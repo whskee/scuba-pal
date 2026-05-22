@@ -11,7 +11,7 @@ export type CreatePostInput = {
 
 export const feedApi = {
   async feed(page = 0, size = 20): Promise<Post[]> {
-    const response = await unwrap(generatedPostsApi.getAll1(page, size));
+    const response = await unwrap(generatedPostsApi.getAll2(page, size));
     return (response.content ?? []).map(toPost);
   },
 
