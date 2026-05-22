@@ -25,10 +25,10 @@ public class ProfilePageController {
 
     @GetMapping("/buddies")
     public String buddies(
-            @RequestParam(required = false) String city,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size,
-            Model model) {
+                          @RequestParam(required = false) String city,
+                          @RequestParam(defaultValue = "0") int page,
+                          @RequestParam(defaultValue = "12") int size,
+                          Model model) {
         var userPage = userService.getAllUsers(pageable(page, size));
         model.addAttribute("city", city);
         model.addAttribute("userPage", userPage);
@@ -38,8 +38,8 @@ public class ProfilePageController {
 
     @GetMapping("/divers")
     public String divers(@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size,
-            Model model) {
+                         @RequestParam(defaultValue = "12") int size,
+                         Model model) {
         var userPage = userService.getAllUsers(pageable(page, size));
         model.addAttribute("userPage", userPage);
         model.addAttribute("users", userPage.getContent());
@@ -48,10 +48,10 @@ public class ProfilePageController {
 
     @GetMapping("/profile/{username}")
     public String profile(@PathVariable String username,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size,
-            Model model,
-            Authentication auth) {
+                          @RequestParam(defaultValue = "0") int page,
+                          @RequestParam(defaultValue = "6") int size,
+                          Model model,
+                          Authentication auth) {
         var user = looksNumeric(username)
                 ? userService.getUser(Long.valueOf(username))
                 : userService.getUserByUsername(username);
