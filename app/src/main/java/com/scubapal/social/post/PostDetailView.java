@@ -10,6 +10,7 @@ public record PostDetailView(
         Long postId,
         Long userId,
         String username,
+        String authorProfileImageUrl,
         String caption,
         VisibilityStatus visibilityStatus,
         String imageUrl,
