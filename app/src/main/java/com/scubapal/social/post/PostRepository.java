@@ -27,6 +27,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             """)
     Optional<Post> findByIdWithUser(Long postId);
 
+    // Visibility-aware methods
     @EntityGraph(attributePaths = "user")
     Page<Post> findByUserIdAndVisibilityStatusOrderByCreatedAtDesc(Long userId,
                                                                    VisibilityStatus visibilityStatus,
