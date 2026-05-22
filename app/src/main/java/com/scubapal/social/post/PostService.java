@@ -8,9 +8,11 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scubapal.identity.profile.ProfileRepository;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.media.MediaStorageService;
+import com.scubapal.media.MediaType;
 import com.scubapal.shared.VisibilityStatus;
 import com.scubapal.shared.exception.ResourceNotFoundException;
 import com.scubapal.social.comment.CommentView;
@@ -20,7 +22,10 @@ import com.scubapal.social.like.PostLike;
 import com.scubapal.social.like.PostLikeRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -29,17 +34,20 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
     private final PostLikeRepository postLikeRepository;
     private final PostCommentRepository postCommentRepository;
     private final MediaStorageService mediaStorageService;
 
     public PostService(PostRepository postRepository,
                        UserRepository userRepository,
+                       ProfileRepository profileRepository,
                        PostLikeRepository postLikeRepository,
                        PostCommentRepository postCommentRepository,
                        MediaStorageService mediaStorageService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.profileRepository = profileRepository;
         this.postLikeRepository = postLikeRepository;
         this.postCommentRepository = postCommentRepository;
         this.mediaStorageService = mediaStorageService;
@@ -47,8 +55,8 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Page<FeedPostView> getPublicFeed(Pageable pageable) {
-        return postRepository.findByVisibilityStatusOrderByCreatedAtDesc(VisibilityStatus.PUBLIC, pageable)
-                .map(this::toFeedPostView);
+        Page<Post> page = postRepository.findByVisibilityStatusOrderByCreatedAtDesc(VisibilityStatus.PUBLIC, pageable);
+        return toFeedPostViews(page);
     }
 
     @Transactional(readOnly = true)
@@ -56,9 +64,35 @@ public class PostService {
         return getPublicFeed(Pageable.ofSize(20)).getContent();
     }
 
+    private Map<Long, String> authorProfileImages(List<Post> posts) {
+        Set<Long> userIds = posts.stream()
+                .map(post -> post.getUser().getId())
+                .collect(Collectors.toSet());
+
+        if (userIds.isEmpty()) {
+            return Map.of();
+        }
+
+        return profileRepository.findAllByUserIdsWithUser(userIds).stream()
+                .filter(profile -> profile.getProfileImageUrl() != null && !profile.getProfileImageUrl().isBlank())
+                .collect(Collectors.toMap(
+                        profile -> profile.getUser().getId(),
+                        profile -> normalizeAuthorProfileImageUrl(profile.getProfileImageUrl())
+                ));
+    }
+
+    private String normalizeAuthorProfileImageUrl(String url) {
+        try {
+            return mediaStorageService.normalizeManagedUrl(url);
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
+    }
+
     @Transactional(readOnly = true)
     public Page<FeedPostView> getPostsByUser(Long userId, Pageable pageable) {
-        return postRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable).map(this::toFeedPostView);
+        Page<Post> page = postRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
+        return toFeedPostViews(page);
     }
 
     @Transactional(readOnly = true)
@@ -70,13 +104,27 @@ public class PostService {
     public FeedPostView getPost(Long postId) {
         Post post = postRepository.findByIdWithUser(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + postId));
-        return toFeedPostView(post);
+        ensureCanView(post, null);
+        return toFeedPostView(post, authorProfileImageUrl(post));
+    }
+
+    private void ensureCanView(Post post, String currentUsername) {
+        boolean publicPost = post.getVisibilityStatus() == VisibilityStatus.PUBLIC;
+        boolean owner = currentUsername != null &&
+                post.getUser().getUsername().equals(currentUsername);
+
+        if (!publicPost && !owner) {
+            throw new ResourceNotFoundException("Post not found: " + post.getId());
+        }
     }
 
     @Transactional(readOnly = true)
     public PostDetailView getPostDetail(Long postId, String currentUsername) {
         Post post = postRepository.findByIdWithUser(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + postId));
+
+        ensureCanView(post, currentUsername);
+        String authorProfileImageUrl = authorProfileImageUrl(post);
 
         Long currentUserId = currentUsername == null ? null : userRepository.findByUsername(currentUsername).map(User::getId).orElse(null);
         boolean likedByCurrentUser = currentUserId != null && postLikeRepository.existsByPostIdAndUserId(postId, currentUserId);
@@ -87,6 +135,7 @@ public class PostService {
                         comment.getId(),
                         comment.getUser().getId(),
                         comment.getUser().getUsername(),
+                        null,
                         comment.getCommentText(),
                         comment.getCreatedAt()
                 ))
@@ -96,6 +145,7 @@ public class PostService {
                 post.getId(),
                 post.getUser().getId(),
                 post.getUser().getUsername(),
+                authorProfileImageUrl,
                 post.getCaption(),
                 post.getVisibilityStatus(),
                 primaryImageUrl(post),
@@ -112,22 +162,25 @@ public class PostService {
     public FeedPostView createPost(CreatePostRequest request) {
         User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + request.userId()));
-
-        Post post = new Post();
-        post.setUser(user);
-        post.setCaption(request.caption());
-        replaceMedia(post, request.mediaUrls());
-        post.setPostType(post.getMedia().isEmpty() ? PostType.TEXT : PostType.IMAGE);
-        post.setVisibilityStatus(request.visibilityStatus());
-        Post saved = postRepository.save(post);
-        return toFeedPostView(saved);
+        return createPostForUser(user, request.caption(), request.visibilityStatus(), request.mediaUrls());
     }
 
     @Transactional
     public FeedPostView createPostForUsername(String username, String caption, VisibilityStatus visibilityStatus, List<String> mediaUrls) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
-        return createPost(new CreatePostRequest(user.getId(), caption, visibilityStatus, mediaUrls));
+        return createPostForUser(user, caption, visibilityStatus, mediaUrls);
+    }
+
+    private FeedPostView createPostForUser(User user, String caption, VisibilityStatus visibilityStatus, List<String> mediaUrls) {
+        Post post = new Post();
+        post.setUser(user);
+        post.setCaption(caption);
+        replaceMedia(post, mediaUrls);
+        post.setPostType(post.getMedia().isEmpty() ? PostType.TEXT : PostType.IMAGE);
+        post.setVisibilityStatus(visibilityStatus == null ? VisibilityStatus.PUBLIC : visibilityStatus);
+        Post saved = postRepository.save(post);
+        return toFeedPostView(saved, authorProfileImageUrl(saved));
     }
 
     @Transactional
@@ -136,6 +189,8 @@ public class PostService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
         Post post = postRepository.findByIdWithUser(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + postId));
+
+        ensureCanView(post, username);
 
         postLikeRepository.findByPostIdAndUserId(postId, user.getId())
                 .ifPresentOrElse(postLikeRepository::delete, () -> {
@@ -155,6 +210,8 @@ public class PostService {
         Post post = postRepository.findByIdWithUser(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + postId));
 
+        ensureCanView(post, username);
+
         PostComment comment = new PostComment();
         comment.setPost(post);
         comment.setUser(user);
@@ -165,7 +222,7 @@ public class PostService {
     }
 
     @Transactional
-    public FeedPostView updatePost(Long postId, CreatePostRequest request, String username) {
+    public FeedPostView updatePost(Long postId, UpdatePostRequest request, String username) {
         Post post = postRepository.findByIdWithUser(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + postId));
         ensurePostOwner(post, username);
@@ -173,7 +230,8 @@ public class PostService {
         post.setVisibilityStatus(request.visibilityStatus());
         replaceMedia(post, request.mediaUrls());
         post.setPostType(post.getMedia().isEmpty() ? PostType.TEXT : PostType.IMAGE);
-        return toFeedPostView(postRepository.save(post));
+        Post saved = postRepository.save(post);
+        return toFeedPostView(saved, authorProfileImageUrl(saved));
     }
 
     @Transactional
@@ -207,21 +265,44 @@ public class PostService {
         }
     }
 
-    private FeedPostView toFeedPostView(Post post) {
+    private Page<FeedPostView> toFeedPostViews(Page<Post> page) {
+        Map<Long, String> authorImages = authorProfileImages(page.getContent());
+        return page.map(post -> toFeedPostView(post, authorImages.get(post.getUser().getId())));
+    }
+
+    private String authorProfileImageUrl(Post post) {
+        return authorProfileImages(List.of(post)).get(post.getUser().getId());
+    }
+
+    private FeedPostView toFeedPostView(Post post, String authorProfileImageUrl) {
         long likes = postLikeRepository.countByPostId(post.getId());
         long comments = postCommentRepository.countByPostId(post.getId());
         List<String> mediaUrls = mediaUrls(post);
+
         return new FeedPostView(
                 post.getId(),
                 post.getUser().getId(),
                 post.getUser().getUsername(),
+                authorProfileImageUrl,
                 post.getCaption(),
                 post.getVisibilityStatus(),
                 mediaUrls.isEmpty() ? null : mediaUrls.getFirst(),
                 mediaUrls,
                 likes,
                 comments,
-                post.getCreatedAt());
+                post.getCreatedAt()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<FeedPostView> getPublicPostsByUser(Long userId, Pageable pageable) {
+        Page<Post> page = postRepository.findByUserIdAndVisibilityStatusOrderByCreatedAtDesc(
+                userId,
+                VisibilityStatus.PUBLIC,
+                pageable
+        );
+
+        return toFeedPostViews(page);
     }
 
     private void replaceMedia(Post post, List<String> requestedMediaUrls) {
@@ -237,7 +318,7 @@ public class PostService {
             PostMedia media = new PostMedia();
             media.setPost(post);
             media.setMediaUrl(urls.get(index));
-            media.setMediaType("IMAGE");
+            media.setMediaType(MediaType.IMAGE);
             media.setDisplayOrder(index);
             post.getMedia().add(media);
         }
