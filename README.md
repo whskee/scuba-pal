@@ -110,3 +110,10 @@ Backend
 
 # Resources
 1. [Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/jpa.html)
+
+
+```bash
+curl http://localhost:8080/actuator/health
+curl http://localhost:8080/actuator/health/readiness
+curl -i http://localhost:8080/actuator/health/readiness
+```

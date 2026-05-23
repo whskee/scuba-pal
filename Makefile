@@ -5,6 +5,16 @@ WEB_DIR := web
 MOBILE_DIR := mobile
 DOCS_DIR := docs
 
+APP_IMAGE := scubapal-app:local
+APP_PORT := 8080
+DB_URL ?= jdbc:postgresql://host.docker.internal:5432/scuba_pal
+DB_USERNAME ?= scuba_pal_app
+DB_PASSWORD ?= scuba_pal
+MEDIA_S3_REGION ?= us-west-2
+MEDIA_S3_BUCKET ?= scuba-pal-user-media-test-817455142561-us-west-2-an
+MAIL_HOST ?= host.docker.internal
+MAIL_PORT ?= 1025
+
 .PHONY: help
 help:
 	@echo "ScubaPal commands:"
@@ -13,6 +23,11 @@ help:
 	@echo "  make app-prod      Run Spring Boot App in production mode"
 	@echo "  make app-test      Run backend tests"
 	@echo "  make app-build     Build backend"
+	@echo "  make app-docker-build  Build backend Docker image"
+	@echo "  make app-docker-run    Run backend Docker image locally"
+	@echo "  make app-health        Check backend health endpoint"
+	@echo "  make app-readiness     Check backend readiness endpoint"
+	@echo ""
 	@echo "  make db-up         Start local database"
 	@echo "  make db-down       Stop local database"
 	@echo ""
@@ -102,3 +117,33 @@ openapi-generator-typescript-axios:
 	-i http://localhost:8080/v3/api-docs \
 	-g typescript-axios \
 	-o $(MOBILE_DIR)/src/api/generated
+
+.PHONY: app-docker-build
+app-docker-build:
+	docker build -t $(APP_IMAGE) -f $(APP_DIR)/Dockerfile $(APP_DIR)
+
+.PHONY: app-docker-run
+app-docker-run:
+	docker run --rm -p $(APP_PORT):8080 \
+		-e SPRING_PROFILES_ACTIVE=dev \
+		-e DB_URL="$(DB_URL)" \
+		-e DB_USERNAME="$(DB_USERNAME)" \
+		-e DB_PASSWORD="$(DB_PASSWORD)" \
+		-e SPRING_MAIL_HOST="$(MAIL_HOST)" \
+		-e SPRING_MAIL_PORT="$(MAIL_PORT)" \
+		-e MEDIA_S3_REGION="$(MEDIA_S3_REGION)" \
+		-e MEDIA_S3_BUCKET="$(MEDIA_S3_BUCKET)" \
+		-e MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS="always" \
+		$(APP_IMAGE)
+
+.PHONY: app-health
+app-health:
+	curl -i http://localhost:$(APP_PORT)/actuator/health
+
+.PHONY: app-readiness
+app-readiness:
+	curl -i http://localhost:$(APP_PORT)/actuator/health/readiness
+
+.PHONY: app-liveness
+app-liveness:
+	curl -i http://localhost:$(APP_PORT)/actuator/health/liveness
