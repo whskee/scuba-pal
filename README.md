@@ -91,8 +91,12 @@ Tools
   <a href="https://visualvm.github.io" title="Go to VisualVM">
     <img src="./assets/icons/stack/visualvm.png" width="48" height="48" alt="OpenAPI" title="VisualVM" />
   </a>
-  <img src="./assets/icons/stack/openapi.svg" width="48" height="48" alt="OpenAPI" title="OpenAPI" />
-  <img src="./assets/icons/stack/swagger.png" width="48" height="48" alt="Swagger" title="Swagger" />
+  <a href="https://visualvm.github.io" title="Go to VisualVM">
+    <img src="./assets/icons/stack/openapi.svg" width="48" height="48" alt="OpenAPI" title="OpenAPI" />
+  </a>
+  <a href="https://visualvm.github.io" title="Go to VisualVM">
+    <img src="./assets/icons/stack/swagger.png" width="48" height="48" alt="Swagger" title="Swagger" />
+  </a>
   <img src="./assets/icons/stack/aws-s3.png" width="48" height="48" alt="AWS S3" title="AWS S3" />
   <!-- <img src="./assets/icons/stack/aws-rds.png" width="48" height="48" alt="AWS RDS" title="AWS RDS" /> -->
   <img src="./assets/icons/stack/thymeleaf.svg" width="48" height="48" alt="Thymeleaf" title="Thymeleaf" />
