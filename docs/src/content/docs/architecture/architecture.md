@@ -3,6 +3,8 @@ title: System Overview
 description: Design Architecture
 ---
 
+Conway's Law: Keep it simple.
+
 https://chatgpt.com/share/6a04c3d9-9d94-83e8-885f-902e6fe8f8b4
 
 <h2 align="center">

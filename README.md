@@ -106,6 +106,7 @@ Backend
 # ✅ To-do
 - [ ] [Fail on missing .env variables](https://www.youtube.com/watch?v=6hAGbp8I5ow)
 - [ ] Add openapi-generator to npm mobile
+- [ ] [Git History](docs/src/content/docs/reference/git-history.md)
 
 # Resources
 1. [Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/jpa.html)
