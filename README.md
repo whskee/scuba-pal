@@ -10,7 +10,7 @@ Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Acce
 
 <!-- [![My Skills](https://skillicons.dev/icons?i=postman,postgresql&theme=light)](https://skillicons.dev) -->
 <p align="center">
-  <a href="https://google.com">
+  <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=java,spring,postgresql,postman,typescript,javascript,html,css,docker,aws&theme=light" />
   </a>
 </p>
@@ -51,16 +51,16 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf]
 
 Backend
 
-| Domain          | Framework                                            |
-| --------------- | ---------------------------------------------------- |
-| Auth            | Spring Security, Validation                          |
-| API             | [Spring Doc](https://springdoc.org/#google_vignette) |
-| ORM             | Spring Data JPA                                      |
-| Storage         | AWS S3                                               |
-| Database        | AWS RDS                                              |
-| Mailing         | Mailpit Local                                        |
-| Version Control | GitHub                                               |
-| Automation      | GitHub Workflows, Fastlane                           |
+| Domain          | Framework                                            | Tool                                                                                           |
+| --------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Auth            | Spring Security, Validation                          |                                                                                                |
+| API             | [Spring Doc](https://springdoc.org/#google_vignette) | [![api](https://skillicons.dev/icons?i=postman&theme=light)](https://skillicons.dev)           |
+| ORM             | Spring Data JPA                                      |                                                                                                |
+| Storage         | AWS S3                                               |                                                                                                |
+| Database        | AWS RDS                                              | [![db](https://skillicons.dev/icons?i=postgresql,pgadmin&theme=light)](https://skillicons.dev) |
+| Mailing         | Mailpit Local                                        |                                                                                                |
+| Version Control | GitHub                                               |                                                                                                |
+| Automation      | GitHub Workflows, Fastlane                           | [![db](https://skillicons.dev/icons?i=github&theme=light)](https://skillicons.dev)             |
 
 ### Tools
 
@@ -72,12 +72,12 @@ Backend
 
 <!-- [![VisualVM](./assets/icons/stack/visualvm.png)](https://visualvm.github.io) -->
 
-| Name      | Tool                                   | Image                                                                                                                        |
-| --------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Profiling | [VisualVM](https://visualvm.github.io) |                                                                                                                              |
-| UI/UX     | [Figma](https://www.figma.com)         | [![Figma](https://skillicons.dev/icons?i=postman,postgresql&theme=light)](https://skillicons.dev)                            |
-| Database  | dbdiagram, Postman, pgAdmin, DataGrip  | <a href="https://visualvm.github.io"><img src="./assets/icons/stack/visualvm.png" alt="VisualVM" width="48" height="48"></a> |
-|           |                                        |                                                                                                                              |
+|  Domain   |                  Name                  | Tool                                                                                                                         |
+| :-------: | :------------------------------------: | ---------------------------------------------------------------------------------------------------------------------------- |
+|   UI/UX   |     [Figma](https://www.figma.com)     | [![ui/ux](https://skillicons.dev/icons?i=figma&theme=light)](https://skillicons.dev)                                         |
+| Database  | dbdiagram, Postman, pgAdmin, DataGrip  | [![db](https://skillicons.dev/icons?i=postgresql,pgadmin&theme=light)](https://skillicons.dev)                               |
+|    API    |                                        | [![api](https://skillicons.dev/icons?i=postman&theme=light)](https://skillicons.dev)                                         |
+| Profiling | [VisualVM](https://visualvm.github.io) | <a href="https://visualvm.github.io"><img src="./assets/icons/stack/visualvm.png" alt="VisualVM" width="48" height="48"></a> |
 
 ---
 
