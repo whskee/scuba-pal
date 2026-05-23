@@ -1,9 +1,3 @@
-ALTER TABLE dive.dive_locations
-    ADD COLUMN IF NOT EXISTS image_url VARCHAR(500);
-
-ALTER TABLE dive.dive_shops
-    ADD COLUMN IF NOT EXISTS image_url VARCHAR(500);
-
 UPDATE dive.dive_locations
    SET image_url = CASE location_name
        WHEN 'La Jolla Shores' THEN 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200'
