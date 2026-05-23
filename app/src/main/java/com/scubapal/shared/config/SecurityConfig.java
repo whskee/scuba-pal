@@ -53,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/posts", "/api/posts/**", "/api/profiles/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/*").authenticated()
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "MODERATOR")
+                        .requestMatchers("/actuator/health", "/actuator/health/**", "/actuator/info").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
