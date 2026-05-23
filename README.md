@@ -67,11 +67,11 @@ Backend
 ### Tools
 
 <p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=github,postgresql,postman,figma&theme=light" />
+  </a>
   <a href="https://visualvm.github.io" title="Go to VisualVM">
     <img src="./assets/icons/stack/visualvm.png" width="48" height="48" alt="VisualVM" title="VisualVM" />
-  </a>
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=postgresql,postman,figma,github&theme=light" />
   </a>
 </p>
 
