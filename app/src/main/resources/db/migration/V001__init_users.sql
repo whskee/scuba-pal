@@ -88,7 +88,10 @@ INSERT INTO identity.profiles (user_id, first_name, last_name, city, state, coun
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/admin.jpeg' WHERE user_id = 1;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/some-scenery.jpeg' WHERE user_id = 2;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/fez.jpeg' WHERE user_id = 3;
+-- UPDATE identity.profiles SET profile_image_url = 'media/profile-images/sara.jpeg' WHERE user_id = 4;
+-- UPDATE identity.profiles SET profile_image_url = 'media/profile-images/blue-horizon.jpeg' WHERE user_id = 5;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/chinmaya.jpeg' WHERE user_id = 6;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/joule-thief-cat.jpeg' WHERE user_id = 7;
+-- UPDATE identity.profiles SET profile_image_url = 'media/profile-images/heuristic.jpeg' WHERE user_id = 8;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/stephen-miller.jpeg' WHERE user_id = 9;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/sky-walker.jpeg' WHERE user_id = 10;
