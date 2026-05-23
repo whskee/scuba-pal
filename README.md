@@ -1,4 +1,6 @@
 <h1 align="center">
+  <!-- <img src="./assets/logo.png" width="66" height="66" alt="logo" title="logo" /> -->
+  <img src="./assets/logo/2026-05-23/scubapal-manta-logo-navbar-header.png" width="44" height="44" alt="logo" title="logo" />
   Scuba Pal
 </h1>
 
@@ -67,6 +69,9 @@ Backend
 <p align="center">
   <a href="https://visualvm.github.io" title="Go to VisualVM">
     <img src="./assets/icons/stack/visualvm.png" width="48" height="48" alt="VisualVM" title="VisualVM" />
+  </a>
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=postman,figma,github&theme=light" />
   </a>
 </p>
 

@@ -3,28 +3,23 @@
 
 <body>
     <nav th:fragment="nav" class="nav">
-        <a class="brand" th:href="@{/}">Scuba Pal</a>
+        <!-- <a class="brand" th:href="@{/}">Scuba Pal</a> -->
+        <a class="brand" th:href="@{/}">
+            <!-- <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="" width="32" height="32" style="vertical-align: middle; margin-right: 8px;"> -->
+            <img th:src="@{/img/logo/2026-05-23/scubapal-manta-logo-navbar-header.png}" src="/img/logo/2026-05-23/scubapal-manta-logo-navbar-header.png" alt="" width="32" height="32" style="vertical-align: middle; margin-right: 8px;">
+            Scuba Pal
+        </a>
+
         <div class="nav-links">
-            <a th:href="@{/feed}"
-                th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/feed')} ? 'active'">Feed</a>
-            <a th:href="@{/learn}"
-                th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/learn')} ? 'active'">Learn</a>
-            <a th:href="@{/locations}"
-                th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/locations')} ? 'active'">Dive Map</a>
-            <a th:href="@{/buddies}"
-                th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/buddies')} ? 'active'">Find a Buddy</a>
-            <a th:href="@{/divers}"
-                th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/divers')} ? 'active'">Divers</a>
-            <a th:if="${currentUser}" th:href="@{/messages}"
-                th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/messages')} ? 'active'">Messages <span class="bubble unread-message-badge"
-                    th:style="${unreadMessageCount > 0} ? '' : 'display:none'" th:text="${unreadMessageCount}">0</span></a>
-            <a th:if="${currentUser}" th:href="@{/notifications}"
-                th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/notifications')} ? 'active'">Notifications <span class="bubble"
-                    th:if="${unreadNotificationCount > 0}" th:text="${unreadNotificationCount}">0</span></a>
-            <a th:if="${currentUser}" th:href="@{/settings}"
-                th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/settings')} ? 'active'">Settings</a>
-            <form th:if="${currentUser}" class="logout-form" th:action="@{/logout}" method="post"><button
-                    type="submit">Logout</button></form>
+            <a th:href="@{/feed}" th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/feed')} ? 'active'">Feed</a>
+            <a th:href="@{/learn}" th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/learn')} ? 'active'">Learn</a>
+            <a th:href="@{/locations}" th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/locations')} ? 'active'">Dive Map</a>
+            <a th:href="@{/buddies}" th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/buddies')} ? 'active'">Find a Buddy</a>
+            <a th:href="@{/divers}" th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/divers')} ? 'active'">Divers</a>
+            <a th:if="${currentUser}" th:href="@{/messages}" th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/messages')} ? 'active'">Messages <span class="bubble unread-message-badge" th:style="${unreadMessageCount > 0} ? '' : 'display:none'" th:text="${unreadMessageCount}">0</span></a>
+            <a th:if="${currentUser}" th:href="@{/notifications}" th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/notifications')} ? 'active'">Notifications <span class="bubble" th:if="${unreadNotificationCount > 0}" th:text="${unreadNotificationCount}">0</span></a>
+            <a th:if="${currentUser}" th:href="@{/settings}" th:classappend="${requestPath != null and #strings.startsWith(requestPath, '/settings')} ? 'active'">Settings</a>
+            <form th:if="${currentUser}" class="logout-form" th:action="@{/logout}" method="post"><button type="submit">Logout</button></form>
             <a th:unless="${currentUser}" th:href="@{/login}">Login</a>
             <a th:unless="${currentUser}" class="nav-cta" th:href="@{/register}">Register</a>
         </div>
