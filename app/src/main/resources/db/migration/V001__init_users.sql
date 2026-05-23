@@ -63,7 +63,7 @@ INSERT INTO identity.roles (role_name, role_description)
 INSERT INTO identity.users (email, username, password_hash, role_id, email_verified_at, last_login_at)
      VALUES ('admin@scubapal.app', 'admin', '$2a$10$lm50JthtxmqRaf6ohIDU.eR9bx.RBC5Ex54UjMghUd43V/Am4DgC2', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('maya@scubapal.app', 'maya_dives', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-            ('liam@scubapal.app', 'liam_ocean', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+            ('fez@scubapal.app', 'fezzz', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('sara@scubapal.app', 'sara_reef', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('shop@bluehorizon.com', 'blue_horizon', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('chinmayabidkar@hotmail.com', 'cbidkar', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
@@ -75,7 +75,7 @@ INSERT INTO identity.users (email, username, password_hash, role_id, email_verif
 INSERT INTO identity.profiles (user_id, first_name, last_name, city, state, country, visibility_status, dive_count, bio)
      VALUES (1, 'Admin', 'User', 'Miami', 'Florida', 'USA', 'PUBLIC', 320, 'Keeping the reef-friendly community running.'),
             (2, 'Maya', 'Patel', 'San Diego', 'California', 'USA', 'PUBLIC', 128, 'Underwater photographer and night diver.'),
-            (3, 'Liam', 'Chen', 'Honolulu', 'Hawaii', 'USA', 'PUBLIC', 203, 'Wreck diving specialist and rescue diver.'),
+            (3, 'Fez', '', 'Honolulu', 'Hawaii', 'USA', 'PUBLIC', 203, 'Wreck diving specialist and rescue diver.'),
             (4, 'Sara', 'Martinez', 'Key Largo', 'Florida', 'USA', 'PUBLIC', 98, 'Open water instructor, always chasing clear visibility.'),
             (5, 'Blue', 'Horizon', 'Key Largo', 'Florida', 'USA', 'PUBLIC', 0, 'Daily guided charters and equipment rental.'),
             (6, 'Chinmaya', 'Bidkar', 'Phoenix', 'Arizona', 'USA', 'PUBLIC', 1, 'Passionate about life. Just getting started with diving!'),
@@ -85,10 +85,10 @@ INSERT INTO identity.profiles (user_id, first_name, last_name, city, state, coun
             (10, 'Sky', 'Walker', 'Los Angeles', 'California', 'USA', 'PUBLIC', 200, 'I stare at the sky hoping a planet crashes into my head.');
 
 -- UPDATE users SET avatar_url = 'profile-images/awkward-face.jpeg' WHERE user_id = 1;
-UPDATE identity.profiles SET profile_image_url = 'media/profile-images/greek-boy.jpeg' WHERE user_id = 1;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/admin.jpeg' WHERE user_id = 1;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/some-scenery.jpeg' WHERE user_id = 2;
-UPDATE identity.profiles SET profile_image_url = 'media/profile-images/awkward-face.jpeg' WHERE user_id = 3;
-UPDATE identity.profiles SET profile_image_url = 'media/profile-images/classy-chinmaya.jpeg' WHERE user_id = 6;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/fez.jpeg' WHERE user_id = 3;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/chinmaya.jpeg' WHERE user_id = 6;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/joule-thief-cat.jpeg' WHERE user_id = 7;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/stephen-miller.jpeg' WHERE user_id = 9;
--- UPDATE identity.profiles SET profile_image_url = 'media/profile-images/sky-walker.jpeg' WHERE user_id = 10;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/sky-walker.jpeg' WHERE user_id = 10;
