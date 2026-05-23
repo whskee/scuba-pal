@@ -71,18 +71,19 @@ Backend
     <img src="./assets/icons/stack/visualvm.png" width="48" height="48" alt="VisualVM" title="VisualVM" />
   </a>
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=postman,figma,github&theme=light" />
+    <img src="https://skillicons.dev/icons?i=postgresql,postman,figma,github&theme=light" />
   </a>
 </p>
 
 <!-- [![VisualVM](./assets/icons/stack/visualvm.png)](https://visualvm.github.io) -->
 
-|  Domain   |                  Name                  | Tool                                                                                                                         |
-| :-------: | :------------------------------------: | ---------------------------------------------------------------------------------------------------------------------------- |
-|   UI/UX   |     [Figma](https://www.figma.com)     | [![ui/ux](https://skillicons.dev/icons?i=figma&theme=light)](https://skillicons.dev)                                         |
-| Database  | dbdiagram, Postman, pgAdmin, DataGrip  | [![db](https://skillicons.dev/icons?i=postgresql,pgadmin&theme=light)](https://skillicons.dev)                               |
-|    API    |                                        | [![api](https://skillicons.dev/icons?i=postman&theme=light)](https://skillicons.dev)                                         |
-| Profiling | [VisualVM](https://visualvm.github.io) | <a href="https://visualvm.github.io"><img src="./assets/icons/stack/visualvm.png" alt="VisualVM" width="48" height="48"></a> |
+|  Domain   |                  Name                  |
+| :-------: | :------------------------------------: |
+|    IDE    |            vscode, DataGrip            |
+|   UI/UX   |     [Figma](https://www.figma.com)     |
+| Database  |      dbdiagram, pgAdmin, DataGrip      |
+|    API    |                Postman                 |
+| Profiling | [VisualVM](https://visualvm.github.io) |
 
 ---
 
