@@ -5,12 +5,12 @@
 Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Access [documentation](https://whskee.github.io/scuba-pal) on GitHub Pages
 
 <h3 align="center">
-  Stack
+  <a href="https://stackshare.io">Stack</a>
 </h3>
 
 <!-- [![My Skills](https://skillicons.dev/icons?i=postman,postgresql&theme=light)](https://skillicons.dev) -->
 <p align="center">
-  <a href="https://skillicons.dev">
+  <a href="https://google.com">
     <img src="https://skillicons.dev/icons?i=java,spring,postgresql,postman,typescript,javascript,html,css,docker,aws&theme=light" />
   </a>
 </p>
@@ -36,16 +36,24 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf w
 
 Backend
 
-| Domain          | Framework                   |
-| --------------- | --------------------------- |
-| Auth            | Spring Security, Validation |
-| ORM             | Spring Data JPA             |
-| Storage         | AWS S3                      |
-| Database        | AWS RDS                     |
-| Mailing         | Mailpit Local               |
-| Version Control | GitHub                      |
-| Automation      | GitHub Workflows, Fastlane  |
-|                 |                             |
+| Domain          | Framework                                            |
+| --------------- | ---------------------------------------------------- |
+| Auth            | Spring Security, Validation                          |
+| ORM             | Spring Data JPA                                      |
+| Storage         | AWS S3                                               |
+| Database        | AWS RDS                                              |
+| Mailing         | Mailpit Local                                        |
+| Version Control | GitHub                                               |
+| Automation      | GitHub Workflows, Fastlane                           |
+| Api             | [Spring Doc](https://springdoc.org/#google_vignette) |
+
+Tools
+
+| Name      | Tool                                   |
+| --------- | -------------------------------------- |
+| Profiling | [VisualVM](https://visualvm.github.io) |
+| UI/UX     | [Figma](https://www.figma.com)         |
+|           |                                        |
 
 ---
 
