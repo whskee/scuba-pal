@@ -88,10 +88,10 @@ Tools
 
 <p align="center">
   <!-- <img src="./assets/icons/stack/flyway.png" width="48" height="48" alt="Flyway" title="Flyway" /> -->
-  <a href="https://visualvm.github.io" title="Go to VisualVM">
+  <a href="https://visualvm.github.io" title="Go to VisualVM" style="text-decoration: none; color: inherit;">
     <img src="./assets/icons/stack/visualvm.png" width="48" height="48" alt="OpenAPI" title="VisualVM" />
   </a>
-  <a href="https://visualvm.github.io" title="Go to VisualVM">
+  <a href="https://visualvm.github.io" title="Go to VisualVM" style="text-decoration: none; color: inherit;">
     <img src="./assets/icons/stack/openapi.svg" width="48" height="48" alt="OpenAPI" title="OpenAPI" />
   </a>
   <a href="https://visualvm.github.io" title="Go to VisualVM">
