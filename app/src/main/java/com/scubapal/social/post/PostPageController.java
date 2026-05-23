@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +25,12 @@ public class PostPageController {
                        @RequestParam(defaultValue = "10") int size,
                        Model model,
                        Authentication auth) {
-        var postPage = postService.getPublicFeed(pageable(page, size));
+        String username = loggedIn(auth) ? auth.getName() : null;
+        var postPage = postService.getPublicFeed(pageable(page, size), username);
         model.addAttribute("postPage", postPage);
         model.addAttribute("posts", postPage.getContent());
         model.addAttribute("createPostForm", new CreatePostForm());
-        model.addAttribute("loggedIn", loggedIn(auth));
+        model.addAttribute("loggedIn", username != null);
         return "social/feed";
     }
 
@@ -55,6 +57,12 @@ public class PostPageController {
     public String toggleLike(@PathVariable Long id, Authentication auth) {
         postService.toggleLike(id, auth.getName());
         return "redirect:/posts/" + id;
+    }
+
+    @PostMapping(value = "/posts/{id}/like", headers = "X-Requested-With=fetch")
+    @ResponseBody
+    public ResponseEntity<PostDetailView> toggleLikeFetch(@PathVariable Long id, Authentication auth) {
+        return ResponseEntity.ok(postService.toggleLike(id, auth.getName()));
     }
 
     @PostMapping("/posts/{id}/comments")

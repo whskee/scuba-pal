@@ -16,6 +16,7 @@ public record FeedPostView(
         List<String> mediaUrls,
         long likes,
         long comments,
+        boolean likedByCurrentUser,
         LocalDateTime createdAt
 ) {
 }

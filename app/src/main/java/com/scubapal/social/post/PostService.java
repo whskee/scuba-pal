@@ -21,6 +21,7 @@ import com.scubapal.social.comment.PostCommentRepository;
 import com.scubapal.social.like.PostLike;
 import com.scubapal.social.like.PostLikeRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -56,7 +57,13 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<FeedPostView> getPublicFeed(Pageable pageable) {
         Page<Post> page = postRepository.findByVisibilityStatusOrderByCreatedAtDesc(VisibilityStatus.PUBLIC, pageable);
-        return toFeedPostViews(page);
+        return toFeedPostViews(page, null);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<FeedPostView> getPublicFeed(Pageable pageable, String currentUsername) {
+        Page<Post> page = postRepository.findByVisibilityStatusOrderByCreatedAtDesc(VisibilityStatus.PUBLIC, pageable);
+        return toFeedPostViews(page, currentUsername);
     }
 
     @Transactional(readOnly = true)
@@ -69,7 +76,11 @@ public class PostService {
                 .map(post -> post.getUser().getId())
                 .collect(Collectors.toSet());
 
-        if (userIds.isEmpty()) {
+        return profileImagesByUserId(userIds);
+    }
+
+    private Map<Long, String> profileImagesByUserId(Collection<Long> userIds) {
+        if (userIds == null || userIds.isEmpty()) {
             return Map.of();
         }
 
@@ -92,7 +103,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<FeedPostView> getPostsByUser(Long userId, Pageable pageable) {
         Page<Post> page = postRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
-        return toFeedPostViews(page);
+        return toFeedPostViews(page, null);
     }
 
     @Transactional(readOnly = true)
@@ -105,7 +116,7 @@ public class PostService {
         Post post = postRepository.findByIdWithUser(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + postId));
         ensureCanView(post, null);
-        return toFeedPostView(post, authorProfileImageUrl(post));
+        return toFeedPostView(post, authorProfileImageUrl(post), false);
     }
 
     private void ensureCanView(Post post, String currentUsername) {
@@ -129,13 +140,17 @@ public class PostService {
         Long currentUserId = currentUsername == null ? null : userRepository.findByUsername(currentUsername).map(User::getId).orElse(null);
         boolean likedByCurrentUser = currentUserId != null && postLikeRepository.existsByPostIdAndUserId(postId, currentUserId);
 
-        List<CommentView> comments = postCommentRepository.findByPostIdWithUserOrderByCreatedAtAsc(postId)
+        List<PostComment> postComments = postCommentRepository.findByPostIdWithUserOrderByCreatedAtAsc(postId);
+        Map<Long, String> commentAuthorImages = profileImagesByUserId(postComments.stream()
+                .map(comment -> comment.getUser().getId())
+                .collect(Collectors.toSet()));
+        List<CommentView> comments = postComments
                 .stream()
                 .map(comment -> new CommentView(
                         comment.getId(),
                         comment.getUser().getId(),
                         comment.getUser().getUsername(),
-                        null,
+                        commentAuthorImages.get(comment.getUser().getId()),
                         comment.getCommentText(),
                         comment.getCreatedAt()
                 ))
@@ -180,7 +195,7 @@ public class PostService {
         post.setPostType(post.getMedia().isEmpty() ? PostType.TEXT : PostType.IMAGE);
         post.setVisibilityStatus(visibilityStatus == null ? VisibilityStatus.PUBLIC : visibilityStatus);
         Post saved = postRepository.save(post);
-        return toFeedPostView(saved, authorProfileImageUrl(saved));
+        return toFeedPostView(saved, authorProfileImageUrl(saved), false);
     }
 
     @Transactional
@@ -231,7 +246,7 @@ public class PostService {
         replaceMedia(post, request.mediaUrls());
         post.setPostType(post.getMedia().isEmpty() ? PostType.TEXT : PostType.IMAGE);
         Post saved = postRepository.save(post);
-        return toFeedPostView(saved, authorProfileImageUrl(saved));
+        return toFeedPostView(saved, authorProfileImageUrl(saved), false);
     }
 
     @Transactional
@@ -265,16 +280,33 @@ public class PostService {
         }
     }
 
-    private Page<FeedPostView> toFeedPostViews(Page<Post> page) {
+    private Page<FeedPostView> toFeedPostViews(Page<Post> page, String currentUsername) {
         Map<Long, String> authorImages = authorProfileImages(page.getContent());
-        return page.map(post -> toFeedPostView(post, authorImages.get(post.getUser().getId())));
+        Set<Long> likedPostIds = likedPostIds(page.getContent(), currentUsername);
+        return page.map(post -> toFeedPostView(
+                post,
+                authorImages.get(post.getUser().getId()),
+                likedPostIds.contains(post.getId())
+        ));
     }
 
     private String authorProfileImageUrl(Post post) {
         return authorProfileImages(List.of(post)).get(post.getUser().getId());
     }
 
-    private FeedPostView toFeedPostView(Post post, String authorProfileImageUrl) {
+    private Set<Long> likedPostIds(List<Post> posts, String currentUsername) {
+        if (currentUsername == null || currentUsername.isBlank() || posts.isEmpty()) {
+            return Set.of();
+        }
+        Long currentUserId = userRepository.findByUsername(currentUsername).map(User::getId).orElse(null);
+        if (currentUserId == null) {
+            return Set.of();
+        }
+        Set<Long> postIds = posts.stream().map(Post::getId).collect(Collectors.toSet());
+        return Set.copyOf(postLikeRepository.findLikedPostIds(currentUserId, postIds));
+    }
+
+    private FeedPostView toFeedPostView(Post post, String authorProfileImageUrl, boolean likedByCurrentUser) {
         long likes = postLikeRepository.countByPostId(post.getId());
         long comments = postCommentRepository.countByPostId(post.getId());
         List<String> mediaUrls = mediaUrls(post);
@@ -290,6 +322,7 @@ public class PostService {
                 mediaUrls,
                 likes,
                 comments,
+                likedByCurrentUser,
                 post.getCreatedAt()
         );
     }
@@ -302,7 +335,7 @@ public class PostService {
                 pageable
         );
 
-        return toFeedPostViews(page);
+        return toFeedPostViews(page, null);
     }
 
     private void replaceMedia(Post post, List<String> requestedMediaUrls) {

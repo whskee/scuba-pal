@@ -57,8 +57,10 @@
             <p th:if="${postSuccess}" class="success" th:text="${postSuccess}">Posted.</p>
             <p th:if="${postError}" class="error" th:text="${postError}">Post error.</p>
             <section class="grid feed-grid">
-                <article class="card feed-item" th:each="post : ${posts}" th:attr="data-post-id=${post.postId}"><span
-                        class="pill" th:text="${post.visibilityStatus}">PUBLIC</span>
+                <article class="card feed-item" th:each="post : ${posts}" th:attr="data-post-id=${post.postId}">
+                    <a class="feed-item__link" th:href="@{'/posts/' + ${post.postId}}"
+                        th:attr="aria-label=${'Open post by @' + post.username}"></a><span class="pill"
+                        th:text="${post.visibilityStatus}">PUBLIC</span>
                     <div class="feed-meta">
                         <img class="avatar" th:if="${post.authorProfileImageUrl}" th:src="${post.authorProfileImageUrl}"
                             alt="Profile image" />
@@ -76,9 +78,13 @@
                             th:text="${post.comments}">0</strong> comments</p>
                     <div class="feed-actions">
                         <form th:if="${loggedIn}" class="like-form"
-                            th:action="@{'/api/posts/' + ${post.postId} + '/like'}" method="post"><button class="button"
-                                type="submit">Like / Unlike</button></form><a class="button secondary"
-                            th:href="@{'/posts/' + ${post.postId}}">Expand Post</a>
+                            th:action="@{'/posts/' + ${post.postId} + '/like'}" method="post"><button
+                                class="heart-button" th:classappend="${post.likedByCurrentUser} ? ' is-liked' : ''"
+                                type="submit" th:attr="aria-pressed=${post.likedByCurrentUser},
+                                aria-label=${post.likedByCurrentUser ? 'Unlike post' : 'Like post'}"><span
+                                    class="heart-button__icon" aria-hidden="true"></span><span
+                                    class="heart-button__text"
+                                    th:text="${post.likedByCurrentUser ? 'Liked' : 'Like'}">Like</span></button></form>
                     </div>
                 </article>
             </section>

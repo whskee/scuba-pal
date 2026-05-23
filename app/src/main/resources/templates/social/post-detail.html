@@ -10,10 +10,10 @@
 
 <body>
     <div th:replace="~{layout/nav :: nav}"></div>
-    <div class="container narrow">
+    <div class="container narrow post-thread">
         <button class="back-link" type="button" onclick="history.back()">← Back</button>
 
-        <article class="card feed-item post-detail-card" th:attr="data-post-id=${post.postId}">
+        <article class="card post-detail-card" th:attr="data-post-id=${post.postId}">
             <span class="pill" th:text="${post.visibilityStatus}">PUBLIC</span>
             <div class="feed-meta">
                 <img class="avatar" th:if="${post.authorProfileImageUrl}" th:src="${post.authorProfileImageUrl}"
@@ -32,36 +32,69 @@
             <p class="muted"><strong data-like-count th:text="${post.likes}">0</strong> likes · <strong
                     th:text="${post.comments}">0</strong> comments</p>
 
-            <form th:if="${loggedIn}" class="like-form" th:action="@{'/api/posts/' + ${post.postId} + '/like'}"
+            <form th:if="${loggedIn}" class="like-form" th:action="@{'/posts/' + ${post.postId} + '/like'}"
                 method="post">
-                <button class="button" type="submit"
-                    th:text="${post.likedByCurrentUser ? 'Unlike' : 'Like'}">Like</button>
+                <button class="heart-button" th:classappend="${post.likedByCurrentUser} ? ' is-liked' : ''"
+                    type="submit" th:attr="aria-pressed=${post.likedByCurrentUser},
+                    aria-label=${post.likedByCurrentUser ? 'Unlike post' : 'Like post'}"><span
+                        class="heart-button__icon" aria-hidden="true"></span><span
+                        class="heart-button__text"
+                        th:text="${post.likedByCurrentUser ? 'Liked' : 'Like'}">Like</span></button>
             </form>
             <p th:unless="${loggedIn}" class="muted"><a th:href="@{/login}">Log in</a> to like or comment.</p>
+
+            <section class="comments-card">
+                <form th:if="${loggedIn}" th:action="@{'/posts/' + ${post.postId} + '/comments'}" method="post"
+                    class="comment-composer">
+                    <textarea name="commentText" placeholder="Add comment..." maxlength="500" required></textarea>
+                    <div class="comment-composer__bar">
+                        <div class="comment-tools" aria-hidden="true">
+                            <span>B</span>
+                            <span>I</span>
+                            <span>U</span>
+                            <span>|</span>
+                            <span>+</span>
+                            <span>img</span>
+                            <span>:)</span>
+                            <span>@</span>
+                        </div>
+                        <button class="comment-submit" type="submit">Submit</button>
+                    </div>
+                </form>
+                <div class="comments-card__header">
+                    <div>
+                        <h2>Comments <span th:text="${post.comments}">0</span></h2>
+                    </div>
+                    <button class="comment-sort" type="button">Most recent</button>
+                </div>
+                <p th:if="${commentError}" class="error" th:text="${commentError}">Comment error</p>
+
+                <div class="comment-list">
+                    <article class="comment" th:each="comment : ${post.commentList}">
+                        <img class="comment-avatar" th:if="${comment.authorProfileImageUrl}"
+                            th:src="${comment.authorProfileImageUrl}" alt="" />
+                        <span class="comment-avatar" th:unless="${comment.authorProfileImageUrl}"
+                            th:text="${#strings.substring(comment.username,0,1).toUpperCase()}">D</span>
+                        <div>
+                            <div class="comment-meta-line">
+                                <a class="comment-author" th:href="@{'/profile/' + ${comment.username}}">
+                                    <strong th:text="${comment.username}">username</strong>
+                                </a>
+                                <span th:text="${#temporals.format(comment.createdAt, 'MMM d, h:mm a')}">just now</span>
+                            </div>
+                            <p th:text="${comment.commentText}">comment</p>
+                            <div class="comment-actions">
+                                <button type="button">Like</button>
+                                <button type="button">Reply</button>
+                                <button type="button">...</button>
+                            </div>
+                        </div>
+                    </article>
+                    <p th:if="${#lists.isEmpty(post.commentList)}" class="muted">No comments yet. Be the first to start the
+                        thread.</p>
+                </div>
+            </section>
         </article>
-
-        <section class="card comments-card">
-            <h2>Comments</h2>
-            <p th:if="${commentError}" class="error" th:text="${commentError}">Comment error</p>
-
-            <form th:if="${loggedIn}" th:action="@{'/posts/' + ${post.postId} + '/comments'}" method="post"
-                class="form-stack">
-                <label>Add a comment
-                    <textarea name="commentText" placeholder="Add useful dive context..." maxlength="500"
-                        required></textarea>
-                </label>
-                <button class="button" type="submit">Comment</button>
-            </form>
-
-            <div class="comment-list">
-                <article class="comment" th:each="comment : ${post.commentList}">
-                    <strong th:text="${comment.username}">username</strong>
-                    <p th:text="${comment.commentText}">comment</p>
-                </article>
-                <p th:if="${#lists.isEmpty(post.commentList)}" class="muted">No comments yet. Be the first to start the
-                    thread.</p>
-            </div>
-        </section>
     </div>
     <script th:src="@{/js/feed.js}" src="/js/feed.js"></script>
 </body>

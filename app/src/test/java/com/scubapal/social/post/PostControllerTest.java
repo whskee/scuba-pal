@@ -83,6 +83,7 @@ class PostControllerTest {
                 List.of(),
                 0,
                 0,
+                false,
                 LocalDateTime.now()
         );
         when(postService.getPublicFeed(any(Pageable.class))).thenReturn(new PageImpl<>(List.of(item)));
