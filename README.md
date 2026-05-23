@@ -15,7 +15,7 @@ Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Acce
   </a>
 </p>
 
-Full-stack Java Spring Boot social app for scuba divers, featuring a Thymeleaf web frontend, REST APIs, authentication, profiles, posts, messaging, notifications, dive locations, PostgreSQL/Flyway migrations, and OpenAPI docs for native/mobile clients.
+Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf](https://www.thymeleaf.org) web frontend, REST APIs, authentication, profiles, posts, messaging, notifications, dive locations, PostgreSQL/Flyway migrations, and OpenAPI docs for native/mobile clients.
 
 
 |                Domain                |                              Core                              |           Tools           |
@@ -87,28 +87,13 @@ Tools
 
 
 <p align="center">
-  <img src="./assets/icons/stack/flyway.svg" width="48" height="48" alt="Flyway" title="Flyway" />
+  <!-- <img src="./assets/icons/stack/flyway.png" width="48" height="48" alt="Flyway" title="Flyway" /> -->
+  <a href="https://visualvm.github.io" title="Go to VisualVM">
+    <img src="./assets/icons/stack/visualvm.png" width="48" height="48" alt="OpenAPI" title="VisualVM" />
+  </a>
   <img src="./assets/icons/stack/openapi.svg" width="48" height="48" alt="OpenAPI" title="OpenAPI" />
-  <img src="./assets/icons/stack/swagger.svg" width="48" height="48" alt="Swagger" title="Swagger" />
-  <img src="./assets/icons/stack/vaadin.svg" width="48" height="48" alt="Vaadin" title="Vaadin" />
-  <img src="./assets/icons/stack/aws-s3.svg" width="48" height="48" alt="AWS S3" title="AWS S3" />
-  <img src="./assets/icons/stack/aws-rds.svg" width="48" height="48" alt="AWS RDS" title="AWS RDS" />
+  <img src="./assets/icons/stack/swagger.png" width="48" height="48" alt="Swagger" title="Swagger" />
+  <img src="./assets/icons/stack/aws-s3.png" width="48" height="48" alt="AWS S3" title="AWS S3" />
+  <!-- <img src="./assets/icons/stack/aws-rds.png" width="48" height="48" alt="AWS RDS" title="AWS RDS" /> -->
   <img src="./assets/icons/stack/thymeleaf.svg" width="48" height="48" alt="Thymeleaf" title="Thymeleaf" />
-</p>
-
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="48" height="48" rx="10" fill="#F3F4F6"/>
-  <rect x="1" y="1" width="46" height="46" rx="9" stroke="#E5E7EB" stroke-width="2"/>
-
-  <!-- Put logo path here -->
-  <g transform="translate(10 10) scale(0.58)">
-    <img src="./assets/icons/stack/aws-s3.png" width="48" height="48"/>
-  </g>
-</svg>
-
-<p align="center">
-  <img src="./assets/icons/stack/aws-s3.png" width="48" height="48" alt="Flyway" title="Flyway" />
-  <img src="./assets/icons/stack/aws-s3.svg" width="48" height="48" alt="AWS S3" title="AWS S3" />
-  <img src="./assets/icons/stack/aws-rds.svg" width="48" height="48" alt="AWS RDS" title="AWS RDS" />
-  <img src="./assets/icons/stack/vaadin.svg" width="48" height="48" alt="Vaadin" title="Vaadin" />
 </p>
