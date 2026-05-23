@@ -21,12 +21,12 @@
         <!-- TODO: does not have placeholder image yet -->
         <section class="grid">
             <article class="card location-card" th:each="location : ${locations}">
-                <img class="location-photo" th:src="${location.imageUrl != null and !#strings.isEmpty(location.imageUrl)
+                <img class="location-card__photo" th:src="${location.imageUrl != null and !#strings.isEmpty(location.imageUrl)
                 ? location.imageUrl
                 : '/img/dive-location-placeholder.svg'}" th:alt="${location.locationName + ' dive site'}"
                     onerror="this.onerror=null;this.src='/img/dive-location-placeholder.svg';" />
 
-                <div class="location-card-body">
+                <div class="location-card__body">
                     <span class="pill" th:text="${location.difficultyLevel}">BEGINNER</span>
                     <h3 th:text="${location.locationName}">Location Name</h3>
                     <p th:text="${location.description}">Description</p>

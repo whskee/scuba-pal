@@ -1,0 +1,14 @@
+.card {
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow);
+    animation: rise 0.55s ease both;
+    backdrop-filter: blur(14px);
+}
+
+.card h3,
+.card h2 {
+    margin-top: 0;
+}

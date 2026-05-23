@@ -1,0 +1,55 @@
+.button,
+a.button,
+button.button,
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 17px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    box-shadow: 0 13px 30px rgba(0, 188, 212, 0.27);
+    font-weight: 900;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.button:hover,
+button:hover {
+    box-shadow: 0 18px 38px rgba(0, 188, 212, 0.34);
+    filter: brightness(1.03);
+    transform: translateY(-2px);
+}
+
+.button.secondary {
+    color: white;
+    background: linear-gradient(135deg, var(--marine-soft), var(--marine));
+}
+
+.button.ghost {
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    color: white;
+    background: rgba(255, 255, 255, 0.14);
+    box-shadow: none;
+}
+
+.back-link {
+    margin-bottom: 18px;
+    border: 1px solid rgba(0, 124, 146, 0.18);
+    color: var(--accent-deep);
+    background: rgba(255, 255, 255, 0.74);
+    box-shadow: 0 12px 26px rgba(0, 91, 120, 0.10);
+}
+
+@media (max-width: 520px) {
+    .button,
+    a.button,
+    button.button,
+    button {
+        width: 100%;
+    }
+}

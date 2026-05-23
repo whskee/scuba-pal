@@ -1,0 +1,28 @@
+h1,
+h2,
+h3 {
+    letter-spacing: 0;
+}
+
+h1 {
+    margin: 8px 0 18px;
+    font-size: clamp(38px, 5vw, 58px);
+}
+
+h2 {
+    font-size: clamp(28px, 4vw, 38px);
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.error {
+    color: #b42318;
+    font-weight: 800;
+}
+
+.success {
+    color: var(--accent-dark);
+    font-weight: 800;
+}

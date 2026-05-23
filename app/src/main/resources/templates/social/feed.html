@@ -70,7 +70,7 @@
                             <strong th:text="${post.username}">username</strong>
                         </a>
                     </div>
-                    <img th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt="" style="width:100%; border-radius:18px; margin:12px 0; object-fit:cover; max-height:320px;">
+                    <img class="feed-post__image" th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt="">
                     <p th:text="${post.caption}">caption</p>
                     <p class="muted"><strong data-like-count th:text="${post.likes}">0</strong> likes · <strong
                             th:text="${post.comments}">0</strong> comments</p>

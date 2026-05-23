@@ -1,0 +1,13 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.one-col {
+    grid-template-columns: 1fr;
+}
+
+.diver-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}

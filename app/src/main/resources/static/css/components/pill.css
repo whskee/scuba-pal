@@ -1,0 +1,12 @@
+.pill {
+    display: inline-block;
+    width: fit-content;
+    padding: 7px 12px;
+    border-radius: 999px;
+    color: var(--accent-dark);
+    background: rgba(0, 188, 212, 0.13);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}

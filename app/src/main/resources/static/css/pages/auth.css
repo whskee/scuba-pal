@@ -1,0 +1,37 @@
+.input-with-status {
+    display: grid;
+    gap: 6px;
+}
+
+.username-row {
+    position: relative;
+}
+
+.username-row input {
+    padding-right: 46px;
+}
+
+.field-status-icon {
+    position: absolute;
+    top: 50%;
+    right: 13px;
+    font-size: 19px;
+    font-weight: 900;
+    transform: translateY(-50%);
+}
+
+.field-status-icon.ok,
+.field-help.ok {
+    color: #12805c;
+}
+
+.field-status-icon.bad,
+.field-help.bad {
+    color: #c62828;
+}
+
+.field-help {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 800;
+}

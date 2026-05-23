@@ -1,0 +1,23 @@
+.buddy-hero {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(224, 250, 255, 0.86));
+}
+
+.diver-card {
+    display: grid;
+    align-content: start;
+}
+
+.diver-card-header {
+    display: grid;
+    grid-template-columns: 74px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+}
+
+.diver-card h3 {
+    margin: 10px 0 4px;
+}

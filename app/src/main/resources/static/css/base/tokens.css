@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+:root {
+    --bg: #e8fbff;
+    --bg-soft: #f5feff;
+    --ink: #06283b;
+    --ink-soft: rgba(6, 40, 59, 0.72);
+    --muted: rgba(6, 40, 59, 0.62);
+    --accent: #00bcd4;
+    --accent-dark: #007c92;
+    --accent-deep: #005f73;
+    --accent-light: #67efff;
+    --marine: #0f766e;
+    --marine-soft: #14b8a6;
+    --card: rgba(255, 255, 255, 0.88);
+    --card-strong: rgba(255, 255, 255, 0.96);
+    --line: rgba(0, 124, 146, 0.18);
+    --shadow: 0 20px 55px rgba(0, 91, 120, 0.14);
+    --shadow-strong: 0 30px 90px rgba(0, 55, 78, 0.20);
+    --radius: 24px;
+}

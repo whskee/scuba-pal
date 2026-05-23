@@ -26,8 +26,8 @@
                     <strong th:text="${post.username}">username</strong>
                 </a>
             </div>
-            <img th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt=""
-                style="width:100%; border-radius:24px; margin:18px 0; object-fit:cover; max-height:520px;">
+            <img class="feed-post__image feed-post__image--detail" th:if="${post.imageUrl}" th:src="${post.imageUrl}"
+                alt="">
             <p class="post-caption" th:text="${post.caption}">caption</p>
             <p class="muted"><strong data-like-count th:text="${post.likes}">0</strong> likes · <strong
                     th:text="${post.comments}">0</strong> comments</p>

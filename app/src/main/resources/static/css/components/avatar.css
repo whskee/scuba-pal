@@ -1,0 +1,49 @@
+.avatar {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 15px;
+    color: white;
+    background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+    box-shadow: 0 12px 24px rgba(0, 188, 212, 0.22);
+    font-weight: 900;
+}
+
+.image-avatar {
+    object-fit: cover;
+    color: transparent;
+}
+
+.profile-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.profile-photo {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 17px;
+    color: white;
+    background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+    font-weight: 900;
+    object-fit: cover;
+}
+
+.diver-avatar {
+    display: grid;
+    place-items: center;
+    width: 74px;
+    height: 74px;
+    border-radius: 24px;
+    color: white;
+    background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+    box-shadow: 0 16px 34px rgba(0, 124, 146, 0.18);
+    font-size: 26px;
+    font-weight: 900;
+    object-fit: cover;
+}

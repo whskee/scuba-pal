@@ -64,7 +64,8 @@
         </section>
         <section class="grid">
             <article class="card" th:each="post : ${posts}">
-                <img th:if="${post.imageUrl}" th:src="${post.imageUrl}" alt="" style="width:100%; border-radius:18px; margin-bottom:12px; object-fit:cover; max-height:260px;">
+                <img class="feed-post__image feed-post__image--compact" th:if="${post.imageUrl}"
+                    th:src="${post.imageUrl}" alt="">
                 <p th:text="${post.caption}">caption</p>
                 <p class="muted"><strong th:text="${post.likes}">0</strong> likes · <strong
                         th:text="${post.comments}">0</strong> comments</p><a class="button secondary"

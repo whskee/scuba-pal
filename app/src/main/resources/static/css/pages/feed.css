@@ -1,0 +1,145 @@
+.compose-card {
+    margin-bottom: 22px;
+}
+
+.feed-grid {
+    align-items: stretch;
+}
+
+.feed-item {
+    position: relative;
+    border-left: 6px solid var(--accent);
+}
+
+.feed-item::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0.45;
+}
+
+.feed-post__image {
+    display: block;
+    width: 100%;
+    max-height: 320px;
+    margin: 12px 0;
+    border-radius: 18px;
+    object-fit: cover;
+}
+
+.feed-post__image--compact {
+    max-height: 260px;
+}
+
+.feed-post__image--detail {
+    max-height: 520px;
+    margin: 18px 0;
+    border-radius: var(--radius);
+}
+
+.feed-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.post-detail-card {
+    margin-bottom: 18px;
+}
+
+.post-caption {
+    font-size: 20px;
+    line-height: 1.7;
+}
+
+.comments-card {
+    display: grid;
+    gap: 18px;
+}
+
+.comment-list {
+    display: grid;
+    gap: 12px;
+}
+
+.comment {
+    padding: 14px;
+    border: 1px solid rgba(0, 188, 212, 0.14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.comment p {
+    margin-bottom: 0;
+}
+
+.guest-feed-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(240px, 0.7fr);
+    align-items: stretch;
+    gap: 18px;
+    margin-bottom: 22px;
+    padding: clamp(22px, 4vw, 36px);
+    overflow: hidden;
+    border-radius: 30px;
+    color: white;
+    background:
+        linear-gradient(135deg, rgba(0, 95, 115, 0.92), rgba(0, 188, 212, 0.70)),
+        url('/img/deep-sea-wallpaper.svg') center / cover no-repeat;
+    box-shadow: var(--shadow-strong);
+}
+
+.guest-feed-hero h2 {
+    margin: 10px 0;
+    color: white;
+    font-size: clamp(32px, 5vw, 54px);
+}
+
+.guest-feed-hero p {
+    color: rgba(255, 255, 255, 0.88);
+    font-weight: 700;
+    line-height: 1.7;
+}
+
+.guest-feed-card {
+    display: grid;
+    align-content: center;
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+.guest-feed-card span {
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.16);
+    font-weight: 900;
+}
+
+.app-shell.guest-shell .section-title {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 360px);
+    align-items: end;
+}
+
+.app-shell.guest-shell .guest-feed-hero {
+    min-height: 360px;
+}
+
+.app-shell.guest-shell .feed-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+@media (max-width: 760px) {
+    .guest-feed-hero,
+    .app-shell.guest-shell .section-title {
+        grid-template-columns: 1fr;
+    }
+}

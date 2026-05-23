@@ -1,0 +1,4 @@
+.notification-card.unread {
+    border-color: rgba(0, 188, 212, 0.45);
+    background: var(--card-strong);
+}
