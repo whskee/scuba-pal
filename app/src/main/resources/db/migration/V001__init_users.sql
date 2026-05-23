@@ -69,7 +69,8 @@ INSERT INTO identity.users (email, username, password_hash, role_id, email_verif
             ('chinmayabidkar@hotmail.com', 'cbidkar', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('joule_thief@gmail.com', 'joule_thief', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
             ('heuristic@gmail.com', 'heuristic', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-            ('stephen_miller@gmail.com', 'stephen', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            ('stephen_miller@gmail.com', 'stephen_miller', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+            ('sky_walker@gmail.com', 'sky_walker', '$2a$10$jr//Knf/Xq3GHubZGk2sIuU3tUhIEC.KeVkqwqc0mbCkMtqQnuKLa', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 INSERT INTO identity.profiles (user_id, first_name, last_name, city, state, country, visibility_status, dive_count, bio)
      VALUES (1, 'Admin', 'User', 'Miami', 'Florida', 'USA', 'PUBLIC', 320, 'Keeping the reef-friendly community running.'),
@@ -80,7 +81,8 @@ INSERT INTO identity.profiles (user_id, first_name, last_name, city, state, coun
             (6, 'Chinmaya', 'Bidkar', 'Phoenix', 'Arizona', 'USA', 'PUBLIC', 1, 'Passionate about life. Just getting started with diving!'),
             (7, 'Joule', 'Thief', 'San Francisco', 'California', 'USA', 'PUBLIC', 45, 'I steal energy'),
             (8, 'Heuristic', 'Lovuh', 'Seattle', 'Washington', 'USA', 'PUBLIC', 60, 'Efficient but suboptimal. Admissible but inconsistent.'),
-            (9, 'Stephen', 'Miller', 'Boston', 'Massachusetts', 'USA', 'PUBLIC', 150, 'My hair was black, so I went bald.');
+            (9, 'Stephen', 'Miller', 'Boston', 'Massachusetts', 'USA', 'PUBLIC', 150, 'My hair was black, so I went bald.'),
+            (10, 'Sky', 'Walker', 'Los Angeles', 'California', 'USA', 'PUBLIC', 200, 'I stare at the sky hoping a planet crashes into my head.');
 
 -- UPDATE users SET avatar_url = 'profile-images/awkward-face.jpeg' WHERE user_id = 1;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/greek-boy.jpeg' WHERE user_id = 1;
@@ -88,3 +90,5 @@ UPDATE identity.profiles SET profile_image_url = 'media/profile-images/some-scen
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/awkward-face.jpeg' WHERE user_id = 3;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/classy-chinmaya.jpeg' WHERE user_id = 6;
 UPDATE identity.profiles SET profile_image_url = 'media/profile-images/joule-thief-cat.jpeg' WHERE user_id = 7;
+UPDATE identity.profiles SET profile_image_url = 'media/profile-images/stephen-miller.jpeg' WHERE user_id = 9;
+-- UPDATE identity.profiles SET profile_image_url = 'media/profile-images/sky-walker.jpeg' WHERE user_id = 10;
