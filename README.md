@@ -17,18 +17,17 @@ Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Acce
 
 <p align="center">
   <!-- <img src="./assets/icons/stack/flyway.png" width="48" height="48" alt="Flyway" title="Flyway" /> -->
-  <a href="https://visualvm.github.io" title="Go to VisualVM">
-    <img src="./assets/icons/stack/visualvm.png" width="48" height="48" alt="VisualVM" title="VisualVM" />
+  <a href="https://www.thymeleaf.org" title="Go to Thymeleaf">
+    <img src="./assets/icons/stack/thymeleaf.svg" width="48" height="48" alt="Thymeleaf" title="Thymeleaf" />
   </a>
   <a href="https://www.openapis.org" title="Go to OpenAPI">
     <img src="./assets/icons/stack/openapi.svg" width="48" height="48" alt="OpenAPI" title="OpenAPI" />
   </a>
-  <a href="https://swagger.io/specification" title="Go to VisualVM">
+  <a href="https://swagger.io/specification" title="Go to Swagger">
     <img src="./assets/icons/stack/swagger.png" width="48" height="48" alt="Swagger" title="Swagger" />
   </a>
   <img src="./assets/icons/stack/aws-s3.png" width="48" height="48" alt="AWS S3" title="AWS S3" />
   <!-- <img src="./assets/icons/stack/aws-rds.png" width="48" height="48" alt="AWS RDS" title="AWS RDS" /> -->
-  <img src="./assets/icons/stack/thymeleaf.svg" width="48" height="48" alt="Thymeleaf" title="Thymeleaf" />
 </p>
 
 Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf](https://www.thymeleaf.org) web frontend, REST APIs, authentication, profiles, posts, messaging, notifications, dive locations, PostgreSQL/Flyway migrations, and OpenAPI docs for native/mobile clients.
@@ -41,7 +40,7 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf]
 |               Storage                |                             AWS S3                             |                           |
 |               Database               |             PostgreSQL, Flyway migrations, AWS RDS             | pgAdmin4, dbdiagram, DBML |
 |               Backend                |           Java 25, Spring Boot 3.3, Spring Security,           |                           |
-|   [API](https://www.openapis.org)    | REST, OpenAPI, [Swagger UI](https://swagger.io/specification) |          Postman          |
+|   [API](https://www.openapis.org)    | REST, OpenAPI, [Swagger UI](https://swagger.io/specification)  |          Postman          |
 |                 Web                  |                     Thymeleaf, Spring Web                      |                           |
 |      [Mobile](https://expo.dev)      | React Native Expo (TypeScript OpenAPI client generation Axios) |     OpenAPI Generator     |
 |             Local infra              |                    Docker, pgAdmin, Mailpit                    |                           |
@@ -63,13 +62,22 @@ Backend
 | Version Control | GitHub                                               |
 | Automation      | GitHub Workflows, Fastlane                           |
 
-Tools
+### Tools
 
-| Name      | Tool                                   |
-| --------- | -------------------------------------- |
-| Profiling | [VisualVM](https://visualvm.github.io) |
-| UI/UX     | [Figma](https://www.figma.com)         |
-|           |                                        |
+<p align="center">
+  <a href="https://visualvm.github.io" title="Go to VisualVM">
+    <img src="./assets/icons/stack/visualvm.png" width="48" height="48" alt="VisualVM" title="VisualVM" />
+  </a>
+</p>
+
+<!-- [![VisualVM](./assets/icons/stack/visualvm.png)](https://visualvm.github.io) -->
+
+| Name      | Tool                                   | Image                                                                                                                        |
+| --------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Profiling | [VisualVM](https://visualvm.github.io) |                                                                                                                              |
+| UI/UX     | [Figma](https://www.figma.com)         | [![Figma](https://skillicons.dev/icons?i=postman,postgresql&theme=light)](https://skillicons.dev)                            |
+| Database  | dbdiagram, Postman, pgAdmin, DataGrip  | <a href="https://visualvm.github.io"><img src="./assets/icons/stack/visualvm.png" alt="VisualVM" width="48" height="48"></a> |
+|           |                                        |                                                                                                                              |
 
 ---
 
