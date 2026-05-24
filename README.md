@@ -117,3 +117,12 @@ curl http://localhost:8080/actuator/health
 curl http://localhost:8080/actuator/health/readiness
 curl -i http://localhost:8080/actuator/health/readiness
 ```
+
+
+
+
+# Diagramming
+1. [Graphviz](https://graphviz.org)
+2. [PlantUML]
+3. [DBDiagram]
+4. [Mermaid]
