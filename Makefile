@@ -136,6 +136,30 @@ app-docker-run:
 		-e MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS="always" \
 		$(APP_IMAGE)
 
+app-docker-run-prod:
+	docker run --rm -p $(APP_PORT):8080 \
+		-e SPRING_PROFILES_ACTIVE=prod \
+		-e DB_URL="$(DB_URL)" \
+		-e DB_USERNAME="$(DB_USERNAME)" \
+		-e DB_PASSWORD="$(DB_PASSWORD)" \
+		-e SPRING_MAIL_HOST="$(MAIL_HOST)" \
+		-e SPRING_MAIL_PORT="$(MAIL_PORT)" \
+		-e MEDIA_S3_REGION="$(MEDIA_S3_REGION)" \
+		-e MEDIA_S3_BUCKET="$(MEDIA_S3_BUCKET)" \
+		-e MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS="always" \
+		$(APP_IMAGE)
+
+# 	cd $(APP_DIR) &&APP_DIR
+# 	./mvnw clean package -DskipTests
+# 	docker build -t scubapal-app:local .
+# 	docker run --rm -p 8080:8080 \
+# 		-e SPRING_PROFILES_ACTIVE=prod \
+# 		-e DB_URL="$(DB_URL)" \
+# 		-e DB_USERNAME="$(DB_USERNAME)" \
+# 		-e DB_PASSWORD="$(DB_PASSWORD)" \
+# 		-e APP_BASE_URL="http://localhost:8080" \
+# 		scubapal-app:local
+
 .PHONY: app-health
 app-health:
 	curl -i http://localhost:$(APP_PORT)/actuator/health
