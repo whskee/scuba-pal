@@ -123,6 +123,6 @@ curl -i http://localhost:8080/actuator/health/readiness
 
 # Diagramming
 1. [Graphviz](https://graphviz.org)
-2. [PlantUML]
+2. [PlantUML](https://plantuml.com)
 3. [DBDiagram]
 4. [Mermaid]
