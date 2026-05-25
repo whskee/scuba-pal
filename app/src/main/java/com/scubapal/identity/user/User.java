@@ -1,6 +1,7 @@
 package com.scubapal.identity.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +19,14 @@ import com.scubapal.shared.domain.SoftDeletableAuditableEntity;
 @Table(schema = "identity", name = "users")
 public class User extends SoftDeletableAuditableEntity {
 
+    // @Embedded
+    // private Credentials credentials;
+
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String username;
 
