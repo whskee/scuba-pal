@@ -40,18 +40,17 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf]
 | [Documentation](https://diataxis.fr) |            [Spring Doc](https://springdoc.org/#google_vignette), Astro Starlight             |
 |                 Auth                 |                                 Spring Security, Validation                                  |
 |                 ORM                  |                                       Spring Data JPA                                        |
-|               Database               |             [AWS RDS](https://aws.amazon.com/rds), PostgreSQL, Flyway migrations             |
+|               Database               |   [AWS RDS](https://aws.amazon.com/rds), PostgreSQL, Flyway migrations, pgAdmin, DataGrip    |
 |               Storage                |                             [AWS S3](https://aws.amazon.com/s3)                              |
 |               Backend                |                          Java 25, Spring Boot 3.3, Spring Security,                          |
 |               Mailing                |                                           Mailpit                                            |
 |   [API](https://www.openapis.org)    |            REST, OpenAPI, [Swagger UI](https://swagger.io/specification), Postman            |
 |                 Web                  |                                    Thymeleaf, Spring Web                                     |
 |      [Mobile](https://expo.dev)      |                React Native Expo (TypeScript OpenAPI client generation Axios)                |
-|               Compute                |                            [AWS EC2](https://aws.amazon.com/ec2)                             |
-|             Local infra              |                                   Docker, pgAdmin, Mailpit                                   |
 |    [CI/CD](https://12factor.net)     |                     GitHub Workflows, [Fastlane](https://fastlane.tools)                     |
 |             Diagramming              | dbdiagram, DBML, Mermaid, [Graphviz](https://graphviz.org), [PlantUML](https://plantuml.com) |
-|              Deployment              |                        [AWS EKS](https://aws.amazon.com/eks), AWS EC2                        |
+|               Compute                |                            [AWS EC2](https://aws.amazon.com/ec2)                             |
+|              Deployment              |                    Docker, [AWS EKS](https://aws.amazon.com/eks), AWS EC2                    |
 |                Tools                 |                                      pgAdmin4, Postman                                       |
 
 <!-- |   [Cloud](https://aws.amazon.com/)   |                                      EC2, S3, RDS, EKS                                       | -->
