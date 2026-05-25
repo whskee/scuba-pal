@@ -4,7 +4,7 @@
   Scuba Pal
 </h1>
 
-Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Access [documentation](https://whskee.github.io/scuba-pal) on GitHub Pages
+Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Access [developer documentation](https://whskee.github.io/scuba-pal) on GitHub Pages.
 
 <h3 align="center">
   <a href="https://stackshare.io">Stack</a>
@@ -35,40 +35,64 @@ Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Acce
 Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf](https://www.thymeleaf.org) web frontend, REST APIs, authentication, profiles, posts, messaging, notifications, dive locations, PostgreSQL/Flyway migrations, and OpenAPI docs for native/mobile clients.
 
 
-|                Domain                |                                             Core                                             |
-| :----------------------------------: | :------------------------------------------------------------------------------------------: |
-| [Documentation](https://diataxis.fr) |            [Spring Doc](https://springdoc.org/#google_vignette), Astro Starlight             |
-|               Backend                |                                   Java 25, Spring Boot 3.3                                   |
-|                 Auth                 |                                 Spring Security, Validation                                  |
-|                 ORM                  |                                       Spring Data JPA                                        |
-|               Database               |   [AWS RDS](https://aws.amazon.com/rds), PostgreSQL, Flyway migrations, pgAdmin, DataGrip    |
-|               Storage                |                             [AWS S3](https://aws.amazon.com/s3)                              |
-|               Mailing                |                                           Mailpit                                            |
-|   [API](https://www.openapis.org)    |            REST, OpenAPI, [Swagger UI](https://swagger.io/specification), Postman            |
-|                 Web                  |                                    Thymeleaf, Spring Web                                     |
-|      [Mobile](https://expo.dev)      |                React Native Expo (TypeScript OpenAPI client generation Axios)                |
-|    [CI/CD](https://12factor.net)     |                     GitHub Workflows, [Fastlane](https://fastlane.tools)                     |
-|             Diagramming              | dbdiagram, DBML, Mermaid, [Graphviz](https://graphviz.org), [PlantUML](https://plantuml.com) |
-|               Compute                |                            [AWS EC2](https://aws.amazon.com/ec2)                             |
-|              Deployment              |                    Docker, [AWS EKS](https://aws.amazon.com/eks), AWS EC2                    |
-|                Tools                 |                                      pgAdmin4, Postman                                       |
+|                Domain                |                                                   Core                                                    |
+| :----------------------------------: | :-------------------------------------------------------------------------------------------------------: |
+| [Documentation](https://diataxis.fr) |                   [Spring Doc](https://springdoc.org/#google_vignette), Astro Starlight                   |
+|               Backend                |                                         Java 25, Spring Boot 3.3                                          |
+|                 Auth                 |                                        Spring Security, Validation                                        |
+|               Database               |                             PostgreSQL, [AWS RDS](https://aws.amazon.com/rds)                             |
+|               Storage                |                                    [AWS S3](https://aws.amazon.com/s3)                                    |
+|               Mailing                | Mailpit, [AWS SES](https://aws.amazon.com/s/idc-server-side-test/awswt-938-new-template-ses/control-ses/) |
+|   [API](https://www.openapis.org)    |                  REST, OpenAPI, [Swagger UI](https://swagger.io/specification), Postman                   |
+|                 Web                  |                                           Thymeleaf, Spring Web                                           |
+|      [Mobile](https://expo.dev)      |                      React Native Expo (TypeScript OpenAPI client generation Axios)                       |
+|    [CI/CD](https://12factor.net)     |                           GitHub Workflows, [Fastlane](https://fastlane.tools)                            |
+|              Deployment              |           Docker, [AWS EKS](https://aws.amazon.com/eks), [AWS EC2](https://aws.amazon.com/ec2)            |
+
+
 
 <!-- |   [Cloud](https://aws.amazon.com/)   |                                      EC2, S3, RDS, EKS                                       | -->
 
 
-Backend
+## Backend
 
-| Domain          | Framework                                            | Tool                                                                                           |
-| --------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Auth            | Spring Security, Validation                          |                                                                                                |
-| Database        | [AWS RDS](https://aws.amazon.com/rds)                | [![db](https://skillicons.dev/icons?i=postgresql,pgadmin&theme=light)](https://skillicons.dev) |
-| API             | [Spring Doc](https://springdoc.org/#google_vignette) | [![api](https://skillicons.dev/icons?i=postman&theme=light)](https://skillicons.dev)           |
-| Storage         | [AWS S3](https://aws.amazon.com/s3)                  |                                                                                                |
-| Mailing         | Mailpit Local                                        |                                                                                                |
-| Version Control | GitHub                                               |                                                                                                |
-| Automation      | GitHub Workflows, Fastlane                           | [![db](https://skillicons.dev/icons?i=github&theme=light)](https://skillicons.dev)             |
+| Domain     | Framework                                                                                                              |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Auth       | Spring Security, Validation                                                                                            |
+| Database   | Spring Data JPA (ORM), PostgreSQL, [AWS RDS](https://aws.amazon.com/rds), Flyway migrations                            |
+| Storage    | [AWS S3](https://aws.amazon.com/s3)                                                                                    |
+| API        | [Spring Doc](https://springdoc.org/#google_vignette), Postman                                                          |
+| Mailing    | Spring Mail, Mailpit, [AWS SES](https://aws.amazon.com/s/idc-server-side-test/awswt-938-new-template-ses/control-ses/) |
+| Automation | GitHub Workflows, Fastlane                                                                                             |
+| Deployment | [AWS EKS](https://aws.amazon.com/eks)                                                                                  |
+| Profiling  | [VisualVM](https://visualvm.github.io)                                                                                 |
 
-### Tools
+
+### Database
+| Domain     | Framework                             |
+| ---------- | ------------------------------------- |
+| Type       | PostgreSQL                            |
+| ORM        | Spring Data JPA                       |
+| Migrations | Flyway                                |
+| Cloud      | [AWS RDS](https://aws.amazon.com/rds) |
+| Storage    | [AWS S3](https://aws.amazon.com/s3)   |
+| Tools      | pgAdmin, DataGrip                     |
+
+
+## Cloud
+| Domain          | Framework                                                                                        |
+| --------------- | ------------------------------------------------------------------------------------------------ |
+| Database        | [AWS RDS](https://aws.amazon.com/rds)                                                            |
+| Storage         | [AWS S3](https://aws.amazon.com/s3)                                                              |
+| Mailing         | [AWS SES](https://aws.amazon.com/s/idc-server-side-test/awswt-938-new-template-ses/control-ses/) |
+| Version Control | GitHub                                                                                           |
+| Compute         | [AWS EC2](https://aws.amazon.com/ec2)                                                            |
+| Deployment      | [AWS EKS](https://aws.amazon.com/eks)                                                            |
+| Automation      | GitHub Workflows                                                                                 |
+
+
+
+## Tools
 
 <p align="center">
   <a href="https://skillicons.dev">
@@ -81,13 +105,24 @@ Backend
 
 <!-- [![VisualVM](./assets/icons/stack/visualvm.png)](https://visualvm.github.io) -->
 
-|  Domain   |                                      Name                                       |
-| :-------: | :-----------------------------------------------------------------------------: |
-|    API    | Postman, [OpenAPI Generator](https://github.com/openapitools/openapi-generator) |
-|    IDE    |                                vscode, DataGrip                                 |
-|   UI/UX   |                         [Figma](https://www.figma.com)                          |
-| Database  |                          dbdiagram, pgAdmin, DataGrip                           |
-| Profiling |                     [VisualVM](https://visualvm.github.io)                      |
+|   Domain    |                                                    Name                                                     |
+| :---------: | :---------------------------------------------------------------------------------------------------------: |
+|     IDE     |                                              vscode, DataGrip                                               |
+|     API     |               Postman, [OpenAPI Generator](https://github.com/openapitools/openapi-generator)               |
+|    UI/UX    |                                       [Figma](https://www.figma.com)                                        |
+|  Database   |                                        dbdiagram, pgAdmin, DataGrip                                         |
+|  Profiling  |                                   [VisualVM](https://visualvm.github.io)                                    |
+
+
+#### Diagramming
+1. UML Generator
+2. dbdiagram, DBML
+3. [Graphviz](https://graphviz.org)
+4. [PlantUML](https://plantuml.com)
+5. [DBDiagram]
+6. [Mermaid]
+
+
 
 ---
 
@@ -122,11 +157,3 @@ curl http://localhost:8080/actuator/health/readiness
 curl -i http://localhost:8080/actuator/health/readiness
 ```
 
-
-
-
-# Diagramming
-1. [Graphviz](https://graphviz.org)
-2. [PlantUML](https://plantuml.com)
-3. [DBDiagram]
-4. [Mermaid]
