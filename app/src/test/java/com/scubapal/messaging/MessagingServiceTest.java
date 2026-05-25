@@ -8,8 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import com.scubapal.identity.role.Role;
 import com.scubapal.identity.profile.ProfileRepository;
+import com.scubapal.identity.role.Role;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.messaging.conversation.Conversation;

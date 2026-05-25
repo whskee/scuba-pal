@@ -7,10 +7,10 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
+import com.scubapal.identity.user.Gender;
 import com.scubapal.identity.user.User;
 import com.scubapal.shared.VisibilityStatus;
 import com.scubapal.shared.domain.AuditableEntity;
-import com.scubapal.shared.domain.Gender;
 
 @Getter
 @Setter
