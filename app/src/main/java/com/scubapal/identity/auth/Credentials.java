@@ -1,4 +1,4 @@
-package com.scubapal.identity.user;
+package com.scubapal.identity.auth;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
