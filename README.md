@@ -38,11 +38,11 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf]
 |                Domain                |                                             Core                                             |
 | :----------------------------------: | :------------------------------------------------------------------------------------------: |
 | [Documentation](https://diataxis.fr) |            [Spring Doc](https://springdoc.org/#google_vignette), Astro Starlight             |
+|               Backend                |                                   Java 25, Spring Boot 3.3                                   |
 |                 Auth                 |                                 Spring Security, Validation                                  |
 |                 ORM                  |                                       Spring Data JPA                                        |
 |               Database               |   [AWS RDS](https://aws.amazon.com/rds), PostgreSQL, Flyway migrations, pgAdmin, DataGrip    |
 |               Storage                |                             [AWS S3](https://aws.amazon.com/s3)                              |
-|               Backend                |                          Java 25, Spring Boot 3.3, Spring Security,                          |
 |               Mailing                |                                           Mailpit                                            |
 |   [API](https://www.openapis.org)    |            REST, OpenAPI, [Swagger UI](https://swagger.io/specification), Postman            |
 |                 Web                  |                                    Thymeleaf, Spring Web                                     |
