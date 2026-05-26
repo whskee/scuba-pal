@@ -1,6 +1,6 @@
 name: scuba-pal
 services:
-  database:
+  db:
     image: postgres:18
     # container_name: postgres
     restart: unless-stopped
