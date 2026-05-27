@@ -18,15 +18,15 @@ services:
         aliases:
           - scuba-pal-postgres
 
-  mailpit:
-    image: axllent/mailpit:latest
-    # container_name: mailpit
-    restart: unless-stopped
-    ports:
-      - "1025:1025" # SMTP server for Spring Boot
-      - "8025:8025" # Mailpit web inbox
-    networks:
-      default:
+  # mailpit:
+  #   image: axllent/mailpit:latest
+  #   # container_name: mailpit
+  #   restart: unless-stopped
+  #   ports:
+  #     - "1025:1025" # SMTP server for Spring Boot
+  #     - "8025:8025" # Mailpit web inbox
+  #   networks:
+  #     default:
 
 volumes:
   postgres_data:
