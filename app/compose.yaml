@@ -18,7 +18,7 @@ services:
         aliases:
           - scuba-pal-postgres
 
-  mail:
+  mailpit:
     image: axllent/mailpit:latest
     # container_name: mailpit
     restart: unless-stopped
