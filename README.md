@@ -66,6 +66,7 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf]
 | Automation | GitHub Workflows, Fastlane                                                                                             |
 | Deployment | [AWS EKS](https://aws.amazon.com/eks)                                                                                  |
 | Profiling  | [VisualVM](https://visualvm.github.io)                                                                                 |
+| Generator  | [JHipster](https://www.jhipster.tech)                                                                                  |
 
 
 ### Database
@@ -105,13 +106,16 @@ Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf]
 
 <!-- [![VisualVM](./assets/icons/stack/visualvm.png)](https://visualvm.github.io) -->
 
-|   Domain    |                                                    Name                                                     |
-| :---------: | :---------------------------------------------------------------------------------------------------------: |
-|     IDE     |                                              vscode, DataGrip                                               |
-|     API     |               Postman, [OpenAPI Generator](https://github.com/openapitools/openapi-generator)               |
-|    UI/UX    |                                       [Figma](https://www.figma.com)                                        |
-|  Database   |                                        dbdiagram, pgAdmin, DataGrip                                         |
-|  Profiling  |                                   [VisualVM](https://visualvm.github.io)                                    |
+|   Domain    |                                                              Name                                                               |
+| :---------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+|     IDE     |                                                        vscode, DataGrip                                                         |
+|     API     |                         Postman, [OpenAPI Generator](https://github.com/openapitools/openapi-generator)                         |
+| Generators  |                             [OpenAPI Generator](https://github.com/openapitools/openapi-generator)                              |
+|    UI/UX    |                                                 [Figma](https://www.figma.com)                                                  |
+|  Database   |                                                  dbdiagram, pgAdmin, DataGrip                                                   |
+|   Backend   |              Profiling - [VisualVM](https://visualvm.github.io), Generator - [JHipster](https://www.jhipster.tech)              |
+| Diagramming | MermaidJS, UML Generator, [Graphviz](https://graphviz.org), [PlantUML](https://plantuml.com), [DBDiagram](https://dbdiagram.io) |
+
 
 
 #### Diagramming
