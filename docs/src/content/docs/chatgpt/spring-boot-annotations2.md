@@ -1,3 +1,8 @@
+---
+title: Spring Boot Annotations 2
+description: A reference page in my new Starlight docs site.
+---
+
 Exactly. The better mental model is:
 
 > **UML/OOP model = meaning + ownership**

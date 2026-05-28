@@ -1,3 +1,8 @@
+---
+title: UML
+description: A reference page in my new Starlight docs site.
+---
+
 ```mermaid
 flowchart TD
     Controller[Controller] --> Service[Service]

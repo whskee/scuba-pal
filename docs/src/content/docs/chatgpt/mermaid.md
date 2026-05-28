@@ -1,3 +1,8 @@
+---
+title: Mermaid Diagrams
+description: A reference page in my new Starlight docs site.
+---
+
 Diagramming is powerful. Never understimate good diagrams.
 
 Anything else:

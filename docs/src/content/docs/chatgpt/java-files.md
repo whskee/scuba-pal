@@ -1,3 +1,8 @@
+---
+title: Java Files
+description: A reference page in my new Starlight docs site.
+---
+
 ```mermaid
 sequenceDiagram
     autonumber

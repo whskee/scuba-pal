@@ -1,3 +1,8 @@
+---
+title: Spring Boot Annotations
+description: A reference page in my new Starlight docs site.
+---
+
 1. [2. Core annotation → PostgreSQL SQL map](#2-core-annotation--postgresql-sql-map)
    1. [Table-level mappings](#table-level-mappings)
    2. [Column-level mappings](#column-level-mappings)

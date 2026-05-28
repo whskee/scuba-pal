@@ -1,3 +1,8 @@
+---
+title: Optimization
+description: A reference page in my new Starlight docs site.
+---
+
 I inspected the monorepo `whskee/scuba-pal`. Your repo structure matches the monorepo note: backend in `app/`, mobile Expo app in `mobile/`, and generated OpenAPI client in `mobile/src/api/generated`. 
 
 Progress: **Post module hardening is ~75% complete.**
