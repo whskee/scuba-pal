@@ -17,7 +17,7 @@ export default defineConfig({
 				{
 					icon: 'github',
 					label: 'GitHub',
-					href: 'https://github.com/whskee/scuba-pal-app'
+					href: 'https://github.com/whskee/scuba-pal'
 				}
 
 			],
