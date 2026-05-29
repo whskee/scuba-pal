@@ -1,5 +1,15 @@
 SHELL := /bin/bash
 
+IMAGE_NAME := scuba-pal-app:local
+APP_PORT := 8080
+DB_URL ?= jdbc:postgresql://host.docker.internal:5432/scuba_pal
+DB_USER ?= scuba_pal_runtime
+DB_PASSWORD ?= scuba_pal
+MEDIA_S3_REGION ?= us-west-2
+MEDIA_S3_BUCKET ?= scuba-pal-user-media-test-817455142561-us-west-2-an
+MAIL_HOST ?= host.docker.internal
+MAIL_PORT ?= 1025
+
 .PHONY: help dev prod test build clean package compose-up compose-down compose-pull mailpit openapi-generate create-javadoc create-astro-docs open-astro-docs
 
 help:

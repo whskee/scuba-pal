@@ -8,7 +8,7 @@ DOCS_DIR := docs
 APP_IMAGE := scuba-pal-app:local
 APP_PORT := 8080
 DB_URL ?= jdbc:postgresql://host.docker.internal:5432/scuba_pal
-DB_USERNAME ?= scuba_pal_app
+DB_USER ?= scuba_pal_runtime
 DB_PASSWORD ?= scuba_pal
 MEDIA_S3_REGION ?= us-west-2
 MEDIA_S3_BUCKET ?= scuba-pal-user-media-test-817455142561-us-west-2-an
@@ -127,7 +127,7 @@ app-docker-run:
 	docker run --rm -p $(APP_PORT):8080 \
 		-e SPRING_PROFILES_ACTIVE=dev \
 		-e DB_URL="$(DB_URL)" \
-		-e DB_USERNAME="$(DB_USERNAME)" \
+		-e DB_USER="$(DB_USER)" \
 		-e DB_PASSWORD="$(DB_PASSWORD)" \
 		-e SPRING_MAIL_HOST="$(MAIL_HOST)" \
 		-e SPRING_MAIL_PORT="$(MAIL_PORT)" \
@@ -140,7 +140,7 @@ app-docker-run-prod:
 	docker run --rm -p $(APP_PORT):8080 \
 		-e SPRING_PROFILES_ACTIVE=prod \
 		-e DB_URL="$(DB_URL)" \
-		-e DB_USERNAME="$(DB_USERNAME)" \
+		-e DB_USER="$(DB_USER)" \
 		-e DB_PASSWORD="$(DB_PASSWORD)" \
 		-e SPRING_MAIL_HOST="$(MAIL_HOST)" \
 		-e SPRING_MAIL_PORT="$(MAIL_PORT)" \
@@ -155,7 +155,7 @@ app-docker-run-prod:
 # 	docker run --rm -p 8080:8080 \
 # 		-e SPRING_PROFILES_ACTIVE=prod \
 # 		-e DB_URL="$(DB_URL)" \
-# 		-e DB_USERNAME="$(DB_USERNAME)" \
+# 		-e DB_USER="$(DB_USER)" \
 # 		-e DB_PASSWORD="$(DB_PASSWORD)" \
 # 		-e APP_BASE_URL="http://localhost:8080" \
 # 		scubapal-app:local
