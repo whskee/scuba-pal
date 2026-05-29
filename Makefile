@@ -5,7 +5,7 @@ WEB_DIR := web
 MOBILE_DIR := mobile
 DOCS_DIR := docs
 
-APP_IMAGE := scubapal-app:local
+APP_IMAGE := scuba-pal-app:local
 APP_PORT := 8080
 DB_URL ?= jdbc:postgresql://host.docker.internal:5432/scuba_pal
 DB_USERNAME ?= scuba_pal_app

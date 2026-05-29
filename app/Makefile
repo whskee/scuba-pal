@@ -33,6 +33,9 @@ test:
 build:
 	./mvnw clean compile
 
+build-docker:
+	docker build -t scuba-pal-app:local .
+
 package:
 	./mvnw clean package
 
