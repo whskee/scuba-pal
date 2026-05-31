@@ -45,13 +45,13 @@ public class UserService {
     private final String appBaseUrl;
 
     public UserService(UserRepository userRepository,
-            RoleRepository roleRepository,
-            ProfileRepository profileRepository,
-            PasswordResetTokenRepository passwordResetTokenRepository,
-            PasswordEncoder passwordEncoder,
-            EmailService emailService,
-            MediaStorageService mediaStorageService,
-            @Value("${app.base-url:http://localhost:8080}") String appBaseUrl) {
+                       RoleRepository roleRepository,
+                       ProfileRepository profileRepository,
+                       PasswordResetTokenRepository passwordResetTokenRepository,
+                       PasswordEncoder passwordEncoder,
+                       EmailService emailService,
+                       MediaStorageService mediaStorageService,
+                       @Value("${app.base-url:http://localhost:8080}") String appBaseUrl) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.profileRepository = profileRepository;
