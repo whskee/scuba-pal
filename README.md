@@ -4,7 +4,17 @@
   Scuba Pal
 </h1>
 
-Scuba Pal is a platform connecting divers to dive deep, and connect deeper. Access [developer documentation](https://whskee.github.io/scuba-pal) on GitHub Pages.
+Scuba Pal is a community of scuba divers. A platform for connecting divers to dive deep, and connect deeper. Access [developer documentation](https://whskee.github.io/scuba-pal) on GitHub Pages.
+
+
+# Features
+1. Main Feed: consists of ocean videos by users
+2. The app will allow users to connect with other Scuba Divers
+3. Find People to Dive with
+4. Find Dive Shops.
+5. Find Dive Locations
+6. Recommended PADI Certifications
+7. Users can log dives
 
 <h3 align="center">
   <a href="https://stackshare.io">Stack</a>
