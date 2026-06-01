@@ -17,10 +17,10 @@ import com.scubapal.messaging.conversation.ConversationListResponse;
 import com.scubapal.messaging.conversation.ConversationView;
 import com.scubapal.messaging.message.MessageListResponse;
 import com.scubapal.messaging.message.MessageView;
-import com.scubapal.messaging.message.MessageResponse;
 import com.scubapal.messaging.message.SendMessageRequest;
 import com.scubapal.messaging.message.UnreadCountView;
 import com.scubapal.notification.NotificationService;
+import com.scubapal.shared.MessageResponse;
 import com.scubapal.shared.api.PageMetaResponse;
 
 @Tag(name = "Messaging", description = "Endpoints for conversations and direct messaging")

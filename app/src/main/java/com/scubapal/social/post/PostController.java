@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import com.scubapal.messaging.message.MessageResponse;
+import com.scubapal.shared.MessageResponse;
 import com.scubapal.social.comment.CreateCommentRequest;
 
 @Tag(name = "Posts", description = "Endpoints for creating, retrieving, updating, and deleting posts and comments")

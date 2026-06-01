@@ -1,4 +1,4 @@
-package com.scubapal.messaging.message;
+package com.scubapal.shared;
 
 public record MessageResponse(String message) {
 }

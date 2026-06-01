@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.scubapal.identity.auth.RegisterRequest;
-import com.scubapal.messaging.message.MessageResponse;
+import com.scubapal.shared.MessageResponse;
 
 import java.util.List;
 

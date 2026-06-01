@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scubapal.identity.user.UserService;
 import com.scubapal.identity.user.UserView;
-import com.scubapal.messaging.message.MessageResponse;
+import com.scubapal.shared.MessageResponse;
 
 import java.util.Map;
 
