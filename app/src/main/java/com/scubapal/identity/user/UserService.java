@@ -23,6 +23,7 @@ import com.scubapal.shared.VisibilityStatus;
 import com.scubapal.shared.exception.ResourceNotFoundException;
 import com.scubapal.shared.mail.EmailService;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +133,7 @@ public class UserService {
                     PasswordResetToken resetToken = new PasswordResetToken();
                     resetToken.setUser(user);
                     resetToken.setToken(UUID.randomUUID().toString().replace("-", ""));
-                    resetToken.setExpiresAt(LocalDateTime.now().plusMinutes(30));
+                    resetToken.setExpiresAt(Instant.now().plusSeconds(3600)); // 1 hour expiry
                     PasswordResetToken saved = passwordResetTokenRepository.save(resetToken);
                     String link = appBaseUrl.replaceAll("/+$", "") + "/reset-password?token=" + saved.getToken();
                     try {
@@ -171,7 +172,7 @@ public class UserService {
 
         User user = resetToken.getUser();
         user.setPasswordHash(passwordEncoder.encode(newPassword));
-        resetToken.setUsedAt(LocalDateTime.now());
+        resetToken.setUsedAt(Instant.now());
     }
 
     @Transactional
