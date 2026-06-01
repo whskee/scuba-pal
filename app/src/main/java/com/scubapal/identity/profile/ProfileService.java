@@ -1,5 +1,8 @@
 package com.scubapal.identity.profile;
 
+import java.util.Optional;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -7,9 +10,8 @@ import com.scubapal.identity.user.IdentityMapper;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.shared.VisibilityStatus;
+import com.scubapal.shared.api.PageResponse;
 import com.scubapal.shared.exception.ResourceNotFoundException;
-
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,6 +37,13 @@ public class ProfileService {
             throw new ResourceNotFoundException("Profile not found for user: " + userId);
         }
         return identityMapper.toPublicProfileResponse(profile);
+    }
+
+    public PageResponse<PublicProfileResponse> searchPublicProfiles(String q, int page, int size) {
+        String term = q == null ? "" : q.trim();
+        PageRequest pageable = PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 100));
+        return PageResponse.from(profileRepository.searchPublicProfiles(term, pageable)
+                .map(identityMapper::toPublicProfileResponse));
     }
 
     public ProfileResponse getCurrentUserProfile(String username) {

@@ -1,22 +1,15 @@
-import { AdminUserManagementApi } from "@/api/generated";
-import { ApiError, api, apiConfig, pageParams, unwrap } from "@/services/api";
+import { ProfilesApi } from "@/api/generated";
+import { api, apiConfig, pageParams, unwrap } from "@/services/api";
 import { User, toUser } from "@/types/models";
 
-const generatedUsersApi = new AdminUserManagementApi(apiConfig, undefined, api);
+const generatedProfilesApi = new ProfilesApi(apiConfig, undefined, api);
 
 export const usersApi = {
   async search(username: string): Promise<User[]> {
     const params = pageParams(0, 100);
-    let allUsers;
-    try {
-      const response = await unwrap(generatedUsersApi.getAll1(params.page, params.size));
-      allUsers = response.content ?? [];
-    } catch (error) {
-      if (error instanceof ApiError && (error.status === 401 || error.status === 403)) return [];
-      throw error;
-    }
+    const response = await unwrap(generatedProfilesApi.searchPublicProfiles(username.trim() || undefined, params.page, params.size));
     const term = username.trim().toLowerCase();
-    return allUsers
+    return (response.content ?? [])
       .map((user) => toUser(user))
       .filter((user) => {
         if (!term) return true;

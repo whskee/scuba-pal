@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.scubapal.shared.api.PageResponse;
+
 @Tag(name = "Profiles", description = "Endpoints for creating and managing diver profiles")
 @RestController
 @RequestMapping("/api")
@@ -31,6 +33,17 @@ public class ProfileController {
     })
     public ResponseEntity<ProfileResponse> create(@PathVariable Long userId, @Valid @RequestBody UpsertProfileRequest input) {
         return ResponseEntity.status(HttpStatus.CREATED).body(profileService.create(userId, input));
+    }
+
+    @GetMapping("/profiles")
+    @Operation(
+            operationId = "searchPublicProfiles",
+            summary = "Search public profiles",
+            description = "Returns active public diver profiles visible to all users.")
+    public PageResponse<PublicProfileResponse> search(@RequestParam(required = false) String q,
+                                                      @RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "20") int size) {
+        return profileService.searchPublicProfiles(q, page, size);
     }
 
     @GetMapping({"/profiles/{userId}", "/users/{userId}/profile"})

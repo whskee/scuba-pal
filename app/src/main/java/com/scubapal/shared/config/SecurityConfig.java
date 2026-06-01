@@ -70,7 +70,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/locations", "/api/locations/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/shops", "/api/shops/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts", "/api/posts/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/profiles/*", "/api/users/*/profile").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/profiles", "/api/profiles/*", "/api/users/*/profile").permitAll()
                         .requestMatchers("/api/locations", "/api/locations/**").hasAnyRole("ADMIN", "SHOP_OWNER", "MODERATOR")
                         .requestMatchers(HttpMethod.POST, "/api/users/*/follow", "/api/messages/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/users/*/follow-summary", "/api/users/*/followers", "/api/users/*/following").permitAll()

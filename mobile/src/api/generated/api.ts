@@ -285,6 +285,10 @@ export interface PageResponseFeedPostView {
     'content'?: Array<FeedPostView>;
     'meta'?: PageMetaResponse;
 }
+export interface PageResponsePublicProfileResponse {
+    'content'?: Array<PublicProfileResponse>;
+    'meta'?: PageMetaResponse;
+}
 export interface PostDetailView {
     'postId'?: number;
     'userId'?: number;
@@ -4816,6 +4820,55 @@ export const ProfilesApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
+         * Returns active public diver profiles visible to all users.
+         * @summary Search public profiles
+         * @param {string} [q] 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchPublicProfiles: async (q?: string, page?: number, size?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/profiles`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (q !== undefined) {
+                localVarQueryParameter['q'] = q;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            localVarHeaderParameter['Accept'] = '*/*';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Updates profile details for a user.
          * @summary Update profile
          * @param {number} userId 
@@ -4959,6 +5012,21 @@ export const ProfilesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Returns active public diver profiles visible to all users.
+         * @summary Search public profiles
+         * @param {string} [q] 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async searchPublicProfiles(q?: string, page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageResponsePublicProfileResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.searchPublicProfiles(q, page, size, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProfilesApi.searchPublicProfiles']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Updates profile details for a user.
          * @summary Update profile
          * @param {number} userId 
@@ -5035,6 +5103,18 @@ export const ProfilesApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.get1(userId, options).then((request) => request(axios, basePath));
         },
         /**
+         * Returns active public diver profiles visible to all users.
+         * @summary Search public profiles
+         * @param {string} [q] 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchPublicProfiles(q?: string, page?: number, size?: number, options?: RawAxiosRequestConfig): AxiosPromise<PageResponsePublicProfileResponse> {
+            return localVarFp.searchPublicProfiles(q, page, size, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Updates profile details for a user.
          * @summary Update profile
          * @param {number} userId 
@@ -5104,6 +5184,19 @@ export class ProfilesApi extends BaseAPI {
      */
     public get1(userId: number, options?: RawAxiosRequestConfig) {
         return ProfilesApiFp(this.configuration).get1(userId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns active public diver profiles visible to all users.
+     * @summary Search public profiles
+     * @param {string} [q] 
+     * @param {number} [page] 
+     * @param {number} [size] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public searchPublicProfiles(q?: string, page?: number, size?: number, options?: RawAxiosRequestConfig) {
+        return ProfilesApiFp(this.configuration).searchPublicProfiles(q, page, size, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
