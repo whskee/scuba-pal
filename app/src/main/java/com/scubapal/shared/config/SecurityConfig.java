@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -170,7 +171,9 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder(JwtProperties jwtProperties) {
-        return NimbusJwtDecoder.withSecretKey(jwtSecretKey(jwtProperties)).build();
+        return NimbusJwtDecoder.withSecretKey(jwtSecretKey(jwtProperties))
+                .macAlgorithm(MacAlgorithm.HS256)
+                .build();
     }
 
     @Bean

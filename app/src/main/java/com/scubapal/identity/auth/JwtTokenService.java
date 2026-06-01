@@ -6,6 +6,8 @@ import java.time.Instant;
 import java.util.Base64;
 import java.util.List;
 
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -137,6 +139,7 @@ public class JwtTokenService {
 
     private String encodeAccessToken(User user, Instant issuedAt, Instant expiresAt) {
         String role = user.getRole().getName().toUpperCase();
+        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer(jwtProperties.issuer())
                 .issuedAt(issuedAt)
@@ -145,7 +148,7 @@ public class JwtTokenService {
                 .claim("uid", user.getId())
                 .claim("roles", List.of(role))
                 .build();
-        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        return jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
     }
 
     private String createRefreshToken(User user, Instant now, String clientIp) {
