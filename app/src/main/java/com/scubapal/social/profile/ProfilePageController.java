@@ -1,4 +1,4 @@
-package com.scubapal.identity.profile;
+package com.scubapal.social.profile;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -7,18 +7,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.scubapal.identity.user.UserService;
+import com.scubapal.identity.user.IdentityQueryService;
 import com.scubapal.social.follow.FollowService;
 import com.scubapal.social.post.PostService;
 
 @Controller
 public class ProfilePageController {
-    private final UserService userService;
+    private final IdentityQueryService identityQueryService;
     private final PostService postService;
     private final FollowService followService;
 
-    public ProfilePageController(UserService userService, PostService postService, FollowService followService) {
-        this.userService = userService;
+    public ProfilePageController(IdentityQueryService identityQueryService, PostService postService, FollowService followService) {
+        this.identityQueryService = identityQueryService;
         this.postService = postService;
         this.followService = followService;
     }
@@ -29,7 +29,7 @@ public class ProfilePageController {
                           @RequestParam(defaultValue = "0") int page,
                           @RequestParam(defaultValue = "12") int size,
                           Model model) {
-        var userPage = userService.getUsersByCity(city, pageable(page, size));
+        var userPage = identityQueryService.findUsersByCity(city, pageable(page, size));
         model.addAttribute("city", city);
         model.addAttribute("userPage", userPage);
         model.addAttribute("users", userPage.getContent());
@@ -40,7 +40,7 @@ public class ProfilePageController {
     public String divers(@RequestParam(defaultValue = "0") int page,
                          @RequestParam(defaultValue = "12") int size,
                          Model model) {
-        var userPage = userService.getAllUsers(pageable(page, size));
+        var userPage = identityQueryService.findUsers(pageable(page, size));
         model.addAttribute("userPage", userPage);
         model.addAttribute("users", userPage.getContent());
         return "social/divers";
@@ -53,8 +53,8 @@ public class ProfilePageController {
                           Model model,
                           Authentication auth) {
         var user = looksNumeric(username)
-                ? userService.getUser(Long.valueOf(username))
-                : userService.getUserByUsername(username);
+                ? identityQueryService.getUser(Long.valueOf(username))
+                : identityQueryService.getUserByUsername(username);
         if (looksNumeric(username)) {
             return "redirect:/profile/" + user.username();
         }
@@ -70,14 +70,14 @@ public class ProfilePageController {
 
     @PostMapping("/profile/{username}/follow")
     public String followUser(@PathVariable String username, Authentication auth) {
-        var user = userService.getUserByUsername(username);
+        var user = identityQueryService.getUserByUsername(username);
         followService.follow(auth.getName(), user.id());
         return "redirect:/profile/" + user.username();
     }
 
     @PostMapping("/profile/{username}/unfollow")
     public String unfollowUser(@PathVariable String username, Authentication auth) {
-        var user = userService.getUserByUsername(username);
+        var user = identityQueryService.getUserByUsername(username);
         followService.unfollow(auth.getName(), user.id());
         return "redirect:/profile/" + user.username();
     }

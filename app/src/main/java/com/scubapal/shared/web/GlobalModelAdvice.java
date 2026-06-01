@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.scubapal.identity.user.UserService;
+import com.scubapal.identity.user.CurrentUserService;
 import com.scubapal.identity.user.UserView;
 import com.scubapal.messaging.MessagingService;
 import com.scubapal.notification.NotificationService;
@@ -14,18 +14,20 @@ import com.scubapal.notification.NotificationService;
 public class GlobalModelAdvice {
     private final MessagingService messagingService;
     private final NotificationService notificationService;
-    private final UserService userService;
+    private final CurrentUserService currentUserService;
 
-    public GlobalModelAdvice(MessagingService messagingService, NotificationService notificationService, UserService userService) {
+    public GlobalModelAdvice(MessagingService messagingService,
+                             NotificationService notificationService,
+                             CurrentUserService currentUserService) {
         this.messagingService = messagingService;
         this.notificationService = notificationService;
-        this.userService = userService;
+        this.currentUserService = currentUserService;
     }
 
     @ModelAttribute("currentUser")
     public UserView currentUser(Authentication auth) {
         if (!isLoggedIn(auth)) return null;
-        return userService.getCurrentUser(auth.getName());
+        return currentUserService.getCurrentUser(auth.getName());
     }
 
     @ModelAttribute("unreadMessageCount")

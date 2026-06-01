@@ -40,12 +40,12 @@ public class UserAdminService {
         this.identityQueryService = identityQueryService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Page<UserView> list(Pageable pageable) {
         return identityQueryService.findUsers(pageable);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserView get(Long userId) {
         return identityQueryService.getUser(userId);
     }

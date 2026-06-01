@@ -1,10 +1,8 @@
-package com.scubapal.identity.user;
+package com.scubapal.shared.api;
 
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-
-import com.scubapal.shared.api.PageMetaResponse;
 
 public record PageResponse<T>(
         List<T> content,

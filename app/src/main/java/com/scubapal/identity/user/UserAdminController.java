@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scubapal.shared.MessageResponse;
+import com.scubapal.shared.api.PageResponse;
 
 @Tag(name = "Admin User Management", description = "Admin endpoints for managing user accounts")
 @RestController
 @RequestMapping("/api/admin/users")
-@PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
+@PreAuthorize("hasRole('ADMIN')")
 public class UserAdminController {
 
     private final UserAdminService userAdminService;
@@ -36,7 +37,7 @@ public class UserAdminController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userAdminService.create(request));
     }
 
-    @GetMapping(params = {"page", "size"})
+    @GetMapping
     public PageResponse<UserView> getAll(@RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "20") int size) {
         return PageResponse.from(userAdminService.list(pageable(page, size)));

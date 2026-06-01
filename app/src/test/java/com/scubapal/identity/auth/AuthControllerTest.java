@@ -51,7 +51,7 @@ class AuthControllerTest {
     }
 
     @Test
-    void usernameAvailableDelegatesToUserService() {
+    void usernameAvailableDelegatesToAuthService() {
         when(authService.isUsernameAvailable("dana")).thenReturn(true);
 
         var response = authController.usernameAvailable("dana");

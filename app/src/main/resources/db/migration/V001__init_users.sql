@@ -55,10 +55,10 @@ CREATE INDEX idx_password_reset_tokens_user_id ON identity.password_reset_tokens
 
 -- SEED DATA
 INSERT INTO identity.roles (role_name, role_description)
-     VALUES ('admin', 'Platform Administrator'),
-            ('user', 'Default diver account'),
-            ('shop_owner', 'Dive Shop Manager'),
-            ('moderator', 'Community Moderator');
+     VALUES ('ADMIN', 'Platform Administrator'),
+            ('USER', 'Default diver account'),
+            ('SHOP_OWNER', 'Dive Shop Manager'),
+            ('MODERATOR', 'Community Moderator');
 
 INSERT INTO identity.users (email, username, password_hash, role_id, email_verified_at, last_login_at)
      VALUES ('admin@scubapal.app', 'admin', '$2a$10$lm50JthtxmqRaf6ohIDU.eR9bx.RBC5Ex54UjMghUd43V/Am4DgC2', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
