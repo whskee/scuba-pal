@@ -2,12 +2,19 @@ import * as SecureStore from "expo-secure-store";
 import { User } from "@/types/models";
 
 const TOKEN_KEY = "scuba_pal_access_token";
+const REFRESH_TOKEN_KEY = "scuba_pal_refresh_token";
 const USER_KEY = "scuba_pal_user";
 
 export const tokenStorage = {
   get: () => SecureStore.getItemAsync(TOKEN_KEY),
   set: (token: string) => SecureStore.setItemAsync(TOKEN_KEY, token),
   clear: () => SecureStore.deleteItemAsync(TOKEN_KEY)
+};
+
+export const refreshTokenStorage = {
+  get: () => SecureStore.getItemAsync(REFRESH_TOKEN_KEY),
+  set: (token: string) => SecureStore.setItemAsync(REFRESH_TOKEN_KEY, token),
+  clear: () => SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY)
 };
 
 export const userStorage = {

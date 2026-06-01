@@ -1,8 +1,9 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { env } from "@/config/env";
 import { useAuthStore } from "@/store/authStore";
-import { ApiErrorBody } from "@/types/models";
-import { Configuration, PageMetaResponse } from "@/api/generated";
+import { ApiErrorBody, toUser } from "@/types/models";
+import { AuthResponse as GeneratedAuthResponse, Configuration, PageMetaResponse } from "@/api/generated";
+import { refreshTokenStorage, tokenStorage } from "@/services/storage";
 
 export class ApiError extends Error {
   readonly status?: number;
@@ -30,13 +31,59 @@ const PUBLIC_AUTH_PATHS = [
   "/api/auth/login",
   "/api/auth/username-available",
   "/api/auth/forgot-password",
-  "/api/auth/reset-password"
+  "/api/auth/reset-password",
+  "/api/auth/refresh",
+  "/api/auth/logout"
 ];
 
+type RetriableRequestConfig = InternalAxiosRequestConfig & { _retry?: boolean };
+
+let refreshPromise: Promise<GeneratedAuthResponse> | undefined;
+
+function isPublicAuthPath(url?: string): boolean {
+  const requestPath = url ?? "";
+  return PUBLIC_AUTH_PATHS.some((path) => requestPath.endsWith(path) || requestPath.includes(path));
+}
+
+async function refreshSession(refreshToken: string): Promise<string> {
+  refreshPromise ??= axios
+    .post<GeneratedAuthResponse>(
+      `${env.apiBaseUrl}/api/auth/refresh`,
+      { refreshToken },
+      {
+        timeout: env.requestTimeoutMs,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      }
+    )
+    .then((response) => response.data)
+    .finally(() => {
+      refreshPromise = undefined;
+    });
+
+  const response = await refreshPromise;
+  if (!response.accessToken) {
+    throw new ApiError("The backend did not return a refreshed access token.", 401, "INVALID_REFRESH_RESPONSE");
+  }
+
+  const nextRefreshToken = response.refreshToken ?? refreshToken;
+  await Promise.all([tokenStorage.set(response.accessToken), refreshTokenStorage.set(nextRefreshToken)]);
+
+  const current = useAuthStore.getState();
+  useAuthStore.setState({
+    token: response.accessToken,
+    refreshToken: nextRefreshToken,
+    user: response.user ? toUser(response.user) : current.user,
+    isAuthenticated: !!(response.user ?? current.user)
+  });
+
+  return response.accessToken;
+}
+
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const requestPath = config.url ?? "";
-  const isPublicAuthRequest = PUBLIC_AUTH_PATHS.some((path) => requestPath.endsWith(path) || requestPath.includes(path));
-  if (isPublicAuthRequest) {
+  if (isPublicAuthPath(config.url)) {
     delete config.headers.Authorization;
     return config;
   }
@@ -44,14 +91,32 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = useAuthStore.getState().token;
   if (token) {
     config.headers.Authorization = token.startsWith("Basic ") || token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+  } else {
+    delete config.headers.Authorization;
   }
   return config;
 });
 
 api.interceptors.response.use(
   (response) => response,
-  (error: AxiosError<ApiErrorBody>) => {
+  async (error: AxiosError<ApiErrorBody>) => {
     const status = error.response?.status;
+    const requestConfig = error.config as RetriableRequestConfig | undefined;
+
+    if (status === 401 && requestConfig && !requestConfig._retry && !isPublicAuthPath(requestConfig.url)) {
+      const refreshToken = useAuthStore.getState().refreshToken ?? (await refreshTokenStorage.get()) ?? undefined;
+      if (refreshToken) {
+        requestConfig._retry = true;
+        try {
+          const accessToken = await refreshSession(refreshToken);
+          requestConfig.headers.Authorization = `Bearer ${accessToken}`;
+          return api.request(requestConfig);
+        } catch {
+          await useAuthStore.getState().logout();
+        }
+      }
+    }
+
     const body = error.response?.data;
     const message =
       body?.message ||
@@ -72,7 +137,8 @@ api.interceptors.response.use(
 );
 
 export const apiConfig = new Configuration({
-  basePath: env.apiBaseUrl
+  basePath: env.apiBaseUrl,
+  accessToken: () => useAuthStore.getState().token ?? ""
 });
 
 export function unwrap<T>(promise: Promise<{ data: T }>): Promise<T> {

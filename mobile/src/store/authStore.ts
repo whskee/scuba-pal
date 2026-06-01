@@ -1,13 +1,14 @@
 import { create } from "zustand";
 import { User } from "@/types/models";
-import { tokenStorage, userStorage } from "@/services/storage";
+import { refreshTokenStorage, tokenStorage, userStorage } from "@/services/storage";
 
 type AuthState = {
   token?: string;
+  refreshToken?: string;
   user?: User;
   hydrated: boolean;
   isAuthenticated: boolean;
-  setSession: (user: User, token?: string) => Promise<void>;
+  setSession: (user: User, token?: string, refreshToken?: string) => Promise<void>;
   updateUser: (user: User) => Promise<void>;
   restore: () => Promise<void>;
   logout: () => Promise<void>;
@@ -17,11 +18,13 @@ export const useAuthStore = create<AuthState>((set) => ({
   hydrated: false,
   isAuthenticated: false,
 
-  async setSession(user, token) {
+  async setSession(user, token, refreshToken) {
     if (token) await tokenStorage.set(token);
     else await tokenStorage.clear();
+    if (refreshToken) await refreshTokenStorage.set(refreshToken);
+    else await refreshTokenStorage.clear();
     await userStorage.set(user);
-    set({ token, user, isAuthenticated: true });
+    set({ token, refreshToken, user, isAuthenticated: true });
   },
 
   async updateUser(user) {
@@ -30,12 +33,18 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   async restore() {
-    const [token, user] = await Promise.all([tokenStorage.get(), userStorage.get()]);
-    set({ token: token ?? undefined, user, hydrated: true, isAuthenticated: !!user });
+    const [token, refreshToken, user] = await Promise.all([tokenStorage.get(), refreshTokenStorage.get(), userStorage.get()]);
+    set({
+      token: token ?? undefined,
+      refreshToken: refreshToken ?? undefined,
+      user,
+      hydrated: true,
+      isAuthenticated: !!user && (!!token || !!refreshToken)
+    });
   },
 
   async logout() {
-    await Promise.all([tokenStorage.clear(), userStorage.clear()]);
-    set({ token: undefined, user: undefined, isAuthenticated: false });
+    await Promise.all([tokenStorage.clear(), refreshTokenStorage.clear(), userStorage.clear()]);
+    set({ token: undefined, refreshToken: undefined, user: undefined, isAuthenticated: false });
   }
 }));

@@ -15,7 +15,7 @@ export const feedApi = {
     const response = await unwrap(generatedPostsApi.getAll3(params.page, params.size));
     return {
       items: (response.content ?? []).map(toPost),
-      page: toPageMeta(response.page)
+      page: toPageMeta(response.meta)
     };
   },
 
@@ -29,7 +29,7 @@ export const feedApi = {
     const response = await unwrap(generatedPostsApi.getByUser(toApiNumberId(userId, "user id"), params.page, params.size));
     return {
       items: (response.content ?? []).map(toPost),
-      page: toPageMeta(response.page)
+      page: toPageMeta(response.meta)
     };
   },
 
@@ -39,7 +39,7 @@ export const feedApi = {
   },
 
   async detail(postId: ID): Promise<Post> {
-    const response = await unwrap(generatedPostsApi.getById1(toApiNumberId(postId, "post id")));
+    const response = await unwrap(generatedPostsApi.getById(toApiNumberId(postId, "post id")));
     return toPost(response);
   },
 

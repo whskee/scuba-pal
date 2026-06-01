@@ -7,12 +7,13 @@ All URIs are relative to *http://localhost:8080*
 |[**forgotPassword**](#forgotpassword) | **POST** /api/auth/forgot-password | |
 |[**login**](#login) | **POST** /api/auth/login | |
 |[**logout**](#logout) | **POST** /api/auth/logout | |
+|[**refresh**](#refresh) | **POST** /api/auth/refresh | |
 |[**register**](#register) | **POST** /api/auth/register | |
 |[**resetPassword**](#resetpassword) | **POST** /api/auth/reset-password | |
 |[**usernameAvailable**](#usernameavailable) | **GET** /api/auth/username-available | |
 
 # **forgotPassword**
-> MessageResponse forgotPassword(requestBody)
+> MessageResponse forgotPassword(forgotPasswordRequest)
 
 
 ### Example
@@ -20,16 +21,17 @@ All URIs are relative to *http://localhost:8080*
 ```typescript
 import {
     AuthenticationApi,
-    Configuration
+    Configuration,
+    ForgotPasswordRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthenticationApi(configuration);
 
-let requestBody: { [key: string]: string; }; //
+let forgotPasswordRequest: ForgotPasswordRequest; //
 
 const { status, data } = await apiInstance.forgotPassword(
-    requestBody
+    forgotPasswordRequest
 );
 ```
 
@@ -37,7 +39,7 @@ const { status, data } = await apiInstance.forgotPassword(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **requestBody** | **{ [key: string]: string; }**|  | |
+| **forgotPasswordRequest** | **ForgotPasswordRequest**|  | |
 
 
 ### Return type
@@ -62,7 +64,7 @@ const { status, data } = await apiInstance.forgotPassword(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **login**
-> UserView login(loginRequest)
+> AuthResponse login(loginRequest)
 
 
 ### Example
@@ -93,7 +95,7 @@ const { status, data } = await apiInstance.login(
 
 ### Return type
 
-**UserView**
+**AuthResponse**
 
 ### Authorization
 
@@ -113,7 +115,7 @@ const { status, data } = await apiInstance.login(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **logout**
-> MessageResponse logout()
+> MessageResponse logout(refreshTokenRequest)
 
 
 ### Example
@@ -121,17 +123,25 @@ const { status, data } = await apiInstance.login(
 ```typescript
 import {
     AuthenticationApi,
-    Configuration
+    Configuration,
+    RefreshTokenRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthenticationApi(configuration);
 
-const { status, data } = await apiInstance.logout();
+let refreshTokenRequest: RefreshTokenRequest; //
+
+const { status, data } = await apiInstance.logout(
+    refreshTokenRequest
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **refreshTokenRequest** | **RefreshTokenRequest**|  | |
 
 
 ### Return type
@@ -144,7 +154,58 @@ This endpoint does not have any parameters.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **refresh**
+> AuthResponse refresh(refreshTokenRequest)
+
+
+### Example
+
+```typescript
+import {
+    AuthenticationApi,
+    Configuration,
+    RefreshTokenRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AuthenticationApi(configuration);
+
+let refreshTokenRequest: RefreshTokenRequest; //
+
+const { status, data } = await apiInstance.refresh(
+    refreshTokenRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **refreshTokenRequest** | **RefreshTokenRequest**|  | |
+
+
+### Return type
+
+**AuthResponse**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 
@@ -156,7 +217,7 @@ This endpoint does not have any parameters.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **register**
-> UserView register(registerRequest)
+> AuthResponse register(registerRequest)
 
 
 ### Example
@@ -187,7 +248,7 @@ const { status, data } = await apiInstance.register(
 
 ### Return type
 
-**UserView**
+**AuthResponse**
 
 ### Authorization
 
@@ -207,7 +268,7 @@ const { status, data } = await apiInstance.register(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **resetPassword**
-> MessageResponse resetPassword(requestBody)
+> MessageResponse resetPassword(resetPasswordRequest)
 
 
 ### Example
@@ -215,16 +276,17 @@ const { status, data } = await apiInstance.register(
 ```typescript
 import {
     AuthenticationApi,
-    Configuration
+    Configuration,
+    ResetPasswordRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthenticationApi(configuration);
 
-let requestBody: { [key: string]: string; }; //
+let resetPasswordRequest: ResetPasswordRequest; //
 
 const { status, data } = await apiInstance.resetPassword(
-    requestBody
+    resetPasswordRequest
 );
 ```
 
@@ -232,7 +294,7 @@ const { status, data } = await apiInstance.resetPassword(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **requestBody** | **{ [key: string]: string; }**|  | |
+| **resetPasswordRequest** | **ResetPasswordRequest**|  | |
 
 
 ### Return type

@@ -1,5 +1,5 @@
 import { DiveLocationsApi, DiveShopsApi } from "@/api/generated";
-import { api, apiConfig, unwrap } from "@/services/api";
+import { api, apiConfig, pageParams, unwrap } from "@/services/api";
 import { DiveLocation, DiveShop, User, toDiveLocation, toDiveShop } from "@/types/models";
 import { usersApi } from "./usersApi";
 
@@ -32,14 +32,15 @@ export const searchApi = {
 
   async locations(term: string): Promise<DiveLocation[]> {
     const cleanTerm = term.trim();
+    const params = pageParams(0, 100);
     const responses = await Promise.all([
-      unwrap(generatedLocationsApi.getAll1(cleanTerm || undefined)),
-      cleanTerm ? unwrap(generatedLocationsApi.getAll1()) : Promise.resolve([])
+      unwrap(generatedLocationsApi.getAll(cleanTerm || undefined, params.page, params.size)),
+      cleanTerm ? unwrap(generatedLocationsApi.getAll(undefined, params.page, params.size)) : Promise.resolve(undefined)
     ]);
     const unique = new Map<string, DiveLocation>();
 
     responses
-      .flat()
+      .flatMap((response) => response?.content ?? [])
       .map(toDiveLocation)
       .filter((location) => matchesLocation(location, normalize(cleanTerm)))
       .forEach((location) => unique.set(String(location.id), location));
@@ -49,7 +50,8 @@ export const searchApi = {
 
   async shops(term: string): Promise<DiveShop[]> {
     const cleanTerm = term.trim();
-    const response = await unwrap(generatedShopsApi.getAll2(cleanTerm || undefined));
-    return response.map(toDiveShop);
+    const params = pageParams(0, 100);
+    const response = await unwrap(generatedShopsApi.getAll2(cleanTerm || undefined, params.page, params.size));
+    return (response.content ?? []).map(toDiveShop);
   }
 };

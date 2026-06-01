@@ -4,16 +4,66 @@ All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**_delete**](#_delete) | **DELETE** /api/posts/{id} | |
 |[**comment**](#comment) | **POST** /api/posts/{id}/comments | |
 |[**createForCurrentUser**](#createforcurrentuser) | **POST** /api/posts/me | |
-|[**delete1**](#delete1) | **DELETE** /api/posts/{id} | |
 |[**deleteComment**](#deletecomment) | **DELETE** /api/posts/{postId}/comments/{commentId} | |
 |[**getAll3**](#getall3) | **GET** /api/posts | |
-|[**getById1**](#getbyid1) | **GET** /api/posts/{id} | |
+|[**getById**](#getbyid) | **GET** /api/posts/{id} | |
 |[**getByUser**](#getbyuser) | **GET** /api/posts/users/{userId} | |
 |[**like**](#like) | **POST** /api/posts/{id}/like | |
 |[**search**](#search) | **GET** /api/posts/search | |
-|[**update2**](#update2) | **PUT** /api/posts/{id} | |
+|[**update1**](#update1) | **PUT** /api/posts/{id} | |
+
+# **_delete**
+> MessageResponse _delete()
+
+
+### Example
+
+```typescript
+import {
+    PostsApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new PostsApi(configuration);
+
+let id: number; // (default to undefined)
+
+const { status, data } = await apiInstance._delete(
+    id
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**number**] |  | defaults to undefined|
+
+
+### Return type
+
+**MessageResponse**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **comment**
 > PostDetailView comment(createCommentRequest)
@@ -120,56 +170,6 @@ const { status, data } = await apiInstance.createForCurrentUser(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **delete1**
-> MessageResponse delete1()
-
-
-### Example
-
-```typescript
-import {
-    PostsApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new PostsApi(configuration);
-
-let id: number; // (default to undefined)
-
-const { status, data } = await apiInstance.delete1(
-    id
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] |  | defaults to undefined|
-
-
-### Return type
-
-**MessageResponse**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **deleteComment**
 > MessageResponse deleteComment()
 
@@ -224,7 +224,7 @@ const { status, data } = await apiInstance.deleteComment(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getAll3**
-> PagedModelFeedPostView getAll3()
+> PageResponseFeedPostView getAll3()
 
 
 ### Example
@@ -257,7 +257,7 @@ const { status, data } = await apiInstance.getAll3(
 
 ### Return type
 
-**PagedModelFeedPostView**
+**PageResponseFeedPostView**
 
 ### Authorization
 
@@ -276,8 +276,8 @@ const { status, data } = await apiInstance.getAll3(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getById1**
-> PostDetailView getById1()
+# **getById**
+> PostDetailView getById()
 
 
 ### Example
@@ -293,7 +293,7 @@ const apiInstance = new PostsApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.getById1(
+const { status, data } = await apiInstance.getById(
     id
 );
 ```
@@ -327,7 +327,7 @@ const { status, data } = await apiInstance.getById1(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getByUser**
-> PagedModelFeedPostView getByUser()
+> PageResponseFeedPostView getByUser()
 
 
 ### Example
@@ -363,7 +363,7 @@ const { status, data } = await apiInstance.getByUser(
 
 ### Return type
 
-**PagedModelFeedPostView**
+**PageResponseFeedPostView**
 
 ### Authorization
 
@@ -433,7 +433,7 @@ const { status, data } = await apiInstance.like(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **search**
-> PagedModelFeedPostView search()
+> PageResponseFeedPostView search()
 
 
 ### Example
@@ -466,7 +466,7 @@ const { status, data } = await apiInstance.search(
 
 ### Return type
 
-**PagedModelFeedPostView**
+**PageResponseFeedPostView**
 
 ### Authorization
 
@@ -485,8 +485,8 @@ const { status, data } = await apiInstance.search(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update2**
-> FeedPostView update2(updatePostRequest)
+# **update1**
+> FeedPostView update1(updatePostRequest)
 
 
 ### Example
@@ -504,7 +504,7 @@ const apiInstance = new PostsApi(configuration);
 let id: number; // (default to undefined)
 let updatePostRequest: UpdatePostRequest; //
 
-const { status, data } = await apiInstance.update2(
+const { status, data } = await apiInstance.update1(
     id,
     updatePostRequest
 );

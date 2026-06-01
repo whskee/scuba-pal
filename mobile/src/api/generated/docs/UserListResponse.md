@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**users** | [**Array&lt;UserView&gt;**](UserView.md) |  | [optional] [default to undefined]
+**users** | [**Array&lt;PublicUserView&gt;**](PublicUserView.md) |  | [optional] [default to undefined]
 **page** | [**PageMetaResponse**](PageMetaResponse.md) |  | [optional] [default to undefined]
 
 ## Example

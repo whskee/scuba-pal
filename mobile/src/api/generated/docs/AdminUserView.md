@@ -1,4 +1,4 @@
-# UserView
+# AdminUserView
 
 
 ## Properties
@@ -11,29 +11,35 @@ Name | Type | Description | Notes
 **lastName** | **string** |  | [optional] [default to undefined]
 **email** | **string** |  | [optional] [default to undefined]
 **role** | **string** |  | [optional] [default to undefined]
+**active** | **boolean** |  | [optional] [default to undefined]
 **city** | **string** |  | [optional] [default to undefined]
 **country** | **string** |  | [optional] [default to undefined]
 **diveCount** | **number** |  | [optional] [default to undefined]
 **bio** | **string** |  | [optional] [default to undefined]
 **profileImageUrl** | **string** |  | [optional] [default to undefined]
+**createdAt** | **string** |  | [optional] [default to undefined]
+**lastLoginAt** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { UserView } from './api';
+import { AdminUserView } from './api';
 
-const instance: UserView = {
+const instance: AdminUserView = {
     id,
     username,
     firstName,
     lastName,
     email,
     role,
+    active,
     city,
     country,
     diveCount,
     bio,
     profileImageUrl,
+    createdAt,
+    lastLoginAt,
 };
 ```
 

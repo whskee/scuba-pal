@@ -24,8 +24,8 @@ export function RegisterScreen() {
 
   const mutation = useMutation({
     mutationFn: authApi.register,
-    onSuccess: async ({ user, token }) => {
-      await setSession(user, token);
+    onSuccess: async ({ user, token, refreshToken }) => {
+      await setSession(user, token, refreshToken);
       qc.removeQueries({ queryKey: ["search"] });
     },
     onError: (error: Error) => Alert.alert("Registration failed", error.message)

@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **followingCount** | **number** |  | [optional] [default to undefined]
 **followerCount** | **number** |  | [optional] [default to undefined]
 **followedByCurrentUser** | **boolean** |  | [optional] [default to undefined]
-**following** | [**Array&lt;UserView&gt;**](UserView.md) |  | [optional] [default to undefined]
-**followers** | [**Array&lt;UserView&gt;**](UserView.md) |  | [optional] [default to undefined]
+**following** | [**Array&lt;PublicUserView&gt;**](PublicUserView.md) |  | [optional] [default to undefined]
+**followers** | [**Array&lt;PublicUserView&gt;**](PublicUserView.md) |  | [optional] [default to undefined]
 
 ## Example
 

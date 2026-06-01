@@ -1,7 +1,7 @@
 /* tslint:disable */
 /**
  * ScubaPal API
- * Authentication, users, posts, messaging, notifications, dive locations, learn content
+ * Authentication, users, posts, messaging, notifications, dive locations, and learn content. Authenticated API endpoints use JWT Bearer tokens.
  *
  * The version of the OpenAPI document: v1
  * Contact: chinmayabidkar@hotmail.com

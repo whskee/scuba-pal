@@ -5,8 +5,11 @@ All URIs are relative to *http://localhost:8080*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**create**](#create) | **POST** /api/profiles/{userId} | Create profile|
+|[**currentProfile**](#currentprofile) | **GET** /api/me/profile | Get current user\&#39;s profile|
 |[**get**](#get) | **GET** /api/profiles/{userId} | Get profile|
-|[**update1**](#update1) | **PUT** /api/profiles/{userId} | Update profile|
+|[**get1**](#get1) | **GET** /api/users/{userId}/profile | Get profile|
+|[**update**](#update) | **PUT** /api/profiles/{userId} | Update profile|
+|[**updateCurrentProfile**](#updatecurrentprofile) | **PUT** /api/me/profile | Update current user\&#39;s profile|
 
 # **create**
 > ProfileResponse create(upsertProfileRequest)
@@ -65,8 +68,52 @@ const { status, data } = await apiInstance.create(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **currentProfile**
+> ProfileResponse currentProfile()
+
+Returns profile details for the authenticated user.
+
+### Example
+
+```typescript
+import {
+    ProfilesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new ProfilesApi(configuration);
+
+const { status, data } = await apiInstance.currentProfile();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**ProfileResponse**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get**
-> ProfileResponse get()
+> PublicProfileResponse get()
 
 Returns profile details for a user.
 
@@ -97,7 +144,7 @@ const { status, data } = await apiInstance.get(
 
 ### Return type
 
-**ProfileResponse**
+**PublicProfileResponse**
 
 ### Authorization
 
@@ -117,8 +164,60 @@ const { status, data } = await apiInstance.get(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update1**
-> ProfileResponse update1(upsertProfileRequest)
+# **get1**
+> PublicProfileResponse get1()
+
+Returns profile details for a user.
+
+### Example
+
+```typescript
+import {
+    ProfilesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new ProfilesApi(configuration);
+
+let userId: number; // (default to undefined)
+
+const { status, data } = await apiInstance.get1(
+    userId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **userId** | [**number**] |  | defaults to undefined|
+
+
+### Return type
+
+**PublicProfileResponse**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Profile returned |  -  |
+|**404** | Profile not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update**
+> ProfileResponse update(upsertProfileRequest)
 
 Updates profile details for a user.
 
@@ -137,7 +236,7 @@ const apiInstance = new ProfilesApi(configuration);
 let userId: number; // (default to undefined)
 let upsertProfileRequest: UpsertProfileRequest; //
 
-const { status, data } = await apiInstance.update1(
+const { status, data } = await apiInstance.update(
     userId,
     upsertProfileRequest
 );
@@ -171,6 +270,58 @@ const { status, data } = await apiInstance.update1(
 |**200** | Profile updated |  -  |
 |**400** | Invalid request |  -  |
 |**404** | Profile not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateCurrentProfile**
+> ProfileResponse updateCurrentProfile(upsertProfileRequest)
+
+Updates profile details for the authenticated user.
+
+### Example
+
+```typescript
+import {
+    ProfilesApi,
+    Configuration,
+    UpsertProfileRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new ProfilesApi(configuration);
+
+let upsertProfileRequest: UpsertProfileRequest; //
+
+const { status, data } = await apiInstance.updateCurrentProfile(
+    upsertProfileRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **upsertProfileRequest** | **UpsertProfileRequest**|  | |
+
+
+### Return type
+
+**ProfileResponse**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

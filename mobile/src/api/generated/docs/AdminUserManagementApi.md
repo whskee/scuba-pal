@@ -1,33 +1,84 @@
-# UserManagementApi
+# AdminUserManagementApi
 
 All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**_delete**](#_delete) | **DELETE** /api/users/{id} | |
-|[**create1**](#create1) | **POST** /api/users | |
-|[**getAll**](#getall) | **GET** /api/users | |
-|[**getById**](#getbyid) | **GET** /api/users/{id} | |
-|[**update**](#update) | **PUT** /api/users/{id} | |
+|[**create2**](#create2) | **POST** /api/admin/users | |
+|[**deactivate**](#deactivate) | **DELETE** /api/admin/users/{id} | |
+|[**getAll1**](#getall1) | **GET** /api/admin/users | |
+|[**getById1**](#getbyid1) | **GET** /api/admin/users/{id} | |
+|[**update2**](#update2) | **PATCH** /api/admin/users/{id} | |
 
-# **_delete**
-> MessageResponse _delete()
+# **create2**
+> AdminUserView create2(adminCreateUserRequest)
 
 
 ### Example
 
 ```typescript
 import {
-    UserManagementApi,
+    AdminUserManagementApi,
+    Configuration,
+    AdminCreateUserRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AdminUserManagementApi(configuration);
+
+let adminCreateUserRequest: AdminCreateUserRequest; //
+
+const { status, data } = await apiInstance.create2(
+    adminCreateUserRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **adminCreateUserRequest** | **AdminCreateUserRequest**|  | |
+
+
+### Return type
+
+**AdminUserView**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deactivate**
+> MessageResponse deactivate()
+
+
+### Example
+
+```typescript
+import {
+    AdminUserManagementApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new UserManagementApi(configuration);
+const apiInstance = new AdminUserManagementApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance._delete(
+const { status, data } = await apiInstance.deactivate(
     id
 );
 ```
@@ -60,26 +111,27 @@ const { status, data } = await apiInstance._delete(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **create1**
-> UserView create1(registerRequest)
+# **getAll1**
+> PageResponseAdminUserView getAll1()
 
 
 ### Example
 
 ```typescript
 import {
-    UserManagementApi,
-    Configuration,
-    RegisterRequest
+    AdminUserManagementApi,
+    Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new UserManagementApi(configuration);
+const apiInstance = new AdminUserManagementApi(configuration);
 
-let registerRequest: RegisterRequest; //
+let page: number; // (optional) (default to 0)
+let size: number; // (optional) (default to 20)
 
-const { status, data } = await apiInstance.create1(
-    registerRequest
+const { status, data } = await apiInstance.getAll1(
+    page,
+    size
 );
 ```
 
@@ -87,55 +139,13 @@ const { status, data } = await apiInstance.create1(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **registerRequest** | **RegisterRequest**|  | |
+| **page** | [**number**] |  | (optional) defaults to 0|
+| **size** | [**number**] |  | (optional) defaults to 20|
 
 
 ### Return type
 
-**UserView**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getAll**
-> Array<UserView> getAll()
-
-
-### Example
-
-```typescript
-import {
-    UserManagementApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new UserManagementApi(configuration);
-
-const { status, data } = await apiInstance.getAll();
-```
-
-### Parameters
-This endpoint does not have any parameters.
-
-
-### Return type
-
-**Array<UserView>**
+**PageResponseAdminUserView**
 
 ### Authorization
 
@@ -154,24 +164,24 @@ This endpoint does not have any parameters.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getById**
-> UserView getById()
+# **getById1**
+> AdminUserView getById1()
 
 
 ### Example
 
 ```typescript
 import {
-    UserManagementApi,
+    AdminUserManagementApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new UserManagementApi(configuration);
+const apiInstance = new AdminUserManagementApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.getById(
+const { status, data } = await apiInstance.getById1(
     id
 );
 ```
@@ -185,7 +195,7 @@ const { status, data } = await apiInstance.getById(
 
 ### Return type
 
-**UserView**
+**AdminUserView**
 
 ### Authorization
 
@@ -204,28 +214,28 @@ const { status, data } = await apiInstance.getById(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update**
-> UserView update(registerRequest)
+# **update2**
+> AdminUserView update2(updateUserRequest)
 
 
 ### Example
 
 ```typescript
 import {
-    UserManagementApi,
+    AdminUserManagementApi,
     Configuration,
-    RegisterRequest
+    UpdateUserRequest
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new UserManagementApi(configuration);
+const apiInstance = new AdminUserManagementApi(configuration);
 
 let id: number; // (default to undefined)
-let registerRequest: RegisterRequest; //
+let updateUserRequest: UpdateUserRequest; //
 
-const { status, data } = await apiInstance.update(
+const { status, data } = await apiInstance.update2(
     id,
-    registerRequest
+    updateUserRequest
 );
 ```
 
@@ -233,13 +243,13 @@ const { status, data } = await apiInstance.update(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **registerRequest** | **RegisterRequest**|  | |
+| **updateUserRequest** | **UpdateUserRequest**|  | |
 | **id** | [**number**] |  | defaults to undefined|
 
 
 ### Return type
 
-**UserView**
+**AdminUserView**
 
 ### Authorization
 

@@ -1,6 +1,8 @@
 import type {
+  AdminUserView,
   CommentView,
   ConversationView,
+  CurrentUserView,
   DiveLocationResponse,
   DiveShopResponse,
   MessageView,
@@ -9,7 +11,8 @@ import type {
   NotificationView,
   PostDetailView,
   ProfileResponse,
-  UserView
+  PublicProfileResponse,
+  PublicUserView
 } from "@/api/generated";
 import { env } from "@/config/env";
 import { normalizeApiDateString } from "@/utils/date";
@@ -40,6 +43,7 @@ export type User = {
   followersCount?: number;
   followingCount?: number;
   followedByMe?: boolean;
+  role?: string;
 };
 
 export type DiveLocation = {
@@ -78,6 +82,7 @@ export type AuthResponse = {
   token?: string;
   accessToken?: string;
   jwt?: string;
+  refreshToken?: string;
   user?: User;
 } & Partial<User>;
 
@@ -137,28 +142,32 @@ export type ApiErrorBody = {
   status?: number;
 };
 
-export function toUser(input?: UserView | ProfileResponse | null, follow?: FollowSummaryView): User {
-  const profile = input as ProfileResponse | undefined;
-  const view = input as UserView | undefined;
-  const id = view?.id ?? profile?.userId ?? profile?.profileId ?? 0;
+type ApiUserView = AdminUserView | CurrentUserView | PublicUserView | PublicProfileResponse;
+
+export function toUser(input?: ApiUserView | ProfileResponse | null, follow?: FollowSummaryView): User {
+  const profile = input as ProfileResponse | PublicProfileResponse | undefined;
+  const view = input as AdminUserView | CurrentUserView | PublicUserView | undefined;
+  const contact = input as Partial<Pick<AdminUserView, "email"> & Pick<ProfileResponse, "phoneNumber" | "state">> | undefined;
+  const id = view?.id ?? profile?.userId ?? (input as ProfileResponse | undefined)?.profileId ?? 0;
   const username = view?.username ?? profile?.username ?? `diver-${id || "unknown"}`;
 
   return {
     id,
     username,
-    email: view?.email,
+    email: contact?.email,
     firstName: view?.firstName ?? profile?.firstName,
     lastName: view?.lastName ?? profile?.lastName,
-    phoneNumber: profile?.phoneNumber,
+    phoneNumber: contact?.phoneNumber,
     city: view?.city ?? profile?.city,
-    state: profile?.state,
+    state: contact?.state,
     country: view?.country ?? profile?.country,
     profileImageUrl: resolveMediaUrl(view?.profileImageUrl ?? profile?.profileImageUrl),
     bio: view?.bio ?? profile?.bio,
     diveCount: view?.diveCount ?? profile?.diveCount ?? 0,
     followersCount: follow?.followerCount ?? 0,
     followingCount: follow?.followingCount ?? 0,
-    followedByMe: follow?.followedByCurrentUser ?? false
+    followedByMe: follow?.followedByCurrentUser ?? false,
+    role: (view as Partial<Pick<AdminUserView | CurrentUserView, "role">>)?.role
   };
 }
 

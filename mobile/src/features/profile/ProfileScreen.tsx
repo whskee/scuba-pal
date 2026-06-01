@@ -8,6 +8,7 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { colors } from "@/theme/colors";
 import { profileApi } from "./profileApi";
+import { authApi } from "@/features/auth/authApi";
 import { socialApi } from "@/features/social/socialApi";
 import { messagesApi } from "@/features/messaging/messagesApi";
 import { mediaApi } from "@/features/media/mediaApi";
@@ -99,6 +100,7 @@ export function ProfileScreen({ route, navigation }: any) {
   const routeUserId = route.params?.userId;
   const routeUser = route.params?.user as User | undefined;
   const currentUser = useAuthStore((s) => s.user);
+  const refreshToken = useAuthStore((s) => s.refreshToken);
   const updateStoredUser = useAuthStore((s) => s.updateUser);
   const logout = useAuthStore((s) => s.logout);
   const userId = routeUserId ?? currentUser?.id;
@@ -191,6 +193,15 @@ export function ProfileScreen({ route, navigation }: any) {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await authApi.logout(refreshToken);
+    } finally {
+      await logout();
+      qc.clear();
+    }
+  };
+
   return (
     <Screen>
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
@@ -217,7 +228,7 @@ export function ProfileScreen({ route, navigation }: any) {
           <Text style={{ color: colors.muted, marginTop: 4 }}>{mine ? "Your ocean identity" : "Diver profile"}</Text>
         </View>
         {mine ? (
-          <Pressable onPress={logout} style={{ padding: 12, borderRadius: 18, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }}>
+          <Pressable onPress={handleLogout} style={{ padding: 12, borderRadius: 18, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }}>
             <Ionicons name="log-out-outline" size={22} color={colors.text} />
           </Pressable>
         ) : null}

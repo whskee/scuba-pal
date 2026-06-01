@@ -147,9 +147,11 @@ function ShopRow({ shop }: { shop: DiveShop }) {
 export function SearchScreen({ navigation }: any) {
   const [term, setTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState("");
-  const [activeFilter, setActiveFilter] = useState<SearchFilter>("profiles");
+  const [activeFilter, setActiveFilter] = useState<SearchFilter>("shops");
   const [refreshing, setRefreshing] = useState(false);
   const currentUser = useAuthStore((s) => s.user);
+  const canSearchProfiles = ["ADMIN", "MODERATOR"].includes(currentUser?.role?.toUpperCase() ?? "");
+  const filters = useMemo(() => FILTERS.filter((filter) => filter.key !== "profiles" || canSearchProfiles), [canSearchProfiles]);
   const searchKey = useMemo(() => debouncedTerm.trim().toLowerCase(), [debouncedTerm]);
   const query = useQuery<Array<User | DiveLocation | DiveShop>>({
     queryKey: ["search", activeFilter, searchKey],
@@ -168,6 +170,12 @@ export function SearchScreen({ navigation }: any) {
     const timer = setTimeout(() => setDebouncedTerm(term), 250);
     return () => clearTimeout(timer);
   }, [term]);
+
+  useEffect(() => {
+    if (!filters.some((filter) => filter.key === activeFilter)) {
+      setActiveFilter(filters[0]?.key ?? "shops");
+    }
+  }, [activeFilter, filters]);
 
   const users = useMemo(
     () => {
@@ -215,7 +223,7 @@ export function SearchScreen({ navigation }: any) {
       </View>
 
       <View style={{ flexDirection: "row", gap: 8, marginBottom: 14 }}>
-        {FILTERS.map((filter) => (
+        {filters.map((filter) => (
           <FilterButton
             key={filter.key}
             filter={filter}

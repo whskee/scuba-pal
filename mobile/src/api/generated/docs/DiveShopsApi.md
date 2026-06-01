@@ -7,9 +7,9 @@ All URIs are relative to *http://localhost:8080*
 |[**getAll2**](#getall2) | **GET** /api/shops | List dive shops|
 
 # **getAll2**
-> Array<DiveShopResponse> getAll2()
+> PageResponseDiveShopResponse getAll2()
 
-Returns dive shops, optionally filtered by shop name, city, state, country, or linked dive location.
+Returns paged dive shops, optionally filtered by shop name, city, state, country, or linked dive location.
 
 ### Example
 
@@ -23,9 +23,13 @@ const configuration = new Configuration();
 const apiInstance = new DiveShopsApi(configuration);
 
 let q: string; // (optional) (default to undefined)
+let page: number; // (optional) (default to 0)
+let size: number; // (optional) (default to 50)
 
 const { status, data } = await apiInstance.getAll2(
-    q
+    q,
+    page,
+    size
 );
 ```
 
@@ -34,11 +38,13 @@ const { status, data } = await apiInstance.getAll2(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **q** | [**string**] |  | (optional) defaults to undefined|
+| **page** | [**number**] |  | (optional) defaults to 0|
+| **size** | [**number**] |  | (optional) defaults to 50|
 
 
 ### Return type
 
-**Array<DiveShopResponse>**
+**PageResponseDiveShopResponse**
 
 ### Authorization
 

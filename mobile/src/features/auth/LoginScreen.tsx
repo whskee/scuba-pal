@@ -21,7 +21,7 @@ export function LoginScreen({ navigation }: any) {
 
   const mutation = useMutation({
     mutationFn: authApi.login,
-    onSuccess: async ({ user, token }) => setSession(user, token),
+    onSuccess: async ({ user, token, refreshToken }) => setSession(user, token, refreshToken),
     onError: (error: Error) => Alert.alert("Login failed", error.message)
   });
 

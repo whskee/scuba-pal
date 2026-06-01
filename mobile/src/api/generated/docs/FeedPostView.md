@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **mediaUrls** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 **likes** | **number** |  | [optional] [default to undefined]
 **comments** | **number** |  | [optional] [default to undefined]
+**likedByCurrentUser** | **boolean** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 
 ## Example
@@ -33,6 +34,7 @@ const instance: FeedPostView = {
     mediaUrls,
     likes,
     comments,
+    likedByCurrentUser,
     createdAt,
 };
 ```
