@@ -1,7 +1,10 @@
 package com.scubapal.shared.exception;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Map;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -9,9 +12,10 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@RestControllerAdvice(annotations = RestController.class)
 public class ApiExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -26,11 +30,36 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleValidation(MethodArgumentNotValidException ex) {
-        String message = ex.getBindingResult().getFieldErrors().stream()
+        List<Map<String, String>> errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(err -> Map.of(
+                        "field", err.getField(),
+                        "message", err.getDefaultMessage() == null ? "is invalid" : err.getDefaultMessage()
+                ))
+                .toList();
+        String message = errors.stream()
                 .findFirst()
-                .map(err -> err.getField() + " " + err.getDefaultMessage())
+                .map(err -> err.get("field") + " " + err.get("message"))
                 .orElse("Invalid request");
-        return problem(HttpStatus.BAD_REQUEST, "Validation failed", message);
+        ProblemDetail problem = problem(HttpStatus.BAD_REQUEST, "Validation failed", message);
+        problem.setProperty("errors", errors);
+        return problem;
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ProblemDetail handleConstraintViolation(ConstraintViolationException ex) {
+        List<Map<String, String>> errors = ex.getConstraintViolations().stream()
+                .map(violation -> Map.of(
+                        "field", violation.getPropertyPath().toString(),
+                        "message", violation.getMessage()
+                ))
+                .toList();
+        String message = errors.stream()
+                .findFirst()
+                .map(err -> err.get("field") + " " + err.get("message"))
+                .orElse("Invalid request");
+        ProblemDetail problem = problem(HttpStatus.BAD_REQUEST, "Validation failed", message);
+        problem.setProperty("errors", errors);
+        return problem;
     }
 
     @ExceptionHandler(BadCredentialsException.class)

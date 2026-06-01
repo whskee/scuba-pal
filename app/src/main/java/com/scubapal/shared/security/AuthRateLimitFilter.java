@@ -10,6 +10,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,6 +24,21 @@ public class AuthRateLimitFilter extends OncePerRequestFilter {
     private static final int MAX_ATTEMPTS = 20;
     private static final Duration WINDOW = Duration.ofMinutes(1);
     private static final Duration ENTRY_TTL = Duration.ofMinutes(5);
+    private static final Set<String> POST_LIMITED_PATHS = Set.of(
+            "/api/auth/login",
+            "/api/auth/register",
+            "/api/auth/forgot-password",
+            "/api/auth/reset-password",
+            "/api/auth/refresh",
+            "/api/auth/logout",
+            "/login",
+            "/register",
+            "/forgot-password",
+            "/reset-password"
+    );
+    private static final Set<String> GET_LIMITED_PATHS = Set.of(
+            "/api/auth/username-available"
+    );
 
     private final Clock clock;
     private final Map<String, Bucket> buckets = new ConcurrentHashMap<>();
@@ -37,14 +53,11 @@ public class AuthRateLimitFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        boolean authEndpoint = path.equals("/api/auth/login")
-                || path.equals("/api/auth/forgot-password")
-                || path.equals("/api/auth/reset-password")
-                || path.equals("/api/auth/refresh")
-                || path.equals("/api/auth/logout")
-                || path.equals("/api/auth/username-available");
-        return !authEndpoint || !("POST".equals(request.getMethod()) || "GET".equals(request.getMethod()));
+        return switch (request.getMethod()) {
+            case "POST" -> !POST_LIMITED_PATHS.contains(request.getRequestURI());
+            case "GET" -> !GET_LIMITED_PATHS.contains(request.getRequestURI());
+            default -> true;
+        };
     }
 
     @Override
@@ -80,10 +93,6 @@ public class AuthRateLimitFilter extends OncePerRequestFilter {
     }
 
     private String clientIp(HttpServletRequest request) {
-        String forwardedFor = request.getHeader("X-Forwarded-For");
-        if (forwardedFor != null && !forwardedFor.isBlank()) {
-            return forwardedFor.split(",")[0].trim();
-        }
         return request.getRemoteAddr();
     }
 

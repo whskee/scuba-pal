@@ -12,6 +12,7 @@ public class RegisterForm {
 
     @Email
     @NotBlank
+    @Size(max = 320)
     private String email = "";
 
     @NotBlank
@@ -23,6 +24,7 @@ public class RegisterForm {
     private String password = "";
 
     @NotBlank
+    @Size(max = 120)
     private String confirmPassword = "";
 
     @Size(max = 80)

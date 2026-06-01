@@ -1,8 +1,9 @@
 package com.scubapal.identity.auth;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public record RefreshTokenRequest(
-        @NotBlank String refreshToken
+        @NotBlank @Size(max = 500) String refreshToken
 ) {
 }

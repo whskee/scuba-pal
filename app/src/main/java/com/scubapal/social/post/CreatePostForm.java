@@ -18,6 +18,7 @@ public class CreatePostForm {
 
     private VisibilityStatus visibilityStatus = VisibilityStatus.PUBLIC;
 
+    @Size(max = 500)
     private String mediaUrl = "";
 
     public List<String> mediaUrls() {

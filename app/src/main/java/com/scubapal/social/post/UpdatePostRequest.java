@@ -17,6 +17,6 @@ public record UpdatePostRequest(
         VisibilityStatus visibilityStatus,
 
         @Size(max = 10)
-        List<@NotBlank String> mediaUrls
+        List<@NotBlank @Size(max = 500) String> mediaUrls
 ) {
 }

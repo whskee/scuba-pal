@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class ResetPasswordForm {
     @NotBlank
+    @Size(max = 160)
     private String token = "";
 
     @NotBlank
@@ -16,5 +17,6 @@ public class ResetPasswordForm {
     private String newPassword = "";
 
     @NotBlank
+    @Size(max = 120)
     private String confirmPassword = "";
 }

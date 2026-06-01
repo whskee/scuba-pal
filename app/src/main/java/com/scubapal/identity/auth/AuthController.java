@@ -2,10 +2,13 @@ package com.scubapal.identity.auth;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Tag(name = "Authentication", description = "Endpoints for user registration, login, and password management.")
+@Validated
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -39,7 +43,7 @@ public class AuthController {
     }
 
     @GetMapping("/username-available")
-    public Map<String, Boolean> usernameAvailable(@RequestParam String username) {
+    public Map<String, Boolean> usernameAvailable(@RequestParam @NotBlank @Size(max = 60) String username) {
         return Map.of("available", authService.isUsernameAvailable(username));
     }
 
