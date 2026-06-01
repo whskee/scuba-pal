@@ -21,17 +21,23 @@ public class AuthPageController {
     }
 
     @GetMapping("/login")
-    public String login() { return "auth/login"; }
+    public String login() {
+        return "auth/login";
+    }
 
     @GetMapping("/forgot-password")
     public String forgotPassword(Model model) {
-        if (!model.containsAttribute("forgotPasswordForm")) model.addAttribute("forgotPasswordForm", new ForgotPasswordForm());
+        if (!model.containsAttribute("forgotPasswordForm")) {
+            model.addAttribute("forgotPasswordForm", new ForgotPasswordForm());
+        }
         return "auth/forgot-password";
     }
 
     @PostMapping("/forgot-password")
     public String sendPasswordReset(@Valid @ModelAttribute ForgotPasswordForm form, BindingResult br, RedirectAttributes ra) {
-        if (br.hasErrors()) return "auth/forgot-password";
+        if (br.hasErrors()) {
+            return "auth/forgot-password";
+        }
         userService.sendPasswordResetLink(form.getEmailOrUsername());
         ra.addFlashAttribute("resetEmailSent", "If that account exists, a password reset link has been sent.");
         return "redirect:/forgot-password";
@@ -65,13 +71,17 @@ public class AuthPageController {
 
     @GetMapping("/register")
     public String register(Model model) {
-        if (!model.containsAttribute("registerRequest")) model.addAttribute("registerRequest", new RegisterForm());
+        if (!model.containsAttribute("registerRequest")) {
+            model.addAttribute("registerRequest", new RegisterForm());
+        }
         return "auth/register";
     }
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("registerRequest") RegisterForm request, BindingResult br, RedirectAttributes ra) {
-        if (br.hasErrors()) return "auth/register";
+        if (br.hasErrors()) {
+            return "auth/register";
+        }
         try {
             userService.register(request.toRegisterRequest());
         } catch (IllegalArgumentException ex) {
