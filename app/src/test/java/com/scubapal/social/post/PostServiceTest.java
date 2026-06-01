@@ -81,7 +81,7 @@ class PostServiceTest {
     void toggleLikeCreatesLikeWhenMissing() {
         User dana = user(1L, "dana");
         Post post = post(5L, user(2L, "kai"), VisibilityStatus.PUBLIC);
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(postRepository.findByIdWithUser(5L)).thenReturn(Optional.of(post));
         when(postLikeRepository.findByPostIdAndUserId(5L, 1L)).thenReturn(Optional.empty());
         when(postLikeRepository.existsByPostIdAndUserId(5L, 1L)).thenReturn(true);
@@ -103,7 +103,7 @@ class PostServiceTest {
         Post post = post(5L, user(2L, "kai"), VisibilityStatus.PUBLIC);
         PostLike existing = new PostLike();
         existing.setId(99L);
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(postRepository.findByIdWithUser(5L)).thenReturn(Optional.of(post));
         when(postLikeRepository.findByPostIdAndUserId(5L, 1L)).thenReturn(Optional.of(existing));
         when(postLikeRepository.existsByPostIdAndUserId(5L, 1L)).thenReturn(false);

@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -125,7 +124,8 @@ public class PasswordResetService {
         String link = appBaseUrl.replaceAll("/+$", "") + "/reset-password?token=" + rawToken;
         try {
             emailService.sendPasswordResetEmail(user.getEmail(), user.getUsername(), link);
-        } catch (MailException ex) {
+        } catch (RuntimeException ex) {
+            resetToken.setUsedAt(now);
             log.warn("Could not send password reset email to {}: {}", user.getEmail(), ex.getMessage());
         }
     }

@@ -20,7 +20,7 @@ public class SettingsPageController {
 
     @GetMapping("/settings")
     public String settings(Model model, Authentication auth) {
-        UserView current = currentUserService.getCurrentUser(auth.getName());
+        CurrentUserView current = currentUserService.getCurrentUser(auth.getName());
         UpdateSettingsForm form = new UpdateSettingsForm();
         form.setProfileImageUrl(current.profileImageUrl());
         form.setBio(current.bio());

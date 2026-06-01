@@ -3,12 +3,17 @@ document.addEventListener('submit', async (event) => {
   if (!form) return;
   event.preventDefault();
   const button = form.querySelector('button');
+  const csrf = form.querySelector('input[type="hidden"]');
   button.disabled = true;
   try {
+    const headers = { 'X-Requested-With': 'fetch', 'Accept': 'application/json' };
+    if (csrf && csrf.name && csrf.value) {
+      headers['X-CSRF-TOKEN'] = csrf.value;
+    }
     const response = await fetch(form.action, {
       method: 'POST',
       credentials: 'same-origin',
-      headers: { 'X-Requested-With': 'fetch', 'Accept': 'application/json' }
+      headers
     });
     if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) {
       window.location.href = response.url || '/login';

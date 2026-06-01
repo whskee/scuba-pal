@@ -1,6 +1,7 @@
 package com.scubapal.media;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,17 @@ public class PublicMediaController {
     }
 
     @GetMapping("/media/**")
-    public ResponseEntity<byte[]> getMedia(HttpServletRequest request) {
+    public ResponseEntity<InputStreamResource> getMedia(HttpServletRequest request) {
         String key = request.getRequestURI().substring("/media/".length());
         try {
-            var media = mediaStorageService.read(key);
-            return ResponseEntity.ok()
+            var media = mediaStorageService.stream(key);
+            ResponseEntity.BodyBuilder response = ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(media.contentType()))
-                    .cacheControl(CacheControl.maxAge(Duration.ofDays(30)).cachePublic())
-                    .body(media.bytes());
+                    .cacheControl(CacheControl.maxAge(Duration.ofDays(30)).cachePublic());
+            if (media.contentLength() != null && media.contentLength() >= 0) {
+                response.contentLength(media.contentLength());
+            }
+            return response.body(new InputStreamResource(media.stream()));
         } catch (NoSuchKeyException | IllegalArgumentException ex) {
             return ResponseEntity.notFound().build();
         }

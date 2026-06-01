@@ -24,12 +24,12 @@ public class CurrentUserController {
     }
 
     @GetMapping
-    public UserView currentUser(Principal principal) {
+    public CurrentUserView currentUser(Principal principal) {
         return currentUserService.getCurrentUser(principal.getName());
     }
 
     @PatchMapping("/settings")
-    public UserView updateSettings(@Valid @RequestBody UpdateCurrentUserSettingsRequest request, Principal principal) {
+    public CurrentUserView updateSettings(@Valid @RequestBody UpdateCurrentUserSettingsRequest request, Principal principal) {
         return currentUserService.updateSettings(principal.getName(), request);
     }
 

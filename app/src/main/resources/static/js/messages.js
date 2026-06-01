@@ -124,6 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const body = new URLSearchParams({ messageText });
+        const csrf = form.querySelector('input[type="hidden"]');
+        if (csrf && csrf.name && csrf.value) {
+          body.set(csrf.name, csrf.value);
+        }
         const response = await fetch(sendUrl, {
           method: 'POST',
           headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },

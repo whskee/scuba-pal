@@ -43,36 +43,9 @@ public class LocationService {
         location.setCity(request.city());
         location.setState(request.state());
         location.setCountry(request.country());
-        // location.setLatitude(request.latitude());
-        // location.setLongitude(request.longitude());
         location.setCoordinates(new Coordinates(request.latitude(), request.longitude()));
         location.setDifficultyLevel(request.difficultyLevel());
         location.setPopularityScore(0);
         return diveLocationRepository.save(location);
     }
-
-    // This is a better way to do it
-    // @Transactional
-    // public DiveLocation createLocation(CreateLocationRequest request) {
-    //     // 1. Business Validation
-    //     if (diveLocationRepository.existsByLocationName(request.locationName())) {
-    //         throw new DuplicateLocationException("Location name already exists");
-    //     }
-
-    //     // 2. Clear Object Mapping
-    //     DiveLocation location = DiveLocation.builder()
-    //             .locationName(request.locationName())
-    //             .description(request.description())
-    //             .city(request.city())
-    //             .state(request.state())
-    //             .country(request.country())
-    //             .coordinates(new Coordinates(request.latitude(), request.longitude()))
-    //             .difficultyLevel(request.difficultyLevel())
-    //             .popularityScore(0) // Default business initialization
-    //             .build();
-
-    //     // 3. Persistence
-    //     return diveLocationRepository.save(location);
-    // }
-
 }

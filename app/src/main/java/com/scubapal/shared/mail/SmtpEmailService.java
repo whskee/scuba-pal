@@ -5,15 +5,17 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
+@Primary
 @ConditionalOnBean(JavaMailSender.class)
 @RequiredArgsConstructor
-public class SmtpEmailService {
+public class SmtpEmailService implements EmailService {
 
     private final JavaMailSender mailSender;
 
@@ -33,7 +35,7 @@ public class SmtpEmailService {
                     Hi %s,
 
                     Use this secure link to reset your Scuba Pal password.
-                    The link expires in 30 minutes:
+                    The link expires in 60 minutes:
 
                     %s
 

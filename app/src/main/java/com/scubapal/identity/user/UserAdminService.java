@@ -2,6 +2,7 @@ package com.scubapal.identity.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import com.scubapal.identity.role.RoleNames;
 import com.scubapal.identity.role.RoleRepository;
 import com.scubapal.shared.VisibilityStatus;
 import com.scubapal.shared.exception.ResourceNotFoundException;
+
+import java.util.Locale;
 
 @Service
 @Transactional(readOnly = true)
@@ -41,18 +44,18 @@ public class UserAdminService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public Page<UserView> list(Pageable pageable) {
+    public Page<AdminUserView> list(Pageable pageable) {
         return identityQueryService.findUsers(pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public UserView get(Long userId) {
+    public AdminUserView get(Long userId) {
         return identityQueryService.getUser(userId);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
-    public UserView create(AdminCreateUserRequest request) {
+    public AdminUserView create(AdminCreateUserRequest request) {
         String email = normalizeEmail(request.email());
         String username = normalizeUsername(request.username());
         ensureEmailAvailable(email);
@@ -64,7 +67,7 @@ public class UserAdminService {
         user.setPasswordHash(passwordEncoder.encode(request.password()));
         user.setRole(resolveRole(request.role()));
         user.setActive(request.active() == null || request.active());
-        User saved = userRepository.save(user);
+        User saved = saveUser(user);
 
         Profile profile = defaultProfile(saved);
         profile.setFirstName(blankToNull(request.firstName()));
@@ -72,12 +75,12 @@ public class UserAdminService {
         profile.setCity(blankToNull(request.city()));
         profile.setCountry(blankToNull(request.country()));
         profileRepository.save(profile);
-        return identityMapper.toUserView(saved, profile);
+        return identityMapper.toAdminUserView(saved, profile);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
-    public UserView update(Long userId, UpdateUserRequest request) {
+    public AdminUserView update(Long userId, UpdateUserRequest request) {
         User user = userRepository.findByIdWithRole(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + userId));
 
@@ -120,7 +123,7 @@ public class UserAdminService {
             profile.setCountry(blankToNull(request.country()));
         }
         profileRepository.save(profile);
-        return identityMapper.toUserView(user, profile);
+        return identityMapper.toAdminUserView(user, profile);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -142,9 +145,17 @@ public class UserAdminService {
     private Role resolveRole(String requestedRole) {
         String roleName = requestedRole == null || requestedRole.isBlank()
                 ? RoleNames.USER
-                : requestedRole.trim().toLowerCase();
+                : requestedRole.trim().toUpperCase(Locale.ROOT);
         return roleRepository.findByName(roleName)
                 .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleName));
+    }
+
+    private User saveUser(User user) {
+        try {
+            return userRepository.save(user);
+        } catch (DataIntegrityViolationException ex) {
+            throw new IllegalArgumentException("Email or username already in use", ex);
+        }
     }
 
     private void ensureEmailAvailable(String email) {
@@ -164,7 +175,7 @@ public class UserAdminService {
     }
 
     private String normalizeUsername(String username) {
-        return username == null ? "" : username.trim();
+        return username == null ? "" : username.trim().toLowerCase(Locale.ROOT);
     }
 
     private String blankToNull(String value) {

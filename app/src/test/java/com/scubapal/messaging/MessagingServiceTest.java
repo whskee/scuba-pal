@@ -41,7 +41,7 @@ class MessagingServiceTest {
         User dana = user(1L, "dana");
         User kai = user(2L, "kai");
         Conversation conversation = conversation(10L, dana, kai);
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(conversationRepository.findById(10L)).thenReturn(Optional.of(conversation));
 
         messagingService.sendMessage("dana", 10L, "  hey there  ");
@@ -61,7 +61,7 @@ class MessagingServiceTest {
         Conversation conversation = conversation(10L, dana, kai);
         Message unreadFromKai = message(100L, conversation, kai, "hello", null);
         Message readFromDana = message(101L, conversation, dana, "yo", LocalDateTime.now());
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(conversationRepository.findById(10L)).thenReturn(Optional.of(conversation));
         when(messageRepository.findByConversationIdOrderByCreatedAtAsc(eq(10L), any())).thenReturn(new PageImpl<>(List.of(unreadFromKai, readFromDana)));
         when(profileRepository.findAllByUserIdsWithUser(anyCollection())).thenReturn(List.of());
@@ -78,7 +78,7 @@ class MessagingServiceTest {
     @Test
     void countUnreadMessagesDelegatesToRepositoryForCurrentUser() {
         User dana = user(1L, "dana");
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(messageRepository.countUnreadForUser(1L)).thenReturn(7L);
 
         long unread = messagingService.countUnreadMessages("dana");

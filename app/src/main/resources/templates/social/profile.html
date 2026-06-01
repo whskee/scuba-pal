@@ -21,7 +21,6 @@
                     <div class="profile-hero__copy">
                         <div class="profile-hero__kicker">
                             <span th:text="${'@' + user.username}">@username</span>
-                            <span class="pill profile-role" th:text="${user.role}">user</span>
                         </div>
                         <h1 th:text="${user.displayName()}">Diver Name</h1>
                         <p class="profile-bio" th:if="${user.bio}" th:text="${user.bio}">bio</p>
@@ -33,12 +32,12 @@
                 </div>
                 <div class="profile-actions" th:if="${currentUser != null and currentUser.id != user.id}">
                     <form th:if="${!followSummary.followedByCurrentUser}"
-                        th:action="@{'/profile/' + ${user.username} + '/follow'}" method="post"><button class="button"
+                        th:action="@{'/profile/' + ${user.username} + '/follow'}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /><button class="button"
                             type="submit">Follow</button></form>
                     <form th:if="${followSummary.followedByCurrentUser}"
-                        th:action="@{'/profile/' + ${user.username} + '/unfollow'}" method="post"><button
+                        th:action="@{'/profile/' + ${user.username} + '/unfollow'}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /><button
                             class="button secondary" type="submit">Unfollow</button></form>
-                    <form th:action="@{'/messages/start/' + ${user.id}}" method="post"><button class="button"
+                    <form th:action="@{'/messages/start/' + ${user.id}}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /><button class="button"
                             type="submit">Message</button></form>
                 </div>
                 <div class="profile-stats">

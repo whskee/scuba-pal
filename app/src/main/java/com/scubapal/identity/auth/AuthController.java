@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scubapal.identity.user.UserView;
+import com.scubapal.identity.user.CurrentUserView;
 import com.scubapal.shared.MessageResponse;
 
 import java.util.Map;
@@ -41,12 +41,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserView> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<CurrentUserView> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserView> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<CurrentUserView> login(@Valid @RequestBody LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password())
         );

@@ -39,8 +39,8 @@ public class ProfileController {
             @ApiResponse(responseCode = "200", description = "Profile returned"),
             @ApiResponse(responseCode = "404", description = "Profile not found")
     })
-    public ProfileResponse get(@PathVariable Long userId) {
-        return profileService.getByUserId(userId);
+    public PublicProfileResponse get(@PathVariable Long userId) {
+        return profileService.getPublicByUserId(userId);
     }
 
     @PutMapping("/profiles/{userId}")

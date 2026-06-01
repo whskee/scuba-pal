@@ -29,7 +29,7 @@ class NotificationServiceTest {
     void getNotificationsReturnsPagedNotificationsForCurrentUser() {
         User dana = user(1L, "dana");
         Notification notification = notification(5L, dana, "New follower", "kai started following you.", false);
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(notificationRepository.findByUserIdOrderByCreatedAtDesc(1L, PageRequest.of(0, 20)))
                 .thenReturn(new PageImpl<>(List.of(notification)));
 
@@ -43,7 +43,7 @@ class NotificationServiceTest {
     @Test
     void countUnreadUsesCurrentUserId() {
         User dana = user(1L, "dana");
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(notificationRepository.countByUserIdAndReadFalse(1L)).thenReturn(4L);
 
         assertEquals(4, notificationService.countUnread("dana"));
@@ -52,7 +52,7 @@ class NotificationServiceTest {
     @Test
     void markAllReadUpdatesOnlyCurrentUsersNotifications() {
         User dana = user(1L, "dana");
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
 
         notificationService.markAllRead("dana");
 
@@ -77,7 +77,7 @@ class NotificationServiceTest {
     void markReadMarksMatchingNotificationAsRead() {
         User dana = user(1L, "dana");
         Notification notification = notification(9L, dana, "New message", "kai sent you a message.", false);
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(notificationRepository.findByIdAndUserId(9L, 1L)).thenReturn(Optional.of(notification));
 
         NotificationView updated = notificationService.markRead("dana", 9L);

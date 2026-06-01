@@ -2,7 +2,6 @@ package com.scubapal.social.post;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.scubapal.shared.MessageResponse;
+import com.scubapal.shared.api.PageResponse;
 import com.scubapal.social.comment.CreateCommentRequest;
 
 @Tag(name = "Posts", description = "Endpoints for creating, retrieving, updating, and deleting posts and comments")
@@ -42,16 +42,16 @@ public class PostController {
     }
 
     @GetMapping
-    public Page<FeedPostView> getAll(@RequestParam(defaultValue = "0") int page,
-                                     @RequestParam(defaultValue = "10") int size) {
-        return postService.getPublicFeed(pageable(page, size));
+    public PageResponse<FeedPostView> getAll(@RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "10") int size) {
+        return PageResponse.from(postService.getPublicFeed(pageable(page, size)));
     }
 
     @GetMapping("/users/{userId}")
-    public Page<FeedPostView> getByUser(@PathVariable Long userId,
-                                        @RequestParam(defaultValue = "0") int page,
-                                        @RequestParam(defaultValue = "12") int size) {
-        return postService.getPostsByUser(userId, pageable(page, size));
+    public PageResponse<FeedPostView> getByUser(@PathVariable Long userId,
+                                                @RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "12") int size) {
+        return PageResponse.from(postService.getPostsByUser(userId, pageable(page, size)));
     }
 
     @GetMapping("/{id}")
@@ -90,8 +90,8 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public Page<FeedPostView> search(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return postService.getPublicFeed(pageable(page, size));
+    public PageResponse<FeedPostView> search(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return PageResponse.from(postService.getPublicFeed(pageable(page, size)));
     }
 
     private Pageable pageable(int page, int size) {

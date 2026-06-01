@@ -9,7 +9,9 @@ import com.scubapal.identity.user.User;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
@@ -122,6 +124,19 @@ public class MediaStorageService {
         return new StoredMedia(response.asByteArray(), contentType);
     }
 
+    public StreamedMedia stream(String objectKey) {
+        String normalizedKey = extractObjectKey(objectKey);
+        ResponseInputStream<GetObjectResponse> stream = s3Client.getObject(GetObjectRequest.builder()
+                .bucket(bucketName())
+                .key(normalizedKey)
+                .build());
+        GetObjectResponse response = stream.response();
+        String contentType = StringUtils.hasText(response.contentType())
+                ? response.contentType()
+                : "application/octet-stream";
+        return new StreamedMedia(stream, contentType, response.contentLength());
+    }
+
     public String normalizeManagedUrl(String value) {
         if (!StringUtils.hasText(value)) {
             return null;
@@ -221,6 +236,13 @@ public class MediaStorageService {
     public record StoredMedia(
             byte[] bytes,
             String contentType
+    ) {
+    }
+
+    public record StreamedMedia(
+            ResponseInputStream<GetObjectResponse> stream,
+            String contentType,
+            Long contentLength
     ) {
     }
 }

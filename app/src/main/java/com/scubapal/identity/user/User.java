@@ -1,6 +1,13 @@
 package com.scubapal.identity.user;
 
-import jakarta.persistence.*;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +23,10 @@ import com.scubapal.shared.domain.SoftDeletableAuditableEntity;
 @NoArgsConstructor
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
-@Table(schema = "identity", name = "users")
+@Table(schema = "identity", name = "users", indexes = {
+        @Index(name = "idx_users_email", columnList = "email"),
+        @Index(name = "idx_users_username", columnList = "username")
+})
 public class User extends SoftDeletableAuditableEntity {
 
     @NotBlank

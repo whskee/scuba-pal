@@ -33,24 +33,24 @@ public class UserAdminController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserView> create(@Valid @RequestBody AdminCreateUserRequest request) {
+    public ResponseEntity<AdminUserView> create(@Valid @RequestBody AdminCreateUserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userAdminService.create(request));
     }
 
     @GetMapping
-    public PageResponse<UserView> getAll(@RequestParam(defaultValue = "0") int page,
-                                         @RequestParam(defaultValue = "20") int size) {
+    public PageResponse<AdminUserView> getAll(@RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "20") int size) {
         return PageResponse.from(userAdminService.list(pageable(page, size)));
     }
 
     @GetMapping("/{id}")
-    public UserView getById(@PathVariable Long id) {
+    public AdminUserView getById(@PathVariable Long id) {
         return userAdminService.get(id);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public UserView update(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
+    public AdminUserView update(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
         return userAdminService.update(id, request);
     }
 

@@ -5,14 +5,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.scubapal.shared.domain.address.Coordinates;
-
-import java.math.BigDecimal;
-import java.util.List;
+import com.scubapal.shared.api.PageResponse;
 
 @Tag(name = "Dive Locations", description = "Endpoints for discovering and creating dive locations")
 @RestController
@@ -20,9 +23,11 @@ import java.util.List;
 public class LocationController {
 
     private final LocationService locationService;
+    private final DiveLocationMapper diveLocationMapper;
 
-    public LocationController(LocationService locationService) {
+    public LocationController(LocationService locationService, DiveLocationMapper diveLocationMapper) {
         this.locationService = locationService;
+        this.diveLocationMapper = diveLocationMapper;
     }
 
     @GetMapping
@@ -30,8 +35,14 @@ public class LocationController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Location list returned")
     })
-    public List<DiveLocationResponse> getAll(@RequestParam(required = false) String city) {
-        return locationService.getLocations(city).stream().map(this::toResponse).toList();
+    public PageResponse<DiveLocationResponse> getAll(@RequestParam(required = false) String city,
+                                                     @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(defaultValue = "20") int size) {
+        return PageResponse.from(
+                locationService.getLocations(city, PageRequest.of(
+                                Math.max(page, 0),
+                                Math.min(Math.max(size, 1), 100)))
+                        .map(diveLocationMapper::toResponse));
     }
 
     @PostMapping
@@ -42,27 +53,6 @@ public class LocationController {
             @ApiResponse(responseCode = "401", description = "Authentication required")
     })
     public ResponseEntity<DiveLocationResponse> create(@Valid @RequestBody CreateLocationRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(locationService.createLocation(request)));
-    }
-
-    private DiveLocationResponse toResponse(DiveLocation location) {
-        // Handle the case where coordinates might be null in the database
-        Coordinates coordinates = location.getCoordinates();
-        BigDecimal latitude = (coordinates != null) ? coordinates.getLatitude() : null;
-        BigDecimal longitude = (coordinates != null) ? coordinates.getLongitude() : null;
-
-        return new DiveLocationResponse(
-                location.getId(),
-                location.getLocationName(),
-                location.getDescription(),
-                location.getImageUrl(),
-                location.getCity(),
-                location.getState(),
-                location.getCountry(),
-                latitude,
-                longitude,
-                location.getDifficultyLevel(),
-                location.getPopularityScore()
-        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(diveLocationMapper.toResponse(locationService.createLocation(request)));
     }
 }

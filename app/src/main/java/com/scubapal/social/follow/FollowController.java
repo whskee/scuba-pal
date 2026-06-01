@@ -4,14 +4,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import com.scubapal.identity.user.UserView;
-import com.scubapal.shared.api.PageMetaResponse;
+import com.scubapal.identity.user.PublicUserView;
+import com.scubapal.shared.api.PageResponse;
 
 @Tag(name = "Follows", description = "Endpoints for follow actions and read-only follow lists")
 @RestController
@@ -65,8 +64,8 @@ public class FollowController {
     public UserListResponse followers(@PathVariable Long userId,
                                       @RequestParam(defaultValue = "0") int page,
                                       @RequestParam(defaultValue = "20") int size) {
-        Page<UserView> result = followService.getFollowers(userId, pageable(page, size));
-        return new UserListResponse(result.getContent(), toPageMeta(result));
+        PageResponse<PublicUserView> result = PageResponse.from(followService.getFollowers(userId, pageable(page, size)));
+        return new UserListResponse(result.content(), result.meta());
     }
 
     @GetMapping("/{userId}/following")
@@ -78,21 +77,12 @@ public class FollowController {
     public UserListResponse following(@PathVariable Long userId,
                                       @RequestParam(defaultValue = "0") int page,
                                       @RequestParam(defaultValue = "20") int size) {
-        Page<UserView> result = followService.getFollowing(userId, pageable(page, size));
-        return new UserListResponse(result.getContent(), toPageMeta(result));
+        PageResponse<PublicUserView> result = PageResponse.from(followService.getFollowing(userId, pageable(page, size)));
+        return new UserListResponse(result.content(), result.meta());
     }
 
     private Pageable pageable(int page, int size) {
         return PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 100));
     }
 
-    private PageMetaResponse toPageMeta(Page<?> page) {
-        return new PageMetaResponse(
-                page.getNumber(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getTotalPages(),
-                page.hasNext()
-        );
-    }
 }

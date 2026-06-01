@@ -29,39 +29,58 @@ public class IdentityQueryService {
         this.identityMapper = identityMapper;
     }
 
-    public Page<UserView> findUsers(Pageable pageable) {
+    public Page<AdminUserView> findUsers(Pageable pageable) {
         Page<User> users = userRepository.findAllByOrderByUsernameAsc(pageable);
         if (users.isEmpty()) {
-            return users.map(user -> identityMapper.toUserView(user, null));
+            return users.map(user -> identityMapper.toAdminUserView(user, null));
         }
         Map<Long, Profile> profilesByUserId = profileRepository.findAllByUserIdsWithUser(
                         users.getContent().stream().map(User::getId).toList())
                 .stream()
                 .collect(Collectors.toMap(profile -> profile.getUser().getId(), Function.identity()));
 
-        return users.map(user -> identityMapper.toUserView(user, profilesByUserId.get(user.getId())));
+        return users.map(user -> identityMapper.toAdminUserView(user, profilesByUserId.get(user.getId())));
     }
 
-    public Page<UserView> findUsersByCity(String city, Pageable pageable) {
+    public Page<PublicUserView> findUsersByCity(String city, Pageable pageable) {
         String normalizedCity = city == null ? "" : city.trim();
         if (normalizedCity.isBlank()) {
-            return findUsers(pageable);
+            return findPublicUsers(pageable);
         }
         return profileRepository.findByCityContainingIgnoreCase(normalizedCity, pageable)
-                .map(profile -> identityMapper.toUserView(profile.getUser(), profile));
+                .map(profile -> identityMapper.toPublicUserView(profile.getUser(), profile));
     }
 
-    public UserView getUser(Long userId) {
+    public Page<PublicUserView> findPublicUsers(Pageable pageable) {
+        Page<User> users = userRepository.findAllByOrderByUsernameAsc(pageable);
+        if (users.isEmpty()) {
+            return users.map(user -> identityMapper.toPublicUserView(user, null));
+        }
+        Map<Long, Profile> profilesByUserId = profileRepository.findAllByUserIdsWithUser(
+                        users.getContent().stream().map(User::getId).toList())
+                .stream()
+                .collect(Collectors.toMap(profile -> profile.getUser().getId(), Function.identity()));
+        return users.map(user -> identityMapper.toPublicUserView(user, profilesByUserId.get(user.getId())));
+    }
+
+    public AdminUserView getUser(Long userId) {
         User user = userRepository.findByIdWithRole(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + userId));
         Profile profile = profileRepository.findByUserId(user.getId()).orElse(null);
-        return identityMapper.toUserView(user, profile);
+        return identityMapper.toAdminUserView(user, profile);
     }
 
-    public UserView getUserByUsername(String username) {
+    public PublicUserView getPublicUser(Long userId) {
+        User user = userRepository.findByIdWithRole(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + userId));
+        Profile profile = profileRepository.findByUserId(user.getId()).orElse(null);
+        return identityMapper.toPublicUserView(user, profile);
+    }
+
+    public PublicUserView getUserByUsername(String username) {
         User user = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
         Profile profile = profileRepository.findByUserId(user.getId()).orElse(null);
-        return identityMapper.toUserView(user, profile);
+        return identityMapper.toPublicUserView(user, profile);
     }
 }

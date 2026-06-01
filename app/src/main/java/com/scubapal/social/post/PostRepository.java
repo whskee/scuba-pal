@@ -16,6 +16,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByVisibilityStatusOrderByCreatedAtDesc(VisibilityStatus visibilityStatus, Pageable pageable);
 
     @EntityGraph(attributePaths = "user")
+    Page<Post> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+    @EntityGraph(attributePaths = "user")
     Page<Post> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
 
     @Query("""

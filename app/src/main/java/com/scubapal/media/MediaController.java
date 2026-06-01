@@ -29,7 +29,7 @@ public class MediaController {
     @PostMapping("/uploads")
     public ResponseEntity<MediaUploadResponse> createUpload(@Valid @RequestBody CreateMediaUploadRequest request,
                                                             Authentication authentication) {
-        var user = userRepository.findByUsername(authentication.getName())
+        var user = userRepository.findByUsernameIgnoreCase(authentication.getName())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + authentication.getName()));
         return ResponseEntity.status(HttpStatus.CREATED).body(mediaStorageService.createUpload(user, request));
     }

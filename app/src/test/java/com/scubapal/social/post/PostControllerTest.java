@@ -6,7 +6,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +29,7 @@ class PostControllerTest {
 
     @Test
     void getAllClampsPaginationAndSortsNewestFirst() {
-        when(postService.getPublicFeed(any(Pageable.class))).thenReturn(Page.empty());
+        when(postService.getPublicFeed(any(Pageable.class))).thenReturn(new PageImpl<>(List.of()));
 
         postController.getAll(-5, 500);
 
@@ -88,9 +87,9 @@ class PostControllerTest {
         );
         when(postService.getPublicFeed(any(Pageable.class))).thenReturn(new PageImpl<>(List.of(item)));
 
-        Page<FeedPostView> page = postController.getAll(0, 10);
+        var page = postController.getAll(0, 10);
 
-        assertEquals(1, page.getTotalElements());
-        assertEquals("hello", page.getContent().get(0).caption());
+        assertEquals(1, page.meta().totalElements());
+        assertEquals("hello", page.content().get(0).caption());
     }
 }

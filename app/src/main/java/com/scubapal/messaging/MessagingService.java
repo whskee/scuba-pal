@@ -2,6 +2,7 @@ package com.scubapal.messaging;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +52,7 @@ public class MessagingService {
 
         @Transactional(readOnly = true)
         public Page<ConversationView> getConversations(String username, Pageable pageable) {
-                User me = userRepository.findByUsername(username)
+                User me = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
                 Page<Conversation> conversations = conversationRepository.findPageForUser(me.getId(), pageable);
                 Map<Long, Profile> profilesByUserId = loadProfilesForUsers(conversations.getContent().stream()
@@ -62,14 +63,14 @@ public class MessagingService {
 
         @Transactional(readOnly = true)
         public long countUnreadMessages(String username) {
-                User me = userRepository.findByUsername(username)
+                User me = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
                 return messageRepository.countUnreadForUser(me.getId());
         }
 
         @Transactional
         public Long startConversation(String username, Long otherUserId) {
-                User me = userRepository.findByUsername(username)
+                User me = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
                 if (me.getId().equals(otherUserId))
                         throw new IllegalArgumentException("You cannot message yourself.");
@@ -79,15 +80,20 @@ public class MessagingService {
                 Long high = Math.max(me.getId(), other.getId());
                 return conversationRepository.findBetweenUsers(low, high).orElseGet(() -> {
                         Conversation c = new Conversation();
-                        c.setUserOne(userRepository.findById(low).orElseThrow());
-                        c.setUserTwo(userRepository.findById(high).orElseThrow());
-                        return conversationRepository.save(c);
+                        c.setUserOne(me.getId().equals(low) ? me : other);
+                        c.setUserTwo(me.getId().equals(high) ? me : other);
+                        try {
+                                return conversationRepository.save(c);
+                        } catch (DataIntegrityViolationException ex) {
+                                return conversationRepository.findBetweenUsers(low, high)
+                                                .orElseThrow(() -> ex);
+                        }
                 }).getId();
         }
 
         @Transactional(readOnly = true)
         public ConversationView getConversation(String username, Long conversationId) {
-                User me = userRepository.findByUsername(username)
+                User me = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
                 Conversation c = conversationRepository.findById(conversationId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found"));
@@ -104,7 +110,7 @@ public class MessagingService {
         @Transactional
         public Page<MessageView> getMessages(String username, Long conversationId, Pageable pageable) {
                 markConversationRead(username, conversationId);
-                User me = userRepository.findByUsername(username)
+                User me = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
                 Conversation conversation = conversationRepository.findById(conversationId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found"));
@@ -123,7 +129,7 @@ public class MessagingService {
 
         @Transactional
         public void markConversationRead(String username, Long conversationId) {
-                User me = userRepository.findByUsername(username)
+                User me = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
                 Conversation conversation = conversationRepository.findById(conversationId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found"));
@@ -135,7 +141,11 @@ public class MessagingService {
         public void sendMessage(String username, Long conversationId, String messageText) {
                 if (messageText == null || messageText.trim().isBlank())
                         throw new IllegalArgumentException("Message cannot be blank.");
-                User me = userRepository.findByUsername(username)
+                String normalizedMessage = messageText.trim();
+                if (normalizedMessage.length() > 1000) {
+                        throw new IllegalArgumentException("Message must be 1000 characters or fewer.");
+                }
+                User me = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
                 Conversation conversation = conversationRepository.findById(conversationId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Conversation not found"));
@@ -143,7 +153,7 @@ public class MessagingService {
                 Message message = new Message();
                 message.setConversation(conversation);
                 message.setSender(me);
-                message.setMessageText(messageText.trim());
+                message.setMessageText(normalizedMessage);
                 messageRepository.save(message);
                 User receiver = conversation.getUserOne().getId().equals(me.getId())
                                 ? conversation.getUserTwo()

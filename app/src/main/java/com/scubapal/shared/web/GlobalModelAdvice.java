@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.scubapal.identity.user.CurrentUserService;
-import com.scubapal.identity.user.UserView;
+import com.scubapal.identity.user.CurrentUserView;
 import com.scubapal.messaging.MessagingService;
 import com.scubapal.notification.NotificationService;
 
@@ -25,7 +25,7 @@ public class GlobalModelAdvice {
     }
 
     @ModelAttribute("currentUser")
-    public UserView currentUser(Authentication auth) {
+    public CurrentUserView currentUser(Authentication auth) {
         if (!isLoggedIn(auth)) return null;
         return currentUserService.getCurrentUser(auth.getName());
     }

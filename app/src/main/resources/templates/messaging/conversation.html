@@ -41,6 +41,7 @@
         </section>
         <form class="card form-stack" th:action="@{'/messages/' + ${conversation.conversationId}}" method="post"
             data-message-form>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <label>Message<textarea name="messageText" maxlength="1000" required></textarea></label><button
                 class="button" type="submit">Send</button>
         </form>

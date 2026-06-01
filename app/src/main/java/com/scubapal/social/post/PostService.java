@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,6 +65,11 @@ public class PostService {
     public Page<FeedPostView> getPublicFeed(Pageable pageable, String currentUsername) {
         Page<Post> page = postRepository.findByVisibilityStatusOrderByCreatedAtDesc(VisibilityStatus.PUBLIC, pageable);
         return toFeedPostViews(page, currentUsername);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<FeedPostView> getAllPostsForAdmin(Pageable pageable) {
+        return toFeedPostViews(postRepository.findAllByOrderByCreatedAtDesc(pageable), null);
     }
 
     @Transactional(readOnly = true)
@@ -137,7 +143,7 @@ public class PostService {
         ensureCanView(post, currentUsername);
         String authorProfileImageUrl = authorProfileImageUrl(post);
 
-        Long currentUserId = currentUsername == null ? null : userRepository.findByUsername(currentUsername).map(User::getId).orElse(null);
+        Long currentUserId = currentUsername == null ? null : userRepository.findByUsernameIgnoreCase(currentUsername).map(User::getId).orElse(null);
         boolean likedByCurrentUser = currentUserId != null && postLikeRepository.existsByPostIdAndUserId(postId, currentUserId);
 
         List<PostComment> postComments = postCommentRepository.findByPostIdWithUserOrderByCreatedAtAsc(postId);
@@ -182,7 +188,7 @@ public class PostService {
 
     @Transactional
     public FeedPostView createPostForUsername(String username, String caption, VisibilityStatus visibilityStatus, List<String> mediaUrls) {
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
         return createPostForUser(user, caption, visibilityStatus, mediaUrls);
     }
@@ -200,7 +206,7 @@ public class PostService {
 
     @Transactional
     public PostDetailView toggleLike(Long postId, String username) {
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
         Post post = postRepository.findByIdWithUser(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + postId));
@@ -212,7 +218,11 @@ public class PostService {
                     PostLike like = new PostLike();
                     like.setPost(post);
                     like.setUser(user);
-                    postLikeRepository.save(like);
+                    try {
+                        postLikeRepository.save(like);
+                    } catch (DataIntegrityViolationException ex) {
+                        log.debug("Like already exists for post {} and user {}", postId, user.getId());
+                    }
                 });
 
         return getPostDetail(postId, username);
@@ -220,7 +230,7 @@ public class PostService {
 
     @Transactional
     public PostDetailView addComment(Long postId, String username, String commentText) {
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
         Post post = postRepository.findByIdWithUser(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + postId));
@@ -259,7 +269,7 @@ public class PostService {
 
     @Transactional
     public void deleteComment(Long postId, Long commentId, String username) {
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
         PostComment comment = postCommentRepository.findByIdWithPostAndUser(commentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found: " + commentId));
@@ -298,7 +308,7 @@ public class PostService {
         if (currentUsername == null || currentUsername.isBlank() || posts.isEmpty()) {
             return Set.of();
         }
-        Long currentUserId = userRepository.findByUsername(currentUsername).map(User::getId).orElse(null);
+        Long currentUserId = userRepository.findByUsernameIgnoreCase(currentUsername).map(User::getId).orElse(null);
         if (currentUserId == null) {
             return Set.of();
         }

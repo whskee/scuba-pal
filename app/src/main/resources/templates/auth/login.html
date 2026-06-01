@@ -21,6 +21,7 @@
             <p th:if="${param.logout}" class="success">You have been logged out.</p>
             <p th:if="${registrationSuccess}" class="success" th:text="${registrationSuccess}">Account created.</p>
             <form th:action="@{/login}" method="post" class="form-stack">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <label>Username
                     <input type="text" name="username" required autofocus />
                 </label>

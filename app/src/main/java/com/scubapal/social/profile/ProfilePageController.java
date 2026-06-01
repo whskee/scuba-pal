@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.scubapal.identity.user.IdentityQueryService;
+import com.scubapal.identity.user.PublicUserView;
 import com.scubapal.social.follow.FollowService;
 import com.scubapal.social.post.PostService;
 
@@ -40,7 +41,7 @@ public class ProfilePageController {
     public String divers(@RequestParam(defaultValue = "0") int page,
                          @RequestParam(defaultValue = "12") int size,
                          Model model) {
-        var userPage = identityQueryService.findUsers(pageable(page, size));
+        var userPage = identityQueryService.findPublicUsers(pageable(page, size));
         model.addAttribute("userPage", userPage);
         model.addAttribute("users", userPage.getContent());
         return "social/divers";
@@ -52,8 +53,8 @@ public class ProfilePageController {
                           @RequestParam(defaultValue = "6") int size,
                           Model model,
                           Authentication auth) {
-        var user = looksNumeric(username)
-                ? identityQueryService.getUser(Long.valueOf(username))
+        PublicUserView user = looksNumeric(username)
+                ? identityQueryService.getPublicUser(Long.valueOf(username))
                 : identityQueryService.getUserByUsername(username);
         if (looksNumeric(username)) {
             return "redirect:/profile/" + user.username();

@@ -29,6 +29,14 @@ public class ProfileService {
         return identityMapper.toProfileResponse(getProfileEntityByUserId(userId));
     }
 
+    public PublicProfileResponse getPublicByUserId(Long userId) {
+        Profile profile = getProfileEntityByUserId(userId);
+        if (profile.getVisibilityStatus() != VisibilityStatus.PUBLIC) {
+            throw new ResourceNotFoundException("Profile not found for user: " + userId);
+        }
+        return identityMapper.toPublicProfileResponse(profile);
+    }
+
     public ProfileResponse getCurrentUserProfile(String username) {
         User user = userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));

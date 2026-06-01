@@ -52,6 +52,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/learn", "/api/learn/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/locations", "/api/locations/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/shops", "/api/shops/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts", "/api/posts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/profiles/*", "/api/users/*/profile").permitAll()
                         .requestMatchers("/api/locations", "/api/locations/**").hasAnyRole("ADMIN", "SHOP_OWNER", "MODERATOR")
                         .requestMatchers(HttpMethod.POST, "/api/users/*/follow", "/api/messages/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/users/*/follow-summary", "/api/users/*/followers", "/api/users/*/following").permitAll()
@@ -70,7 +72,6 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .headers(headers -> headers
                         .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'; img-src 'self' data: blob: https:; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'"))

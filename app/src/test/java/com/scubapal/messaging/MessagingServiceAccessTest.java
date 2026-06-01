@@ -39,7 +39,7 @@ class MessagingServiceAccessTest {
         conversation.setUserOne(alice);
         conversation.setUserTwo(bob);
 
-        when(userRepository.findByUsername("intruder")).thenReturn(Optional.of(intruder));
+        when(userRepository.findByUsernameIgnoreCase("intruder")).thenReturn(Optional.of(intruder));
         when(conversationRepository.findById(99L)).thenReturn(Optional.of(conversation));
 
         assertThrows(ResourceNotFoundException.class, () -> messagingService.getConversation("intruder", 99L));

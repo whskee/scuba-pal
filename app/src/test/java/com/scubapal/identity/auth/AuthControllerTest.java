@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-import com.scubapal.identity.user.UserView;
+import com.scubapal.identity.user.CurrentUserView;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,7 +26,7 @@ class AuthControllerTest {
     @Test
     void registerCreatesUserAndReturnsCreated() {
         RegisterRequest request = new RegisterRequest("dana@example.com", "dana", "Password123!", "Dana", "Diver", "Phoenix", "USA");
-        UserView view = new UserView(1L, "dana", "Dana", "Diver", "dana@example.com", "user", "Phoenix", "USA", 0, null, null);
+        CurrentUserView view = new CurrentUserView(1L, "dana", "Dana", "Diver", "dana@example.com", "USER", "Phoenix", "USA", 0, null, null);
         when(authService.register(request)).thenReturn(view);
 
         var response = authController.register(request);
@@ -39,7 +39,7 @@ class AuthControllerTest {
     @Test
     void loginAuthenticatesBeforeReturningUser() {
         LoginRequest request = new LoginRequest("dana", "Password123!");
-        UserView view = new UserView(1L, "dana", "Dana", "Diver", "dana@example.com", "user", null, null, 0, null, null);
+        CurrentUserView view = new CurrentUserView(1L, "dana", "Dana", "Diver", "dana@example.com", "USER", null, null, 0, null, null);
         when(authService.recordSuccessfulLogin(request.username())).thenReturn(view);
 
         var response = authController.login(request);

@@ -28,21 +28,21 @@ public class CurrentUserService {
         this.identityMapper = identityMapper;
     }
 
-    public UserView getCurrentUser(String username) {
+    public CurrentUserView getCurrentUser(String username) {
         User user = findActiveUser(username);
         Profile profile = profileRepository.findByUserId(user.getId()).orElse(null);
-        return identityMapper.toUserView(user, profile);
+        return identityMapper.toCurrentUserView(user, profile);
     }
 
     @Transactional
-    public UserView updateSettings(String username, UpdateSettingsForm form) {
+    public CurrentUserView updateSettings(String username, UpdateSettingsForm form) {
         UpdateCurrentUserSettingsRequest request = new UpdateCurrentUserSettingsRequest(
                 form.getProfileImageUrl(),
                 form.getBio(),
                 form.getCity(),
                 form.getCountry(),
                 form.getDiveCount());
-        UserView updated = updateSettings(username, request);
+        CurrentUserView updated = updateSettings(username, request);
         if (hasText(form.getNewPassword()) || hasText(form.getConfirmPassword()) || hasText(form.getCurrentPassword())) {
             changePassword(username, new ChangePasswordRequest(
                     form.getCurrentPassword(),
@@ -53,7 +53,7 @@ public class CurrentUserService {
     }
 
     @Transactional
-    public UserView updateSettings(String username, UpdateCurrentUserSettingsRequest request) {
+    public CurrentUserView updateSettings(String username, UpdateCurrentUserSettingsRequest request) {
         User user = findActiveUser(username);
         Profile profile = profileRepository.findByUserId(user.getId()).orElseGet(() -> defaultProfile(user));
         profile.setProfileImageUrl(identityMapper.normalizeMediaUrl(request.profileImageUrl()));
@@ -64,7 +64,7 @@ public class CurrentUserService {
             profile.setDiveCount(request.diveCount());
         }
         profileRepository.save(profile);
-        return identityMapper.toUserView(user, profile);
+        return identityMapper.toCurrentUserView(user, profile);
     }
 
     @Transactional
@@ -73,10 +73,20 @@ public class CurrentUserService {
         if (!hasText(request.currentPassword()) || !passwordEncoder.matches(request.currentPassword(), user.getPasswordHash())) {
             throw new IllegalArgumentException("Current password is incorrect");
         }
+        if (!hasText(request.newPassword()) || !hasText(request.confirmPassword())) {
+            throw new IllegalArgumentException("New password and confirmation are required");
+        }
         if (!request.newPassword().equals(request.confirmPassword())) {
             throw new IllegalArgumentException("Passwords do not match");
         }
+        validatePassword(request.newPassword());
         user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
+    }
+
+    private void validatePassword(String password) {
+        if (password == null || password.length() < 12 || password.length() > 120) {
+            throw new IllegalArgumentException("Password must be 12 to 120 characters.");
+        }
     }
 
     private User findActiveUser(String username) {

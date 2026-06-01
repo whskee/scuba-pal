@@ -37,7 +37,7 @@ class FollowServiceTest {
     void followCreatesRelationshipAndNotification() {
         User dana = user(1L, "dana");
         User kai = user(2L, "kai");
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(userRepository.findByIdWithRole(2L)).thenReturn(Optional.of(kai));
         when(userFollowRepository.existsByFollowerIdAndFollowedId(1L, 2L)).thenReturn(false, true);
         when(userFollowRepository.countByFollowerId(2L)).thenReturn(0L);
@@ -57,7 +57,7 @@ class FollowServiceTest {
     void followIsIdempotentAndDoesNotDuplicateNotification() {
         User dana = user(1L, "dana");
         User kai = user(2L, "kai");
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(userRepository.findByIdWithRole(2L)).thenReturn(Optional.of(kai));
         when(userFollowRepository.existsByFollowerIdAndFollowedId(1L, 2L)).thenReturn(true, true);
         when(userFollowRepository.findFollowing(eq(2L), any())).thenReturn(new PageImpl<>(List.of()));
@@ -76,7 +76,7 @@ class FollowServiceTest {
         UserFollow follow = new UserFollow();
         follow.setFollower(dana);
         follow.setFollowed(kai);
-        when(userRepository.findByUsername("dana")).thenReturn(Optional.of(dana));
+        when(userRepository.findByUsernameIgnoreCase("dana")).thenReturn(Optional.of(dana));
         when(userFollowRepository.findByFollowerIdAndFollowedId(1L, 2L)).thenReturn(Optional.of(follow));
         when(userFollowRepository.existsByFollowerIdAndFollowedId(1L, 2L)).thenReturn(false);
         when(userFollowRepository.findFollowing(eq(2L), any())).thenReturn(new PageImpl<>(List.of()));

@@ -1,10 +1,12 @@
 package com.scubapal.identity.auth;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.scubapal.identity.profile.Profile;
 import com.scubapal.identity.profile.ProfileService;
@@ -14,7 +16,7 @@ import com.scubapal.identity.role.RoleRepository;
 import com.scubapal.identity.user.IdentityMapper;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
-import com.scubapal.identity.user.UserView;
+import com.scubapal.identity.user.CurrentUserView;
 import com.scubapal.shared.exception.ResourceNotFoundException;
 
 @Service
@@ -45,7 +47,7 @@ public class AuthService {
     }
 
     @Transactional
-    public UserView register(RegisterRequest request) {
+    public CurrentUserView register(RegisterRequest request) {
         String email = normalizeEmail(request.email());
         String username = normalizeUsername(request.username());
         ensureEmailAvailable(email);
@@ -60,7 +62,7 @@ public class AuthService {
         user.setPasswordHash(passwordEncoder.encode(request.password()));
         user.setRole(role);
         user.setActive(true);
-        User savedUser = userRepository.save(user);
+        User savedUser = saveUser(user);
 
         Profile profile = profileService.createDefaultProfileForUser(
                 savedUser,
@@ -69,11 +71,11 @@ public class AuthService {
                 request.city(),
                 request.country());
 
-        return identityMapper.toUserView(savedUser, profile);
+        return identityMapper.toCurrentUserView(savedUser, profile);
     }
 
     @Transactional
-    public UserView recordSuccessfulLogin(String username) {
+    public CurrentUserView recordSuccessfulLogin(String username) {
         User user = userRepository.findByUsernameIgnoreCase(normalizeUsername(username))
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if (!user.isActive()) {
@@ -81,7 +83,15 @@ public class AuthService {
         }
         user.setLastLoginAt(LocalDateTime.now());
         Profile profile = profileService.findProfileEntityByUserId(user.getId()).orElse(null);
-        return identityMapper.toUserView(user, profile);
+        return identityMapper.toCurrentUserView(user, profile);
+    }
+
+    private User saveUser(User user) {
+        try {
+            return userRepository.save(user);
+        } catch (DataIntegrityViolationException ex) {
+            throw new IllegalArgumentException("Email or username already in use", ex);
+        }
     }
 
     private void ensureEmailAvailable(String email) {
@@ -101,6 +111,6 @@ public class AuthService {
     }
 
     private String normalizeUsername(String username) {
-        return username == null ? "" : username.trim();
+        return username == null ? "" : username.trim().toLowerCase(Locale.ROOT);
     }
 }

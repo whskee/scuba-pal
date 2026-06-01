@@ -19,7 +19,6 @@
                     <img class="diver-avatar" th:if="${user.profileImageUrl}" th:src="${user.profileImageUrl}" alt="" />
                     <span class="diver-avatar" th:unless="${user.profileImageUrl}" th:text="${user.initials()}">D</span>
                     <div>
-                        <span class="pill" th:text="${user.role}">role</span>
                         <h3 th:text="${user.displayName()}">Diver Name</h3>
                         <p class="muted" th:text="${'@' + user.username}">@username</p>
                     </div>

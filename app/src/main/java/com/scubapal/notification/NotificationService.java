@@ -28,25 +28,25 @@ public class NotificationService {
 
     @Transactional(readOnly = true)
     public Page<NotificationView> getNotifications(String username, Pageable pageable) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = currentUser(username);
         return notificationRepository.findByUserIdOrderByCreatedAtDesc(user.getId(), pageable).map(this::toView);
     }
 
     @Transactional(readOnly = true)
     public long countUnread(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = currentUser(username);
         return notificationRepository.countByUserIdAndReadFalse(user.getId());
     }
 
     @Transactional
     public void markAllRead(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = currentUser(username);
         notificationRepository.markAllReadForUser(user.getId());
     }
 
     @Transactional
     public NotificationView markRead(String username, Long notificationId) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = currentUser(username);
         Notification notification = notificationRepository.findByIdAndUserId(notificationId, user.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
         if (!notification.isRead()) {
@@ -67,5 +67,10 @@ public class NotificationService {
 
     private NotificationView toView(Notification n) {
         return new NotificationView(n.getId(), n.getTitle(), n.getMessage(), n.isRead(), n.getCreatedAt());
+    }
+
+    private User currentUser(String username) {
+        return userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }

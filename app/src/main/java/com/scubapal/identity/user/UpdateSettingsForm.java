@@ -14,8 +14,11 @@ public class UpdateSettingsForm {
     private String country;
     @PositiveOrZero
     private Integer diveCount;
+    @Size(max = 120)
     private String currentPassword;
+    @Size(max = 120)
     private String newPassword;
+    @Size(max = 120)
     private String confirmPassword;
     public String getProfileImageUrl() { return profileImageUrl; }
     public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }

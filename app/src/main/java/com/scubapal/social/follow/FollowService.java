@@ -2,13 +2,14 @@ package com.scubapal.social.follow;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.scubapal.identity.profile.ProfileRepository;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
-import com.scubapal.identity.user.UserView;
+import com.scubapal.identity.user.PublicUserView;
 import com.scubapal.media.MediaStorageService;
 import com.scubapal.notification.NotificationService;
 import com.scubapal.shared.exception.ResourceNotFoundException;
@@ -43,8 +44,12 @@ public class FollowService {
             UserFollow follow = new UserFollow();
             follow.setFollower(me);
             follow.setFollowed(target);
-            userFollowRepository.save(follow);
-            notificationService.createForUser(target, "New follower", me.getUsername() + " started following you.");
+            try {
+                userFollowRepository.save(follow);
+                notificationService.createForUser(target, "New follower", me.getUsername() + " started following you.");
+            } catch (DataIntegrityViolationException ex) {
+                // A concurrent request may have created the same relationship first.
+            }
         }
         return getSummary(targetUserId, username);
     }
@@ -75,27 +80,27 @@ public class FollowService {
     }
 
     @Transactional(readOnly = true)
-    public Page<UserView> getFollowing(Long userId, Pageable pageable) {
+    public Page<PublicUserView> getFollowing(Long userId, Pageable pageable) {
         userRepository.findByIdWithRole(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return userFollowRepository.findFollowing(userId, pageable).map(uf -> toView(uf.getFollowed()));
     }
 
     @Transactional(readOnly = true)
-    public Page<UserView> getFollowers(Long userId, Pageable pageable) {
+    public Page<PublicUserView> getFollowers(Long userId, Pageable pageable) {
         userRepository.findByIdWithRole(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return userFollowRepository.findFollowers(userId, pageable).map(uf -> toView(uf.getFollower()));
     }
 
     private User currentUser(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return userRepository.findByUsernameIgnoreCase(username == null ? "" : username.trim())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
-    private UserView toView(User user) {
+    private PublicUserView toView(User user) {
         var profile = profileRepository.findByUserId(user.getId()).orElse(null);
-        return new UserView(user.getId(), user.getUsername(),
+        return new PublicUserView(user.getId(), user.getUsername(),
                 profile != null ? profile.getFirstName() : null,
                 profile != null ? profile.getLastName() : null,
-                user.getEmail(), user.getRole().getName(),
                 profile != null ? profile.getCity() : null,
                 profile != null ? profile.getCountry() : null,
                 profile != null ? profile.getDiveCount() : 0,
