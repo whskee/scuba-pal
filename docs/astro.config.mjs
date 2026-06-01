@@ -1,12 +1,17 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://whskee.github.io',
 	base: '/scuba-pal-app',
 	integrations: [
+		mermaid({
+			theme: 'default', // You can change to 'dark', 'forest', 'neutral', etc.
+			autoTheme: true,  // Adapts theme based on data-theme attributes
+		}),
 		starlight({
 			title: 'ScubaPal Docs',
 			customCss: ['./src/styles/custom.css'],
@@ -57,6 +62,10 @@ export default defineConfig({
 				{
 					label: 'Reference',
 					items: [{ autogenerate: { directory: 'reference' } }],
+				},
+				{
+					label: 'To Do',
+					items: [{ autogenerate: { directory: 'todo' } }],
 				},
 			],
 		}),
