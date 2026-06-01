@@ -23,7 +23,7 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("ScubaPal API")
                         .version("v1")
-                        .description("Authentication, users, posts, messaging, notifications, dive locations, and learn content. Authenticated API endpoints currently use HTTP Basic auth.")
+                        .description("Authentication, users, posts, messaging, notifications, dive locations, and learn content. Authenticated API endpoints use JWT Bearer tokens.")
                         .contact(new Contact()
                                 .name("Chinmaya Bidkar")
                                 .email("chinmayabidkar@hotmail.com"))
@@ -31,11 +31,12 @@ public class OpenApiConfig {
                 .servers(List.of(
                         new Server().url("http://localhost:8080").description("Local"),
                         new Server().url("https://api.scubapal.com").description("Production")))
-                .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
-                        .addSecuritySchemes("basicAuth", new SecurityScheme()
-                                .name("basicAuth")
+                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                                .name("bearerAuth")
                                 .type(SecurityScheme.Type.HTTP)
-                                .scheme("basic")));
+                                .scheme("bearer")
+                                .bearerFormat("JWT")));
     }
 }

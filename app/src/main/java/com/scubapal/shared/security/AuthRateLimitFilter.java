@@ -41,6 +41,8 @@ public class AuthRateLimitFilter extends OncePerRequestFilter {
         boolean authEndpoint = path.equals("/api/auth/login")
                 || path.equals("/api/auth/forgot-password")
                 || path.equals("/api/auth/reset-password")
+                || path.equals("/api/auth/refresh")
+                || path.equals("/api/auth/logout")
                 || path.equals("/api/auth/username-available");
         return !authEndpoint || !("POST".equals(request.getMethod()) || "GET".equals(request.getMethod()));
     }
