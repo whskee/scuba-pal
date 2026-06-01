@@ -29,7 +29,7 @@ public class ProfilePageController {
                           @RequestParam(defaultValue = "0") int page,
                           @RequestParam(defaultValue = "12") int size,
                           Model model) {
-        var userPage = userService.getAllUsers(pageable(page, size));
+        var userPage = userService.getUsersByCity(city, pageable(page, size));
         model.addAttribute("city", city);
         model.addAttribute("userPage", userPage);
         model.addAttribute("users", userPage.getContent());
@@ -59,12 +59,9 @@ public class ProfilePageController {
             return "redirect:/profile/" + user.username();
         }
         String currentUsername = loggedIn(auth) ? auth.getName() : null;
-        // var posts = postService.getPostsByUser(user.id(),
-        //         PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 30)));
         var posts = postService.getPublicPostsByUser(user.id(),
                 PageRequest.of(Math.max(page, 0), Math.min(Math.max(size, 1), 30)));
         model.addAttribute("user", user);
-        model.addAttribute("profile", user);
         model.addAttribute("postPage", posts);
         model.addAttribute("posts", posts.getContent());
         model.addAttribute("followSummary", followService.getSummary(user.id(), currentUsername, pageable(page, size)));

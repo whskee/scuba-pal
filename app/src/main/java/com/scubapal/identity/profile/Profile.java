@@ -24,21 +24,26 @@ public class Profile extends AuditableEntity {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", length = 80)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", length = 80)
     private String lastName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", length = 40)
     private String phoneNumber;
 
+    @Column(length = 120)
     private String city;
+
+    @Column(length = 120)
     private String state;
+
+    @Column(length = 120)
     private String country;
 
     @Column(name = "date_of_birth")
@@ -51,6 +56,7 @@ public class Profile extends AuditableEntity {
     @Column(name = "dive_count", nullable = false)
     private Integer diveCount = 0;
 
+    @Column(length = 400)
     private String bio;
 
     @Column(name = "profile_image_url", length = 500)

@@ -1,12 +1,13 @@
 package com.scubapal.identity.profile;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.scubapal.identity.role.Role;
+import com.scubapal.identity.user.IdentityMapper;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.media.MediaStorageService;
@@ -26,8 +27,13 @@ class ProfileServiceTest {
     UserRepository userRepository;
     @Mock
     MediaStorageService mediaStorageService;
-    @InjectMocks
     ProfileService profileService;
+
+    @BeforeEach
+    void setUp() {
+        lenient().when(mediaStorageService.normalizeManagedUrl(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        profileService = new ProfileService(profileRepository, userRepository, new IdentityMapper(mediaStorageService));
+    }
 
     @Test
     void getByUserIdReturnsProfileForProfileAccess() {

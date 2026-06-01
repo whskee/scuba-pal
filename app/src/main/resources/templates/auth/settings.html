@@ -13,16 +13,43 @@
     <div class="container narrow">
         <h1>User Settings</h1>
         <p th:if="${settingsSuccess}" class="success" th:text="${settingsSuccess}">Saved.</p>
-        <form class="card form-stack" th:action="@{/settings}" th:object="${settingsForm}" method="post"><label>Profile
-                image URL<input type="text" th:field="*{profileImageUrl}"
-                    placeholder="https://..." /></label><label>Bio<textarea th:field="*{bio}"
-                    maxlength="400"></textarea></label>
-            <div class="form-grid"><label>City<input type="text" th:field="*{city}" /></label><label>Country<input
-                        type="text" th:field="*{country}" /></label><label>Dive count<input type="text"
-                        th:field="*{diveCount}" /></label></div>
-            <h2>Change password</h2><label>New password<input type="password"
-                    th:field="*{newPassword}" /></label><label>Confirm new password<input type="password"
-                    th:field="*{confirmPassword}" /></label><button class="button" type="submit">Save Settings</button>
+        <form class="card form-stack" th:action="@{/settings}" th:object="${settingsForm}" method="post">
+            <div th:if="${#fields.hasErrors('*')}" class="error">
+                <p>Please fix the settings form.</p>
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Validation error</li>
+                </ul>
+            </div>
+            <label>Profile image URL
+                <input type="text" th:field="*{profileImageUrl}" maxlength="500" placeholder="https://..." />
+            </label>
+            <label>Bio
+                <textarea th:field="*{bio}" maxlength="400"></textarea>
+            </label>
+            <div class="form-grid">
+                <label>City
+                    <input type="text" th:field="*{city}" maxlength="120" />
+                </label>
+                <label>Country
+                    <input type="text" th:field="*{country}" maxlength="120" />
+                </label>
+                <label>Dive count
+                    <input type="number" th:field="*{diveCount}" min="0" step="1" />
+                </label>
+            </div>
+            <h2>Change password</h2>
+            <label>Current password
+                <input type="password" th:field="*{currentPassword}" autocomplete="current-password" />
+            </label>
+            <label>New password
+                <input type="password" th:field="*{newPassword}" minlength="12" maxlength="120"
+                    autocomplete="new-password" />
+            </label>
+            <label>Confirm new password
+                <input type="password" th:field="*{confirmPassword}" minlength="12" maxlength="120"
+                    autocomplete="new-password" />
+            </label>
+            <button class="button" type="submit">Save Settings</button>
         </form>
     </div>
 </body>

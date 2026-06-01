@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scubapal.identity.user.UserService;
 import com.scubapal.identity.user.UserView;
 import com.scubapal.shared.MessageResponse;
 
@@ -24,22 +23,26 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
+    private final PasswordResetService passwordResetService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthController(UserService userService, AuthenticationManager authenticationManager) {
-        this.userService = userService;
+    public AuthController(AuthService authService,
+                          PasswordResetService passwordResetService,
+                          AuthenticationManager authenticationManager) {
+        this.authService = authService;
+        this.passwordResetService = passwordResetService;
         this.authenticationManager = authenticationManager;
     }
 
     @GetMapping("/username-available")
     public Map<String, Boolean> usernameAvailable(@RequestParam String username) {
-        return Map.of("available", userService.isUsernameAvailable(username));
+        return Map.of("available", authService.isUsernameAvailable(username));
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserView> register(@Valid @RequestBody RegisterRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
     }
 
     @PostMapping("/login")
@@ -47,23 +50,18 @@ public class AuthController {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password())
         );
-        return ResponseEntity.ok(userService.login(request));
+        return ResponseEntity.ok(authService.recordSuccessfulLogin(request.username()));
     }
 
     @PostMapping("/forgot-password")
-    public MessageResponse forgotPassword(@RequestBody Map<String, String> body) {
-        String emailOrUsername = body.getOrDefault("emailOrUsername", body.getOrDefault("email", ""));
-        userService.sendPasswordResetLink(emailOrUsername);
+    public MessageResponse forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        passwordResetService.sendPasswordResetLink(request.emailOrUsername());
         return new MessageResponse("If that account exists, a password reset link has been sent.");
     }
 
     @PostMapping("/reset-password")
-    public MessageResponse resetPassword(@RequestBody Map<String, String> body) {
-        userService.resetPassword(
-                body.getOrDefault("token", ""),
-                body.getOrDefault("newPassword", ""),
-                body.getOrDefault("confirmPassword", "")
-        );
+    public MessageResponse resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        passwordResetService.resetPassword(request);
         return new MessageResponse("Password reset successfully.");
     }
 

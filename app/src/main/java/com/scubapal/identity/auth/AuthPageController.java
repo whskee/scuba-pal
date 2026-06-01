@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.scubapal.identity.user.UserService;
-
 @Controller
 public class AuthPageController {
-    private final UserService userService;
+    private final AuthService authService;
+    private final PasswordResetService passwordResetService;
 
-    public AuthPageController(UserService userService) {
-        this.userService = userService;
+    public AuthPageController(AuthService authService, PasswordResetService passwordResetService) {
+        this.authService = authService;
+        this.passwordResetService = passwordResetService;
     }
 
     @GetMapping("/login")
@@ -38,7 +38,7 @@ public class AuthPageController {
         if (br.hasErrors()) {
             return "auth/forgot-password";
         }
-        userService.sendPasswordResetLink(form.getEmailOrUsername());
+        passwordResetService.sendPasswordResetLink(form.getEmailOrUsername());
         ra.addFlashAttribute("resetEmailSent", "If that account exists, a password reset link has been sent.");
         return "redirect:/forgot-password";
     }
@@ -48,18 +48,18 @@ public class AuthPageController {
         ResetPasswordForm form = new ResetPasswordForm();
         form.setToken(token);
         model.addAttribute("resetPasswordForm", form);
-        model.addAttribute("tokenUsable", userService.isPasswordResetTokenUsable(token));
+        model.addAttribute("tokenUsable", passwordResetService.isPasswordResetTokenUsable(token));
         return "auth/reset-password";
     }
 
     @PostMapping("/reset-password")
     public String resetPasswordSubmit(@Valid @ModelAttribute ResetPasswordForm form, BindingResult br, RedirectAttributes ra, Model model) {
         if (br.hasErrors()) {
-            model.addAttribute("tokenUsable", userService.isPasswordResetTokenUsable(form.getToken()));
+            model.addAttribute("tokenUsable", passwordResetService.isPasswordResetTokenUsable(form.getToken()));
             return "auth/reset-password";
         }
         try {
-            userService.resetPassword(form.getToken(), form.getNewPassword(), form.getConfirmPassword());
+            passwordResetService.resetPassword(new ResetPasswordRequest(form.getToken(), form.getNewPassword(), form.getConfirmPassword()));
         } catch (IllegalArgumentException ex) {
             br.reject("reset.failed", ex.getMessage());
             model.addAttribute("tokenUsable", false);
@@ -71,19 +71,22 @@ public class AuthPageController {
 
     @GetMapping("/register")
     public String register(Model model) {
-        if (!model.containsAttribute("registerRequest")) {
-            model.addAttribute("registerRequest", new RegisterForm());
+        if (!model.containsAttribute("registerForm")) {
+            model.addAttribute("registerForm", new RegisterForm());
         }
         return "auth/register";
     }
 
     @PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("registerRequest") RegisterForm request, BindingResult br, RedirectAttributes ra) {
+    public String registerUser(@Valid @ModelAttribute("registerForm") RegisterForm request, BindingResult br, RedirectAttributes ra) {
+        if (!request.passwordsMatch()) {
+            br.rejectValue("confirmPassword", "passwords.mismatch", "Passwords do not match");
+        }
         if (br.hasErrors()) {
             return "auth/register";
         }
         try {
-            userService.register(request.toRegisterRequest());
+            authService.register(request.toRegisterRequest());
         } catch (IllegalArgumentException ex) {
             br.reject("registration.failed", ex.getMessage());
             return "auth/register";

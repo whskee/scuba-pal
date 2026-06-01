@@ -19,18 +19,15 @@ import com.scubapal.shared.domain.SoftDeletableAuditableEntity;
 @Table(schema = "identity", name = "users")
 public class User extends SoftDeletableAuditableEntity {
 
-    // @Embedded
-    // private Credentials credentials;
-
     @NotBlank
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 320)
     private String email;
 
     @NotBlank
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 60)
     private String username;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
     @ManyToOne(fetch = FetchType.LAZY)

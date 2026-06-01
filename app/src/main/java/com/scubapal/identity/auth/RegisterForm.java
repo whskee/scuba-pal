@@ -19,13 +19,27 @@ public class RegisterForm {
     private String username = "";
 
     @NotBlank
-    @Size(min = 6, max = 120)
+    @Size(min = 12, max = 120)
     private String password = "";
 
+    @NotBlank
+    private String confirmPassword = "";
+
+    @Size(max = 80)
     private String firstName = "";
+
+    @Size(max = 80)
     private String lastName = "";
+
+    @Size(max = 120)
     private String city = "";
+
+    @Size(max = 120)
     private String country = "";
+
+    public boolean passwordsMatch() {
+        return password != null && password.equals(confirmPassword);
+    }
 
     public RegisterRequest toRegisterRequest() {
         return new RegisterRequest(email, username, password, firstName, lastName, city, country);

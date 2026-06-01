@@ -12,7 +12,7 @@ public class ResetPasswordForm {
     private String token = "";
 
     @NotBlank
-    @Size(min = 6, max = 120)
+    @Size(min = 12, max = 120)
     private String newPassword = "";
 
     @NotBlank

@@ -24,8 +24,7 @@
         </section>
 
         <section class="grid diver-grid">
-            <article class="card diver-card" th:each="user : ${users}"
-                th:if="${city == null || city.isBlank() || (user.city != null && #strings.containsIgnoreCase(user.city, city))}">
+            <article class="card diver-card" th:each="user : ${users}">
                 <div class="diver-card-header">
                     <img class="diver-avatar" th:if="${user.profileImageUrl}" th:src="${user.profileImageUrl}" alt="" />
                     <span class="diver-avatar" th:unless="${user.profileImageUrl}" th:text="${user.initials()}">D</span>
@@ -39,6 +38,7 @@
                 <p>Dives logged: <strong th:text="${user.diveCount}">0</strong></p>
                 <a class="button" th:href="@{'/profile/' + ${user.username}}">View Profile</a>
             </article>
+            <p th:if="${#lists.isEmpty(users)}" class="muted">No divers matched that city.</p>
         </section>
     </div>
 </body>

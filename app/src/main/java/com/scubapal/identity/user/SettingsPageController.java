@@ -12,15 +12,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class SettingsPageController {
-    private final UserService userService;
+    private final CurrentUserService currentUserService;
 
-    public SettingsPageController(UserService userService) {
-        this.userService = userService;
+    public SettingsPageController(CurrentUserService currentUserService) {
+        this.currentUserService = currentUserService;
     }
 
     @GetMapping("/settings")
     public String settings(Model model, Authentication auth) {
-        UserView current = userService.getCurrentUser(auth.getName());
+        UserView current = currentUserService.getCurrentUser(auth.getName());
         UpdateSettingsForm form = new UpdateSettingsForm();
         form.setProfileImageUrl(current.profileImageUrl());
         form.setBio(current.bio());
@@ -39,7 +39,7 @@ public class SettingsPageController {
         if (br.hasErrors())
             return "auth/settings";
         try {
-            userService.updateSettings(auth.getName(), form);
+            currentUserService.updateSettings(auth.getName(), form);
         } catch (IllegalArgumentException ex) {
             br.reject("settings.failed", ex.getMessage());
             return "auth/settings";

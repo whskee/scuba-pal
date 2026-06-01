@@ -31,7 +31,7 @@ public class PasswordResetToken extends CreatedEntity {
     @Column(name = "used_at")
     private Instant usedAt;
 
-    public boolean isUsable() {
-        return usedAt == null && expiresAt.isAfter(Instant.now());
+    public boolean isUsable(Instant now) {
+        return usedAt == null && expiresAt.isAfter(now);
     }
 }

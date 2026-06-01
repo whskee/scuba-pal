@@ -1,6 +1,7 @@
 package com.scubapal.identity.user;
 
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.PositiveOrZero;
 
 public class UpdateSettingsForm {
     @Size(max = 500)
@@ -11,7 +12,9 @@ public class UpdateSettingsForm {
     private String city;
     @Size(max = 120)
     private String country;
+    @PositiveOrZero
     private Integer diveCount;
+    private String currentPassword;
     private String newPassword;
     private String confirmPassword;
     public String getProfileImageUrl() { return profileImageUrl; }
@@ -24,6 +27,8 @@ public class UpdateSettingsForm {
     public void setCountry(String country) { this.country = country; }
     public Integer getDiveCount() { return diveCount; }
     public void setDiveCount(Integer diveCount) { this.diveCount = diveCount; }
+    public String getCurrentPassword() { return currentPassword; }
+    public void setCurrentPassword(String currentPassword) { this.currentPassword = currentPassword; }
     public String getNewPassword() { return newPassword; }
     public void setNewPassword(String newPassword) { this.newPassword = newPassword; }
     public String getConfirmPassword() { return confirmPassword; }
