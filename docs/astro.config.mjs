@@ -24,35 +24,62 @@ export default defineConfig({
 					label: 'GitHub',
 					href: 'https://github.com/whskee/scuba-pal'
 				}
-
+				
 			],
 			sidebar: [
 				{
+					label: 'To Do',
+					collapsed: false,
+					items: [{ autogenerate: { directory: 'todo' } }],
+				},
+				{
 					label: 'Getting Started',
+					collapsed: true,
 					items: [{ autogenerate: { directory: 'getting-started' } }],
 				},
 				{
 					label: 'Architecture',
+					collapsed: true,
 					items: [{ autogenerate: { directory: 'architecture' } }],
 				},
 				{
 					label: 'Database',
+					collapsed: true,
 					items: [{ autogenerate: { directory: 'database' } }],
 				},
 				{
 					label: 'API',
+					collapsed: true,
 					items: [{ autogenerate: { directory: 'api' } }],
 				},
 				{
 					label: 'Development',
+					collapsed: true,
 					items: [{ autogenerate: { directory: 'development' } }],
 				},
 				{
 					label: 'Deployment',
+					collapsed: true,
+					items: [{ autogenerate: { directory: 'deployment' } }],
+				},
+				{
+					label: 'Database',
+					collapsed: true,
+					items: [{ autogenerate: { directory: 'database' } }],
+				},
+				{
+					label: 'Development',
+					collapsed: true,
+					items: [{ autogenerate: { directory: 'development' } }],
+				},
+				{
+					label: 'Deployment',
+					collapsed: true,
 					items: [{ autogenerate: { directory: 'deployment' } }],
 				},
 				{
 					label: 'Guides',
+					collapsed: true,
 					// items: [
 					// 	// Each item here is one entry in the navigation menu.
 					// 	{ label: 'Example Guide', slug: 'guides/example' },
@@ -61,11 +88,8 @@ export default defineConfig({
 				},
 				{
 					label: 'Reference',
+					collapsed: true,
 					items: [{ autogenerate: { directory: 'reference' } }],
-				},
-				{
-					label: 'To Do',
-					items: [{ autogenerate: { directory: 'todo' } }],
 				},
 			],
 		}),

@@ -1,7 +1,8 @@
 ---
-title: Identity
-description: todo2
+title: TODO 3
+description: todo3
 ---
+
 Progress: **review pass 1 = 70% complete**. I inspected the archive structure and the Java code. I did **not** run the app because the archive appears to contain source packages only, not the full Maven project/resources/migrations/tests.
 
 Direct answer: **it is not production-ready yet**. It is much better organized than a random CRUD app, but it still has several architecture, security, API-contract, validation, and maintainability problems that will hurt you long term.

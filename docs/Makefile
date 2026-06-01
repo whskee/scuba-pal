@@ -1,14 +1,14 @@
 SHELL := /bin/bash
 
 
-.PHONY: help dev build
+.PHONY: help run build
 
 .help:
 	@echo "Available commands:"
-	@echo "  make dev      	- run Astro in development mode"
+	@echo "  make run      	- run Astro in development mode"
 	@echo "  make build    	- build Astro documentation"
 
-dev:
+run:
 	npm run dev
 
 build:
