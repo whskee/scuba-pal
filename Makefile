@@ -100,6 +100,18 @@ docs-dev:
 docs-build:
 	cd $(DOCS_DIR) && npm run build
 
+.PHONY: docusaurus-create
+docusaurus-create:
+	cd $(DOCS_DIR) && npx create-docusaurus@latest . classic
+
+.PHONY: docusaurus-dev
+docusaurus-dev:
+	cd $(DOCS_DIR) && npm run dev
+
+.PHONY: docusaurus-build
+docusaurus-build:
+	cd $(DOCS_DIR) && npm run build
+
 .PHONY: test
 test: app-test
 	@echo "All tests complete."
