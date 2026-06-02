@@ -6,7 +6,7 @@ import mermaid from 'astro-mermaid';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://whskee.github.io',
-	base: '/scuba-pal-app',
+	base: '/scuba-pal',
 	integrations: [
 		mermaid({
 			theme: 'default', // You can change to 'dark', 'forest', 'neutral', etc.
