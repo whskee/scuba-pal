@@ -1,0 +1,89 @@
+project:
+  label: Project
+  permalink: /project
+  description: Overall Scuba Pal product, workflow, and direction.
+
+architecture:
+  label: Architecture
+  permalink: /architecture
+  description: System design, boundaries, diagrams, and tradeoffs.
+
+app:
+  label: App
+  permalink: /app
+  description: Spring Boot backend and Thymeleaf web app.
+
+mobile:
+  label: Mobile
+  permalink: /mobile
+  description: React Native Expo mobile app.
+
+api:
+  label: API
+  permalink: /api
+  description: REST API, OpenAPI, generated clients, and contracts.
+
+database:
+  label: Database
+  permalink: /database
+  description: PostgreSQL, Flyway, schemas, and persistence.
+
+identity:
+  label: Identity
+  permalink: /identity
+  description: Users, accounts, profiles, authentication, and authorization.
+
+media:
+  label: Media
+  permalink: /media
+  description: Image uploads, S3, media URLs, and storage behavior.
+
+deployment:
+  label: Deployment
+  permalink: /deployment
+  description: Docker, AWS, environments, and production setup.
+
+docker:
+  label: Docker
+  permalink: /docker
+  description: Dockerfiles, images, and containerization.
+
+spring:
+  label: Spring Boot
+  permalink: /spring
+  description: Spring Boot, configuration, and related technologies.
+
+decision:
+  label: Decision
+  permalink: /decision
+  description: Architecture decisions and tradeoffs.
+
+todo:
+  label: ✅ To do
+  permalink: /todo
+  description: Future work, features, and improvements.
+
+service:
+  label: Service
+  permalink: /service
+  description: Individual services, their responsibilities, and interactions.
+
+lesson:
+  label: Lessons Learned
+  permalink: /lesson
+  description: Key learnings, insights, and takeaways from the project.
+
+tool:
+  label: Tool
+  permalink: /tool
+  description: Tools, libraries, and frameworks used in the project.
+
+git:
+  label: Git
+  permalink: /git
+  description: Git usage, branching strategy, and commit conventions.
+
+documentation:
+  label: Documentation
+  permalink: /documentation
+  description: Documentation practices, structure, and guidelines.

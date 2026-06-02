@@ -26,7 +26,13 @@ const config: Config = {
     [
       'classic',
       {
-        docs: { sidebarPath: './sidebars.ts', editUrl: 'https://github.com/whskee/scuba-pal/tree/main/docs/', tags: `tags.yaml`, onInlineTags: `warn`, },
+        docs: {
+          path: './content',
+          sidebarPath: './sidebars.ts',
+          editUrl: 'https://github.com/whskee/scuba-pal/tree/main/docs/',
+          tags: `tags.yaml`,
+          onInlineTags: `warn`,
+        },
         blog: {
           showReadingTime: true,
           feedOptions: { type: ['rss', 'atom'], xslt: true, },
@@ -41,14 +47,19 @@ const config: Config = {
   ],
 
   themeConfig: {
-    colorMode: { respectPrefersColorScheme: true, },
-
+    colorMode: { respectPrefersColorScheme: true, defaultMode: 'dark', },
+    docs: {
+      sidebar: { autoCollapseCategories: true, },
+    },
     navbar: {
       title: 'Scuba Pal',
       logo: { alt: 'Scuba Pal Logo', src: 'img/logo.png', },
       items: [
         { type: 'docSidebar', sidebarId: 'tutorialSidebar', position: 'left', label: 'Tutorial', },
-        { to: '/blog', label: 'Blog', position: 'left' },
+        { type: 'docSidebar', sidebarId: 'apiSidebar', position: 'left', label: 'API', },
+        { type: 'docSidebar', sidebarId: 'databaseSidebar', position: 'left', label: 'Database', },
+        { type: 'docSidebar', sidebarId: 'mobileSidebar', position: 'right', label: '📱', },
+        // { to: '/blog', label: 'Blog', position: 'left' },
         { href: 'https://github.com/whskee/scuba-pal', label: 'GitHub', position: 'right', },
         {
           href: 'https://github.com/whskee/scuba-pal', 'aria-label': 'GitHub repository',
@@ -64,6 +75,7 @@ const config: Config = {
         {
           title: 'Docs',
           items: [
+            { label: 'Tags', to: '/docs/tags', },
             { label: '✅ To do', to: '/docs/tags/todo', },
             { label: 'Tutorial', to: '/docs/intro', },
           ],

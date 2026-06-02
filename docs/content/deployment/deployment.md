@@ -1,0 +1,11 @@
+---
+title: Docker
+description: A reference page in my new Starlight docs site.
+tags: [tool, docker]
+---
+
+
+
+The Docker deployment process follows a standard workflow to package an application and its dependencies into a portable image that can run consistently across different environments.Core Deployment WorkflowThe standard process typically involves five main steps:Create a Dockerfile: Write a recipe file (Dockerfile) that defines the base image, environment variables, dependencies, and the start command for your application.Build the Docker Image: Run the docker build -t [image-name] . command to create a read-only template of your application based on the Dockerfile.Test Locally: Use docker run -p [host_port]:[container_port] [image-name] to start a container and verify that the application works as expected on your local machine.Push to a Registry: Tag and upload your image to a central repository like Docker Hub, Amazon ECR, or Google Container Registry so it can be accessed by deployment servers.Deploy to Production: Pull the image onto your production server or cloud provider and run it as a container.Deployment MethodsDepending on your needs, you might use different tools to manage the running containers:Single Host (Manual): Best for small projects or testing. You manually pull and run the image on a server using the Docker CLI.Multi-Container (Docker Compose): Use a docker-compose.yml file to define and run multiple related services (like an app and its database) with a single command.Orchestration (Kubernetes/Docker Swarm): For high-scale or enterprise apps, use Kubernetes or Docker Swarm to handle automated scaling, self-healing, and complex networking across multiple servers.Cloud Platform as a Service (PaaS): Deploy directly to managed services like AWS App Runner, DigitalOcean App Platform, or Google Cloud Run, which handle the underlying infrastructure for you.Key Benefits for DeploymentConsistency: Eliminates the "it works on my machine" problem by bundling the OS, libraries, and code together.Isolation: Ensures that applications running on the same server don't interfere with each other's files or settings.Portability: Allows you to move the same image from a developer's laptop to a testing server and then to a production cloud environment without changes
+
+- ghcr io
