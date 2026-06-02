@@ -51,6 +51,7 @@ For a large Spring Boot project, keeping your documentation organized is key for
 Below is a recommended structure for your /docs/README.md to help you organize diagrams and reference resources effectively.
 ## Documentation Root Structure
 
+```
 project-root/
 ├── docs/
 │   ├── README.md            <-- Main entry point for docs
@@ -60,6 +61,7 @@ project-root/
 │   └── reference/           <-- Links to external libs, company wikis
 ├── src/                     <-- Code and runtime resources
 └── README.md                <-- Project overview (links to /docs/README.md)
+```
 
 ## Sample /docs/README.md Template
 You can copy and adapt this Markdown content for your internal documentation: [2] 
@@ -179,6 +181,7 @@ For [GitHub Pages](https://pages.github.com/), you typically configure your repo
 ## Recommended /docs Structure for GitHub Pages
 This structure works whether you use a simple theme or a documentation generator like MkDocs. [6] 
 
+```
 project-root/
 ├── docs/                      <-- GitHub Pages source folder
 │   ├── index.md               <-- Main homepage (displays at your-url.io)
@@ -198,11 +201,15 @@ project-root/
 ├── src/                       <-- Spring Boot source code
 ├── scripts/                   <-- Helper .sh and temporary Makefiles
 └── Makefile                   <-- Main project build/control file
+```
 
 ## Folder Breakdown & Usage
 
 * index.md: This is your "Home" page. GitHub Pages converts this into index.html automatically.
+```
 <!-- * assets/images/: Place your Mobile Expo screenshots here. By keeping them in /docs/assets, you can reference them in your mobile-preview.md using standard Markdown: ![App Login](../setup/assets/images/mobile-ui/login.png). -->
+```
+
 * .nojekyll: If you are not using GitHub's built-in Jekyll engine (e.g., you are uploading a pre-built static site or using files with underscores), adding this empty file prevents GitHub from ignoring those files.
 * architecture.md: Best place for your system diagrams. If you use Mermaid.js, you can even write the diagrams in plain text within this Markdown file. [2, 7] 
 
@@ -241,7 +248,10 @@ Architecture diagrams belong in the docs/assets/images/diagrams/ folder of your 
 * Exports: Keep your final .png, .jpg, or .svg files here.
    * Source Files: If you use draw.io or Excalidraw, you can keep the editable .drawio or .excalidraw source files here as well, so you never lose the ability to edit them. [2, 4, 5, 6] 
 * Documentation Page: Create a file named /docs/architecture.md.
+
+```
 <!-- * This page should describe your system and embed the images from the assets folder using: ![Architecture Diagram](../setup/assets/images/diagrams/system-overview.png). [7, 8]  -->
+```
 
 ## Alternative: "Diagrams as Code"
 Many teams now prefer Mermaid.js, which allows you to write diagrams directly in text within your Markdown files. This avoids the need for separate image files entirely for many simple flows. [9, 10] 
@@ -308,8 +318,10 @@ Other popular themes you can type there: jekyll-theme-cayman, jekyll-theme-archi
 ## 4. How to link your Diagrams and Screenshots
 Inside your docs/index.md (or a specific architecture.md), use this syntax to pull in those files you moved:
 
+```
 <!-- # Project Overview## Mobile App ScreenshotsHere is the latest UI from the Expo build:![Login Screen](../setup/assets/images/mobile-ui/login-v1.png)
 ## System ArchitectureThis diagram explains how the Spring Boot backend connects to the database:![Architecture Diagram](../setup/assets/images/diagrams/backend-flow.png) -->
+```
 
 ## 5. Cleaning up the "Chaos" (The Move)
 Now, physically move your files:
@@ -366,7 +378,7 @@ This is for "repeatable" tasks or specific "recipes" for your project.
 * Temporary Makefiles/Scripts: If you have a script that is confusing, write a quick docs/how-to/automation.md explaining what those .sh files in your /scripts folder actually do.
 
 ## Summary of the "Final" Structure:
-
+```
 docs/
 ├── setup/
 │   ├── installation.md
@@ -377,6 +389,7 @@ docs/
 │   ├── mobile-builds.md     <-- Explain the Expo screenshots here
 │   └── coding-standards.md
 └── assets/                  <-- All your images/logos go here
+```
 
 Pro-Tip: If you feel you have too many folders, just use docs/guides/ and put everything in there. It’s better to have one organized folder than three empty ones.
 Which of your references are you most worried about losing track of—API docs, styling guides, or third-party library links?

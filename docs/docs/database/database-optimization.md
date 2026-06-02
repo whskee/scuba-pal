@@ -17,11 +17,11 @@ Using GenerationType.AUTO is generally considered bad practice for production-gr
 
 ## Better Alternatives
 
-| Strategy [1, 8, 14, 15, 16] | Best Use Case | Benefits |
-|---|---|---|
-| IDENTITY | MySQL, SQL Server | Simple, uses database-native auto-incrementing columns. |
-| SEQUENCE | PostgreSQL, Oracle[](https://www.oracle.com/) | Highly efficient; supports batching and is more scalable than IDENTITY. |
-| UUID | Distributed Systems | Globally unique IDs that don't require database coordination, preventing collisions across multiple instances. |
+| Strategy [1, 8, 14, 15, 16] | Best Use Case                                 | Benefits                                                                                                       |
+| --------------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| IDENTITY                    | MySQL, SQL Server                             | Simple, uses database-native auto-incrementing columns.                                                        |
+| SEQUENCE                    | PostgreSQL, Oracle[](https://www.oracle.com/) | Highly efficient; supports batching and is more scalable than IDENTITY.                                        |
+| UUID                        | Distributed Systems                           | Globally unique IDs that don't require database coordination, preventing collisions across multiple instances. |
 
 ## When is it OK to use?
 
@@ -72,7 +72,7 @@ Exposing sequential integer IDs (like /users/1 or /posts/42) in your API URLs cr
 Here is how to write the code for your Spring Boot entities:
 
 ## The Sequence Approach (posts table)
-
+```java
 @Entity
 @Table(name = "posts")public class Post {
     @Id
@@ -82,6 +82,7 @@ Here is how to write the code for your Spring Boot entities:
     
     // other fields...
 }
+```
 
 Note: Setting allocationSize = 50 tells Hibernate to fetch 50 IDs at a time, maximizing performance.
 ## The UUID Approach (users table)

@@ -5,6 +5,7 @@ description: A reference page in my new Starlight docs site.
 
 Java full-stack implementation of Scuba Pal using Spring Boot + Thymeleaf + PostgreSQL.
 
+```
 project-root/
 ├── docs/                      <-- GitHub Pages source folder
 │   ├── index.md               <-- Main homepage (displays at your-url.io)
@@ -24,4 +25,4 @@ project-root/
 ├── src/                       <-- Spring Boot source code
 ├── scripts/                   <-- Helper .sh and temporary Makefiles
 └── Makefile                   <-- Main project build/control file
-
+```

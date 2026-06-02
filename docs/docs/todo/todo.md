@@ -1,6 +1,7 @@
 ---
 title: TODO 1
 description: todo
+tags: [todo]
 ---
 
 In the search tab,

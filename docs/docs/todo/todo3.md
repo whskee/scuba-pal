@@ -1,6 +1,7 @@
 ---
 title: TODO 3
 description: todo3
+tags: [todo]
 ---
 
 Progress: **review pass 1 = 70% complete**. I inspected the archive structure and the Java code. I did **not** run the app because the archive appears to contain source packages only, not the full Maven project/resources/migrations/tests.

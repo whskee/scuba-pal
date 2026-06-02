@@ -1,6 +1,7 @@
 ---
 title: Docs
 description: todo
+tags: [todo, oops]
 ---
 
 Put **mobile screenshots in the docs site**, not inside `mobile/src`, because screenshots are documentation assets, not app source code.

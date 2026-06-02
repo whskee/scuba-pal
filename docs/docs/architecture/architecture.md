@@ -34,7 +34,7 @@ https://chatgpt.com/share/6a04c3d9-9d94-83e8-885f-902e6fe8f8b4
 </p>
 
 #### Database
-<!-- [![My Skills](https://skillicons.dev/icons?i=postman,postgresql&theme=light)](https://skillicons.dev) -->
+[![My Skills](https://skillicons.dev/icons?i=postman,postgresql&theme=light)](https://skillicons.dev)
 <p align="center">
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=postgresql,postman&theme=light" />

@@ -1,6 +1,7 @@
 ---
 title: TODO 2
 description: todo2
+tags: [todo]
 ---
 
 ## Verdict

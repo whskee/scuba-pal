@@ -84,12 +84,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 For custom queries or joins, you attach the SQL directly above the repository method. You should use JPQL (database-agnostic) or set nativeQuery = true for raw, database-specific SQL.
 
 * Where it lives: Directly above the method in the Repository interface.
-* Example:
 
+* Example:
+```java
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM users u WHERE u.status = :status AND u.created_at > :date", nativeQuery = true)
     List<User> findActiveUsersNewerThan(@Param("status") String status, @Param("date") OffsetDateTime date);
 }
+```
 
 ## Option C: Externalized XML Files (For Massive, Complex SQL)
 In massive enterprise projects with highly optimized, multi-page SQL queries, putting strings in Java files becomes messy. You store these in external XML files using MyBatis or Spring Data Named Queries.
@@ -111,6 +113,7 @@ In massive enterprise projects with highly optimized, multi-page SQL queries, pu
 ## 3. Architecture Blueprint for Large Projects
 To keep a massive project clean, organize your database layer strictly by domain features:
 
+```
 src/main/java/com/company/project/
 │
 ├── domain/                  
@@ -122,6 +125,7 @@ src/main/java/com/company/project/
 │   ├── order/               
 │   │   ├── Order.java
 │   │   └── OrderRepository.java
+```
 
 ## 4. Golden Rules for SQL in Large Projects
 
@@ -144,12 +148,14 @@ Never let Spring Boot generate your tables automatically in production (always s
 Store these scripts in your project under src/main/resources/db/migration/.
 ## Folder Layout for Migrations:
 
+```
 src/main/resources/
 └── db/
     └── migration/
         ├── V1__Create_schemas.sql       <-- Runs first (Creates schemas)
         ├── V2__Create_users_tables.sql  <-- Runs second (Tables inside core schema)
         └── V3__Create_orders_tables.sql  <-- Runs third (Tables inside billing schema)
+```
 
 ## Example Migration Scripts:
 
@@ -175,6 +181,7 @@ CREATE TABLE core.users (
 Do not group your files by technical type (e.g., putting all entities in one giant package). Instead, group them by Domain Feature (also called Feature-Driven Development). This keeps schemas and tables contained.
 ## Recommended Package Structure:
 
+```
 src/main/java/com/company/project/domain/
 │
 ├── user/                       <-- Maps to the "core" schema
@@ -186,6 +193,7 @@ src/main/java/com/company/project/domain/
     ├── Order.java              <-- The Table entity
     ├── OrderRepository.java    <-- The SQL queries for this table
     └── OrderService.java       <-- Business logic
+```
 
 ------------------------------
 

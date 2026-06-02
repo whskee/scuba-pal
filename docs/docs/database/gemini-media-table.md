@@ -4,12 +4,12 @@ description: Gemini info on Media.
 ---
 
 Neither is inherently "better," but extending com.socialapp.shared.BaseEntity is generally the safer, more standard approach. The difference dictates whether you are using explicit imports or relying on classes in the same package.
-## public class Post extends com.socialapp.shared.BaseEntity {
+## public class Post extends com.socialapp.shared.BaseEntity
 
 * Best for: Large, modular, or multi-module applications.
 * Why: The fully qualified name completely eliminates ambiguity. It tells developers and compilers exactly which BaseEntity is being used, even if another class with the same name is imported into the file. It is highly readable across different files.
 
-## public class Post extends BaseEntity {
+## public class Post extends BaseEntity
 
 * Best for: Small, single-package, or domain-driven projects.
 * Why: Relies on an import statement (e.g., import com.socialapp.shared.BaseEntity;). It keeps the class declaration clean and concise.
