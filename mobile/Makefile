@@ -1,10 +1,10 @@
 SHELL := /bin/bash
 
-.PHONY: help dev ios android web install clean doctor typecheck generate-api
+.PHONY: help run ios android web install clean doctor typecheck generate-api
 
 help:
 	@echo "Available commands:"
-	@echo "  make dev          - start Expo with cleared cache"
+	@echo "  make run          - start Expo with cleared cache"
 	@echo "  make ios          - start Expo iOS"
 	@echo "  make android      - start Expo Android"
 	@echo "  make web          - start Expo web"
@@ -14,7 +14,7 @@ help:
 	@echo "  make generate-api - regenerate TypeScript Axios client from Spring Boot OpenAPI"
 	@echo "  make clean        - clear Expo cache"
 
-dev:
+run:
 	npx expo start -c
 
 ios:
