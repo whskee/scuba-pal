@@ -57,6 +57,7 @@ Based on that directory structure, here is exactly what your docusaurus.config.j
 ## The Complete Navbar Code
 Replace your themeConfig.navbar.items array with this configuration:
 
+```ts
 themeConfig: {
   navbar: {
     title: 'DevDocs',
@@ -126,6 +127,7 @@ themeConfig: {
     ],
   },
 }
+```
 
 ## Why This Breakdown Works
 

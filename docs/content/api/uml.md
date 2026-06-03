@@ -1,7 +1,7 @@
 ---
 title: UML
 description: A reference page in my new Starlight docs site.
-tags: [spring, app, diagrams]
+tags: [spring, app, diagram]
 ---
 
 ```mermaid

@@ -87,3 +87,18 @@ documentation:
   label: Documentation
   permalink: /documentation
   description: Documentation practices, structure, and guidelines.
+
+aws:
+  label: AWS
+  permalink: /aws
+  description: AWS services, infrastructure, and cloud architecture.
+
+automation:
+  label: Automation
+  permalink: /automation
+  description: CI/CD pipelines, scripts, and automated processes.
+
+diagram:
+  label: Diagram
+  permalink: /diagram
+  description: System diagrams, architecture visuals, and design sketches.

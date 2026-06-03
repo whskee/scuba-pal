@@ -1,7 +1,7 @@
 ---
 title: Mermaid Diagrams
 description: A reference page in my new Starlight docs site.
-tags: [diagrams, lesson, app, spring]
+tags: [diagram, lesson, app, spring]
 ---
 
 Diagramming is powerful. Never understimate good diagrams.

@@ -1,7 +1,7 @@
 ---
 title: Java Files
 description: A reference page in my new Starlight docs site.
-tags: [spring, app, todo, diagrams]
+tags: [spring, app, todo, diagram]
 ---
 
 ```mermaid

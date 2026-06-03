@@ -58,7 +58,7 @@ const config: Config = {
         { type: 'docSidebar', sidebarId: 'tutorialSidebar', position: 'left', label: 'Tutorial', },
         { type: 'docSidebar', sidebarId: 'apiSidebar', position: 'left', label: 'API', },
         { type: 'docSidebar', sidebarId: 'databaseSidebar', position: 'left', label: 'Database', },
-        { type: 'docSidebar', sidebarId: 'mobileSidebar', position: 'right', label: '📱', },
+        { type: 'docSidebar', sidebarId: 'mobileSidebar', position: 'left', label: '📱', },
         // { to: '/blog', label: 'Blog', position: 'left' },
         { href: 'https://github.com/whskee/scuba-pal', label: 'GitHub', position: 'right', },
         {
@@ -77,7 +77,9 @@ const config: Config = {
           items: [
             { label: 'Tags', to: '/docs/tags', },
             { label: '✅ To do', to: '/docs/tags/todo', },
-            { label: 'Tutorial', to: '/docs/intro', },
+            { label: 'AWS', to: '/docs/tags/aws', },
+            { label: 'Automation', to: '/docs/tags/automation', },
+            { label: 'Diagram', to: '/docs/tags/diagram', },
           ],
         },
         {
