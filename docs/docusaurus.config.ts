@@ -56,8 +56,14 @@ const config: Config = {
       logo: { alt: 'Scuba Pal Logo', src: 'img/logo.png', },
       items: [
         { type: 'docSidebar', sidebarId: 'tutorialSidebar', position: 'left', label: 'Tutorial', },
-        { type: 'docSidebar', sidebarId: 'apiSidebar', position: 'left', label: 'API', },
-        { type: 'docSidebar', sidebarId: 'databaseSidebar', position: 'left', label: 'Database', },
+        { type: 'docSidebar', sidebarId: 'apiSidebar', position: 'left', label: '🔌 API', },
+        // { type: 'docSidebar', sidebarId: 'dataSidebar', position: 'left', label: 'Database', },
+        {
+          type: 'docSidebar',
+          sidebarId: 'databaseSidebar',
+          label: '🗄️ Data',
+          position: 'left',
+        },
         { type: 'docSidebar', sidebarId: 'webSidebar', position: 'left', label: '💻', },
         { type: 'docSidebar', sidebarId: 'mobileSidebar', position: 'left', label: '📱', },
         { to: '/docs/tags/todo', label: '✅ To do', position: 'right' },
