@@ -1,4 +1,4 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.token;
 
 import java.security.SecureRandom;
 import java.time.Clock;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scubapal.identity.auth.api.AuthResponse;
 import com.scubapal.identity.profile.Profile;
 import com.scubapal.identity.profile.ProfileService;
 import com.scubapal.identity.user.CurrentUserView;
@@ -106,6 +107,7 @@ public class JwtTokenService {
         String clientIp = clientIp(request);
         refreshToken.setRevokedAt(now);
         refreshToken.setRevokedByIp(clientIp);
+        refreshToken.setRevokedReason("rotated");
         String replacement = createRefreshToken(user, now, clientIp);
         refreshToken.setReplacedByTokenHash(TokenHashing.sha256(replacement));
 
@@ -127,6 +129,7 @@ public class JwtTokenService {
             if (token.getRevokedAt() == null) {
                 token.setRevokedAt(clock.instant());
                 token.setRevokedByIp(clientIp(request));
+                token.setRevokedReason("logout");
             }
         });
     }
@@ -134,7 +137,7 @@ public class JwtTokenService {
     @Transactional
     public void revokeAllRefreshTokens(String username, HttpServletRequest request) {
         User user = requireActiveUser(username);
-        refreshTokenRepository.revokeActiveTokensForUser(user.getId(), clock.instant(), clientIp(request));
+        refreshTokenRepository.revokeActiveTokensForUser(user.getId(), clock.instant(), clientIp(request), "logout-all");
     }
 
     private String encodeAccessToken(User user, Instant issuedAt, Instant expiresAt) {

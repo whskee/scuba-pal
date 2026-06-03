@@ -1,4 +1,4 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.api;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

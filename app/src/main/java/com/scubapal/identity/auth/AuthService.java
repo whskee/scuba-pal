@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import com.scubapal.identity.auth.api.RegisterRequest;
 import com.scubapal.identity.profile.Profile;
 import com.scubapal.identity.profile.ProfileService;
 import com.scubapal.identity.role.Role;

@@ -1,13 +1,9 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.passwordreset;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Base64;
-import java.util.HexFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scubapal.identity.auth.api.ResetPasswordRequest;
+import com.scubapal.identity.auth.token.RefreshTokenRepository;
+import com.scubapal.identity.auth.token.TokenHashing;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.shared.mail.EmailService;
@@ -31,6 +30,7 @@ public class PasswordResetService {
 
     private final UserRepository userRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final SecureRandom secureRandom;
@@ -40,14 +40,17 @@ public class PasswordResetService {
     @Autowired
     public PasswordResetService(UserRepository userRepository,
                                 PasswordResetTokenRepository passwordResetTokenRepository,
+                                RefreshTokenRepository refreshTokenRepository,
                                 PasswordEncoder passwordEncoder,
                                 EmailService emailService,
                                 @Value("${app.base-url:http://localhost:8080}") String appBaseUrl) {
-        this(userRepository, passwordResetTokenRepository, passwordEncoder, emailService, appBaseUrl, Clock.systemUTC(), new SecureRandom());
+        this(userRepository, passwordResetTokenRepository, refreshTokenRepository, passwordEncoder, emailService,
+                appBaseUrl, Clock.systemUTC(), new SecureRandom());
     }
 
     PasswordResetService(UserRepository userRepository,
                          PasswordResetTokenRepository passwordResetTokenRepository,
+                         RefreshTokenRepository refreshTokenRepository,
                          PasswordEncoder passwordEncoder,
                          EmailService emailService,
                          String appBaseUrl,
@@ -55,6 +58,7 @@ public class PasswordResetService {
                          SecureRandom secureRandom) {
         this.userRepository = userRepository;
         this.passwordResetTokenRepository = passwordResetTokenRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.appBaseUrl = appBaseUrl;
@@ -108,6 +112,7 @@ public class PasswordResetService {
         User user = resetToken.getUser();
         user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
         resetToken.setUsedAt(now);
+        refreshTokenRepository.revokeActiveTokensForUser(user.getId(), now, null, "password-reset");
     }
 
     private void issueTokenAndSendEmail(User user) {
@@ -137,15 +142,6 @@ public class PasswordResetService {
     }
 
     private String hashToken(String rawToken) {
-        String token = rawToken == null ? "" : rawToken.trim();
-        if (token.isBlank()) {
-            return "";
-        }
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            return HexFormat.of().formatHex(digest.digest(token.getBytes(StandardCharsets.UTF_8)));
-        } catch (NoSuchAlgorithmException ex) {
-            throw new IllegalStateException("SHA-256 is not available", ex);
-        }
+        return TokenHashing.sha256(rawToken);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,22 +29,32 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
-import com.scubapal.identity.auth.JwtProperties;
+import com.scubapal.identity.auth.ratelimit.AuthRateLimitProperties;
+import com.scubapal.identity.auth.token.JwtProperties;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
-@EnableConfigurationProperties(JwtProperties.class)
+@EnableConfigurationProperties({JwtProperties.class, AuthRateLimitProperties.class})
 public class SecurityConfig {
 
-    private final List<String> allowedOrigins;
+    private static final List<String> NON_PRODUCTION_JWT_SECRETS = List.of(
+            "dev-only-scuba-pal-jwt-secret-change-me-please-32b",
+            "test-scuba-pal-jwt-secret-change-me-please-32b"
+    );
 
-    public SecurityConfig(@Value("${app.cors.allowed-origins:http://localhost:8080,http://localhost:3000,http://localhost:5173}") List<String> allowedOrigins) {
+    private final List<String> allowedOrigins;
+    private final Environment environment;
+
+    public SecurityConfig(@Value("${app.cors.allowed-origins:http://localhost:8080,http://localhost:3000,http://localhost:5173}") List<String> allowedOrigins,
+                          Environment environment) {
         this.allowedOrigins = allowedOrigins;
+        this.environment = environment;
     }
 
     @Bean
@@ -189,6 +200,14 @@ public class SecurityConfig {
 
     private SecretKey jwtSecretKey(JwtProperties jwtProperties) {
         String secret = jwtProperties.secret();
+        boolean nonProdProfile = Arrays.stream(environment.getActiveProfiles())
+                .anyMatch(profile -> profile.equals("dev") || profile.equals("test"));
+        if ((secret == null || secret.isBlank()) && !nonProdProfile) {
+            throw new IllegalStateException("app.security.jwt.secret must be set outside dev/test via JWT_SECRET or external configuration.");
+        }
+        if (!nonProdProfile && NON_PRODUCTION_JWT_SECRETS.contains(secret)) {
+            throw new IllegalStateException("app.security.jwt.secret is using a non-production sample value. Set a unique 256-bit or stronger secret.");
+        }
         if (secret == null || secret.getBytes(StandardCharsets.UTF_8).length < 32) {
             throw new IllegalStateException("app.security.jwt.secret must be at least 32 bytes for HS256 JWT signing.");
         }

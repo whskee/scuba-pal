@@ -1,4 +1,4 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.passwordreset;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,9 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.mail.MailSendException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.scubapal.identity.auth.api.ResetPasswordRequest;
+import com.scubapal.identity.auth.token.RefreshTokenRepository;
+import com.scubapal.identity.auth.token.TokenHashing;
 import com.scubapal.identity.user.User;
 import com.scubapal.identity.user.UserRepository;
 import com.scubapal.shared.mail.EmailService;
@@ -28,6 +31,8 @@ class PasswordResetServiceTest {
 
     private UserRepository userRepository;
     private PasswordResetTokenRepository passwordResetTokenRepository;
+    private RefreshTokenRepository refreshTokenRepository;
+    private PasswordEncoder passwordEncoder;
     private EmailService emailService;
     private PasswordResetService passwordResetService;
 
@@ -35,11 +40,14 @@ class PasswordResetServiceTest {
     void setUp() {
         userRepository = mock(UserRepository.class);
         passwordResetTokenRepository = mock(PasswordResetTokenRepository.class);
+        refreshTokenRepository = mock(RefreshTokenRepository.class);
+        passwordEncoder = mock(PasswordEncoder.class);
         emailService = mock(EmailService.class);
         passwordResetService = new PasswordResetService(
                 userRepository,
                 passwordResetTokenRepository,
-                mock(PasswordEncoder.class),
+                refreshTokenRepository,
+                passwordEncoder,
                 emailService,
                 "http://localhost:8080/"
         );
@@ -89,6 +97,26 @@ class PasswordResetServiceTest {
 
         verify(passwordResetTokenRepository).save(any(PasswordResetToken.class));
         verify(userRepository, never()).findByUsernameIgnoreCase("dana@example.com");
+    }
+
+    @Test
+    void resetPasswordRevokesActiveRefreshTokens() {
+        User user = user("dana@example.com", "dana");
+        user.setId(42L);
+        PasswordResetToken resetToken = new PasswordResetToken();
+        resetToken.setUser(user);
+        resetToken.setToken(TokenHashing.sha256("reset-token"));
+        resetToken.setExpiresAt(Instant.now().plusSeconds(3600));
+
+        when(passwordResetTokenRepository.findByTokenForUpdate(TokenHashing.sha256("reset-token")))
+                .thenReturn(Optional.of(resetToken));
+        when(passwordEncoder.encode("newPassword123!")).thenReturn("new-hash");
+
+        passwordResetService.resetPassword(new ResetPasswordRequest("reset-token", "newPassword123!", "newPassword123!"));
+
+        assertEquals("new-hash", user.getPasswordHash());
+        assertTrue(resetToken.getUsedAt() != null);
+        verify(refreshTokenRepository).revokeActiveTokensForUser(eq(42L), any(), eq(null), eq("password-reset"));
     }
 
     private User user(String email, String username) {

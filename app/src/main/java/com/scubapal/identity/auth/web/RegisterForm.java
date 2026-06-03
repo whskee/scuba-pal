@@ -1,10 +1,12 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.web;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import com.scubapal.identity.auth.api.RegisterRequest;
 
 @Getter
 @Setter

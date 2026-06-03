@@ -1,16 +1,16 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.token;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
-final class TokenHashing {
+public final class TokenHashing {
 
     private TokenHashing() {
     }
 
-    static String sha256(String rawToken) {
+    public static String sha256(String rawToken) {
         String token = rawToken == null ? "" : rawToken.trim();
         if (token.isBlank()) {
             return "";

@@ -1,4 +1,4 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.passwordreset;
 
 import jakarta.persistence.*;
 import lombok.Getter;

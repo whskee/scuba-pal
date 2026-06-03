@@ -1,4 +1,4 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.token;
 
 import java.time.Instant;
 
@@ -45,6 +45,9 @@ public class RefreshToken extends CreatedEntity {
 
     @Column(name = "revoked_by_ip", length = 64)
     private String revokedByIp;
+
+    @Column(name = "revoked_reason", length = 64)
+    private String revokedReason;
 
     public boolean isUsable(Instant now) {
         return revokedAt == null && expiresAt.isAfter(now);

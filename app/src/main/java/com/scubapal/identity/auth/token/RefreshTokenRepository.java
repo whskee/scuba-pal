@@ -1,4 +1,4 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.token;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -21,11 +21,13 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
     @Query("""
             update RefreshToken token
                set token.revokedAt = :revokedAt,
-                   token.revokedByIp = :revokedByIp
+                   token.revokedByIp = :revokedByIp,
+                   token.revokedReason = :revokedReason
              where token.user.id = :userId
                and token.revokedAt is null
             """)
     int revokeActiveTokensForUser(@Param("userId") Long userId,
                                   @Param("revokedAt") Instant revokedAt,
-                                  @Param("revokedByIp") String revokedByIp);
+                                  @Param("revokedByIp") String revokedByIp,
+                                  @Param("revokedReason") String revokedReason);
 }

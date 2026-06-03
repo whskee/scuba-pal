@@ -1,4 +1,8 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.api;
+
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.scubapal.identity.auth.AuthService;
+import com.scubapal.identity.auth.passwordreset.PasswordResetService;
+import com.scubapal.identity.auth.token.JwtTokenService;
 import com.scubapal.identity.user.CurrentUserView;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,13 +27,30 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class AuthControllerTest {
+class AuthApiControllerTest {
 
     @Mock AuthService authService;
     @Mock PasswordResetService passwordResetService;
     @Mock AuthenticationManager authenticationManager;
     @Mock JwtTokenService jwtTokenService;
-    @InjectMocks AuthController authController;
+    @InjectMocks AuthApiController authController;
+
+    @Test
+    void keepsApiAuthRouteMappingsStable() {
+        RequestMapping controllerMapping = AuthApiController.class.getAnnotation(RequestMapping.class);
+        Set<String> postRoutes = Arrays.stream(AuthApiController.class.getDeclaredMethods())
+                .filter(method -> method.isAnnotationPresent(PostMapping.class))
+                .flatMap(method -> Arrays.stream(method.getAnnotation(PostMapping.class).value()))
+                .collect(Collectors.toSet());
+        Set<String> getRoutes = Arrays.stream(AuthApiController.class.getDeclaredMethods())
+                .filter(method -> method.isAnnotationPresent(GetMapping.class))
+                .flatMap(method -> Arrays.stream(method.getAnnotation(GetMapping.class).value()))
+                .collect(Collectors.toSet());
+
+        assertArrayEquals(new String[] {"/api/auth"}, controllerMapping.value());
+        assertEquals(Set.of("/register", "/login", "/refresh", "/forgot-password", "/reset-password", "/logout"), postRoutes);
+        assertEquals(Set.of("/username-available"), getRoutes);
+    }
 
     @Test
     void registerCreatesUserAndReturnsCreated() {

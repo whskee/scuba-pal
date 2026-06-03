@@ -1,4 +1,4 @@
-package com.scubapal.identity.auth;
+package com.scubapal.identity.auth.api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scubapal.identity.auth.AuthService;
+import com.scubapal.identity.auth.passwordreset.PasswordResetService;
+import com.scubapal.identity.auth.token.JwtTokenService;
 import com.scubapal.shared.MessageResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,17 +28,17 @@ import java.util.Map;
 @Validated
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthApiController {
 
     private final AuthService authService;
     private final PasswordResetService passwordResetService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenService jwtTokenService;
 
-    public AuthController(AuthService authService,
-                          PasswordResetService passwordResetService,
-                          AuthenticationManager authenticationManager,
-                          JwtTokenService jwtTokenService) {
+    public AuthApiController(AuthService authService,
+                             PasswordResetService passwordResetService,
+                             AuthenticationManager authenticationManager,
+                             JwtTokenService jwtTokenService) {
         this.authService = authService;
         this.passwordResetService = passwordResetService;
         this.authenticationManager = authenticationManager;
