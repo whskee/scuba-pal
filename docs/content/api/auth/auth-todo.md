@@ -1,3 +1,9 @@
+---
+title: Todo
+description: todo2
+tags: [todo]
+---
+
 I inspected `auth.zip`. Your auth is around **70% production-ready**. The core is solid; the next goal is to **separate browser auth vs API/mobile auth cleanly, then harden abuse controls, token invalidation, and operational security**.
 
 ## First principles: what auth is doing
@@ -446,3 +452,54 @@ That gives you the biggest production-readiness jump without redesigning the who
 [3]: https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html "Forgot Password - OWASP Cheat Sheet Series"
 [4]: https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html "Session Management - OWASP Cheat Sheet Series"
 [5]: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html "Authentication - OWASP Cheat Sheet Series"
+
+
+---
+
+```bash
+cbidkar at Chinmayas-MacBook-Pro in ~/Developer/active/scuba-pal 
+-> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   app/.env.example
+        modified:   app/src/main/java/com/scubapal/identity/auth/AuthService.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/AuthController.java -> app/src/main/java/com/scubapal/identity/auth/api/AuthApiController.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/AuthResponse.java -> app/src/main/java/com/scubapal/identity/auth/api/AuthResponse.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/ForgotPasswordRequest.java -> app/src/main/java/com/scubapal/identity/auth/api/ForgotPasswordRequest.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/LoginRequest.java -> app/src/main/java/com/scubapal/identity/auth/api/LoginRequest.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/RefreshTokenRequest.java -> app/src/main/java/com/scubapal/identity/auth/api/RefreshTokenRequest.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/RegisterRequest.java -> app/src/main/java/com/scubapal/identity/auth/api/RegisterRequest.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/ResetPasswordRequest.java -> app/src/main/java/com/scubapal/identity/auth/api/ResetPasswordRequest.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/PasswordResetService.java -> app/src/main/java/com/scubapal/identity/auth/passwordreset/PasswordResetService.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/PasswordResetToken.java -> app/src/main/java/com/scubapal/identity/auth/passwordreset/PasswordResetToken.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/PasswordResetTokenRepository.java -> app/src/main/java/com/scubapal/identity/auth/passwordreset/PasswordResetTokenRepository.java
+        new file:   app/src/main/java/com/scubapal/identity/auth/ratelimit/AuthRateLimitFilter.java
+        new file:   app/src/main/java/com/scubapal/identity/auth/ratelimit/AuthRateLimitProperties.java
+        new file:   app/src/main/java/com/scubapal/identity/auth/ratelimit/AuthRateLimiter.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/JwtProperties.java -> app/src/main/java/com/scubapal/identity/auth/token/JwtProperties.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/JwtTokenService.java -> app/src/main/java/com/scubapal/identity/auth/token/JwtTokenService.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/RefreshToken.java -> app/src/main/java/com/scubapal/identity/auth/token/RefreshToken.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/RefreshTokenRepository.java -> app/src/main/java/com/scubapal/identity/auth/token/RefreshTokenRepository.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/TokenHashing.java -> app/src/main/java/com/scubapal/identity/auth/token/TokenHashing.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/AuthPageController.java -> app/src/main/java/com/scubapal/identity/auth/web/AuthPageController.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/ForgotPasswordForm.java -> app/src/main/java/com/scubapal/identity/auth/web/ForgotPasswordForm.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/RegisterForm.java -> app/src/main/java/com/scubapal/identity/auth/web/RegisterForm.java
+        renamed:    app/src/main/java/com/scubapal/identity/auth/ResetPasswordForm.java -> app/src/main/java/com/scubapal/identity/auth/web/ResetPasswordForm.java
+        modified:   app/src/main/java/com/scubapal/shared/config/SecurityConfig.java
+        modified:   app/src/main/java/com/scubapal/shared/mail/ConsoleFallbackEmailService.java
+        deleted:    app/src/main/java/com/scubapal/shared/security/AuthRateLimitFilter.java
+        modified:   app/src/main/resources/application-dev.properties
+        modified:   app/src/main/resources/application.properties
+        new file:   app/src/main/resources/db/migration/V013__add_refresh_token_revocation_reason.sql
+        renamed:    app/src/test/java/com/scubapal/identity/auth/AuthControllerTest.java -> app/src/test/java/com/scubapal/identity/auth/api/AuthApiControllerTest.java
+        renamed:    app/src/test/java/com/scubapal/identity/auth/PasswordResetServiceTest.java -> app/src/test/java/com/scubapal/identity/auth/passwordreset/PasswordResetServiceTest.java
+        renamed:    app/src/test/java/com/scubapal/shared/security/AuthRateLimitFilterTest.java -> app/src/test/java/com/scubapal/identity/auth/ratelimit/AuthRateLimitFilterTest.java
+        new file:   app/src/test/java/com/scubapal/identity/auth/token/JwtTokenServiceTest.java
+        modified:   app/src/test/resources/application.properties
+
+cbidkar at Chinmayas-MacBook-Pro in ~/Developer/active/scuba-pal 
+-> 
+```
