@@ -1,0 +1,7 @@
+{
+  "label": "Web",
+  "link": {
+    "type": "generated-index",
+    "description": "The web client is the primary interface for users to interact with Scuba Pal. It provides a user-friendly and responsive design, allowing users to easily access their dive logs, plan dives, and connect with other divers. The web client is built using modern web technologies and follows best practices for performance and accessibility."
+  }
+}
