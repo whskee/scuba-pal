@@ -1,0 +1,7 @@
+cat <<'EOF' >> .gitignore
+
+# Xcode user-specific files
+**/xcuserdata/
+**/*.xcuserstate
+**/*.xcuserdatad/
+EOF
