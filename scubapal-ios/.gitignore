@@ -5,3 +5,4 @@
 
 # Per-developer API endpoint overrides
 Config/Debug.local.xcconfig
+.xcuserstate
