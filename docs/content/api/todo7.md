@@ -1,7 +1,7 @@
 ---
 title: TODO 7
 description: todo7
-tags: [todo]
+tags: [todo, database]
 ---
 
 To organize database, architecture, deployment, and client-specific platforms in a large Docusaurus site, use a modular directory structure under the root docs/ folder. Group shared backend concepts separately from client-facing code.

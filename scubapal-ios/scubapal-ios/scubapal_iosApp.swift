@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct scubapal_iosApp: App {
+    @StateObject private var session = AppSession()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .environmentObject(session)
+                .task {
+                    await session.restore()
+                }
         }
     }
 }
