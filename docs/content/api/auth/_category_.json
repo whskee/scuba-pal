@@ -2,6 +2,7 @@
   "label": "Authentication 🔐",
   "position": 3,
   "link": {
+    "slug": "api/authentication",
     "type": "generated-index",
     "description": "5 minutes to learn the most important Docusaurus concepts."
   }

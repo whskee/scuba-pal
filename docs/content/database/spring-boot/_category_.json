@@ -1,7 +1,7 @@
 {
-  "label": "Spring Boot",
-  "position": 4,
+  "label": "Spring Boot ☕️",
   "link": {
+    "slug": "spring-boot",
     "type": "generated-index",
     "description": "5 minutes to learn the most important Docusaurus concepts."
   }
