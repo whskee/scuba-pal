@@ -1,0 +1,3 @@
+// Copy this file to Debug.local.xcconfig and use your Mac's .local hostname.
+// The iPhone and Mac must be on the same local network.
+SCUBAPAL_API_BASE_URL = http:/$()/your-mac.local:8080

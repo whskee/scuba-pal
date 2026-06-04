@@ -86,6 +86,10 @@ actor APIClient {
     }
 
     private func makeURLRequest(endpoint: Endpoint, bodyData: Data?) throws -> URLRequest {
+        #if !targetEnvironment(simulator)
+        guard !config.baseURL.isLoopback else { throw APIError.loopbackBaseURLOnDevice }
+        #endif
+
         let path = endpoint.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         guard var components = URLComponents(
             url: config.baseURL.appendingPathComponent(path),
@@ -161,3 +165,10 @@ actor APIClient {
 }
 
 private struct EmptyResponse: Decodable {}
+
+private extension URL {
+    var isLoopback: Bool {
+        guard let host = host?.lowercased() else { return false }
+        return host == "localhost" || host == "::1" || host.hasPrefix("127.")
+    }
+}

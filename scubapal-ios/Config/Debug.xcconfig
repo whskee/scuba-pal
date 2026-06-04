@@ -1,1 +1,4 @@
 SCUBAPAL_API_BASE_URL = http:/$()/127.0.0.1:8080
+
+// Optional per-developer override for physical-device testing.
+#include? "Debug.local.xcconfig"

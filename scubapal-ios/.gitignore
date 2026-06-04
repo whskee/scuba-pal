@@ -1,7 +1,7 @@
-cat <<'EOF' >> .gitignore
-
 # Xcode user-specific files
 **/xcuserdata/
 **/*.xcuserstate
 **/*.xcuserdatad/
-EOF
+
+# Per-developer API endpoint overrides
+Config/Debug.local.xcconfig
