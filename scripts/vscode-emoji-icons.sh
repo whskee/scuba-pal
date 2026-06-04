@@ -27,7 +27,8 @@ SVG
 
 make_icon "src" "🧬"
 make_icon "source" "🧬"
-make_icon "app" "🚀"
+# make_icon "app" "🚀"
+make_icon "app" "💻"
 make_icon "api" "🔌"
 make_icon "apis" "🔌"
 
@@ -127,6 +128,10 @@ make_icon "build" "🏗️"
 make_icon "target" "🎯"
 make_icon "dist" "📦"
 make_icon "out" "📤"
+
+make_icon "oceean" "🌊"
+make_icon "messaging" "💬"
+
 
 echo "Created emoji folder icons in:"
 echo "$ICON_DIR"
