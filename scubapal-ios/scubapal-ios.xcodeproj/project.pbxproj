@@ -66,6 +66,15 @@
 			);
 			sourceTree = "<group>";
 		};
+		6723417B2FD117A000CEF642 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6723417A2FD117A000CEF642 /* Scuba Pal.app */,
+				B20000022FD3000000000002 /* ScubaPalTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		A10000042FD2000000000004 /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -75,15 +84,6 @@
 				A10000052FD2000000000005 /* Info.plist */,
 			);
 			path = Config;
-			sourceTree = "<group>";
-		};
-		6723417B2FD117A000CEF642 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6723417A2FD117A000CEF642 /* Scuba Pal.app */,
-				B20000022FD3000000000002 /* ScubaPalTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,7 +339,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A10000012FD2000000000001 /* Debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon 1";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -347,6 +347,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Config/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Scuba Pal";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -373,7 +375,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A10000032FD2000000000003 /* Release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon 1";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -381,6 +383,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Config/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Scuba Pal";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
