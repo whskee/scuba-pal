@@ -1,5 +1,5 @@
 ---
-title: Time - Gemini
+title: Time
 description: Gemini info on Time.
 ---
 

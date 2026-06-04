@@ -1,6 +1,7 @@
 ---
 title: API Reference
 description: Links to view API docs.
+sidebar_positioin: 1
 tags: [api]
 ---
 

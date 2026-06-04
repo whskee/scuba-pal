@@ -1,5 +1,5 @@
 ---
-title: Spring Boot Annotations 2
+title: Annotations 2
 description: A reference page in my new Starlight docs site.
 tags: [spring, app]
 ---

@@ -1,6 +1,6 @@
 ---
-title: Docker Setup
-description: A reference page in my new Starlight docs site.
+title: Docker Setup 🐳
+description: Docker setup for database
 tags: [docker, database]
 ---
 

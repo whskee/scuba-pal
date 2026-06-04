@@ -1,5 +1,5 @@
 ---
-title: Gemini Directory Structure
+title: Directory Structure Gemini
 description: A reference for folder structure Gemini gave me.
 ---
 
@@ -96,10 +96,12 @@ Everything a new engineer needs to get the app running.
 Instead of uploading static .png files, you can use Mermaid.js directly in your Markdown files. Many IDEs and platforms like GitHub/GitLab render these automatically, making diagrams searchable and version-controlled. [3] 
 Example Mermaid Flow (add to your .md):
 
+```mermaid
 graph TD;
     A[Client] -->|REST| B(Spring Boot App);
     B --> C{Database};
     B --> D[External API];
+```
 
 Would you like a sample setup guide specifically for configuring local Docker containers (PostgreSQL/Redis) for this project?
 

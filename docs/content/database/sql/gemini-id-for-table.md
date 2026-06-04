@@ -1,6 +1,7 @@
 ---
-title: Id - Gemini
-description: Gemini info on id generation.
+title: ID
+description: Gemini info on ID generation.
+sidebar_position: 1
 ---
 
 Using GenerationType.AUTO is generally considered bad practice for production-grade applications. While it is convenient for quick prototyping, its unpredictability and potential performance issues make it a liability in complex environments. [1, 2] 

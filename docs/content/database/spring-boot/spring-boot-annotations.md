@@ -1,5 +1,5 @@
 ---
-title: Spring Boot Annotations
+title: Annotations
 description: A reference page in my new Starlight docs site.
 tags: [spring, app, database]
 ---

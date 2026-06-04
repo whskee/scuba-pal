@@ -1,0 +1,7 @@
+{
+  "label": "Tools",
+  "link": {
+    "type": "generated-index",
+    "description": "All the tools that we use to build Scuba Pal and how to use them. This includes code editors, databases, deployment platforms, and more."
+  }
+}

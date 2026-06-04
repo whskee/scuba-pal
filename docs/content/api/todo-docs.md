@@ -1,6 +1,6 @@
 ---
-title: Docs
-description: todo
+title: Mobile Screenshots
+description: Where to place screenshots in docs
 tags: [todo]
 ---
 

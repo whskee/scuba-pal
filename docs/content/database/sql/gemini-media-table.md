@@ -1,15 +1,33 @@
 ---
-title: Timestamp - Gemini
-description: Gemini info on timestamps.
+title: MEDIA
+description: Gemini info on Media.
 ---
 
+Neither is inherently "better," but extending com.socialapp.shared.BaseEntity is generally the safer, more standard approach. The difference dictates whether you are using explicit imports or relying on classes in the same package.
+## public class Post extends com.socialapp.shared.BaseEntity
+
+* Best for: Large, modular, or multi-module applications.
+* Why: The fully qualified name completely eliminates ambiguity. It tells developers and compilers exactly which BaseEntity is being used, even if another class with the same name is imported into the file. It is highly readable across different files.
+
+## public class Post extends BaseEntity
+
+* Best for: Small, single-package, or domain-driven projects.
+* Why: Relies on an import statement (e.g., import com.socialapp.shared.BaseEntity;). It keeps the class declaration clean and concise.
+* The Catch: It only works if Post and BaseEntity are in the same package, OR if you explicitly import BaseEntity at the top of the file. If someone accidentally removes the import or changes the package, the code will break. [1] 
+
+For enterprise Java and TypeScript applications, explicitly qualifying the base class is often preferred to maintain rigid architectural boundaries and prevent accidental misuse. [2, 3] 
+
+[1] [https://javascript.plainenglish.io](https://javascript.plainenglish.io/why-base-entity-in-backend-and-oop-applications-385fbafe5bae)
+[2] [https://medium.com](https://medium.com/@dmitriykhirniy/the-hidden-costs-of-using-baseentity-with-typeorm-108a9cf40a7f)
+[3] [https://enterprisecraftsmanship.com](https://enterprisecraftsmanship.com/posts/entity-base-class/)
+
+
 ---
+
 
 No, it is not bad design. It is a solid foundation that correctly implements relational databases basics, foreign keys, unique pairings, and self-referential relationships for threaded comments.
 However, it has a few weak spots that will cause production bugs, performance bottlenecks, or microservice architecture conflicts as your app grows.
-
 ------------------------------
-
 ## Critical Issues & Fixes## 1. Microservice Anti-Pattern (Cross-Schema Foreign Keys)
 You are referencing identity.users across different schemas. If you plan to split this into microservices later (e.g., an Identity Service and a Social Service), hard database foreign keys (REFERENCES identity.users) will prevent you from splitting the databases.
 
@@ -88,6 +106,7 @@ CREATE SCHEMA IF NOT EXISTS social;
 -- Optimizes looking up a specific user's comment historyCREATE INDEX idx_post_comments_user ON social.post_comments (user_id);
 ```
 
+
 ## Next Steps
 If you want to refine this further, tell me:
 
@@ -98,12 +117,12 @@ If you want to refine this further, tell me:
 
 ---
 
+
+
 Yes, it is much better to separate them if you want a modular architecture that you can easily copy and paste into future projects.
 In a modular system, a core service (like a "Dive Shop" module or a "Booking" module) should never have to look inside a "Social" module just to find its own likes or photos.
 Here are the best production-grade design patterns for scaling Likes and Media across entirely different features, allowing you to easily cut and paste this infrastructure into new apps.
-
 ------------------------------
-
 ## 1. Handling Likes: The "Polymorphic Entity Type" Pattern
 Instead of creating post_likes, shop_likes, and comment_likes tables, you create a single, highly reusable Generic Interactions system. This uses an entity_type and entity_id combination.
 ## The Architecture
@@ -125,8 +144,6 @@ CREATE TABLE shared.entity_likes (
 );
 -- Crucial Index: Fast lookup to see everything a specific user has likedCREATE INDEX idx_entity_likes_user ON shared.entity_likes (user_id, entity_type);
 ```
-
-------------------------------
 
 ## 2. Handling Media: The "Asset Management" Pattern
 Your current design links post_media tightly to social.posts. If a Dive Shop wants to upload photos of its storefront, or a user wants to upload a Certification Card, you would have to write completely new media tables.
@@ -162,7 +179,7 @@ CREATE SCHEMA IF NOT EXISTS media;
     PRIMARY KEY (shop_id, asset_id)
 );
 ```
-------------------------------
+
 ## Summary Checklist for Modular Blueprints
 To make sure you can copy-paste your code into any future app idea, follow these absolute rules:
 
