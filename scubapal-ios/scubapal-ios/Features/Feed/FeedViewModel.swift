@@ -1,0 +1,111 @@
+import Combine
+import SwiftUI
+
+@MainActor
+final class FeedViewModel: ObservableObject {
+    @Published private(set) var state: Loadable<[Post]> = .idle
+
+    private let repository: FeedRepository
+
+    init(repository: FeedRepository) {
+        self.repository = repository
+    }
+
+    var posts: [Post] {
+        state.value ?? []
+    }
+
+    func load(showLoading: Bool) async {
+        if showLoading { state = .loading }
+        do {
+            let posts = try await repository.loadFeed()
+            withAnimation(.smooth(duration: 0.35)) { state = .loaded(posts) }
+        } catch {
+            state = .failed(error.localizedDescription)
+        }
+    }
+
+    func toggleLike(_ post: Post) async -> String? {
+        guard var posts = state.value, let index = posts.firstIndex(where: { $0.id == post.id }) else {
+            return nil
+        }
+
+        var optimistic = posts[index]
+        optimistic.likedByMe.toggle()
+        optimistic.likeCount = max(0, optimistic.likeCount + (optimistic.likedByMe ? 1 : -1))
+        posts[index] = optimistic
+        withAnimation(.snappy(duration: 0.24)) { state = .loaded(posts) }
+
+        do {
+            let updated = try await repository.toggleLike(postID: post.id)
+            guard var current = state.value, let updateIndex = current.firstIndex(where: { $0.id == post.id }) else {
+                return nil
+            }
+            current[updateIndex] = updated
+            withAnimation(.snappy(duration: 0.2)) { state = .loaded(current) }
+            return nil
+        } catch {
+            guard var current = state.value, let rollbackIndex = current.firstIndex(where: { $0.id == post.id }) else {
+                return error.localizedDescription
+            }
+            current[rollbackIndex] = post
+            withAnimation(.snappy(duration: 0.2)) { state = .loaded(current) }
+            return error.localizedDescription
+        }
+    }
+
+    func createPost(caption: String, mediaUrls: [String]) async -> String? {
+        do {
+            let created = try await repository.createPost(caption: caption, mediaUrls: mediaUrls)
+            var posts = state.value ?? []
+            posts.insert(created, at: 0)
+            withAnimation(.smooth(duration: 0.35)) { state = .loaded(posts) }
+            return nil
+        } catch {
+            return error.localizedDescription
+        }
+    }
+}
+
+@MainActor
+final class PostDetailViewModel: ObservableObject {
+    @Published private(set) var post: Post
+    @Published private(set) var isLoading = false
+
+    private let repository: FeedRepository
+
+    init(post: Post, repository: FeedRepository) {
+        self.post = post
+        self.repository = repository
+    }
+
+    func load() async {
+        guard !isLoading else { return }
+        isLoading = true
+        defer { isLoading = false }
+        guard let detail = try? await repository.postDetail(id: post.id) else { return }
+        withAnimation(.smooth(duration: 0.25)) { post = detail }
+    }
+
+    func toggleLike() async -> String? {
+        let previous = post
+        post.likedByMe.toggle()
+        post.likeCount = max(0, post.likeCount + (post.likedByMe ? 1 : -1))
+        do {
+            post = try await repository.toggleLike(postID: previous.id)
+            return nil
+        } catch {
+            post = previous
+            return error.localizedDescription
+        }
+    }
+
+    func addComment(_ text: String) async -> String? {
+        do {
+            post = try await repository.addComment(postID: post.id, body: text)
+            return nil
+        } catch {
+            return error.localizedDescription
+        }
+    }
+}

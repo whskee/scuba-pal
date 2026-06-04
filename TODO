@@ -1,0 +1,597 @@
+Progress: **35% → 45% next goal**
+Your current iOS app is a strong visual prototype, but not yet production-structured. The biggest fix is to stop treating `Core` as a dumping ground.
+
+Right now, your `Core` has:
+
+```text
+Core/
+  AppSession.swift
+  ScubaAPI.swift
+  ScubaModels.swift
+  ScubaTheme.swift
+```
+
+That means one folder is handling:
+
+```text
+auth session
+token storage
+networking
+API endpoints
+DTOs
+domain models
+mapping
+theme/design system
+shared UI components
+```
+
+That works early, but becomes painful fast.
+
+Your broader repo already has a backend/mobile split, with backend in `app` and mobile client generation in `mobile/src/api/generated` for Expo/OpenAPI work.  Since this uploaded project is native SwiftUI, I would place it clearly as either `ios/` or `mobile-ios/` so it does not get confused with the Expo mobile app.
+
+## The structure I’d move toward
+
+Use **vertical feature modules** plus a small technical core.
+
+```text
+scuba-pal/
+  app/                         # Spring Boot backend
+  mobile/                      # Expo React Native app, if still used
+  ios/                         # Native SwiftUI app
+    ScubaPal/
+      App/
+        ScubaPalApp.swift
+        RootView.swift
+        AppEnvironment.swift
+
+      Core/
+        Networking/
+          APIClient.swift
+          Endpoint.swift
+          HTTPMethod.swift
+          APIError.swift
+          RequestInterceptor.swift
+          AuthRefreshCoordinator.swift
+
+        Auth/
+          SessionStore.swift
+          TokenStore.swift
+          KeychainTokenStore.swift
+          AuthRepository.swift
+
+        Config/
+          AppConfig.swift
+          Environment.swift
+
+        Utilities/
+          Loadable.swift
+          DateParsing.swift
+
+      DesignSystem/
+        ScubaTheme.swift
+        Components/
+          ScubaButton.swift
+          FloatingTextField.swift
+          AvatarView.swift
+          RemoteImage.swift
+          EmptyStateView.swift
+          ToastView.swift
+        Modifiers/
+          GlassPanel.swift
+          AppBackground.swift
+
+      Shared/
+        Domain/
+          User.swift
+          Post.swift
+          Comment.swift
+          DiveLocation.swift
+          DiveShop.swift
+          Conversation.swift
+          ChatMessage.swift
+          AppNotification.swift
+          LearnArticle.swift
+
+        DTO/
+          AuthDTOs.swift
+          ProfileDTOs.swift
+          FeedDTOs.swift
+          MessagingDTOs.swift
+          DiscoveryDTOs.swift
+          NotificationDTOs.swift
+
+        Mappers/
+          UserMapper.swift
+          PostMapper.swift
+          DiscoveryMapper.swift
+          MessagingMapper.swift
+          NotificationMapper.swift
+
+      Features/
+        Auth/
+          AuthLandingView.swift
+          AuthViewModel.swift
+
+        Shell/
+          AppShellView.swift
+          AppTab.swift
+
+        Feed/
+          FeedView.swift
+          FeedViewModel.swift
+          FeedRepository.swift
+          Components/
+            PostCard.swift
+            CreatePostSheet.swift
+            MasonryFeed.swift
+
+        Discover/
+          DiscoverView.swift
+          DiscoverViewModel.swift
+          DiscoverRepository.swift
+          Components/
+
+        Messaging/
+          ConversationsView.swift
+          ThreadView.swift
+          MessagingViewModel.swift
+          MessagingRepository.swift
+
+        Profile/
+          ProfileView.swift
+          ProfileViewModel.swift
+          ProfileRepository.swift
+
+        Notifications/
+          NotificationsView.swift
+          NotificationsViewModel.swift
+          NotificationsRepository.swift
+
+      Resources/
+        Assets.xcassets
+
+    ScubaPalTests/
+      MapperTests/
+      APIClientTests/
+      SessionStoreTests/
+      ViewModelTests/
+```
+
+The rule:
+
+```text
+App → Features → Shared/Domain
+Features → Repositories → Core/Networking
+Views → ViewModels → Repositories → APIClient
+DesignSystem can be used everywhere
+Core should not know about Features
+```
+
+```mermaid
+flowchart TD
+    App[App / RootView] --> Shell[Shell / Navigation]
+    Shell --> Features[Feature Views]
+    Features --> ViewModels[Feature ViewModels]
+    ViewModels --> Repositories[Repositories]
+    Repositories --> APIClient[Core Networking]
+    APIClient --> Backend[Spring Boot API]
+
+    Repositories --> Mappers[Mappers]
+    Mappers --> Domain[Domain Models]
+    Mappers --> DTOs[API DTOs]
+
+    Features --> DesignSystem[Design System]
+    App --> Session[Session Store]
+    Session --> AuthRepo[Auth Repository]
+    AuthRepo --> TokenStore[Keychain Token Store]
+    AuthRepo --> APIClient
+```
+
+## What I would fix first
+
+### 1. Split `ScubaAPI.swift`
+
+This is your highest-value refactor.
+
+Right now `ScubaAPI` does too much:
+
+```text
+networking
+auth refresh
+endpoint methods
+response decoding
+domain conversion
+media URL resolution
+```
+
+Better split:
+
+```text
+APIClient
+  does raw HTTP request/response
+
+AuthRepository
+  login/register/logout/refresh
+
+FeedRepository
+  feed/createPost/toggleLike/comments
+
+ProfileRepository
+  currentProfile/profile/follow
+
+MessagingRepository
+  conversations/messages/sendMessage
+
+DiscoveryRepository
+  profiles/locations/shops/learn
+
+Mappers
+  DTO → Domain
+```
+
+Bad long-term shape:
+
+```swift
+session.api.feed()
+session.api.toggleLike(postID: post.id)
+session.api.currentProfile()
+```
+
+Better shape:
+
+```swift
+feedRepository.loadFeed()
+feedRepository.toggleLike(postID: post.id)
+profileRepository.currentProfile()
+```
+
+Then your views no longer care that the backend is REST, generated OpenAPI, mocked data, or later GraphQL/WebSocket.
+
+---
+
+### 2. Stop putting DTOs and domain models in the same file
+
+`ScubaModels.swift` currently mixes backend DTOs and app domain models.
+
+Separate them because they have different jobs.
+
+```text
+DTOs = exact backend shape
+Domain = clean app shape
+Mapper = conversion boundary
+```
+
+Example:
+
+```text
+FeedPostViewDTO
+  postId: Int?
+  caption: String?
+  mediaUrls: [String]?
+
+Post
+  id: Post.ID
+  content: String
+  mediaUrls: [URL]
+  createdAt: Date
+```
+
+This matters because your backend can change without forcing your whole UI to change.
+
+---
+
+### 3. Do not default missing backend IDs to `0`
+
+This is important.
+
+You currently have patterns like:
+
+```swift
+id: input.postId ?? 0
+```
+
+That is dangerous because multiple failed/malformed records can become the same identity.
+
+Better:
+
+```swift
+guard let id = input.postId else {
+    throw MappingError.missingRequiredField("postId")
+}
+```
+
+Same issue with fallback IDs using `hashValue`. Swift’s `hashValue` is not stable across launches. That can break caching, diffing, navigation, and SwiftUI identity.
+
+For production: **invalid server data should fail loudly at the boundary**, not silently become fake data.
+
+---
+
+### 4. Fix date parsing behavior
+
+Current behavior:
+
+```swift
+return Date()
+```
+
+when parsing fails.
+
+That hides backend bugs. A bad timestamp becomes “right now,” which is misleading.
+
+Better:
+
+```swift
+static func fromAPI(_ value: String?) throws -> Date
+```
+
+or:
+
+```swift
+static func fromAPI(_ value: String?) -> Date?
+```
+
+Then your mapper decides whether that field is required.
+
+---
+
+### 5. Move API calls out of SwiftUI views
+
+Your views are currently doing too much async state work.
+
+Example pattern today:
+
+```swift
+@State private var posts: [Post] = []
+@State private var isLoading = true
+@State private var errorMessage: String?
+
+.task { await loadFeed(...) }
+```
+
+Production shape:
+
+```swift
+@State private var viewModel: FeedViewModel
+```
+
+Then:
+
+```swift
+@MainActor
+final class FeedViewModel: ObservableObject {
+    @Published private(set) var state: Loadable<[Post]> = .idle
+
+    private let repository: FeedRepository
+
+    func load() async { ... }
+    func like(_ post: Post) async { ... }
+}
+```
+
+Views should mostly render state. ViewModels coordinate state. Repositories talk to backend.
+
+---
+
+### 6. Rename `AppSession` to `SessionStore`
+
+`AppSession` is currently decent, but it is becoming a god object.
+
+Keep it focused on:
+
+```text
+auth state
+current user
+session restoration
+logout
+global badge counts
+toast coordination, maybe
+```
+
+Do not let it become:
+
+```text
+all app state
+all repositories
+all navigation
+all feature state
+```
+
+Better:
+
+```text
+SessionStore
+BadgeStore
+ToastStore
+```
+
+But do not split too early. For now:
+
+```text
+SessionStore = auth + current user
+AppUIStore = toast/global UI
+BadgeStore = unread counts
+```
+
+---
+
+### 7. Treat `DesignSystem` as its own module
+
+`ScubaTheme.swift` is over 500 lines and contains theme colors, modifiers, buttons, remote images, avatars, empty states, toast views, etc.
+
+That is good work, but production structure should be:
+
+```text
+DesignSystem/
+  Theme/
+    ScubaTheme.swift
+    Typography.swift
+    Spacing.swift
+
+  Components/
+    ScubaButton.swift
+    FloatingTextField.swift
+    AvatarView.swift
+    RemoteImage.swift
+    EmptyStateView.swift
+    ToastView.swift
+
+  Modifiers/
+    GlassPanel.swift
+    AppBackground.swift
+```
+
+This makes your UI system reusable without polluting app logic.
+
+---
+
+### 8. Use proper environment config
+
+Current base URL fallback:
+
+```swift
+http://127.0.0.1:8080
+```
+
+That works in simulator sometimes, but not reliably for real-device testing unless the backend is actually reachable from the phone.
+
+Use:
+
+```text
+Config/
+  Debug.xcconfig
+  Staging.xcconfig
+  Release.xcconfig
+```
+
+Example:
+
+```text
+SCUBAPAL_API_BASE_URL = http://192.168.x.x:8080
+```
+
+Then production gets:
+
+```text
+SCUBAPAL_API_BASE_URL = https://api.scubapal.com
+```
+
+Do not hard-code production URLs in Swift files.
+
+---
+
+### 9. Clean Git/project hygiene
+
+Your zip contains things that should not be committed or shared:
+
+```text
+.DS_Store
+__MACOSX/
+xcuserdata/
+UserInterfaceState.xcuserstate
+```
+
+Add this to `.gitignore`:
+
+```gitignore
+.DS_Store
+__MACOSX/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+```
+
+Also, your deployment target appears set to `26.5`. Unless you intentionally only want the newest OS, lower it to a realistic minimum once you know your SwiftUI/API requirements.
+
+---
+
+## Production-style workflow
+
+Use this order:
+
+```text
+1. Make it run
+2. Move API boundary out of views
+3. Split DTO/domain/mappers
+4. Add repositories
+5. Add ViewModels
+6. Add tests around mappers and auth refresh
+7. Add CI
+8. Add generated OpenAPI client
+9. Add real staging/prod configs
+```
+
+```mermaid
+flowchart LR
+    A[Prototype works] --> B[Split ScubaAPI]
+    B --> C[DTO / Domain / Mapper boundary]
+    C --> D[Repositories]
+    D --> E[Feature ViewModels]
+    E --> F[Tests]
+    F --> G[CI]
+    G --> H[OpenAPI generated client]
+    H --> I[Staging / Production workflow]
+```
+
+## Best near-term target
+
+Your next goal should be:
+
+**45% progress target:** split `ScubaAPI.swift` and `ScubaModels.swift`.
+
+Do this first:
+
+```text
+Core/Networking/
+  APIClient.swift
+  APIError.swift
+  HTTPMethod.swift
+
+Core/Auth/
+  TokenStore.swift
+  KeychainTokenStore.swift
+
+Shared/DTO/
+  AuthDTOs.swift
+  FeedDTOs.swift
+  ProfileDTOs.swift
+
+Shared/Domain/
+  User.swift
+  Post.swift
+  Comment.swift
+
+Shared/Mappers/
+  UserMapper.swift
+  PostMapper.swift
+
+Features/Feed/
+  FeedRepository.swift
+  FeedViewModel.swift
+```
+
+Do **not** over-engineer with Swift packages yet. Use folders first. Once the app crosses roughly 10k–15k lines or multiple people/modules, then promote pieces into local Swift packages like:
+
+```text
+ScubaCore
+ScubaDesignSystem
+ScubaAPI
+ScubaFeatures
+```
+
+## The simple rule
+
+Your final architecture should feel like this:
+
+```text
+Views do not fetch.
+ViewModels do not decode JSON.
+Repositories do not render UI.
+APIClient does not know app features.
+DTOs do not leak into views.
+Domain models do not mirror backend accidents.
+Core stays small.
+Features own feature behavior.
+DesignSystem owns visual language.
+```
+
+That is the production direction.

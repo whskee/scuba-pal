@@ -1,0 +1,31 @@
+name: ScubaPal iOS
+
+on:
+  pull_request:
+    paths:
+      - "scubapal-ios/**"
+      - ".github/workflows/scubapal-ios.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "scubapal-ios/**"
+      - ".github/workflows/scubapal-ios.yml"
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: scubapal-ios
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and test
+        run: |
+          xcodebuild test \
+            -project scubapal-ios.xcodeproj \
+            -scheme scubapal-ios \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO
