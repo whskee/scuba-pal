@@ -8,6 +8,7 @@ struct MediaURLResolver: Sendable {
             return nil
         }
         if let url = URL(string: value), url.scheme != nil { return url }
-        return baseURL.appendingPathComponent(value.trimmingCharacters(in: CharacterSet(charactersIn: "/")))
+        let base = baseURL.absoluteString.hasSuffix("/") ? baseURL : baseURL.appendingPathComponent("")
+        return URL(string: value, relativeTo: base)?.absoluteURL
     }
 }

@@ -13,7 +13,7 @@ struct AppEnvironment: Sendable {
     init(config: AppConfig = .live(), tokenStore: any TokenStore = KeychainTokenStore()) {
         let apiClient = APIClient(config: config, tokenStore: tokenStore)
         let mediaURLResolver = MediaURLResolver(baseURL: config.baseURL)
-        let userMapper = UserMapper()
+        let userMapper = UserMapper(mediaURLResolver: mediaURLResolver)
 
         authRepository = AuthRepository(
             apiClient: apiClient,

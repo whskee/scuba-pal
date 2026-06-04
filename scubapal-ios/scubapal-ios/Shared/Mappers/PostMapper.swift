@@ -76,6 +76,7 @@ struct PostMapper: Sendable {
                 state: nil,
                 country: nil,
                 profileImageUrl: authorImage,
+                profileImageURL: mediaURLResolver.resolve(authorImage),
                 bio: nil,
                 diveCount: 0,
                 followersCount: 0,

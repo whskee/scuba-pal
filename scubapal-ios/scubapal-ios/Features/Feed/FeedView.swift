@@ -46,6 +46,9 @@ struct FeedView: View {
         .navigationDestination(for: Post.self) { post in
             PostDetailView(post: post)
         }
+        .navigationDestination(for: User.self) { user in
+            ProfileView(userID: user.id, seedUser: user)
+        }
         .sheet(isPresented: $showingComposer) {
             CreatePostSheet { caption, urls in
                 await createPost(caption: caption, mediaUrls: urls)
@@ -210,52 +213,52 @@ private struct PinterestPostCard: View {
     }
 
     var body: some View {
-        NavigationLink(value: post) {
-            VStack(alignment: .leading, spacing: 0) {
-                ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .topTrailing) {
+            NavigationLink(value: post) {
+                VStack(alignment: .leading, spacing: 0) {
                     RemoteImage(url: post.imageUrl, cornerRadius: 0)
                         .frame(height: post.imageUrl == nil ? 138 : imageHeight)
                         .clipped()
 
-                    HStack(spacing: 8) {
-                        floatingAction(systemImage: post.likedByMe ? "heart.fill" : "heart", active: post.likedByMe, color: ScubaTheme.accent) {
-                            onLike(post)
-                        }
-                        floatingAction(systemImage: saved ? "bookmark.fill" : "bookmark", active: saved, color: ScubaTheme.primary) {
-                            withAnimation(.snappy(duration: 0.22)) { saved.toggle() }
-                            onSave()
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(post.content.isEmpty ? "Ocean moment" : post.content)
+                            .font(.system(size: 14, weight: .heavy))
+                            .foregroundStyle(ScubaTheme.darkText)
+                            .lineLimit(3)
+                            .multilineTextAlignment(.leading)
+
+                        HStack(spacing: 8) {
+                            AvatarView(user: post.author, size: 28)
+                            Text("@\(post.author.username)")
+                                .font(.system(size: 12, weight: .heavy))
+                                .foregroundStyle(Color(red: 0.39, green: 0.45, blue: 0.52))
+                                .lineLimit(1)
+                            Spacer(minLength: 4)
+                            Label("\(post.likeCount)", systemImage: post.likedByMe ? "heart.fill" : "heart")
+                                .font(.system(size: 11, weight: .black))
+                                .foregroundStyle(post.likedByMe ? ScubaTheme.accent : Color(red: 0.39, green: 0.45, blue: 0.52))
+                                .labelStyle(.titleAndIcon)
                         }
                     }
-                    .padding(10)
+                    .padding(13)
+                    .background(Color.white)
                 }
-
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(post.content.isEmpty ? "Ocean moment" : post.content)
-                        .font(.system(size: 14, weight: .heavy))
-                        .foregroundStyle(ScubaTheme.darkText)
-                        .lineLimit(3)
-                        .multilineTextAlignment(.leading)
-
-                    HStack(spacing: 8) {
-                        AvatarView(user: post.author, size: 28)
-                        Text("@\(post.author.username)")
-                            .font(.system(size: 12, weight: .heavy))
-                            .foregroundStyle(Color(red: 0.39, green: 0.45, blue: 0.52))
-                            .lineLimit(1)
-                        Spacer(minLength: 4)
-                        Label("\(post.likeCount)", systemImage: post.likedByMe ? "heart.fill" : "heart")
-                            .font(.system(size: 11, weight: .black))
-                            .foregroundStyle(post.likedByMe ? ScubaTheme.accent : Color(red: 0.39, green: 0.45, blue: 0.52))
-                            .labelStyle(.titleAndIcon)
-                    }
-                }
-                .padding(13)
-                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                .shadow(color: .black.opacity(0.24), radius: 18, x: 0, y: 12)
             }
-            .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-            .shadow(color: .black.opacity(0.24), radius: 18, x: 0, y: 12)
+            .buttonStyle(ScaleButtonStyle())
+
+            HStack(spacing: 8) {
+                floatingAction(systemImage: post.likedByMe ? "heart.fill" : "heart", active: post.likedByMe, color: ScubaTheme.accent) {
+                    onLike(post)
+                }
+                floatingAction(systemImage: saved ? "bookmark.fill" : "bookmark", active: saved, color: ScubaTheme.primary) {
+                    withAnimation(.snappy(duration: 0.22)) { saved.toggle() }
+                    onSave()
+                }
+            }
+            .padding(10)
         }
-        .buttonStyle(ScaleButtonStyle())
     }
 
     private func floatingAction(systemImage: String, active: Bool, color: Color, action: @escaping () -> Void) -> some View {
@@ -290,9 +293,15 @@ struct PostDetailView: View {
                     .clipped()
                     .overlay(alignment: .bottomLeading) {
                         VStack(alignment: .leading, spacing: 7) {
-                            Text("@\(viewModel.post.author.username)")
-                                .font(.system(size: 13, weight: .heavy))
-                                .foregroundStyle(ScubaTheme.primary)
+                            NavigationLink(value: viewModel.post.author) {
+                                HStack(spacing: 8) {
+                                    AvatarView(user: viewModel.post.author, size: 34)
+                                    Text("@\(viewModel.post.author.username)")
+                                        .font(.system(size: 13, weight: .heavy))
+                                        .foregroundStyle(ScubaTheme.primary)
+                                }
+                            }
+                            .buttonStyle(ScaleButtonStyle())
                             Text(viewModel.post.content)
                                 .font(.system(size: 22, weight: .black))
                                 .foregroundStyle(ScubaTheme.ink)
@@ -354,6 +363,9 @@ struct PostDetailView: View {
         .scrollIndicators(.hidden)
         .navigationTitle("Post")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationDestination(for: User.self) { user in
+            ProfileView(userID: user.id, seedUser: user)
+        }
         .task { await loadDetail() }
     }
 

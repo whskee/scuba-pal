@@ -1,6 +1,12 @@
 import Foundation
 
 struct UserMapper: Sendable {
+    private let mediaURLResolver: MediaURLResolver?
+
+    init(mediaURLResolver: MediaURLResolver? = nil) {
+        self.mediaURLResolver = mediaURLResolver
+    }
+
     func map(_ input: CurrentUserDTO, follow: FollowSummaryDTO? = nil) throws -> User {
         try user(
             id: input.id,
@@ -101,6 +107,7 @@ struct UserMapper: Sendable {
             state: state,
             country: country,
             profileImageUrl: profileImageUrl,
+            profileImageURL: mediaURLResolver?.resolve(profileImageUrl),
             bio: bio,
             diveCount: diveCount ?? 0,
             followersCount: follow?.followerCount ?? 0,

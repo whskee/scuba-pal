@@ -10,6 +10,7 @@ struct User: Identifiable, Hashable {
     var state: String?
     var country: String?
     var profileImageUrl: String?
+    var profileImageURL: URL?
     var bio: String?
     var diveCount: Int
     var followersCount: Int

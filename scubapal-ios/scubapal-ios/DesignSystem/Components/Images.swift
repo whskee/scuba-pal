@@ -53,7 +53,7 @@ struct AvatarView: View {
             Circle()
                 .fill(ScubaTheme.background)
                 .padding(2.5)
-            if let url = user.flatMap({ URL(string: $0.profileImageUrl ?? "") }) {
+            if let url = user?.profileImageURL ?? user.flatMap({ URL(string: $0.profileImageUrl ?? "") }) {
                 AsyncImage(url: url) { phase in
                     if let image = phase.image {
                         image

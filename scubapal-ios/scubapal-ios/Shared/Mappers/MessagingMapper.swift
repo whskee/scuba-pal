@@ -16,6 +16,7 @@ struct MessagingMapper: Sendable {
                 state: nil,
                 country: nil,
                 profileImageUrl: input.otherProfileImageUrl,
+                profileImageURL: mediaURLResolver.resolve(input.otherProfileImageUrl),
                 bio: nil,
                 diveCount: 0,
                 followersCount: 0,
