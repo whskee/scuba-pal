@@ -1,5 +1,7 @@
 ---
 title: Mobile Application
+sidebar_label: Mobile App
+slug: app
 description: Scuba Pal mobile app screenshots.
 ---
 

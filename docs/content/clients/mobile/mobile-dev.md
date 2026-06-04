@@ -1,6 +1,7 @@
 ---
 title: Mobile Development
 description: Guide to mobile development.
+slug: dev
 tags: [mobile, deployment]
 ---
 

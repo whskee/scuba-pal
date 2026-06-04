@@ -2,7 +2,7 @@
 title: API Reference
 description: Links to view API docs.
 sidebar_positioin: 1
-tags: [api]
+tags: [api, tool]
 ---
 
 - [OpenAPI json](http://localhost:8080/v3/api-docs)
