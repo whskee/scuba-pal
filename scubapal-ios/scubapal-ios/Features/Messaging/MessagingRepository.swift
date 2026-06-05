@@ -1,5 +1,13 @@
 import Foundation
 
+protocol MessagingRepositoryProtocol: Sendable {
+    func conversations() async throws -> [Conversation]
+    func startConversation(userID: Int) async throws -> Conversation
+    func messages(conversationID: Int) async throws -> [ChatMessage]
+    func sendMessage(conversationID: Int, body: String) async throws
+    func unreadCount() async throws -> Int
+}
+
 struct MessagingRepository: Sendable {
     let apiClient: APIClient
     let mapper: MessagingMapper
@@ -43,3 +51,5 @@ struct MessagingRepository: Sendable {
         return response.unreadMessageCount ?? 0
     }
 }
+
+extension MessagingRepository: MessagingRepositoryProtocol {}

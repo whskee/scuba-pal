@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 
 actor APIClient {
     private let config: AppConfig
@@ -52,7 +53,9 @@ actor APIClient {
         do {
             bodyData = try encoder.encode(body)
         } catch {
-            throw APIError.encoding("Could not encode the request: \(error.localizedDescription)")
+            let apiError = APIError.encoding("Could not encode the request: \(error.localizedDescription)")
+            AppLogger.log(apiError, category: AppLogger.networking, context: "Request encoding failed for \(endpoint.logDescription)")
+            throw apiError
         }
         return try await request(endpoint, bodyData: bodyData)
     }
@@ -70,19 +73,25 @@ actor APIClient {
         bodyData: Data?,
         retrying: Bool = false
     ) async throws -> Response {
-        var urlRequest = try makeURLRequest(endpoint: endpoint, bodyData: bodyData)
-        let (data, response) = try await session.data(for: urlRequest)
-        guard let http = response as? HTTPURLResponse else { throw APIError.invalidResponse }
+        do {
+            var urlRequest = try makeURLRequest(endpoint: endpoint, bodyData: bodyData)
+            let (data, response) = try await session.data(for: urlRequest)
+            guard let http = response as? HTTPURLResponse else { throw APIError.invalidResponse }
 
-        if http.statusCode == 401, endpoint.requiresAuth, !retrying, tokenPair?.refreshToken != nil {
-            tokenPair = try await refreshTokens()
-            urlRequest = try makeURLRequest(endpoint: endpoint, bodyData: bodyData)
-            let (retryData, retryResponse) = try await session.data(for: urlRequest)
-            guard let retryHTTP = retryResponse as? HTTPURLResponse else { throw APIError.invalidResponse }
-            return try decodeResponse(retryData, status: retryHTTP.statusCode)
+            if http.statusCode == 401, endpoint.requiresAuth, !retrying, tokenPair?.refreshToken != nil {
+                AppLogger.networking.notice("Refreshing auth token after 401 for \(endpoint.logDescription, privacy: .public)")
+                tokenPair = try await refreshTokens()
+                urlRequest = try makeURLRequest(endpoint: endpoint, bodyData: bodyData)
+                let (retryData, retryResponse) = try await session.data(for: urlRequest)
+                guard let retryHTTP = retryResponse as? HTTPURLResponse else { throw APIError.invalidResponse }
+                return try decodeResponse(retryData, status: retryHTTP.statusCode)
+            }
+
+            return try decodeResponse(data, status: http.statusCode)
+        } catch {
+            AppLogger.log(error, category: AppLogger.networking, context: "API request failed for \(endpoint.logDescription)")
+            throw error
         }
-
-        return try decodeResponse(data, status: http.statusCode)
     }
 
     private func makeURLRequest(endpoint: Endpoint, bodyData: Data?) throws -> URLRequest {
@@ -160,7 +169,12 @@ actor APIClient {
         }
         refreshTask = task
         defer { refreshTask = nil }
-        return try await task.value
+        do {
+            return try await task.value
+        } catch {
+            AppLogger.log(error, category: AppLogger.auth, context: "Auth token refresh failed")
+            throw error
+        }
     }
 }
 
@@ -170,5 +184,11 @@ private extension URL {
     var isLoopback: Bool {
         guard let host = host?.lowercased() else { return false }
         return host == "localhost" || host == "::1" || host.hasPrefix("127.")
+    }
+}
+
+private extension Endpoint {
+    var logDescription: String {
+        "\(method.rawValue) \(path)"
     }
 }

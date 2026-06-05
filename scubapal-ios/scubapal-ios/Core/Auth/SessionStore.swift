@@ -1,5 +1,5 @@
 import Combine
-import SwiftUI
+import Foundation
 
 @MainActor
 final class SessionStore: ObservableObject {
@@ -11,9 +11,9 @@ final class SessionStore: ObservableObject {
 
     @Published private(set) var authState: AuthState = .restoring
 
-    private let authRepository: AuthRepository
+    private let authRepository: any AuthRepositoryProtocol
 
-    init(authRepository: AuthRepository) {
+    init(authRepository: any AuthRepositoryProtocol) {
         self.authRepository = authRepository
     }
 
@@ -29,18 +29,19 @@ final class SessionStore: ObservableObject {
     func restore() async {
         do {
             if let user = try await authRepository.restoreCurrentUser() {
-                withAnimation(.smooth(duration: 0.45)) { authState = .signedIn(user) }
+                authState = .signedIn(user)
             } else {
-                withAnimation(.smooth(duration: 0.35)) { authState = .signedOut }
+                authState = .signedOut
             }
         } catch {
-            withAnimation(.smooth(duration: 0.35)) { authState = .signedOut }
+            AppLogger.log(error, category: AppLogger.auth, context: "Session restore failed")
+            authState = .signedOut
         }
     }
 
     func login(username: String, password: String) async throws {
         let user = try await authRepository.login(username: username, password: password)
-        withAnimation(.smooth(duration: 0.45)) { authState = .signedIn(user) }
+        authState = .signedIn(user)
     }
 
     func register(
@@ -57,17 +58,15 @@ final class SessionStore: ObservableObject {
             firstName: firstName,
             lastName: lastName
         )
-        withAnimation(.smooth(duration: 0.45)) { authState = .signedIn(user) }
+        authState = .signedIn(user)
     }
 
     func logout() async {
         await authRepository.logout()
-        withAnimation(.smooth(duration: 0.35)) { authState = .signedOut }
+        authState = .signedOut
     }
 
     func updateStoredUser(_ user: User) {
-        withAnimation(.smooth(duration: 0.25)) {
-            authState = .signedIn(user)
-        }
+        authState = .signedIn(user)
     }
 }

@@ -1,5 +1,13 @@
 import Foundation
 
+protocol AuthRepositoryProtocol: Sendable {
+    func restoreCurrentUser() async throws -> User?
+    func login(username: String, password: String) async throws -> User
+    func register(email: String, username: String, password: String, firstName: String?, lastName: String?) async throws -> User
+    func logout() async
+    func currentUser() async throws -> User
+}
+
 struct AuthRepository: Sendable {
     let apiClient: APIClient
     let tokenStore: any TokenStore
@@ -11,6 +19,7 @@ struct AuthRepository: Sendable {
         do {
             return try await currentUser()
         } catch {
+            AppLogger.log(error, category: AppLogger.auth, context: "Stored session restore failed; clearing local session")
             await apiClient.setTokenPair(nil)
             try? tokenStore.delete()
             throw error
@@ -50,10 +59,14 @@ struct AuthRepository: Sendable {
     func logout() async {
         if let refreshToken = await apiClient.currentTokenPair()?.refreshToken {
             let endpoint = Endpoint(path: APIPath.logout, method: .post, requiresAuth: false)
-            try? await apiClient.requestNoContent(
-                endpoint,
-                body: RefreshTokenRequest(refreshToken: refreshToken)
-            )
+            do {
+                try await apiClient.requestNoContent(
+                    endpoint,
+                    body: RefreshTokenRequest(refreshToken: refreshToken)
+                )
+            } catch {
+                AppLogger.log(error, category: AppLogger.auth, context: "Remote logout failed; clearing local session")
+            }
         }
         await apiClient.setTokenPair(nil)
         try? tokenStore.delete()
@@ -70,7 +83,9 @@ struct AuthRepository: Sendable {
             let refreshToken = response.refreshToken,
             let userDTO = response.user
         else {
-            throw APIError.server(message: "The backend did not return a complete session.", status: 500)
+            let error = APIError.server(message: "The backend did not return a complete session.", status: 500)
+            AppLogger.log(error, category: AppLogger.auth, context: "Auth response missing required session fields")
+            throw error
         }
 
         let pair = TokenPair(accessToken: accessToken, refreshToken: refreshToken)
@@ -79,3 +94,5 @@ struct AuthRepository: Sendable {
         return try userMapper.map(userDTO)
     }
 }
+
+extension AuthRepository: AuthRepositoryProtocol {}

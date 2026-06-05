@@ -5,9 +5,9 @@ import Foundation
 final class FeedViewModel: ObservableObject {
     @Published private(set) var state: Loadable<[Post]> = .idle
 
-    private let repository: FeedRepository
+    private let repository: any FeedRepositoryProtocol
 
-    init(repository: FeedRepository) {
+    init(repository: any FeedRepositoryProtocol) {
         self.repository = repository
     }
 
@@ -21,7 +21,7 @@ final class FeedViewModel: ObservableObject {
             let posts = try await repository.loadFeed()
             state = .loaded(posts)
         } catch {
-            state = .failed(error.localizedDescription)
+            state = .failed(error.userFacingMessage)
         }
     }
 
@@ -46,11 +46,11 @@ final class FeedViewModel: ObservableObject {
             return nil
         } catch {
             guard var current = state.value, let rollbackIndex = current.firstIndex(where: { $0.id == post.id }) else {
-                return error.localizedDescription
+                return error.userFacingMessage
             }
             current[rollbackIndex] = post
             state = .loaded(current)
-            return error.localizedDescription
+            return error.userFacingMessage
         }
     }
 
@@ -62,7 +62,7 @@ final class FeedViewModel: ObservableObject {
             state = .loaded(posts)
             return nil
         } catch {
-            return error.localizedDescription
+            return error.userFacingMessage
         }
     }
 }
@@ -72,9 +72,9 @@ final class PostDetailViewModel: ObservableObject {
     @Published private(set) var post: Post
     @Published private(set) var isLoading = false
 
-    private let repository: FeedRepository
+    private let repository: any FeedRepositoryProtocol
 
-    init(post: Post, repository: FeedRepository) {
+    init(post: Post, repository: any FeedRepositoryProtocol) {
         self.post = post
         self.repository = repository
     }
@@ -96,7 +96,7 @@ final class PostDetailViewModel: ObservableObject {
             return nil
         } catch {
             post = previous
-            return error.localizedDescription
+            return error.userFacingMessage
         }
     }
 
@@ -105,7 +105,7 @@ final class PostDetailViewModel: ObservableObject {
             post = try await repository.addComment(postID: post.id, body: text)
             return nil
         } catch {
-            return error.localizedDescription
+            return error.userFacingMessage
         }
     }
 }

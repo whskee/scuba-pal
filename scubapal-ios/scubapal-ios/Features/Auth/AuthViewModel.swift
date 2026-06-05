@@ -51,7 +51,8 @@ final class AuthViewModel: ObservableObject {
                 return "Account created"
             }
         } catch {
-            errorMessage = error.localizedDescription
+            AppLogger.log(error, category: AppLogger.auth, context: "Authentication submission failed")
+            errorMessage = error.userFacingMessage
             return nil
         }
     }

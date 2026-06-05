@@ -4,6 +4,11 @@ struct RootView: View {
     @EnvironmentObject private var session: SessionStore
     @EnvironmentObject private var badges: BadgeStore
     @EnvironmentObject private var appUI: AppUIStore
+    let dependencies: AppDependencies
+
+    init(dependencies: AppDependencies = .live) {
+        self.dependencies = dependencies
+    }
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -14,7 +19,7 @@ struct RootView: View {
                 case .signedOut:
                     AuthLandingView()
                 case .signedIn:
-                    AppShellView()
+                    AppShellView(dependencies: dependencies)
                 }
             }
             .transition(.opacity.combined(with: .scale(scale: 0.985)))
@@ -27,6 +32,7 @@ struct RootView: View {
             }
         }
         .appBackground()
+        .animation(.smooth(duration: 0.45), value: session.authState)
         .onChange(of: session.authState) { _, state in
             if state == .signedOut { badges.reset() }
         }
@@ -64,8 +70,8 @@ private struct RestoreView: View {
 }
 
 #Preview {
-    let environment = AppEnvironment.live
-    RootView()
+    let environment = AppDependencies.preview
+    RootView(dependencies: environment)
         .environmentObject(SessionStore(authRepository: environment.authRepository))
         .environmentObject(
             BadgeStore(

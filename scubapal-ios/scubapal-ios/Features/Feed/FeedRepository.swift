@@ -1,5 +1,19 @@
 import Foundation
 
+protocol FeedRepositoryProtocol: Sendable {
+    func loadFeed(page: Int, size: Int) async throws -> [Post]
+    func postDetail(id: Int) async throws -> Post
+    func createPost(caption: String, mediaUrls: [String]) async throws -> Post
+    func toggleLike(postID: Int) async throws -> Post
+    func addComment(postID: Int, body: String) async throws -> Post
+}
+
+extension FeedRepositoryProtocol {
+    func loadFeed() async throws -> [Post] {
+        try await loadFeed(page: 0, size: 30)
+    }
+}
+
 struct FeedRepository: Sendable {
     let apiClient: APIClient
     let mapper: PostMapper
@@ -46,3 +60,5 @@ struct FeedRepository: Sendable {
         return try mapper.map(response)
     }
 }
+
+extension FeedRepository: FeedRepositoryProtocol {}

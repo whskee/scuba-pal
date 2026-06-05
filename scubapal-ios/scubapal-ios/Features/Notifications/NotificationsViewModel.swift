@@ -5,9 +5,9 @@ import Foundation
 final class NotificationsViewModel: ObservableObject {
     @Published private(set) var state: Loadable<[AppNotification]> = .idle
 
-    private let repository: NotificationsRepository
+    private let repository: any NotificationsRepositoryProtocol
 
-    init(repository: NotificationsRepository) {
+    init(repository: any NotificationsRepositoryProtocol) {
         self.repository = repository
     }
 
@@ -17,7 +17,7 @@ final class NotificationsViewModel: ObservableObject {
             let items = try await repository.notifications()
             state = .loaded(items)
         } catch {
-            state = .failed(error.localizedDescription)
+            state = .failed(error.userFacingMessage)
         }
     }
 
@@ -35,7 +35,7 @@ final class NotificationsViewModel: ObservableObject {
                 current[index] = item
                 state = .loaded(current)
             }
-            return error.localizedDescription
+            return error.userFacingMessage
         }
     }
 }

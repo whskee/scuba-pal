@@ -1,5 +1,11 @@
 import Foundation
 
+protocol DiscoverRepositoryProtocol: Sendable {
+    func locations(query: String) async throws -> [DiveLocation]
+    func shops(query: String) async throws -> [DiveShop]
+    func learnArticles() async throws -> [LearnArticle]
+}
+
 struct DiscoverRepository: Sendable {
     let apiClient: APIClient
     let mapper: DiscoveryMapper
@@ -29,3 +35,5 @@ struct DiscoverRepository: Sendable {
         return try response.map(mapper.map)
     }
 }
+
+extension DiscoverRepository: DiscoverRepositoryProtocol {}

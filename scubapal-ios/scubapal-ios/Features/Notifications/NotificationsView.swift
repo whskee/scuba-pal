@@ -5,8 +5,8 @@ struct NotificationsView: View {
     @EnvironmentObject private var appUI: AppUIStore
     @StateObject private var viewModel: NotificationsViewModel
 
-    init(repository: NotificationsRepository = AppEnvironment.live.notificationsRepository) {
-        _viewModel = StateObject(wrappedValue: NotificationsViewModel(repository: repository))
+    init(dependencies: AppDependencies = .live) {
+        _viewModel = StateObject(wrappedValue: NotificationsViewModel(repository: dependencies.notificationsRepository))
     }
 
     var body: some View {
@@ -30,34 +30,25 @@ struct NotificationsView: View {
         }
         .scrollIndicators(.hidden)
         .refreshable { await load() }
-        .animation(.smooth(duration: 0.28), value: viewModel.state.value)
-        .animation(.smooth(duration: 0.2), value: viewModel.state.errorMessage)
         .task { await load() }
     }
 
     @ViewBuilder
     private var content: some View {
         VStack(spacing: 12) {
-            switch viewModel.state {
-            case .idle, .loading:
-                ProgressView()
-                    .tint(ScubaTheme.primary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 32)
-            case let .failed(message):
-                EmptyStateView(title: "Alerts unavailable", message: message, systemImage: "wifi.exclamationmark")
-            case let .loaded(items):
-                if items.isEmpty {
-                    EmptyStateView(title: "No notifications", message: "Follows, messages, likes, and comments will appear here.", systemImage: "bell")
-                } else {
-                    ForEach(items) { item in
-                        Button {
-                            markRead(item)
-                        } label: {
-                            NotificationRow(notification: item)
-                        }
-                        .buttonStyle(ScaleButtonStyle())
+            LoadableCollectionView(
+                state: viewModel.state,
+                errorTitle: "Alerts unavailable"
+            ) {
+                EmptyStateView(title: "No notifications", message: "Follows, messages, likes, and comments will appear here.", systemImage: "bell")
+            } content: { items in
+                ForEach(items) { item in
+                    Button {
+                        markRead(item)
+                    } label: {
+                        NotificationRow(notification: item)
                     }
+                    .buttonStyle(ScaleButtonStyle())
                 }
             }
         }

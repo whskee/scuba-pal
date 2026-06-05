@@ -2,10 +2,12 @@ import SwiftUI
 
 struct ConversationsView: View {
     @EnvironmentObject private var badges: BadgeStore
+    let dependencies: AppDependencies
     @StateObject private var viewModel: ConversationsViewModel
 
-    init(repository: MessagingRepository = AppEnvironment.live.messagingRepository) {
-        _viewModel = StateObject(wrappedValue: ConversationsViewModel(repository: repository))
+    init(dependencies: AppDependencies = .live) {
+        self.dependencies = dependencies
+        _viewModel = StateObject(wrappedValue: ConversationsViewModel(repository: dependencies.messagingRepository))
     }
 
     var body: some View {
@@ -30,34 +32,25 @@ struct ConversationsView: View {
         .scrollIndicators(.hidden)
         .refreshable { await load() }
         .navigationDestination(for: Conversation.self) { conversation in
-            ThreadView(conversation: conversation)
+            ThreadView(conversation: conversation, dependencies: dependencies)
         }
-        .animation(.smooth(duration: 0.28), value: viewModel.state.value)
-        .animation(.smooth(duration: 0.2), value: viewModel.state.errorMessage)
         .task { await load() }
     }
 
     @ViewBuilder
     private var content: some View {
         VStack(spacing: 12) {
-            switch viewModel.state {
-            case .idle, .loading:
-                ProgressView()
-                    .tint(ScubaTheme.primary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 32)
-            case let .failed(message):
-                EmptyStateView(title: "Messages unavailable", message: message, systemImage: "wifi.exclamationmark")
-            case let .loaded(items):
-                if items.isEmpty {
-                    EmptyStateView(title: "No conversations", message: "Open a diver profile to start a message thread.", systemImage: "bubble.left.and.bubble.right")
-                } else {
-                    ForEach(items) { conversation in
-                        NavigationLink(value: conversation) {
-                            ConversationRow(conversation: conversation)
-                        }
-                        .buttonStyle(ScaleButtonStyle())
+            LoadableCollectionView(
+                state: viewModel.state,
+                errorTitle: "Messages unavailable"
+            ) {
+                EmptyStateView(title: "No conversations", message: "Open a diver profile to start a message thread.", systemImage: "bubble.left.and.bubble.right")
+            } content: { items in
+                ForEach(items) { conversation in
+                    NavigationLink(value: conversation) {
+                        ConversationRow(conversation: conversation)
                     }
+                    .buttonStyle(ScaleButtonStyle())
                 }
             }
         }
@@ -119,16 +112,18 @@ struct ThreadView: View {
     var conversation: Conversation
     @StateObject private var viewModel: ThreadViewModel
     @State private var draft = ""
+    private let dependencies: AppDependencies
 
     init(
         conversation: Conversation,
-        repository: MessagingRepository = AppEnvironment.live.messagingRepository
+        dependencies: AppDependencies = .live
     ) {
         self.conversation = conversation
+        self.dependencies = dependencies
         _viewModel = StateObject(
             wrappedValue: ThreadViewModel(
                 conversationID: conversation.id,
-                repository: repository
+                repository: dependencies.messagingRepository
             )
         )
     }
@@ -138,21 +133,15 @@ struct ThreadView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(spacing: 11) {
-                        switch viewModel.messages {
-                        case .idle, .loading:
-                            ProgressView()
-                                .tint(ScubaTheme.primary)
-                                .padding(.top, 32)
-                        case let .failed(message):
-                            EmptyStateView(title: "Thread unavailable", message: message, systemImage: "wifi.exclamationmark")
-                        case let .loaded(items):
-                            if items.isEmpty {
-                                EmptyStateView(title: "No messages", message: "Send the first dive note.", systemImage: "paperplane")
-                            } else {
-                                ForEach(items) { message in
-                                    MessageBubble(message: message)
-                                        .id(message.id)
-                                }
+                        LoadableCollectionView(
+                            state: viewModel.messages,
+                            errorTitle: "Thread unavailable"
+                        ) {
+                            EmptyStateView(title: "No messages", message: "Send the first dive note.", systemImage: "paperplane")
+                        } content: { items in
+                            ForEach(items) { message in
+                                MessageBubble(message: message)
+                                    .id(message.id)
                             }
                         }
                     }
@@ -174,8 +163,6 @@ struct ThreadView: View {
         .appBackground()
         .navigationTitle("@\(conversation.participant.username)")
         .navigationBarTitleDisplayMode(.inline)
-        .animation(.smooth(duration: 0.28), value: viewModel.messages.value)
-        .animation(.smooth(duration: 0.2), value: viewModel.messages.errorMessage)
         .task { await load() }
     }
 

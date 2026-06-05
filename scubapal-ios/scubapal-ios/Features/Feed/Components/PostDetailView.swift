@@ -4,10 +4,12 @@ struct PostDetailView: View {
     @EnvironmentObject private var appUI: AppUIStore
     @StateObject private var viewModel: PostDetailViewModel
     @State private var commentText = ""
+    private let dependencies: AppDependencies
 
-    init(post: Post, repository: FeedRepository = AppEnvironment.live.feedRepository) {
+    init(post: Post, dependencies: AppDependencies = .live) {
+        self.dependencies = dependencies
         _viewModel = StateObject(
-            wrappedValue: PostDetailViewModel(post: post, repository: repository)
+            wrappedValue: PostDetailViewModel(post: post, repository: dependencies.feedRepository)
         )
     }
 
@@ -25,9 +27,8 @@ struct PostDetailView: View {
         .navigationTitle("Post")
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(for: User.self) { user in
-            ProfileView(userID: user.id, seedUser: user)
+            ProfileView(userID: user.id, seedUser: user, dependencies: dependencies)
         }
-        .animation(.smooth(duration: 0.25), value: viewModel.post)
         .task { await loadDetail() }
     }
 

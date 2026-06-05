@@ -5,12 +5,12 @@ final class BadgeStore: ObservableObject {
     @Published private(set) var unreadMessages = 0
     @Published private(set) var unreadNotifications = 0
 
-    private let messagingRepository: MessagingRepository
-    private let notificationsRepository: NotificationsRepository
+    private let messagingRepository: any MessagingRepositoryProtocol
+    private let notificationsRepository: any NotificationsRepositoryProtocol
 
     init(
-        messagingRepository: MessagingRepository,
-        notificationsRepository: NotificationsRepository
+        messagingRepository: any MessagingRepositoryProtocol,
+        notificationsRepository: any NotificationsRepositoryProtocol
     ) {
         self.messagingRepository = messagingRepository
         self.notificationsRepository = notificationsRepository

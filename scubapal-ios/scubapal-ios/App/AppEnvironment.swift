@@ -1,14 +1,14 @@
 import Foundation
 
-struct AppEnvironment: Sendable {
-    static let live = AppEnvironment()
+struct AppDependencies: Sendable {
+    static let live = AppDependencies()
 
-    let authRepository: AuthRepository
-    let feedRepository: FeedRepository
-    let profileRepository: ProfileRepository
-    let discoverRepository: DiscoverRepository
-    let messagingRepository: MessagingRepository
-    let notificationsRepository: NotificationsRepository
+    let authRepository: any AuthRepositoryProtocol
+    let feedRepository: any FeedRepositoryProtocol
+    let profileRepository: any ProfileRepositoryProtocol
+    let discoverRepository: any DiscoverRepositoryProtocol
+    let messagingRepository: any MessagingRepositoryProtocol
+    let notificationsRepository: any NotificationsRepositoryProtocol
 
     init(config: AppConfig = .live(), tokenStore: any TokenStore = KeychainTokenStore()) {
         let apiClient = APIClient(config: config, tokenStore: tokenStore)
@@ -38,4 +38,25 @@ struct AppEnvironment: Sendable {
             mapper: NotificationMapper()
         )
     }
+
+    init(
+        authRepository: any AuthRepositoryProtocol,
+        feedRepository: any FeedRepositoryProtocol,
+        profileRepository: any ProfileRepositoryProtocol,
+        discoverRepository: any DiscoverRepositoryProtocol,
+        messagingRepository: any MessagingRepositoryProtocol,
+        notificationsRepository: any NotificationsRepositoryProtocol
+    ) {
+        self.authRepository = authRepository
+        self.feedRepository = feedRepository
+        self.profileRepository = profileRepository
+        self.discoverRepository = discoverRepository
+        self.messagingRepository = messagingRepository
+        self.notificationsRepository = notificationsRepository
+    }
+}
+
+enum AppEnvironment {
+    static let live = AppDependencies.live
+    static let preview = AppDependencies.preview
 }

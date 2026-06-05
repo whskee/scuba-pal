@@ -1,5 +1,11 @@
 import Foundation
 
+protocol NotificationsRepositoryProtocol: Sendable {
+    func notifications() async throws -> [AppNotification]
+    func unreadCount() async throws -> Int
+    func markRead(id: Int) async throws
+}
+
 struct NotificationsRepository: Sendable {
     let apiClient: APIClient
     let mapper: NotificationMapper
@@ -26,3 +32,5 @@ struct NotificationsRepository: Sendable {
         )
     }
 }
+
+extension NotificationsRepository: NotificationsRepositoryProtocol {}

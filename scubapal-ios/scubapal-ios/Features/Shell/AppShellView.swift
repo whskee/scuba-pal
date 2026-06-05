@@ -42,32 +42,37 @@ enum AppTab: String, CaseIterable, Identifiable {
 
 struct AppShellView: View {
     @EnvironmentObject private var badges: BadgeStore
+    let dependencies: AppDependencies
     @State private var selectedTab: AppTab = .feed
+
+    init(dependencies: AppDependencies = .live) {
+        self.dependencies = dependencies
+    }
 
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                FeedView()
+                FeedView(dependencies: dependencies)
             }
             .tag(AppTab.feed)
 
             NavigationStack {
-                DiscoverView()
+                DiscoverView(dependencies: dependencies)
             }
             .tag(AppTab.discover)
 
             NavigationStack {
-                ConversationsView()
+                ConversationsView(dependencies: dependencies)
             }
             .tag(AppTab.messages)
 
             NavigationStack {
-                NotificationsView()
+                NotificationsView(dependencies: dependencies)
             }
             .tag(AppTab.notifications)
 
             NavigationStack {
-                ProfileView()
+                ProfileView(dependencies: dependencies)
             }
             .tag(AppTab.profile)
         }

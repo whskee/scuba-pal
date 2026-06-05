@@ -2,29 +2,20 @@ import SwiftUI
 
 struct FeedContentView: View {
     let state: Loadable<[Post]>
-    let posts: [Post]
     let onLike: (Post) -> Void
     let onSave: () -> Void
 
     var body: some View {
-        if case .idle = state {
-            loadingView
-        } else if case .loading = state {
-            loadingView
-        } else if let errorMessage = state.errorMessage {
-            EmptyStateView(title: "Feed unavailable", message: errorMessage, systemImage: "wifi.exclamationmark")
-        } else if posts.isEmpty {
+        LoadableCollectionView(
+            state: state,
+            loadingTopPadding: 28,
+            errorTitle: "Feed unavailable"
+        ) {
             EmptyStateView(title: "No posts yet", message: "Create the first Scuba Pal post.", systemImage: "plus.bubble")
-        } else {
+        } content: { posts in
             MasonryFeed(posts: posts, onLike: onLike, onSave: onSave)
                 .padding(.horizontal, 14)
         }
-    }
-
-    private var loadingView: some View {
-        ProgressView()
-            .tint(ScubaTheme.primary)
-            .padding(.top, 28)
     }
 }
 

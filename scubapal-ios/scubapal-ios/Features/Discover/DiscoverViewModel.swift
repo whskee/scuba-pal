@@ -8,12 +8,12 @@ final class DiscoverViewModel: ObservableObject {
     @Published private(set) var locations: Loadable<[DiveLocation]> = .idle
     @Published private(set) var lessons: Loadable<[LearnArticle]> = .idle
 
-    private let discoverRepository: DiscoverRepository
-    private let profileRepository: ProfileRepository
+    private let discoverRepository: any DiscoverRepositoryProtocol
+    private let profileRepository: any ProfileRepositoryProtocol
 
     init(
-        discoverRepository: DiscoverRepository,
-        profileRepository: ProfileRepository
+        discoverRepository: any DiscoverRepositoryProtocol,
+        profileRepository: any ProfileRepositoryProtocol
     ) {
         self.discoverRepository = discoverRepository
         self.profileRepository = profileRepository
@@ -48,10 +48,10 @@ final class DiscoverViewModel: ObservableObject {
             }
         } catch {
             switch filter {
-            case .profiles: profiles = .failed(error.localizedDescription)
-            case .shops: shops = .failed(error.localizedDescription)
-            case .locations: locations = .failed(error.localizedDescription)
-            case .learn: lessons = .failed(error.localizedDescription)
+            case .profiles: profiles = .failed(error.userFacingMessage)
+            case .shops: shops = .failed(error.userFacingMessage)
+            case .locations: locations = .failed(error.userFacingMessage)
+            case .learn: lessons = .failed(error.userFacingMessage)
             }
         }
     }

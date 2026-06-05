@@ -9,12 +9,14 @@ import SwiftUI
 
 @main
 struct ScubaPalApp: App {
+    private let dependencies: AppDependencies
     @StateObject private var session: SessionStore
     @StateObject private var badges: BadgeStore
     @StateObject private var appUI = AppUIStore()
 
     init() {
-        let environment = AppEnvironment.live
+        let environment = AppDependencies.live
+        dependencies = environment
         _session = StateObject(
             wrappedValue: SessionStore(authRepository: environment.authRepository)
         )
@@ -28,7 +30,7 @@ struct ScubaPalApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
+            RootView(dependencies: dependencies)
                 .environmentObject(session)
                 .environmentObject(badges)
                 .environmentObject(appUI)

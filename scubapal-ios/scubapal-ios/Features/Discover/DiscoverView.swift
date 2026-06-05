@@ -23,15 +23,14 @@ struct DiscoverView: View {
     @StateObject private var viewModel: DiscoverViewModel
     @State private var searchText = ""
     @State private var activeFilter: DiscoverFilter = .profiles
+    private let dependencies: AppDependencies
 
-    init(
-        discoverRepository: DiscoverRepository = AppEnvironment.live.discoverRepository,
-        profileRepository: ProfileRepository = AppEnvironment.live.profileRepository
-    ) {
+    init(dependencies: AppDependencies = .live) {
+        self.dependencies = dependencies
         _viewModel = StateObject(
             wrappedValue: DiscoverViewModel(
-                discoverRepository: discoverRepository,
-                profileRepository: profileRepository
+                discoverRepository: dependencies.discoverRepository,
+                profileRepository: dependencies.profileRepository
             )
         )
     }
@@ -50,16 +49,8 @@ struct DiscoverView: View {
         }
         .scrollIndicators(.hidden)
         .navigationDestination(for: User.self) { user in
-            ProfileView(userID: user.id, seedUser: user)
+            ProfileView(userID: user.id, seedUser: user, dependencies: dependencies)
         }
-        .animation(.smooth(duration: 0.28), value: viewModel.profiles.value)
-        .animation(.smooth(duration: 0.28), value: viewModel.shops.value)
-        .animation(.smooth(duration: 0.28), value: viewModel.locations.value)
-        .animation(.smooth(duration: 0.28), value: viewModel.lessons.value)
-        .animation(.smooth(duration: 0.2), value: viewModel.profiles.errorMessage)
-        .animation(.smooth(duration: 0.2), value: viewModel.shops.errorMessage)
-        .animation(.smooth(duration: 0.2), value: viewModel.locations.errorMessage)
-        .animation(.smooth(duration: 0.2), value: viewModel.lessons.errorMessage)
         .task(id: activeFilter) { await loadCurrent() }
         .task(id: searchText) {
             try? await Task.sleep(for: .milliseconds(260))
@@ -142,21 +133,15 @@ struct DiscoverView: View {
 
     private func resultList<Value, Row: View>(_ state: Loadable<[Value]>, empty: String, @ViewBuilder row: @escaping (Value) -> Row) -> some View {
         VStack(spacing: 12) {
-            switch state {
-            case .idle, .loading:
-                ProgressView()
-                    .tint(ScubaTheme.primary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 26)
-            case let .failed(message):
-                EmptyStateView(title: "Could not search", message: message, systemImage: "wifi.exclamationmark")
-            case let .loaded(items):
-                if items.isEmpty {
-                    EmptyStateView(title: empty, message: searchText.nilIfBlank == nil ? "Pull a broader term into search." : "Try a different query.", systemImage: "magnifyingglass")
-                } else {
-                    ForEach(Array(items.enumerated()), id: \.offset) { _, item in
-                        row(item)
-                    }
+            LoadableCollectionView(
+                state: state,
+                loadingTopPadding: 26,
+                errorTitle: "Could not search"
+            ) {
+                EmptyStateView(title: empty, message: searchText.nilIfBlank == nil ? "Pull a broader term into search." : "Try a different query.", systemImage: "magnifyingglass")
+            } content: { items in
+                ForEach(Array(items.enumerated()), id: \.offset) { _, item in
+                    row(item)
                 }
             }
         }

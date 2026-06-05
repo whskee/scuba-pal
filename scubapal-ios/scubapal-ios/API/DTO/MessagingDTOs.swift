@@ -31,10 +31,6 @@ struct MessageDTO: Codable, Hashable {
     var sentByCurrentUser: Bool?
 }
 
-struct SendMessageRequest: Codable {
-    var messageText: String
-}
-
 struct UnreadMessageCountDTO: Codable {
     var unreadMessageCount: Int?
 }

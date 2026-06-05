@@ -10,19 +10,20 @@ struct ProfileView: View {
     @StateObject private var viewModel: ProfileViewModel
     @State private var showingEditor = false
     @State private var navigateConversation: Conversation?
+    private let dependencies: AppDependencies
 
     init(
         userID: Int? = nil,
         seedUser: User? = nil,
-        profileRepository: ProfileRepository = AppEnvironment.live.profileRepository,
-        messagingRepository: MessagingRepository = AppEnvironment.live.messagingRepository
+        dependencies: AppDependencies = .live
     ) {
         self.userID = userID
         self.seedUser = seedUser
+        self.dependencies = dependencies
         _viewModel = StateObject(
             wrappedValue: ProfileViewModel(
-                profileRepository: profileRepository,
-                messagingRepository: messagingRepository
+                profileRepository: dependencies.profileRepository,
+                messagingRepository: dependencies.messagingRepository
             )
         )
     }
@@ -42,7 +43,7 @@ struct ProfileView: View {
         }
         .scrollIndicators(.hidden)
         .navigationDestination(item: $navigateConversation) { conversation in
-            ThreadView(conversation: conversation)
+            ThreadView(conversation: conversation, dependencies: dependencies)
         }
         .sheet(isPresented: $showingEditor) {
             if let loaded = viewModel.user.value {
@@ -53,8 +54,6 @@ struct ProfileView: View {
                 .presentationDragIndicator(.visible)
             }
         }
-        .animation(.smooth(duration: 0.28), value: viewModel.user.value)
-        .animation(.smooth(duration: 0.2), value: viewModel.user.errorMessage)
         .task { await load() }
     }
 
@@ -79,15 +78,11 @@ struct ProfileView: View {
     @ViewBuilder
     private var content: some View {
         VStack(spacing: 14) {
-            switch viewModel.user {
-            case .idle, .loading:
-                ProgressView()
-                    .tint(ScubaTheme.primary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 32)
-            case let .failed(message):
-                EmptyStateView(title: "Profile unavailable", message: message, systemImage: "person.crop.circle.badge.exclamationmark")
-            case let .loaded(user):
+            LoadableValueView(
+                state: viewModel.user,
+                errorTitle: "Profile unavailable",
+                errorSystemImage: "person.crop.circle.badge.exclamationmark"
+            ) { user in
                 profileCard(user)
                 actionRow(user)
                 aboutCard(user)
@@ -197,7 +192,7 @@ struct ProfileView: View {
                 navigateConversation = conversation
                 await badges.refresh()
             case let .failure(error):
-                appUI.showToast(error.localizedDescription, systemImage: "exclamationmark.triangle.fill")
+                appUI.showToast(error.userFacingMessage, systemImage: "exclamationmark.triangle.fill")
             }
         }
     }
@@ -208,7 +203,7 @@ struct ProfileView: View {
             session.updateStoredUser(updated)
             appUI.showToast("Profile updated", systemImage: "checkmark.circle.fill")
         case let .failure(error):
-            appUI.showToast(error.localizedDescription, systemImage: "exclamationmark.triangle.fill")
+            appUI.showToast(error.userFacingMessage, systemImage: "exclamationmark.triangle.fill")
         }
     }
 }

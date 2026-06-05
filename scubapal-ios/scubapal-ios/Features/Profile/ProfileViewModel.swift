@@ -6,12 +6,12 @@ final class ProfileViewModel: ObservableObject {
     @Published private(set) var user: Loadable<User> = .idle
     @Published private(set) var isMutating = false
 
-    private let profileRepository: ProfileRepository
-    private let messagingRepository: MessagingRepository
+    private let profileRepository: any ProfileRepositoryProtocol
+    private let messagingRepository: any MessagingRepositoryProtocol
 
     init(
-        profileRepository: ProfileRepository,
-        messagingRepository: MessagingRepository
+        profileRepository: any ProfileRepositoryProtocol,
+        messagingRepository: any MessagingRepositoryProtocol
     ) {
         self.profileRepository = profileRepository
         self.messagingRepository = messagingRepository
@@ -37,7 +37,7 @@ final class ProfileViewModel: ObservableObject {
             if isMine, let currentUser {
                 user = .loaded(currentUser)
             } else {
-                user = .failed(error.localizedDescription)
+                user = .failed(error.userFacingMessage)
             }
         }
     }
@@ -57,7 +57,7 @@ final class ProfileViewModel: ObservableObject {
             self.user = .loaded(updated)
             return nil
         } catch {
-            return error.localizedDescription
+            return error.userFacingMessage
         }
     }
 

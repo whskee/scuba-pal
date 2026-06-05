@@ -5,9 +5,9 @@ import Foundation
 final class ConversationsViewModel: ObservableObject {
     @Published private(set) var state: Loadable<[Conversation]> = .idle
 
-    private let repository: MessagingRepository
+    private let repository: any MessagingRepositoryProtocol
 
-    init(repository: MessagingRepository) {
+    init(repository: any MessagingRepositoryProtocol) {
         self.repository = repository
     }
 
@@ -17,7 +17,7 @@ final class ConversationsViewModel: ObservableObject {
             let items = try await repository.conversations()
             state = .loaded(items)
         } catch {
-            state = .failed(error.localizedDescription)
+            state = .failed(error.userFacingMessage)
         }
     }
 }
@@ -28,10 +28,10 @@ final class ThreadViewModel: ObservableObject {
     @Published private(set) var isSending = false
 
     private let conversationID: Int
-    private let repository: MessagingRepository
+    private let repository: any MessagingRepositoryProtocol
     private var nextOptimisticID = -1
 
-    init(conversationID: Int, repository: MessagingRepository) {
+    init(conversationID: Int, repository: any MessagingRepositoryProtocol) {
         self.conversationID = conversationID
         self.repository = repository
     }
@@ -42,7 +42,7 @@ final class ThreadViewModel: ObservableObject {
             let items = try await repository.messages(conversationID: conversationID)
             messages = .loaded(items.sorted { $0.createdAt < $1.createdAt })
         } catch {
-            messages = .failed(error.localizedDescription)
+            messages = .failed(error.userFacingMessage)
         }
     }
 
@@ -73,7 +73,7 @@ final class ThreadViewModel: ObservableObject {
                 rollback.removeAll { $0.id == optimistic.id }
                 messages = .loaded(rollback)
             }
-            return error.localizedDescription
+            return error.userFacingMessage
         }
     }
 }

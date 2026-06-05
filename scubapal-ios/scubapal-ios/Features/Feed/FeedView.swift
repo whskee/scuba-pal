@@ -8,10 +8,12 @@ struct FeedView: View {
     @State private var activeFilter = "For you"
     @State private var showingComposer = false
 
+    private let dependencies: AppDependencies
     private let filters = ["For you", "Local", "Buddies", "Gear", "Training"]
 
-    init(repository: FeedRepository = AppEnvironment.live.feedRepository) {
-        _viewModel = StateObject(wrappedValue: FeedViewModel(repository: repository))
+    init(dependencies: AppDependencies = .live) {
+        self.dependencies = dependencies
+        _viewModel = StateObject(wrappedValue: FeedViewModel(repository: dependencies.feedRepository))
     }
 
     var body: some View {
@@ -29,7 +31,6 @@ struct FeedView: View {
                 }
                 FeedContentView(
                     state: viewModel.state,
-                    posts: viewModel.posts,
                     onLike: like,
                     onSave: showSavedToast
                 )
@@ -40,10 +41,10 @@ struct FeedView: View {
         .refreshable { await loadFeed(showLoading: false) }
         .scrollIndicators(.hidden)
         .navigationDestination(for: Post.self) { post in
-            PostDetailView(post: post)
+            PostDetailView(post: post, dependencies: dependencies)
         }
         .navigationDestination(for: User.self) { user in
-            ProfileView(userID: user.id, seedUser: user)
+            ProfileView(userID: user.id, seedUser: user, dependencies: dependencies)
         }
         .sheet(isPresented: $showingComposer) {
             CreatePostSheet { caption, urls in
@@ -52,8 +53,6 @@ struct FeedView: View {
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
         }
-        .animation(.smooth(duration: 0.35), value: viewModel.posts)
-        .animation(.smooth(duration: 0.2), value: viewModel.state.errorMessage)
         .task { await loadFeed(showLoading: viewModel.posts.isEmpty) }
     }
 

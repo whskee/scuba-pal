@@ -1,5 +1,13 @@
 import Foundation
 
+protocol ProfileRepositoryProtocol: Sendable {
+    func profiles(query: String) async throws -> [User]
+    func profile(userID: Int) async throws -> User
+    func currentProfile() async throws -> User
+    func updateCurrentProfile(_ update: ProfileUpdate) async throws -> User
+    func follow(userID: Int, shouldFollow: Bool) async throws -> FollowSummary
+}
+
 struct ProfileRepository: Sendable {
     let apiClient: APIClient
     let mapper: UserMapper
@@ -60,3 +68,5 @@ struct ProfileRepository: Sendable {
         return mapper.mapFollowSummary(response)
     }
 }
+
+extension ProfileRepository: ProfileRepositoryProtocol {}
