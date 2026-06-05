@@ -1,17 +1,24 @@
 SHELL := /bin/bash
 
-APP_DIR := app
-WEB_DIR := web
-MOBILE_DIR := mobile
-DOCS_DIR := docs
-
-APP_IMAGE := scuba-pal-app:local
+# ONLY MODIFY VARIABLES IN THIS SECTION
+NAME := scuba-pal
+VERSION := 0.1.0
+APP_IMAGE := $(NAME)-app:local
 APP_PORT := 8080
+
+# Names of subdirectories for different components
+APP_DIR := $(NAME)-app
+WEB_DIR := $(NAME)-web
+MOBILE_DIR := $(NAME)-mobile
+DOCS_DIR := $(NAME)-docs
+
+# Database connection settings for local development and Docker
 DB_URL ?= jdbc:postgresql://host.docker.internal:5432/scuba_pal
 DB_USER ?= scuba_pal_runtime
 DB_PASSWORD ?= scuba_pal
+
 MEDIA_S3_REGION ?= us-west-2
-MEDIA_S3_BUCKET ?= scuba-pal-user-media-test-817455142561-us-west-2-an
+MEDIA_S3_BUCKET ?= $(NAME)-user-media-test-817455142561-us-west-2-an
 MAIL_HOST ?= host.docker.internal
 MAIL_PORT ?= 1025
 
@@ -75,14 +82,6 @@ db-up:
 .PHONY: db-down
 db-down:
 	cd $(APP_DIR) && docker compose down
-
-.PHONY: web-dev
-web-dev:
-	cd $(WEB_DIR) && npm run dev
-
-.PHONY: web-build
-web-build:
-	cd $(WEB_DIR) && npm run build
 
 .PHONY: mobile-dev
 mobile-dev:

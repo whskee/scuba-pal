@@ -2,7 +2,7 @@ import Foundation
 
 struct CreatePostRequest: Codable {
     var caption: String
-    var visibilityStatus: String
+    var visibilityStatus: VisibilityStatus
     var mediaUrls: [String]
 }
 
@@ -16,7 +16,7 @@ struct FeedPostDTO: Codable, Hashable {
     var username: String?
     var authorProfileImageUrl: String?
     var caption: String?
-    var visibilityStatus: String?
+    var visibilityStatus: VisibilityStatus?
     var imageUrl: String?
     var mediaUrls: [String]?
     var likes: Int?
@@ -40,6 +40,7 @@ struct PostDetailDTO: Codable, Hashable {
     var username: String?
     var authorProfileImageUrl: String?
     var caption: String?
+    var visibilityStatus: VisibilityStatus?
     var imageUrl: String?
     var mediaUrls: [String]?
     var likes: Int?

@@ -53,6 +53,8 @@ struct ProfileView: View {
                 .presentationDragIndicator(.visible)
             }
         }
+        .animation(.smooth(duration: 0.28), value: viewModel.user.value)
+        .animation(.smooth(duration: 0.2), value: viewModel.user.errorMessage)
         .task { await load() }
     }
 

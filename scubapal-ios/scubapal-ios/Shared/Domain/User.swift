@@ -6,11 +6,13 @@ struct User: Identifiable, Hashable {
     var firstName: String?
     var lastName: String?
     var email: String?
+    var role: UserRole? = nil
     var city: String?
     var state: String?
     var country: String?
     var profileImageUrl: String?
     var profileImageURL: URL?
+    var visibilityStatus: VisibilityStatus? = nil
     var bio: String?
     var diveCount: Int
     var followersCount: Int

@@ -110,6 +110,7 @@ struct AuthLandingView: View {
         .padding(18)
         .glassPanel(radius: 28, fill: ScubaTheme.background.opacity(0.38), border: ScubaTheme.primary.opacity(0.18))
         .animation(.smooth(duration: 0.25), value: viewModel.mode)
+        .animation(.snappy(duration: 0.2), value: viewModel.errorMessage)
     }
 
     private func submit() {

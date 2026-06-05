@@ -1,5 +1,5 @@
 import Combine
-import SwiftUI
+import Foundation
 
 @MainActor
 final class FeedViewModel: ObservableObject {
@@ -19,7 +19,7 @@ final class FeedViewModel: ObservableObject {
         if showLoading { state = .loading }
         do {
             let posts = try await repository.loadFeed()
-            withAnimation(.smooth(duration: 0.35)) { state = .loaded(posts) }
+            state = .loaded(posts)
         } catch {
             state = .failed(error.localizedDescription)
         }
@@ -34,7 +34,7 @@ final class FeedViewModel: ObservableObject {
         optimistic.likedByMe.toggle()
         optimistic.likeCount = max(0, optimistic.likeCount + (optimistic.likedByMe ? 1 : -1))
         posts[index] = optimistic
-        withAnimation(.snappy(duration: 0.24)) { state = .loaded(posts) }
+        state = .loaded(posts)
 
         do {
             let updated = try await repository.toggleLike(postID: post.id)
@@ -42,14 +42,14 @@ final class FeedViewModel: ObservableObject {
                 return nil
             }
             current[updateIndex] = updated
-            withAnimation(.snappy(duration: 0.2)) { state = .loaded(current) }
+            state = .loaded(current)
             return nil
         } catch {
             guard var current = state.value, let rollbackIndex = current.firstIndex(where: { $0.id == post.id }) else {
                 return error.localizedDescription
             }
             current[rollbackIndex] = post
-            withAnimation(.snappy(duration: 0.2)) { state = .loaded(current) }
+            state = .loaded(current)
             return error.localizedDescription
         }
     }
@@ -59,7 +59,7 @@ final class FeedViewModel: ObservableObject {
             let created = try await repository.createPost(caption: caption, mediaUrls: mediaUrls)
             var posts = state.value ?? []
             posts.insert(created, at: 0)
-            withAnimation(.smooth(duration: 0.35)) { state = .loaded(posts) }
+            state = .loaded(posts)
             return nil
         } catch {
             return error.localizedDescription
@@ -84,7 +84,7 @@ final class PostDetailViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         guard let detail = try? await repository.postDetail(id: post.id) else { return }
-        withAnimation(.smooth(duration: 0.25)) { post = detail }
+        post = detail
     }
 
     func toggleLike() async -> String? {

@@ -4,6 +4,7 @@ struct Post: Identifiable, Hashable {
     var id: Int
     var author: User
     var content: String
+    var visibilityStatus: VisibilityStatus?
     var imageUrl: URL?
     var mediaUrls: [URL]
     var createdAt: Date

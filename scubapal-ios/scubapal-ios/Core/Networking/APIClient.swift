@@ -145,7 +145,7 @@ actor APIClient {
         guard let refreshToken = tokenPair?.refreshToken else { throw APIError.unauthorized }
 
         let task = Task<TokenPair, Error> {
-            let endpoint = Endpoint(path: "/api/auth/refresh", method: .post, requiresAuth: false)
+            let endpoint = Endpoint(path: APIPath.refreshToken, method: .post, requiresAuth: false)
             let response: AuthResponse = try await request(
                 endpoint,
                 body: RefreshTokenRequest(refreshToken: refreshToken)

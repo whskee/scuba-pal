@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>com.social</groupId>
-    <artifactId>scuba-pal</artifactId>
+    <artifactId>scuba-pal-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>scuba-pal</name>
-    <description>Scuba Pal social app backend + frontend</description>
+    <name>scuba-pal-app</name>
+    <description>Java Spring Boot + Thymeleaf</description>
 
     <properties>
         <java.version>25</java.version>

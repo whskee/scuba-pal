@@ -11,6 +11,7 @@ struct NotificationDTO: Codable, Hashable {
     var message: String?
     var read: Bool?
     var createdAt: String?
+    // TODO: Type this when NotificationView includes a documented backend enum.
     var type: String?
 }
 

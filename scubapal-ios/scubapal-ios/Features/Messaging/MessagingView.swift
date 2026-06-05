@@ -32,6 +32,8 @@ struct ConversationsView: View {
         .navigationDestination(for: Conversation.self) { conversation in
             ThreadView(conversation: conversation)
         }
+        .animation(.smooth(duration: 0.28), value: viewModel.state.value)
+        .animation(.smooth(duration: 0.2), value: viewModel.state.errorMessage)
         .task { await load() }
     }
 
@@ -172,6 +174,8 @@ struct ThreadView: View {
         .appBackground()
         .navigationTitle("@\(conversation.participant.username)")
         .navigationBarTitleDisplayMode(.inline)
+        .animation(.smooth(duration: 0.28), value: viewModel.messages.value)
+        .animation(.smooth(duration: 0.2), value: viewModel.messages.errorMessage)
         .task { await load() }
     }
 

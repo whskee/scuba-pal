@@ -38,7 +38,7 @@ final class APIClientRefreshTests: XCTestCase {
             }
         }
 
-        let response: CurrentUserDTO = try await apiClient.request(Endpoint(path: "/api/me"))
+        let response: CurrentUserDTO = try await apiClient.request(Endpoint(path: APIPath.currentUser))
 
         XCTAssertEqual(response.id, 7)
         XCTAssertEqual(protectedRequestCount.current(), 2)

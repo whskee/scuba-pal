@@ -6,7 +6,7 @@ struct CurrentUserDTO: Codable, Hashable {
     var firstName: String?
     var lastName: String?
     var email: String?
-    var role: String?
+    var role: UserRole?
     var city: String?
     var country: String?
     var diveCount: Int?

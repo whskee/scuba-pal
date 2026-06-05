@@ -6,8 +6,8 @@ struct ProfileRepository: Sendable {
 
     func profiles(query: String) async throws -> [User] {
         let endpoint = Endpoint(
-            path: "/api/profiles",
-            query: ["q": query, "page": "0", "size": "50"]
+            path: APIPath.profiles,
+            query: PageRequest(size: 50).queryParameters(adding: ["q": query])
         )
         let response: PageResponseDTO<PublicProfileDTO> = try await apiClient.request(endpoint)
         return try (response.content ?? []).map { try mapper.map($0) }
@@ -15,25 +15,25 @@ struct ProfileRepository: Sendable {
 
     func profile(userID: Int) async throws -> User {
         async let profileResponse: PublicProfileDTO = apiClient.request(
-            Endpoint(path: "/api/users/\(userID)/profile")
+            Endpoint(path: APIPath.userProfile(userID: userID))
         )
         async let summaryResponse: FollowSummaryDTO? = try? apiClient.request(
-            Endpoint(path: "/api/users/\(userID)/follow-summary")
+            Endpoint(path: APIPath.userFollowSummary(userID: userID))
         )
         return try mapper.map(try await profileResponse, follow: await summaryResponse)
     }
 
     func currentProfile() async throws -> User {
-        let response: ProfileDTO = try await apiClient.request(Endpoint(path: "/api/me/profile"))
+        let response: ProfileDTO = try await apiClient.request(Endpoint(path: APIPath.currentUserProfile))
         let initial = try mapper.map(response)
         let summary: FollowSummaryDTO? = try? await apiClient.request(
-            Endpoint(path: "/api/users/\(initial.id)/follow-summary")
+            Endpoint(path: APIPath.userFollowSummary(userID: initial.id))
         )
         return try mapper.map(response, follow: summary)
     }
 
     func updateCurrentProfile(_ update: ProfileUpdate) async throws -> User {
-        let endpoint = Endpoint(path: "/api/me/profile", method: .put)
+        let endpoint = Endpoint(path: APIPath.currentUserProfile, method: .put)
         let response: ProfileDTO = try await apiClient.request(
             endpoint,
             body: UpdateProfileRequest(
@@ -53,7 +53,7 @@ struct ProfileRepository: Sendable {
 
     func follow(userID: Int, shouldFollow: Bool) async throws -> FollowSummary {
         let endpoint = Endpoint(
-            path: "/api/users/\(userID)/follow",
+            path: APIPath.userFollow(userID: userID),
             method: shouldFollow ? .post : .delete
         )
         let response: FollowSummaryDTO = try await apiClient.request(endpoint)

@@ -22,6 +22,7 @@ struct ProfileDTO: Codable, Hashable {
     var city: String?
     var state: String?
     var country: String?
+    var visibilityStatus: VisibilityStatus?
     var bio: String?
     var diveCount: Int?
     var profileImageUrl: String?
@@ -49,7 +50,7 @@ struct UpdateProfileRequest: Codable {
     var bio: String?
     var diveCount: Int?
     var profileImageUrl: String?
-    var visibilityStatus: String = "PUBLIC"
+    var visibilityStatus: VisibilityStatus = .publicStatus
 }
 
 struct FollowSummaryDTO: Codable, Hashable {

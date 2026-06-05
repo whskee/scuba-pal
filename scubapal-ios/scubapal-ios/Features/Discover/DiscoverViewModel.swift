@@ -1,5 +1,5 @@
 import Combine
-import SwiftUI
+import Foundation
 
 @MainActor
 final class DiscoverViewModel: ObservableObject {
@@ -27,15 +27,15 @@ final class DiscoverViewModel: ObservableObject {
                 profiles = .loading
                 let items = try await profileRepository.profiles(query: term)
                     .filter { $0.id != currentUserID }
-                withAnimation(.smooth(duration: 0.28)) { profiles = .loaded(items) }
+                profiles = .loaded(items)
             case .shops:
                 shops = .loading
                 let items = try await discoverRepository.shops(query: term)
-                withAnimation(.smooth(duration: 0.28)) { shops = .loaded(items) }
+                shops = .loaded(items)
             case .locations:
                 locations = .loading
                 let items = try await discoverRepository.locations(query: term)
-                withAnimation(.smooth(duration: 0.28)) { locations = .loaded(items) }
+                locations = .loaded(items)
             case .learn:
                 lessons = .loading
                 let all = try await discoverRepository.learnArticles()
@@ -44,16 +44,14 @@ final class DiscoverViewModel: ObservableObject {
                         .joined(separator: " ")
                         .localizedCaseInsensitiveContains(term)
                 }
-                withAnimation(.smooth(duration: 0.28)) { lessons = .loaded(filtered) }
+                lessons = .loaded(filtered)
             }
         } catch {
-            withAnimation(.smooth(duration: 0.2)) {
-                switch filter {
-                case .profiles: profiles = .failed(error.localizedDescription)
-                case .shops: shops = .failed(error.localizedDescription)
-                case .locations: locations = .failed(error.localizedDescription)
-                case .learn: lessons = .failed(error.localizedDescription)
-                }
+            switch filter {
+            case .profiles: profiles = .failed(error.localizedDescription)
+            case .shops: shops = .failed(error.localizedDescription)
+            case .locations: locations = .failed(error.localizedDescription)
+            case .learn: lessons = .failed(error.localizedDescription)
             }
         }
     }

@@ -6,8 +6,8 @@ struct DiscoverRepository: Sendable {
 
     func locations(query: String) async throws -> [DiveLocation] {
         let endpoint = Endpoint(
-            path: "/api/locations",
-            query: ["city": query, "page": "0", "size": "80"]
+            path: APIPath.locations,
+            query: PageRequest(size: 80).queryParameters(adding: ["city": query])
         )
         let response: PageResponseDTO<DiveLocationDTO> = try await apiClient.request(endpoint)
         return try (response.content ?? []).map(mapper.map)
@@ -15,8 +15,8 @@ struct DiscoverRepository: Sendable {
 
     func shops(query: String) async throws -> [DiveShop] {
         let endpoint = Endpoint(
-            path: "/api/shops",
-            query: ["q": query, "page": "0", "size": "80"]
+            path: APIPath.shops,
+            query: PageRequest(size: 80).queryParameters(adding: ["q": query])
         )
         let response: PageResponseDTO<DiveShopDTO> = try await apiClient.request(endpoint)
         return try (response.content ?? []).map(mapper.map)
@@ -24,7 +24,7 @@ struct DiscoverRepository: Sendable {
 
     func learnArticles() async throws -> [LearnArticle] {
         let response: [LearnArticleDTO] = try await apiClient.request(
-            Endpoint(path: "/api/learn/articles")
+            Endpoint(path: APIPath.learnArticles)
         )
         return try response.map(mapper.map)
     }

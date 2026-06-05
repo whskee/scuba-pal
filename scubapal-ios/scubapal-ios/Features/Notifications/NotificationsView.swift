@@ -30,6 +30,8 @@ struct NotificationsView: View {
         }
         .scrollIndicators(.hidden)
         .refreshable { await load() }
+        .animation(.smooth(duration: 0.28), value: viewModel.state.value)
+        .animation(.smooth(duration: 0.2), value: viewModel.state.errorMessage)
         .task { await load() }
     }
 

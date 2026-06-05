@@ -10,6 +10,7 @@ struct DiveLocation: Identifiable, Hashable {
     var country: String?
     var latitude: Double?
     var longitude: Double?
+    // TODO: Type this when the backend exposes a fixed difficulty enum.
     var difficultyLevel: String?
     var popularityScore: Double?
 }
@@ -36,6 +37,7 @@ struct LearnArticle: Identifiable, Hashable {
     var summary: String
     var content: String
     var category: String
+    // TODO: Type this when the backend exposes a fixed difficulty enum.
     var difficultyLevel: String
     var estimatedMinutes: Int
     var updatedAt: Date

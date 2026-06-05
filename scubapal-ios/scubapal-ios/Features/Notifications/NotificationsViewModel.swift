@@ -1,5 +1,5 @@
 import Combine
-import SwiftUI
+import Foundation
 
 @MainActor
 final class NotificationsViewModel: ObservableObject {
@@ -15,9 +15,9 @@ final class NotificationsViewModel: ObservableObject {
         state = .loading
         do {
             let items = try await repository.notifications()
-            withAnimation(.smooth(duration: 0.28)) { state = .loaded(items) }
+            state = .loaded(items)
         } catch {
-            withAnimation(.smooth(duration: 0.2)) { state = .failed(error.localizedDescription) }
+            state = .failed(error.localizedDescription)
         }
     }
 
@@ -25,7 +25,7 @@ final class NotificationsViewModel: ObservableObject {
         guard !item.read else { return nil }
         if var current = state.value, let index = current.firstIndex(where: { $0.id == item.id }) {
             current[index].read = true
-            withAnimation(.snappy(duration: 0.2)) { state = .loaded(current) }
+            state = .loaded(current)
         }
         do {
             try await repository.markRead(id: item.id)
@@ -33,7 +33,7 @@ final class NotificationsViewModel: ObservableObject {
         } catch {
             if var current = state.value, let index = current.firstIndex(where: { $0.id == item.id }) {
                 current[index] = item
-                withAnimation(.snappy(duration: 0.2)) { state = .loaded(current) }
+                state = .loaded(current)
             }
             return error.localizedDescription
         }

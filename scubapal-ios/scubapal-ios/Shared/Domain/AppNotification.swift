@@ -6,5 +6,6 @@ struct AppNotification: Identifiable, Hashable {
     var body: String
     var read: Bool
     var createdAt: Date
+    // TODO: Type this when NotificationView includes a documented backend enum.
     var type: String?
 }

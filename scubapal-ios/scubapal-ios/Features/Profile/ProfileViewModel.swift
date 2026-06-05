@@ -1,5 +1,5 @@
 import Combine
-import SwiftUI
+import Foundation
 
 @MainActor
 final class ProfileViewModel: ObservableObject {
@@ -32,12 +32,12 @@ final class ProfileViewModel: ObservableObject {
                 guard let userID else { throw MappingError.missingRequiredField("userID") }
                 loaded = try await profileRepository.profile(userID: userID)
             }
-            withAnimation(.smooth(duration: 0.28)) { user = .loaded(loaded) }
+            user = .loaded(loaded)
         } catch {
             if isMine, let currentUser {
-                withAnimation(.smooth(duration: 0.28)) { user = .loaded(currentUser) }
+                user = .loaded(currentUser)
             } else {
-                withAnimation(.smooth(duration: 0.2)) { user = .failed(error.localizedDescription) }
+                user = .failed(error.localizedDescription)
             }
         }
     }
@@ -54,7 +54,7 @@ final class ProfileViewModel: ObservableObject {
             updated.followedByMe = summary.followedByCurrentUser
             updated.followersCount = summary.followerCount
             updated.followingCount = summary.followingCount
-            withAnimation(.snappy(duration: 0.22)) { self.user = .loaded(updated) }
+            self.user = .loaded(updated)
             return nil
         } catch {
             return error.localizedDescription
@@ -74,7 +74,7 @@ final class ProfileViewModel: ObservableObject {
     func updateProfile(_ update: ProfileUpdate) async -> Result<User, Error> {
         do {
             let updated = try await profileRepository.updateCurrentProfile(update)
-            withAnimation(.smooth(duration: 0.28)) { user = .loaded(updated) }
+            user = .loaded(updated)
             return .success(updated)
         } catch {
             return .failure(error)

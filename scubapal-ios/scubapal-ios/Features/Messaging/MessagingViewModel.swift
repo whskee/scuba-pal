@@ -1,5 +1,5 @@
 import Combine
-import SwiftUI
+import Foundation
 
 @MainActor
 final class ConversationsViewModel: ObservableObject {
@@ -15,9 +15,9 @@ final class ConversationsViewModel: ObservableObject {
         state = .loading
         do {
             let items = try await repository.conversations()
-            withAnimation(.smooth(duration: 0.28)) { state = .loaded(items) }
+            state = .loaded(items)
         } catch {
-            withAnimation(.smooth(duration: 0.2)) { state = .failed(error.localizedDescription) }
+            state = .failed(error.localizedDescription)
         }
     }
 }
@@ -40,11 +40,9 @@ final class ThreadViewModel: ObservableObject {
         messages = .loading
         do {
             let items = try await repository.messages(conversationID: conversationID)
-            withAnimation(.smooth(duration: 0.28)) {
-                messages = .loaded(items.sorted { $0.createdAt < $1.createdAt })
-            }
+            messages = .loaded(items.sorted { $0.createdAt < $1.createdAt })
         } catch {
-            withAnimation(.smooth(duration: 0.2)) { messages = .failed(error.localizedDescription) }
+            messages = .failed(error.localizedDescription)
         }
     }
 
@@ -64,7 +62,7 @@ final class ThreadViewModel: ObservableObject {
 
         var current = messages.value ?? []
         current.append(optimistic)
-        withAnimation(.snappy(duration: 0.2)) { messages = .loaded(current) }
+        messages = .loaded(current)
 
         do {
             try await repository.sendMessage(conversationID: conversationID, body: body)
@@ -73,7 +71,7 @@ final class ThreadViewModel: ObservableObject {
         } catch {
             if var rollback = messages.value {
                 rollback.removeAll { $0.id == optimistic.id }
-                withAnimation(.snappy(duration: 0.2)) { messages = .loaded(rollback) }
+                messages = .loaded(rollback)
             }
             return error.localizedDescription
         }

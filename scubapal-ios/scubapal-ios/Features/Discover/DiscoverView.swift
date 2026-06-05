@@ -52,6 +52,14 @@ struct DiscoverView: View {
         .navigationDestination(for: User.self) { user in
             ProfileView(userID: user.id, seedUser: user)
         }
+        .animation(.smooth(duration: 0.28), value: viewModel.profiles.value)
+        .animation(.smooth(duration: 0.28), value: viewModel.shops.value)
+        .animation(.smooth(duration: 0.28), value: viewModel.locations.value)
+        .animation(.smooth(duration: 0.28), value: viewModel.lessons.value)
+        .animation(.smooth(duration: 0.2), value: viewModel.profiles.errorMessage)
+        .animation(.smooth(duration: 0.2), value: viewModel.shops.errorMessage)
+        .animation(.smooth(duration: 0.2), value: viewModel.locations.errorMessage)
+        .animation(.smooth(duration: 0.2), value: viewModel.lessons.errorMessage)
         .task(id: activeFilter) { await loadCurrent() }
         .task(id: searchText) {
             try? await Task.sleep(for: .milliseconds(260))

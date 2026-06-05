@@ -43,6 +43,7 @@ final class PostMapperTests: XCTestCase {
             userId: 42,
             username: "oceanfriend",
             caption: "Blue water",
+            visibilityStatus: .publicStatus,
             imageUrl: "/media/reef.jpg",
             createdAt: "2026-06-04T12:00:00Z"
         )
@@ -51,5 +52,6 @@ final class PostMapperTests: XCTestCase {
 
         XCTAssertEqual(post.imageUrl?.absoluteString, "https://api.scubapal.test/media/reef.jpg")
         XCTAssertEqual(post.mediaUrls, [URL(string: "https://api.scubapal.test/media/reef.jpg")!])
+        XCTAssertEqual(post.visibilityStatus, .publicStatus)
     }
 }

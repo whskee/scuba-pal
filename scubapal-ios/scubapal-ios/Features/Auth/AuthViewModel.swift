@@ -1,5 +1,5 @@
 import Combine
-import SwiftUI
+import Foundation
 
 @MainActor
 final class AuthViewModel: ObservableObject {
@@ -24,7 +24,7 @@ final class AuthViewModel: ObservableObject {
     }
 
     func clearError() {
-        withAnimation(.smooth(duration: 0.25)) { errorMessage = nil }
+        errorMessage = nil
     }
 
     func submit(session: SessionStore) async -> String? {
@@ -51,9 +51,7 @@ final class AuthViewModel: ObservableObject {
                 return "Account created"
             }
         } catch {
-            withAnimation(.snappy(duration: 0.2)) {
-                errorMessage = error.localizedDescription
-            }
+            errorMessage = error.localizedDescription
             return nil
         }
     }

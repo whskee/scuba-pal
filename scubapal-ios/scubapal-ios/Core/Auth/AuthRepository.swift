@@ -18,7 +18,7 @@ struct AuthRepository: Sendable {
     }
 
     func login(username: String, password: String) async throws -> User {
-        let endpoint = Endpoint(path: "/api/auth/login", method: .post, requiresAuth: false)
+        let endpoint = Endpoint(path: APIPath.login, method: .post, requiresAuth: false)
         let response: AuthResponse = try await apiClient.request(
             endpoint,
             body: LoginRequest(username: username, password: password)
@@ -33,7 +33,7 @@ struct AuthRepository: Sendable {
         firstName: String?,
         lastName: String?
     ) async throws -> User {
-        let endpoint = Endpoint(path: "/api/auth/register", method: .post, requiresAuth: false)
+        let endpoint = Endpoint(path: APIPath.register, method: .post, requiresAuth: false)
         let response: AuthResponse = try await apiClient.request(
             endpoint,
             body: RegisterRequest(
@@ -49,7 +49,7 @@ struct AuthRepository: Sendable {
 
     func logout() async {
         if let refreshToken = await apiClient.currentTokenPair()?.refreshToken {
-            let endpoint = Endpoint(path: "/api/auth/logout", method: .post, requiresAuth: false)
+            let endpoint = Endpoint(path: APIPath.logout, method: .post, requiresAuth: false)
             try? await apiClient.requestNoContent(
                 endpoint,
                 body: RefreshTokenRequest(refreshToken: refreshToken)
@@ -60,7 +60,7 @@ struct AuthRepository: Sendable {
     }
 
     func currentUser() async throws -> User {
-        let response: CurrentUserDTO = try await apiClient.request(Endpoint(path: "/api/me"))
+        let response: CurrentUserDTO = try await apiClient.request(Endpoint(path: APIPath.currentUser))
         return try userMapper.map(response)
     }
 
