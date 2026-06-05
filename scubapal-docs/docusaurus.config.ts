@@ -33,14 +33,14 @@ const config: Config = {
         docs: {
           // path: './content',
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/whskee/scuba-pal/tree/main/docs/',
+          editUrl: 'https://github.com/whskee/scuba-pal/tree/main/scubapal-docs/',
           tags: `tags.yaml`,
           onInlineTags: `warn`,
         },
         blog: {
           showReadingTime: true,
           feedOptions: { type: ['rss', 'atom'], xslt: true, },
-          editUrl: 'https://github.com/whskee/scuba-pal/tree/main/docs/',
+          editUrl: 'https://github.com/whskee/scuba-pal/tree/main/scubapal-docs/',
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
