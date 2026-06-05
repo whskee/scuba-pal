@@ -72,37 +72,31 @@ struct BrandedScreenHeader<Accessory: View>: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            HStack(alignment: .center, spacing: 12) {
-                BrandSignature(tagline: eyebrow, markSize: 46)
-                Spacer(minLength: 10)
-                accessory
-            }
+        HStack(alignment: .center, spacing: 12) {
+            Image(systemName: systemImage)
+                .font(.system(size: 17, weight: .black))
+                .foregroundStyle(ScubaTheme.primary)
+                .frame(width: 38, height: 38)
+                .background(ScubaTheme.surface.opacity(0.64), in: Circle())
+                .overlay(Circle().stroke(ScubaTheme.primary.opacity(0.18), lineWidth: 1))
 
-            VStack(alignment: .leading, spacing: 8) {
-                Label {
-                    Text(title)
-                        .font(.system(size: 34, weight: .black))
-                        .foregroundStyle(ScubaTheme.ink)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.82)
-                } icon: {
-                    Image(systemName: systemImage)
-                        .font(.system(size: 19, weight: .black))
-                        .foregroundStyle(ScubaTheme.primary)
-                }
-                .labelStyle(.titleAndIcon)
-
-                Text(subtitle)
-                    .font(.system(size: 15, weight: .semibold))
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title)
+                    .font(.system(size: 24, weight: .black))
+                    .foregroundStyle(ScubaTheme.ink)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.78)
+                Text(subtitle.isEmpty ? eyebrow : subtitle)
+                    .font(.system(size: 12, weight: .heavy))
                     .foregroundStyle(ScubaTheme.muted)
-                    .lineSpacing(3)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.72)
             }
+            Spacer(minLength: 10)
+            accessory
         }
-        .padding(20)
-        .glassPanel(radius: 30, fill: ScubaTheme.surface.opacity(0.68), border: ScubaTheme.primary.opacity(0.18))
         .padding(.horizontal, 18)
+        .padding(.vertical, 8)
     }
 }
 

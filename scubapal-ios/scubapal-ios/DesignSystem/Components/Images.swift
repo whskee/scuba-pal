@@ -6,21 +6,16 @@ struct RemoteImage: View {
     var contentMode: ContentMode = .fill
 
     var body: some View {
-        AsyncImage(url: url, transaction: Transaction(animation: .smooth(duration: 0.35))) { phase in
+        AsyncImage(url: url, transaction: Transaction(animation: nil)) { phase in
             switch phase {
             case let .success(image):
                 image
                     .resizable()
                     .aspectRatio(contentMode: contentMode)
-                    .transition(.opacity.combined(with: .scale(scale: 1.025)))
             case .failure:
                 placeholder(systemImage: "photo")
             case .empty:
-                ZStack {
-                    placeholder(systemImage: "waveform.path.ecg")
-                    ProgressView()
-                        .tint(ScubaTheme.primary)
-                }
+                placeholder(systemImage: "waveform.path.ecg")
             @unknown default:
                 placeholder(systemImage: "photo")
             }
@@ -70,7 +65,7 @@ struct AvatarView: View {
             }
         }
         .frame(width: size, height: size)
-        .shadow(color: ScubaTheme.primary.opacity(0.18), radius: 12, x: 0, y: 8)
+        .shadow(color: ScubaTheme.primary.opacity(size > 40 ? 0.14 : 0), radius: size > 40 ? 8 : 0, x: 0, y: 5)
     }
 
     private var initials: some View {

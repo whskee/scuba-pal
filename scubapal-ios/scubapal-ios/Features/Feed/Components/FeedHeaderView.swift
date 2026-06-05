@@ -7,45 +7,22 @@ struct FeedHeaderView: View {
     let onLearnTapped: () -> Void
 
     var body: some View {
-        VStack(spacing: 12) {
-            BrandedScreenHeader(
-                title: "Dive lounge",
-                eyebrow: "ScubaPal",
-                subtitle: "Polished logs, buddy moments, rare conditions, and the best finds from your circle.",
-                systemImage: "sparkles"
-            ) {
-                IconCircleButton(systemImage: "book.pages.fill", action: onLearnTapped)
+        HStack(alignment: .center, spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Dive lounge")
+                    .font(.system(size: 26, weight: .black))
+                    .foregroundStyle(ScubaTheme.ink)
+                    .lineLimit(1)
+                Text("\(postCount) posts  /  \(unreadMessages) chats  /  \(unreadNotifications) alerts")
+                    .font(.system(size: 12, weight: .heavy))
+                    .foregroundStyle(ScubaTheme.muted)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.78)
             }
-
-            HStack(spacing: 10) {
-                StatChip(value: "\(postCount)", label: "posts")
-                StatChip(value: "\(unreadMessages)", label: "chats")
-                StatChip(value: "\(unreadNotifications)", label: "alerts")
-            }
-            .padding(.horizontal, 18)
+            Spacer()
+            IconCircleButton(systemImage: "book.pages.fill", action: onLearnTapped)
         }
-    }
-}
-
-private struct StatChip: View {
-    let value: String
-    let label: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(value)
-                .font(.system(size: 18, weight: .black))
-                .foregroundStyle(ScubaTheme.ink)
-            Text(label)
-                .font(.system(size: 11, weight: .bold))
-                .foregroundStyle(ScubaTheme.muted)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
-        .background(ScubaTheme.surface.opacity(0.62), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .stroke(ScubaTheme.secondary.opacity(0.14), lineWidth: 1)
-        )
+        .padding(.horizontal, 18)
+        .padding(.vertical, 8)
     }
 }

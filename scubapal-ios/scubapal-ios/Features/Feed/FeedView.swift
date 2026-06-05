@@ -6,7 +6,6 @@ struct FeedView: View {
     @EnvironmentObject private var appUI: AppUIStore
     @StateObject private var viewModel: FeedViewModel
     @State private var activeFilter = "For you"
-    @State private var showingComposer = false
 
     private let dependencies: AppDependencies
     private let filters = ["For you", "Local", "Buddies", "Gear", "Training"]
@@ -17,41 +16,37 @@ struct FeedView: View {
     }
 
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 18) {
-                FeedHeaderView(
-                    postCount: viewModel.posts.count,
-                    unreadMessages: badges.unreadMessages,
-                    unreadNotifications: badges.unreadNotifications,
-                    onLearnTapped: showLearnToast
-                )
-                FeedFilterRail(filters: filters, activeFilter: $activeFilter)
-                ComposePromptView(user: session.currentUser) {
-                    showingComposer = true
+        ZStack {
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    FeedHeaderView(
+                        postCount: viewModel.posts.count,
+                        unreadMessages: badges.unreadMessages,
+                        unreadNotifications: badges.unreadNotifications,
+                        onLearnTapped: showLearnToast
+                    )
+                    FeedFilterRail(filters: filters, activeFilter: $activeFilter)
+                    FeedContentView(
+                        state: viewModel.state,
+                        onLike: like,
+                        onSave: showSavedToast
+                    )
                 }
-                FeedContentView(
-                    state: viewModel.state,
-                    onLike: like,
-                    onSave: showSavedToast
-                )
+                .padding(.top, 8)
+                .padding(.bottom, 124)
             }
-            .padding(.top, 14)
-            .padding(.bottom, 104)
+            .refreshable { await loadFeed(showLoading: false) }
+            .scrollIndicators(.hidden)
+
+            FloatingComposeButton(user: session.currentUser) { caption, urls in
+                await createPost(caption: caption, mediaUrls: urls)
+            }
         }
-        .refreshable { await loadFeed(showLoading: false) }
-        .scrollIndicators(.hidden)
         .navigationDestination(for: Post.self) { post in
             PostDetailView(post: post, dependencies: dependencies)
         }
         .navigationDestination(for: User.self) { user in
             ProfileView(userID: user.id, seedUser: user, dependencies: dependencies)
-        }
-        .sheet(isPresented: $showingComposer) {
-            CreatePostSheet { caption, urls in
-                await createPost(caption: caption, mediaUrls: urls)
-            }
-            .presentationDetents([.medium, .large])
-            .presentationDragIndicator(.visible)
         }
         .task { await loadFeed(showLoading: viewModel.posts.isEmpty) }
     }

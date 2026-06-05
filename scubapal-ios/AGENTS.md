@@ -1,10 +1,12 @@
 Treat ScubaPal iOS code as production application code.
 
-- This is a native SwiftUI app. Prefer SwiftUI, Swift concurrency, Foundation, and small focused view components.
-- The generated OpenAPI package lives at `Packages/ScubaPalAPI`; treat it as disposable generated code and do not hand-edit generated outputs.
-- Keep backend/API access behind `Core/Networking/APIClient` and repository services. SwiftUI views should not call generated clients or `URLSession` directly.
-- Keep app wiring in `App`, infrastructure in `Core`, reusable visual primitives in `DesignSystem`, feature code in `Features`, and app-facing models/mappers in `Domain` or mapper folders.
-- Prefer feature folders shaped as view, store/view model, components, and feature-specific repository/service only when needed.
-- Store auth/session secrets in Keychain-backed abstractions, never in `UserDefaults`.
-- Do not commit secrets, API keys, local machine config, DerivedData, or per-user Xcode state.
-- Run the safest available build/tests before the final answer and report any local tooling or simulator failures exactly.
+- ScubaPal iOS is a native SwiftUI client for the ScubaPal Spring Boot backend.
+- Prefer small, reviewable, production-safe changes. Preserve behavior unless explicitly asked otherwise, and do not combine unrelated refactors.
+- Generated OpenAPI package: `Packages/ScubaPalAPI`. Do not hand-edit generated OpenAPI files or expose generated models to SwiftUI.
+- SwiftUI views must not import `ScubaPalAPI`; views depend on view models/stores, domain models, and `DesignSystem`.
+- View models/stores depend on repositories and domain models.
+- Repositories may call the handwritten `APIClient` or generated `ScubaPalAPI` client, but must map transport/API models into app domain models.
+- Auth tokens stay in Keychain, never `UserDefaults`.
+- Previews/tests must not use live networking by default.
+- Do not commit secrets, local config, `xcuserdata`, `.DS_Store`, `__MACOSX`, DerivedData, or machine-specific files.
+- Run the strongest available validation after code changes and report exact commands/results.

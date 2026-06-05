@@ -106,7 +106,6 @@ private struct CustomTabBar: View {
                         ZStack(alignment: .topTrailing) {
                             Image(systemName: selectedTab == tab ? tab.filledIcon : tab.icon)
                                 .font(.system(size: 20, weight: .bold))
-                                .symbolEffect(.bounce, value: selectedTab == tab)
                             if badge(for: tab) > 0 {
                                 Text(badge(for: tab) > 99 ? "99+" : "\(badge(for: tab))")
                                     .font(.system(size: 9, weight: .black))

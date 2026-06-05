@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C30000012FD4000000000001 /* ScubaPalAPI in Frameworks */ = {isa = PBXBuildFile; productRef = C30000022FD4000000000002 /* ScubaPalAPI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B20000012FD3000000000001 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -43,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C30000012FD4000000000001 /* ScubaPalAPI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +111,7 @@
 			);
 			name = "scubapal-ios";
 			packageProductDependencies = (
+				C30000022FD4000000000002 /* ScubaPalAPI */,
 			);
 			productName = "scubapal-ios";
 			productReference = 6723417A2FD117A000CEF642 /* Scuba Pal.app */;
@@ -162,6 +168,9 @@
 			);
 			mainGroup = 672341712FD117A000CEF642;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C30000032FD4000000000003 /* XCLocalSwiftPackageReference "ScubaPalAPI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6723417B2FD117A000CEF642 /* Products */;
 			projectDirPath = "";
@@ -474,6 +483,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		C30000032FD4000000000003 /* XCLocalSwiftPackageReference "ScubaPalAPI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/ScubaPalAPI;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C30000022FD4000000000002 /* ScubaPalAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C30000032FD4000000000003 /* XCLocalSwiftPackageReference "ScubaPalAPI" */;
+			productName = ScubaPalAPI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 672341722FD117A000CEF642 /* Project object */;
 }
