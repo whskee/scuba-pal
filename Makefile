@@ -16,9 +16,10 @@ DOCS_DIR := $(NAME)-docs
 DB_URL ?= jdbc:postgresql://host.docker.internal:5432/scuba_pal
 DB_USER ?= scuba_pal_runtime
 DB_PASSWORD ?= scuba_pal
-
+# S3 settings for media storage (used in both development and production)
 MEDIA_S3_REGION ?= us-west-2
 MEDIA_S3_BUCKET ?= $(NAME)-user-media-test-817455142561-us-west-2-an
+
 MAIL_HOST ?= host.docker.internal
 MAIL_PORT ?= 1025
 
