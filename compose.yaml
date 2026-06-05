@@ -1,0 +1,28 @@
+name: scuba-pal
+services:
+  postgres:
+    image: postgres:18
+    # container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-scuba_pal}
+      POSTGRES_USER: ${POSTGRES_USER:-scuba_pal_runtime}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-scuba_pal}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      default:
+      local-infra:
+        aliases:
+          - scuba-pal-postgres
+
+volumes:
+  postgres_data:
+    # name: scuba_pal_postgres_data
+
+networks:
+  default:
+  local-infra:
+    external: true
