@@ -17,8 +17,6 @@
             <input type="text" name="city" placeholder="Filter by city" th:value="${city}" />
             <button type="submit">Search</button>
         </form>
-        <!-- TODO: Add location filtering and sorting options -->
-        <!-- TODO: does not have placeholder image yet -->
         <section class="grid">
             <article class="card location-card" th:each="location : ${locations}">
                 <img class="location-card__photo" th:src="${location.imageUrl != null and !#strings.isEmpty(location.imageUrl)

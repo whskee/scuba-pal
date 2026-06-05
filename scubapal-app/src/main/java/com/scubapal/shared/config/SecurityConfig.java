@@ -118,6 +118,7 @@ public class SecurityConfig {
                                 "/feed",
                                 "/learn",
                                 "/locations",
+                                "/shops",
                                 "/divers",
                                 "/buddies",
                                 "/css/**",

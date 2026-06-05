@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dive Shops</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css" />
+</head>
+
+<body>
+    <div th:replace="~{layout/nav :: nav}"></div>
+    <div class="container">
+        <button class="back-link" type="button" onclick="history.back()">← Back</button>
+        <h1>Dive Shops</h1>
+        <form class="inline" method="get" th:action="@{/shops}">
+            <input type="text" name="q" placeholder="Search by shop, city, or dive site" th:value="${q}" />
+            <button type="submit">Search</button>
+            <a class="button secondary" th:href="@{/shops}" th:if="${q != null and !#strings.isEmpty(q)}">Reset</a>
+        </form>
+        <section class="grid">
+            <article class="card location-card" th:each="shop : ${shops}">
+                <img class="location-card__photo" th:src="${shop.imageUrl != null and !#strings.isEmpty(shop.imageUrl)
+                ? shop.imageUrl
+                : '/img/dive-location-placeholder.svg'}" th:alt="${shop.shopName + ' dive shop'}"
+                    onerror="this.onerror=null;this.src='/img/dive-location-placeholder.svg';" />
+
+                <div class="location-card__body">
+                    <span class="pill" th:if="${shop.locationName != null and !#strings.isEmpty(shop.locationName)}"
+                        th:text="${shop.locationName}">Nearby dive site</span>
+                    <h3 th:text="${shop.shopName}">Shop Name</h3>
+                    <p th:text="${shop.description}">Description</p>
+                    <p th:if="${!#strings.isEmpty(shop.city) or !#strings.isEmpty(shop.state) or !#strings.isEmpty(shop.country)}">
+                        <span th:if="${!#strings.isEmpty(shop.city)}" th:text="${shop.city}">City</span><span
+                            th:if="${!#strings.isEmpty(shop.city) and (!#strings.isEmpty(shop.state) or !#strings.isEmpty(shop.country))}">, </span><span
+                            th:if="${!#strings.isEmpty(shop.state)}" th:text="${shop.state}">State</span><span
+                            th:if="${!#strings.isEmpty(shop.state) and !#strings.isEmpty(shop.country)}">, </span><span
+                            th:if="${!#strings.isEmpty(shop.country)}" th:text="${shop.country}">Country</span>
+                    </p>
+                    <p th:if="${shop.phoneNumber != null and !#strings.isEmpty(shop.phoneNumber)}">
+                        Phone: <strong th:text="${shop.phoneNumber}">555-0100</strong>
+                    </p>
+                    <p th:if="${shop.email != null and !#strings.isEmpty(shop.email)}">
+                        Email: <strong th:text="${shop.email}">shop@example.com</strong>
+                    </p>
+                    <a class="button" th:if="${shop.websiteUrl != null and !#strings.isEmpty(shop.websiteUrl)}"
+                        th:href="${shop.websiteUrl}" rel="noopener noreferrer" target="_blank">Visit Website</a>
+                </div>
+            </article>
+            <p th:if="${#lists.isEmpty(shops)}" class="muted">No dive shops match that search yet.</p>
+        </section>
+        <div class="pagination" th:if="${shopPage != null and shopPage.totalPages > 1}"><a
+                th:if="${shopPage.hasPrevious()}"
+                th:href="@{/shops(q=${q}, page=${shopPage.number - 1}, size=${shopPage.size})}">Previous</a><span
+                th:text="${shopPage.number + 1}">1</span><span>/</span><span
+                th:text="${shopPage.totalPages}">1</span><a th:if="${shopPage.hasNext()}"
+                th:href="@{/shops(q=${q}, page=${shopPage.number + 1}, size=${shopPage.size})}">Next</a>
+        </div>
+    </div>
+</body>
+
+</html>

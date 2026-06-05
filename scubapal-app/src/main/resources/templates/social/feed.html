@@ -17,8 +17,8 @@
                     th:unless="${currentUser.profileImageUrl}"
                     th:text="${#strings.substring(currentUser.username,0,1).toUpperCase()}">S</span><strong
                     th:text="${currentUser.username}">you</strong></div><a th:href="@{/feed}">View feed</a><a
-                href="#compose">Create post</a><a th:href="@{/locations}">Discover cool facts</a><a
-                th:href="@{/locations}">Learn</a><a th:href="@{/divers}">Connect</a><a th:href="@{/messages}">Messages
+                href="#compose">Create post</a><a th:href="@{/locations}">Discover dive spots</a><a
+                th:href="@{/learn}">Learn</a><a th:href="@{/divers}">Connect</a><a th:href="@{/messages}">Messages
                 <span class="bubble" th:if="${unreadMessageCount > 0}" th:text="${unreadMessageCount}">0</span></a><a
                 th:href="@{/notifications}">Notifications <span class="bubble" th:if="${unreadNotificationCount > 0}"
                     th:text="${unreadNotificationCount}">0</span></a><a th:href="@{/settings}">User settings</a>
