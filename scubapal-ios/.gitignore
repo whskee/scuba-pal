@@ -2,8 +2,26 @@
 **/xcuserdata/
 **/*.xcuserstate
 **/*.xcuserdatad/
+DerivedData/
+**/DerivedData/
+.derived-data/
+**/.derived-data/
 
 # Per-developer API endpoint overrides
 Config/Debug.local.xcconfig
 .xcuserstate
 .build
+**/.build/
+
+# Local secrets and machine-specific configuration
+.env
+.env.*
+*.local
+*.secret
+*.secrets
+*.pem
+*.p8
+*.p12
+*.mobileprovision
+Secrets.xcconfig
+Config/Secrets.xcconfig

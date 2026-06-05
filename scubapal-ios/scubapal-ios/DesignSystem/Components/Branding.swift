@@ -34,7 +34,7 @@ struct BrandSignature: View {
         HStack(spacing: 11) {
             BrandMarkView(size: markSize)
             VStack(alignment: .leading, spacing: 2) {
-                Text("Scuba Pal")
+                Text("ScubaPal")
                     .font(.system(size: 17, weight: .black))
                     .foregroundStyle(ScubaTheme.ink)
                     .lineLimit(1)

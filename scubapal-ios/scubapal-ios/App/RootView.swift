@@ -53,7 +53,7 @@ private struct RestoreView: View {
             }
             .frame(width: 120, height: 120)
 
-            Text("Scuba Pal")
+            Text("ScubaPal")
                 .font(.system(size: 34, weight: .black))
                 .foregroundStyle(ScubaTheme.ink)
             Text("Syncing your dive circle")

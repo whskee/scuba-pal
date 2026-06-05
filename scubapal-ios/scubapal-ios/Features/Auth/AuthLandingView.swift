@@ -41,7 +41,7 @@ struct AuthLandingView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Scuba Pal")
+                    Text("ScubaPal")
                         .font(.system(size: 48, weight: .black))
                         .foregroundStyle(ScubaTheme.ink)
                         .minimumScaleFactor(0.72)

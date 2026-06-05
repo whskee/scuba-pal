@@ -10,7 +10,7 @@ struct FeedHeaderView: View {
         VStack(spacing: 12) {
             BrandedScreenHeader(
                 title: "Dive lounge",
-                eyebrow: "Scuba Pal",
+                eyebrow: "ScubaPal",
                 subtitle: "Polished logs, buddy moments, rare conditions, and the best finds from your circle.",
                 systemImage: "sparkles"
             ) {

@@ -4,6 +4,12 @@ struct AppConfig: Sendable {
     static let requestTimeout: TimeInterval = 24
 
     let baseURL: URL
+    let environmentName: String
+
+    init(baseURL: URL, environmentName: String = "development") {
+        self.baseURL = baseURL
+        self.environmentName = environmentName.nilIfBlank ?? "development"
+    }
 
     static func live(
         bundle: Bundle = .main,
@@ -22,6 +28,10 @@ struct AppConfig: Sendable {
             preconditionFailure("SCUBAPAL_API_BASE_URL must be configured as a valid HTTP(S) URL.")
         }
 
-        return AppConfig(baseURL: url)
+        let environmentName = processInfo.environment["SCUBAPAL_ENVIRONMENT"]
+            ?? bundle.object(forInfoDictionaryKey: "SCUBAPAL_ENVIRONMENT") as? String
+            ?? "development"
+
+        return AppConfig(baseURL: url, environmentName: environmentName)
     }
 }

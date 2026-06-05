@@ -168,7 +168,7 @@ private struct UserResultRow: View {
                     .font(.system(size: 16, weight: .black))
                     .foregroundStyle(ScubaTheme.ink)
                     .lineLimit(1)
-                Text(user.displayName == "@\(user.username)" ? (user.bio ?? "Scuba Pal diver") : user.displayName)
+                Text(user.displayName == "@\(user.username)" ? (user.bio ?? "ScubaPal diver") : user.displayName)
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(ScubaTheme.muted)
                     .lineLimit(1)

@@ -1,6 +1,5 @@
 {
   "label": "To Do",
-  "position": 2,
   "link": {
     "slug": "api/todo",
     "type": "generated-index",

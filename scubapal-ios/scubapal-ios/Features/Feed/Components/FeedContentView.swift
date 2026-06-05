@@ -11,7 +11,7 @@ struct FeedContentView: View {
             loadingTopPadding: 28,
             errorTitle: "Feed unavailable"
         ) {
-            EmptyStateView(title: "No posts yet", message: "Create the first Scuba Pal post.", systemImage: "plus.bubble")
+            EmptyStateView(title: "No posts yet", message: "Create the first ScubaPal post.", systemImage: "plus.bubble")
         } content: { posts in
             LuxuryFeedGrid(posts: posts, onLike: onLike, onSave: onSave)
                 .padding(.horizontal, 16)
