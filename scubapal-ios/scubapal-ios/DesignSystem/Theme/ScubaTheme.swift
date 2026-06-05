@@ -1,28 +1,29 @@
 import SwiftUI
 
 enum ScubaTheme {
-    static let background = Color(red: 0.021, green: 0.056, blue: 0.108)
-    static let background2 = Color(red: 0.035, green: 0.102, blue: 0.158)
-    static let surface = Color(red: 0.055, green: 0.137, blue: 0.211)
-    static let surface2 = Color(red: 0.071, green: 0.211, blue: 0.307)
-    static let lagoon = Color(red: 0.033, green: 0.588, blue: 0.651)
-    static let reef = Color(red: 0.753, green: 0.949, blue: 0.925)
-    static let ink = Color(red: 0.965, green: 0.984, blue: 1.0)
-    static let muted = Color(red: 0.66, green: 0.73, blue: 0.79)
-    static let primary = Color(red: 0.082, green: 0.82, blue: 0.761)
-    static let secondary = Color(red: 0.471, green: 0.651, blue: 1.0)
-    static let accent = Color(red: 1.0, green: 0.419, blue: 0.506)
-    static let sand = Color(red: 1.0, green: 0.863, blue: 0.659)
+    static let background = Color(red: 0.011, green: 0.016, blue: 0.024)
+    static let background2 = Color(red: 0.027, green: 0.039, blue: 0.052)
+    static let surface = Color(red: 0.057, green: 0.069, blue: 0.084)
+    static let surface2 = Color(red: 0.078, green: 0.095, blue: 0.112)
+    static let lagoon = Color(red: 0.025, green: 0.486, blue: 0.509)
+    static let reef = Color(red: 0.733, green: 0.968, blue: 0.936)
+    static let ink = Color(red: 0.963, green: 0.976, blue: 0.988)
+    static let muted = Color(red: 0.625, green: 0.682, blue: 0.733)
+    static let primary = Color(red: 0.098, green: 0.812, blue: 0.741)
+    static let secondary = Color(red: 0.835, green: 0.706, blue: 0.451)
+    static let accent = Color(red: 0.929, green: 0.345, blue: 0.525)
+    static let sand = Color(red: 0.937, green: 0.804, blue: 0.545)
     static let danger = Color(red: 1.0, green: 0.42, blue: 0.42)
-    static let border = Color.white.opacity(0.12)
-    static let darkText = Color(red: 0.063, green: 0.126, blue: 0.2)
+    static let border = Color.white.opacity(0.115)
+    static let darkText = Color(red: 0.016, green: 0.026, blue: 0.039)
 
     static var backgroundGradient: LinearGradient {
         LinearGradient(
             colors: [
                 background,
-                Color(red: 0.041, green: 0.122, blue: 0.175),
-                Color(red: 0.02, green: 0.077, blue: 0.137)
+                Color(red: 0.041, green: 0.068, blue: 0.076),
+                Color(red: 0.082, green: 0.049, blue: 0.074),
+                Color(red: 0.015, green: 0.021, blue: 0.032)
             ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
@@ -31,7 +32,19 @@ enum ScubaTheme {
 
     static var reefGradient: LinearGradient {
         LinearGradient(
-            colors: [primary, reef, secondary],
+            colors: [primary, reef, sand],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    static var luxurySurfaceGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color.white.opacity(0.12),
+                surface.opacity(0.92),
+                background2.opacity(0.98)
+            ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )

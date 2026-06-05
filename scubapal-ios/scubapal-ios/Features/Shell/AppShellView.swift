@@ -21,19 +21,19 @@ enum AppTab: String, CaseIterable, Identifiable {
 
     var icon: String {
         switch self {
-        case .feed: "square.grid.2x2"
-        case .discover: "magnifyingglass"
-        case .messages: "bubble.left.and.bubble.right"
-        case .notifications: "bell"
+        case .feed: "water.waves"
+        case .discover: "safari"
+        case .messages: "message"
+        case .notifications: "bell.badge"
         case .profile: "person.crop.circle"
         }
     }
 
     var filledIcon: String {
         switch self {
-        case .feed: "square.grid.2x2.fill"
-        case .discover: "magnifyingglass"
-        case .messages: "bubble.left.and.bubble.right.fill"
+        case .feed: "water.waves"
+        case .discover: "safari.fill"
+        case .messages: "message.fill"
         case .notifications: "bell.fill"
         case .profile: "person.crop.circle.fill"
         }
@@ -121,14 +121,18 @@ private struct CustomTabBar: View {
                             .font(.system(size: 10.5, weight: .heavy))
                             .lineLimit(1)
                     }
-                    .foregroundStyle(selectedTab == tab ? ScubaTheme.primary : ScubaTheme.muted)
+                    .foregroundStyle(selectedTab == tab ? ScubaTheme.reef : ScubaTheme.muted)
                     .frame(maxWidth: .infinity)
                     .frame(height: 58)
                     .background {
                         if selectedTab == tab {
                             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                .fill(ScubaTheme.primary.opacity(0.14))
+                                .fill(ScubaTheme.primary.opacity(0.16))
                                 .matchedGeometryEffect(id: "tab-selection", in: tabNamespace)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                        .stroke(ScubaTheme.primary.opacity(0.2), lineWidth: 1)
+                                )
                         }
                     }
                 }
@@ -136,13 +140,13 @@ private struct CustomTabBar: View {
             }
         }
         .padding(7)
-        .background(ScubaTheme.background.opacity(0.46), in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .background(ScubaTheme.background.opacity(0.64), in: RoundedRectangle(cornerRadius: 28, style: .continuous))
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .stroke(ScubaTheme.primary.opacity(0.18), lineWidth: 1)
+                .stroke(LinearGradient(colors: [ScubaTheme.primary.opacity(0.28), ScubaTheme.secondary.opacity(0.16), Color.white.opacity(0.08)], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1)
         )
-        .shadow(color: .black.opacity(0.3), radius: 24, x: 0, y: 12)
+        .shadow(color: .black.opacity(0.42), radius: 26, x: 0, y: 14)
     }
 
     private func badge(for tab: AppTab) -> Int {

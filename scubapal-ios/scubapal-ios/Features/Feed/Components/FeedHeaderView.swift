@@ -9,12 +9,12 @@ struct FeedHeaderView: View {
     var body: some View {
         VStack(spacing: 12) {
             BrandedScreenHeader(
-                title: "Dive feed",
+                title: "Dive lounge",
                 eyebrow: "Scuba Pal",
-                subtitle: "Stories, buddy moments, gear finds, and ocean notes from your circle.",
-                systemImage: "water.waves"
+                subtitle: "Polished logs, buddy moments, rare conditions, and the best finds from your circle.",
+                systemImage: "sparkles"
             ) {
-                IconCircleButton(systemImage: "graduationcap.fill", action: onLearnTapped)
+                IconCircleButton(systemImage: "book.pages.fill", action: onLearnTapped)
             }
 
             HStack(spacing: 10) {
@@ -42,10 +42,10 @@ private struct StatChip: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
-        .background(ScubaTheme.surface2.opacity(0.5), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .background(ScubaTheme.surface.opacity(0.62), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .stroke(ScubaTheme.primary.opacity(0.12), lineWidth: 1)
+                .stroke(ScubaTheme.secondary.opacity(0.14), lineWidth: 1)
         )
     }
 }

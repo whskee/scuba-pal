@@ -8,10 +8,10 @@ struct AppBackground: ViewModifier {
                     ScubaTheme.backgroundGradient.ignoresSafeArea()
                     LinearGradient(
                         colors: [
-                            ScubaTheme.primary.opacity(0.18),
+                            ScubaTheme.primary.opacity(0.14),
                             Color.clear,
-                            ScubaTheme.accent.opacity(0.08),
-                            ScubaTheme.secondary.opacity(0.09)
+                            ScubaTheme.secondary.opacity(0.08),
+                            ScubaTheme.accent.opacity(0.06)
                         ],
                         startPoint: .topTrailing,
                         endPoint: .bottomLeading
