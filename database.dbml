@@ -188,6 +188,25 @@ Table "identity"."password_reset_tokens" {
   }
 }
 
+Table "identity"."refresh_tokens" {
+  "refresh_token_id" int8 [pk, not null, increment]
+  "user_id" int8 [not null]
+  "token_hash" varchar(64) [unique, not null]
+  "expires_at" timestamptz [not null]
+  "revoked_at" timestamptz
+  "replaced_by_token_hash" varchar(64)
+  "created_by_ip" varchar(64)
+  "revoked_by_ip" varchar(64)
+  "created_at" timestamptz [not null, default: `CURRENT_TIMESTAMP`]
+  "revoked_reason" varchar(64)
+
+  Indexes {
+    user_id [type: btree, name: "idx_refresh_tokens_active_user"]
+    expires_at [type: btree, name: "idx_refresh_tokens_expires_at"]
+    user_id [type: btree, name: "idx_refresh_tokens_user_id"]
+  }
+}
+
 Table "learn"."articles" {
   "learn_article_id" int8 [pk, not null, increment]
   "slug" varchar(140) [unique, not null]
@@ -219,6 +238,7 @@ Table "messaging"."conversations" {
 
   Indexes {
     (user_one_id, user_two_id) [type: btree, unique, name: "conversations_unique_pair"]
+    (user_one_id, user_two_id) [type: btree, unique, name: "conversations_user_pair_uq"]
     user_one_id [type: btree, name: "idx_conversations_user_one"]
     user_two_id [type: btree, name: "idx_conversations_user_two"]
   }
@@ -289,6 +309,7 @@ Table "social"."post_likes" {
   "created_at" timestamptz [not null, default: `CURRENT_TIMESTAMP`]
 
   Indexes {
+    (post_id, user_id) [type: btree, unique, name: "post_likes_post_user_uq"]
     (post_id, user_id) [type: btree, unique, name: "post_likes_unique_pair"]
     post_id [type: btree, name: "idx_post_likes_post_id"]
   }
@@ -321,6 +342,7 @@ Table "social"."user_follows" {
   }
 
   Indexes {
+    (follower_user_id, followed_user_id) [type: btree, unique, name: "user_follows_follower_followed_uq"]
     (follower_user_id, followed_user_id) [type: btree, unique, name: "user_follows_unique_pair"]
   }
 }
@@ -336,6 +358,8 @@ Ref "dive_shops_dive_location_id_fkey":"dive"."dive_locations"."dive_location_id
 Ref "password_reset_tokens_user_id_fkey":"identity"."users"."user_id" < "identity"."password_reset_tokens"."user_id"
 
 Ref "profiles_user_id_fkey":"identity"."users"."user_id" < "identity"."profiles"."user_id"
+
+Ref "refresh_tokens_user_id_fkey":"identity"."users"."user_id" < "identity"."refresh_tokens"."user_id"
 
 Ref "users_role_id_fkey":"identity"."roles"."role_id" < "identity"."users"."role_id"
 
