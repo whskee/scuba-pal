@@ -1,0 +1,8 @@
+{
+  "label": "Object-Relational Mapping",
+  "link": {
+    "slug": "database/orm",
+    "type": "generated-index",
+    "description": "Object-Relational Mapping (ORM) is a programming technique that allows developers to interact with databases using object-oriented programming languages. It provides a high-level abstraction over the database, allowing developers to work with data as objects rather than writing raw SQL queries."
+  }
+}

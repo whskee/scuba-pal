@@ -7,9 +7,19 @@ tags: [todo]
 
 # Start Here
 
-[Database Design Basics](https://support.microsoft.com/en-US/Access/database-design-basics)
 
-## Demo access
+We chose PostgreSQL as our database. The following table describes the database
+
+| Domain     | Framework                             |
+| ---------- | ------------------------------------- |
+| ORM        | Spring Data JPA                       |
+| Migrations | Flyway                                |
+| Cloud      | [AWS RDS](https://aws.amazon.com/rds) |
+| Storage    | [AWS S3](https://aws.amazon.com/s3)   |
+| Tools      | pgAdmin, DataGrip                     |
+
+
+## Flyway
 
 Seeded users are created through Flyway:
 
@@ -28,4 +38,6 @@ The app uses PostgreSQL schemas (`identity`, `social`, `dive`, `certification`, 
 - Replace plaintext password handling with BCrypt/JWT before production.
 :::
 
-1. Here are some [conventions](https://www.claravine.com/database-naming-conventions/)
+## Resources
+1. [Expert Tips on Database Naming Conventions](https://www.claravine.com/database-naming-conventions/)
+2. [Database Design Basics](https://support.microsoft.com/en-US/Access/database-design-basics)

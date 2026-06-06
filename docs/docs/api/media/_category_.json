@@ -1,5 +1,6 @@
 {
   "label": "Media 📸",
+  "position": 2,
   "link": {
     "slug": "api/media",
     "type": "generated-index",

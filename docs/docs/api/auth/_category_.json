@@ -1,5 +1,6 @@
 {
   "label": "Authentication 🔐",
+  "position": 1,
   "link": {
     "slug": "api/authentication",
     "type": "generated-index",
