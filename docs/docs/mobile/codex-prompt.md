@@ -156,12 +156,14 @@ PHASE 5 — Auth/session/token storage
 PHASE 6 — Feature folder cleanup
 For each major feature, enforce this shape when practical:
 
+```
 Features/<FeatureName>/
 ├── <FeatureName>View.swift
 ├── <FeatureName>Store.swift or <FeatureName>ViewModel.swift
 ├── Components/
 ├── Models/ if feature-local models are needed
 └── Services/ only if the service is truly feature-specific
+```
 
 Features to inspect:
 - Auth
