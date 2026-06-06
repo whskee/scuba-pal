@@ -32,3 +32,4 @@ Some resources and examples to help with documentation:
 1. [Docker](https://docs.docker.com/get-started/)
 2. [Flux](https://fluxcd.io/flux/concepts/)
 3. [Flux Repository Structure](https://fluxcd.io/flux/guides/repository-structure/)
+4. [Praison AI](https://docs.praison.ai/docs/cli/cli)
