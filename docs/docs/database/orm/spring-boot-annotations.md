@@ -126,9 +126,9 @@ CREATE INDEX idx_users_display_name
 | Java annotation |                    Attribute | PostgreSQL SQL equivalent       | Example                            |
 | --------------- | ---------------------------: | ------------------------------- | ---------------------------------- |
 | `@Column`       |                       `name` | Column name                     | `display_name`                     |
-| `@Column`       |           `nullable = false` | `NOT NULL`                      | `email varchar(320) NOT NULL`      |
-| `@Column`       |              `unique = true` | Single-column unique constraint | `email varchar(320) UNIQUE`        |
-| `@Column`       |               `length = 320` | String length                   | `varchar(320)`                     |
+| `@Column`       |           `nullable = false` | `NOT NULL`                      | `email varchar(255) NOT NULL`      |
+| `@Column`       |              `unique = true` | Single-column unique constraint | `email varchar(255) UNIQUE`        |
+| `@Column`       |               `length = 320` | String length                   | `varchar(255)`                     |
 | `@Column`       |  `precision = 10, scale = 2` | Decimal precision               | `numeric(10,2)`                    |
 | `@Column`       |  `columnDefinition = "text"` | Exact SQL column type           | `bio text`                         |
 | `@Column`       | `columnDefinition = "jsonb"` | Exact SQL column type           | `metadata jsonb`                   |
@@ -603,7 +603,7 @@ SQL idea:
 ```sql
 CREATE TABLE identity.users (
     id bigint PRIMARY KEY,
-    email varchar(320) NOT NULL
+    email varchar(255) NOT NULL
 );
 
 CREATE TABLE identity.user_profiles (
@@ -685,13 +685,13 @@ Use this template:
 private String email;
 
 ### 2. PostgreSQL DDL
-email varchar(320) NOT NULL
+email varchar(255) NOT NULL
 
 ### 3. Runtime behavior
 Included in INSERT and UPDATE unless insertable/updatable is false.
 
 ### 4. Flyway source of truth
-email varchar(320) NOT NULL
+email varchar(255) NOT NULL
 ```
 
 ---
@@ -754,7 +754,7 @@ CREATE SEQUENCE identity.users_id_seq
 
 CREATE TABLE identity.users (
     id bigint NOT NULL DEFAULT nextval('identity.users_id_seq'),
-    email varchar(320) NOT NULL,
+    email varchar(255) NOT NULL,
     display_name varchar(80) NOT NULL,
     status varchar(30) NOT NULL,
     version bigint NOT NULL DEFAULT 0,

@@ -311,7 +311,7 @@ CREATE SCHEMA IF NOT EXISTS identity;
 
 CREATE TABLE identity.users (
     id uuid NOT NULL,
-    email varchar(320) NOT NULL,
+    email varchar(255) NOT NULL,
     password_hash varchar(255) NOT NULL,
     password_algorithm varchar(40) NOT NULL,
     password_updated_at timestamptz NOT NULL,
@@ -453,7 +453,7 @@ user.delete();
 Database equivalent:
 
 ```sql
-email varchar(320) NOT NULL,
+email varchar(255) NOT NULL,
 status varchar(30) NOT NULL,
 CONSTRAINT ck_users_status CHECK (status IN ('ACTIVE', 'LOCKED', 'DELETED'))
 ```
@@ -484,7 +484,7 @@ UserInfo
 SQL stores primitive durable facts:
 
 ```sql
-email varchar(320)
+email varchar(255)
 password_hash varchar(255)
 display_name varchar(80)
 ```
@@ -505,7 +505,7 @@ private Credentials credentials;
 SQL:
 
 ```sql
-email varchar(320) NOT NULL,
+email varchar(255) NOT NULL,
 password_hash varchar(255) NOT NULL
 ```
 
@@ -581,7 +581,7 @@ Use polymorphism for **behavior**, not every data variation.
 | Entity ID      | `UUID`               | `@Id @GeneratedValue`                | `uuid`               |
 | Name/title     | `String`             | `@Column(length = 80)`               | `varchar(80)`        |
 | Long text      | `String`             | `@Column(columnDefinition = "text")` | `text`               |
-| Email          | `Email` value object | `@Embeddable`                        | `varchar(320)`       |
+| Email          | `Email` value object | `@Embeddable`                        | `varchar(255)`       |
 | Password hash  | `PasswordHash`       | `@Embeddable`                        | `varchar(255)`       |
 | Money          | `BigDecimal`         | `precision`, `scale`                 | `numeric(12,2)`      |
 | Count          | `int` / `long`       | normal column                        | `integer` / `bigint` |
@@ -774,7 +774,7 @@ JPA:
 @Embedded private Credentials credentials;
 
 SQL:
-email varchar(320) NOT NULL
+email varchar(255) NOT NULL
 password_hash varchar(255) NOT NULL
 password_algorithm varchar(40) NOT NULL
 
