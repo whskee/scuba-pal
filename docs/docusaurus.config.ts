@@ -31,7 +31,7 @@ const config: Config = {
       'classic',
       {
         docs: {
-          // path: './content',
+          path: 'content',
           sidebarPath: './sidebars.ts',
           editUrl: 'https://github.com/whskee/scuba-pal/tree/main/docs/',
           tags: `tags.yaml`,
