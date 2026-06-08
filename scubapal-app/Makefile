@@ -10,10 +10,11 @@ MEDIA_S3_BUCKET ?= scuba-pal-user-media-test-817455142561-us-west-2-an
 MAIL_HOST ?= host.docker.internal
 MAIL_PORT ?= 1025
 
-.PHONY: help dev prod test build clean package compose-up compose-down compose-pull mailpit openapi-generate create-javadoc create-astro-docs open-astro-docs
+.PHONY: help dev prod test build clean package compose-up compose-down compose-pull mailpit openapi-generate create-javadoc create-astro-docs open-astro-docs flyway-clean
 
 help:
 	@echo "Available commands:"
+	@echo "  make run      	- run Spring Boot (default: development mode)"
 	@echo "  make dev      	- run Spring Boot in development mode"
 	@echo "  make prod     	- run Spring Boot in production mode"
 	@echo "  make test     	- run tests"
@@ -28,8 +29,9 @@ help:
 	@echo -e "\n======================== DOCUMENTATION ========================"
 	@echo "  make open-astro-docs		- open Astro documentation"
 
-# run:
-# 	./mvnw spring-boot:run
+
+run:
+	SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
 
 dev:
 	SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
@@ -42,6 +44,11 @@ test:
 
 build:
 	./mvnw clean compile
+
+
+# .PHONY: app-build
+# app-build:
+# 	cd $(APP_DIR) && ./mvnw clean package
 
 build-docker:
 	docker build -t scuba-pal-app:local .
@@ -74,10 +81,3 @@ openapi-generate:
 create-javadoc:
 	./mvnw javadoc:javadoc
 
-# ======================== DOCUMENTATION ========================
-# DOCUMENTATION_DIR := docs
-create-astro-docs:
-	npm create astro@latest -- --template starlight
-
-open-astro-docs:
-	open http://localhost:4321/scuba-pal-app && cd docs && npm run dev

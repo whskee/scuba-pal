@@ -61,18 +61,6 @@ app-dev:
 app-prod:
 	cd $(APP_DIR) && SPRING_PROFILES_ACTIVE=prod ./mvnw spring-boot:run
 
-.PHONY: app-test
-app-test:
-	cd $(APP_DIR) && ./mvnw test
-
-.PHONY: app-build
-app-build:
-	cd $(APP_DIR) && ./mvnw clean package
-
-.PHONY: flyway-clean
-flyway-clean:
-	cd $(APP_DIR) && ./mvnw flyway:clean
-
 
 .PHONY: mobile-dev
 mobile-dev:
