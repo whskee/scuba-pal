@@ -4,7 +4,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Primary;
 import org.springframework.mail.MailSendException;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Primary
-@ConditionalOnBean(JavaMailSender.class)
 @ConditionalOnProperty(name = "app.mail.enabled", havingValue = "true")
 @RequiredArgsConstructor
 public class SmtpEmailService implements EmailService {
