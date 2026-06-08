@@ -35,9 +35,9 @@ Maven:
 Gradle:
 
 ```bash
-./gradlew test --tests "com.social.scuba_pal.social.post.PostServiceTest"
-./gradlew test --tests "com.social.scuba_pal.messaging.MessagingServiceTest"
-./gradlew test --tests "com.social.scuba_pal.social.follow.FollowServiceTest"
+./gradlew test --tests "com.social.scubapal.social.post.PostServiceTest"
+./gradlew test --tests "com.social.scubapal.messaging.MessagingServiceTest"
+./gradlew test --tests "com.social.scubapal.social.follow.FollowServiceTest"
 ```
 
 ## Run one exact test method
@@ -51,7 +51,7 @@ Maven:
 Gradle:
 
 ```bash
-./gradlew test --tests "com.social.scuba_pal.messaging.MessagingServiceTest.sendMessageTrimsTextSavesMessageAndNotifiesReceiver"
+./gradlew test --tests "com.social.scubapal.messaging.MessagingServiceTest.sendMessageTrimsTextSavesMessageAndNotifiesReceiver"
 ```
 
 ## What was added

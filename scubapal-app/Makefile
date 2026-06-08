@@ -1,10 +1,11 @@
 SHELL := /bin/bash
 
-IMAGE_NAME := scuba-pal-app:local
+NAME := scubapal
+IMAGE_NAME := ${NAME}-app:local
 APP_PORT := 8080
-DB_URL ?= jdbc:postgresql://host.docker.internal:5432/scuba_pal
-DB_USER ?= scuba_pal_runtime
-DB_PASSWORD ?= scuba_pal
+DB_URL ?= jdbc:postgresql://host.docker.internal:5432/${NAME}
+DB_USER ?= ${NAME}_runtime
+DB_PASSWORD ?= ${NAME}
 MEDIA_S3_REGION ?= us-west-2
 MEDIA_S3_BUCKET ?= scuba-pal-user-media-test-817455142561-us-west-2-an
 MAIL_HOST ?= host.docker.internal
@@ -30,8 +31,7 @@ help:
 	@echo "  make open-astro-docs		- open Astro documentation"
 
 
-run:
-	SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
+run: dev
 
 dev:
 	SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
@@ -51,7 +51,7 @@ build:
 # 	cd $(APP_DIR) && ./mvnw clean package
 
 build-docker:
-	docker build -t scuba-pal-app:local .
+	docker build -t ${IMAGE_NAME} .
 
 package:
 	./mvnw clean package

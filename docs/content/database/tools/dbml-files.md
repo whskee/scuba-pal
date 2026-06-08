@@ -13,7 +13,7 @@ from `apps/api/src/main/resources/application.properties`:
 username and password are in `.env`
 
 ```
-postgresql://localhost:5432/scuba_pal
+postgresql://localhost:5432/scubapal
 postgresql://<username>:<password>@localhost:5432/<database_name>
-postgresql://scuba_pal_runtime:scuba_pal@localhost:5432/scuba_pal
+postgresql://scubapal_runtime:scubapal@localhost:5432/scubapal
 ```

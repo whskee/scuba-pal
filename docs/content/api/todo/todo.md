@@ -160,9 +160,9 @@ docker run --rm -p 8080:8080 \
   -e AWS_PROFILE=default \
   -e AWS_REGION=us-west-2 \
   -e SPRING_PROFILES_ACTIVE=dev \
-  -e DB_URL="jdbc:postgresql://host.docker.internal:5432/scuba_pal" \
-  -e DB_USER="scuba_pal_runtime" \
-  -e DB_PASSWORD="scuba_pal" \
+  -e DB_URL="jdbc:postgresql://host.docker.internal:5432/scubapal" \
+  -e DB_USER="scubapal_runtime" \
+  -e DB_PASSWORD="scubapal" \
   -e SPRING_MAIL_HOST="host.docker.internal" \
   -e SPRING_MAIL_PORT="1025" \
   -e MEDIA_S3_REGION="us-west-2" \

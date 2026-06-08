@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 # ONLY MODIFY VARIABLES IN THIS SECTION
-NAME := scuba-pal
+NAME := scubapal
 VERSION := 0.1.0
 APP_IMAGE := $(NAME)-app:local
 APP_PORT := 8080
@@ -13,9 +13,9 @@ MOBILE_DIR := $(NAME)-mobile
 DOCS_DIR := $(NAME)-docs
 
 # Database connection settings for local development and Docker
-DB_URL ?= jdbc:postgresql://host.docker.internal:5432/scuba_pal
-DB_USER ?= scuba_pal_runtime
-DB_PASSWORD ?= scuba_pal
+DB_URL ?= jdbc:postgresql://host.docker.internal:5432/$(NAME)
+DB_USER ?= $(NAME)_runtime
+DB_PASSWORD ?= $(NAME)
 # S3 settings for media storage (used in both development and production)
 MEDIA_S3_REGION ?= us-west-2
 MEDIA_S3_BUCKET ?= $(NAME)-user-media-test-817455142561-us-west-2-an
