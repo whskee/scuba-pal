@@ -11,7 +11,7 @@ const config: Config = {
 
   future: { v4: true, }, // Future flags to improve compatibility with the upcoming Docusaurus v4, see https://docusaurus.io/docs/api/docusaurus-config#future
 
-  url: 'https://your-docusaurus-site.example.com', // Set the production url of your site here
+  url: 'https://whskee.github.io',
   baseUrl: '/scuba-pal/',
 
   // GitHub Pages Deployment Config.

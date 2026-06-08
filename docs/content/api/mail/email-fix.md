@@ -7,11 +7,11 @@ tags: [todo, database, chatgpt, app]
 Fixed it. The dev profile was configured for Mailpit, but `SmtpEmailService` was being skipped because it used `@ConditionalOnBean(JavaMailSender.class)` on a regular service. That let the dev console fallback take over.
 
 Changes made:
-- SMTP now activates whenever `app.mail.enabled=true`: [SmtpEmailService.java](/Users/cbidkar/Developer/active/scuba-pal/scubapal-app/src/main/java/com/scubapal/shared/mail/SmtpEmailService.java:16)
-- Console fallback only activates in dev/test when mail is disabled or omitted: [ConsoleFallbackEmailService.java](/Users/cbidkar/Developer/active/scuba-pal/scubapal-app/src/main/java/com/scubapal/shared/mail/ConsoleFallbackEmailService.java:12)
-- Dev mail config now honors `SMTP_HOST`, `SMTP_PORT`, and `APP_MAIL_FROM`, defaulting to Mailpit: [application-dev.properties](/Users/cbidkar/Developer/active/scuba-pal/scubapal-app/src/main/resources/application-dev.properties:8)
-- Reset links now honor `APP_BASE_URL`: [application.properties](/Users/cbidkar/Developer/active/scuba-pal/scubapal-app/src/main/resources/application.properties:13)
-- Added a context test proving dev uses SMTP when enabled: [EmailServiceSelectionTest.java](/Users/cbidkar/Developer/active/scuba-pal/scubapal-app/src/test/java/com/scubapal/shared/mail/EmailServiceSelectionTest.java:13)
+- SMTP now activates whenever `app.mail.enabled=true`: [SmtpEmailService.java](https://github.com/whskee/scuba-pal/blob/main/scubapal-app/src/main/java/com/scubapal/shared/mail/SmtpEmailService.java#L16)
+- Console fallback only activates in dev/test when mail is disabled or omitted: [ConsoleFallbackEmailService.java](https://github.com/whskee/scuba-pal/blob/main/scubapal-app/src/main/java/com/scubapal/shared/mail/ConsoleFallbackEmailService.java#L12)
+- Dev mail config now honors `SMTP_HOST`, `SMTP_PORT`, and `APP_MAIL_FROM`, defaulting to Mailpit: [application-dev.properties](https://github.com/whskee/scuba-pal/blob/main/scubapal-app/src/main/resources/application-dev.properties#L8)
+- Reset links now honor `APP_BASE_URL`: [application.properties](https://github.com/whskee/scuba-pal/blob/main/scubapal-app/src/main/resources/application.properties#L13)
+- Added a context test proving dev uses SMTP when enabled: [EmailServiceSelectionTest.java](https://github.com/whskee/scuba-pal/blob/main/scubapal-app/src/test/java/com/scubapal/shared/mail/EmailServiceSelectionTest.java#L13)
 
 Verified with `./mvnw test`: 45 tests passed.
 
