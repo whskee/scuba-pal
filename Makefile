@@ -39,9 +39,6 @@ help:
 	@echo "  make db-up         Start local database"
 	@echo "  make db-down       Stop local database"
 	@echo ""
-	@echo "  make web-dev       Run Next.js web app"
-	@echo "  make web-build     Build Next.js web app"
-	@echo ""
 	@echo "  make mobile-dev    Run Expo mobile app"
 	@echo "  make mobile-openapi-generate  Generate OpenAPI client for mobile app"
 	@echo ""
@@ -76,13 +73,6 @@ app-build:
 flyway-clean:
 	cd $(APP_DIR) && ./mvnw flyway:clean
 
-.PHONY: db-up
-db-up:
-	cd $(APP_DIR) && docker compose up -d
-
-.PHONY: db-down
-db-down:
-	cd $(APP_DIR) && docker compose down
 
 .PHONY: mobile-dev
 mobile-dev:
