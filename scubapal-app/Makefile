@@ -1,18 +1,16 @@
 SHELL := /bin/bash
 
 NAME := scubapal
+COMPOSE_FILE := ../compose.yaml
+COMPOSE_ENV_FILE := ../.env
+LOCAL_DB_URL ?= jdbc:postgresql://localhost:5432/${NAME}
+LOCAL_DB_USER ?= ${NAME}_runtime
+LOCAL_DB_PASSWORD ?= ${NAME}
+LOCAL_SMTP_HOST ?= localhost
+LOCAL_SMTP_PORT ?= 1025
 IMAGE_NAME := ${NAME}-app:local
-APP_PORT := 8080
-DB_URL ?= jdbc:postgresql://host.docker.internal:5432/${NAME}
-DB_USER ?= ${NAME}_runtime
-DB_PASSWORD ?= ${NAME}
-MEDIA_S3_REGION ?= us-west-2
-MEDIA_S3_BUCKET ?= scuba-pal-user-media-test-817455142561-us-west-2-an
-MAIL_HOST ?= host.docker.internal
-MAIL_PORT ?= 1025
 
-.PHONY: help dev prod test build clean package compose-up compose-down compose-pull mailpit openapi-generate create-javadoc create-astro-docs open-astro-docs flyway-clean
-
+.PHONY: help
 help:
 	@echo "Available commands:"
 	@echo "  make run      	- run Spring Boot (default: development mode)"
@@ -31,17 +29,27 @@ help:
 	@echo "  make open-astro-docs		- open Astro documentation"
 
 
+
+.PHONY: run
 run: dev
 
-dev:
-	SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
 
+.PHONY: dev
+dev:
+	DB_URL="${LOCAL_DB_URL}" DB_USER="${LOCAL_DB_USER}" DB_PASSWORD="${LOCAL_DB_PASSWORD}" SMTP_HOST="${LOCAL_SMTP_HOST}" SMTP_PORT="${LOCAL_SMTP_PORT}" SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
+
+
+.PHONY: prod
 prod:
 	SPRING_PROFILES_ACTIVE=prod ./mvnw spring-boot:run
 
+
+.PHONY: test
 test:
 	./mvnw test
 
+
+.PHONY: build
 build:
 	./mvnw clean compile
 
@@ -50,34 +58,53 @@ build:
 # app-build:
 # 	cd $(APP_DIR) && ./mvnw clean package
 
+.PHONY: build-docker
 build-docker:
 	docker build -t ${IMAGE_NAME} .
 
+
+.PHONY: package
 package:
 	./mvnw clean package
 
-flyway-clean:
-	SPRING_PROFILES_ACTIVE=dev ./mvnw flyway:clean
 
+.PHONY: flyway-clean
+flyway-clean:
+	DB_URL="${LOCAL_DB_URL}" DB_USER="${LOCAL_DB_USER}" DB_PASSWORD="${LOCAL_DB_PASSWORD}" SPRING_PROFILES_ACTIVE=dev ./mvnw flyway:clean
+
+
+.PHONY: clean
 clean:
 	./mvnw clean
 
+
+.PHONY: compose-pull
 compose-pull:
-	docker compose pull
+	docker compose --env-file $(COMPOSE_ENV_FILE) -f $(COMPOSE_FILE) pull
 
+
+.PHONY: compose-up
 compose-up:
-	docker-compose up -d
+	docker compose --env-file $(COMPOSE_ENV_FILE) -f $(COMPOSE_FILE) up -d
 
+
+.PHONY: compose-down
 compose-down:
-	docker compose down
+	docker compose --env-file $(COMPOSE_ENV_FILE) -f $(COMPOSE_FILE) down
+
 
 # ======================== GENERATORS ========================
+
+.PHONY: mailpit
 mailpit:
 	open http://localhost:8025
 
+
+.PHONY: openapi-generate
 openapi-generate:
 	./mvnw openapi-generator:generate -DgeneratorName=spring -DinputSpec=src/main/resources/api.yaml -Doutput=generated
 
+
+.PHONY: create-javadoc
 create-javadoc:
 	./mvnw javadoc:javadoc
-

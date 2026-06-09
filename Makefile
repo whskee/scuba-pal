@@ -5,23 +5,30 @@ NAME := scubapal
 VERSION := 0.1.0
 APP_IMAGE := $(NAME)-app:local
 APP_PORT := 8080
+COMPOSE_FILE := compose.yaml
+COMPOSE_ENV_FILE := .env
 
 # Names of subdirectories for different components
-APP_DIR := $(NAME)-app
-WEB_DIR := $(NAME)-web
-MOBILE_DIR := $(NAME)-mobile
-DOCS_DIR := $(NAME)-docs
+DOCS_DIR := docs
+APP_DIR := scubapal-app
+WEB_DIR := scubapal-fe-react
+MOBILE_DIR := scubapal-mobile
 
-# Database connection settings for local development and Docker
-DB_URL ?= jdbc:postgresql://host.docker.internal:5432/$(NAME)
-DB_USER ?= $(NAME)_runtime
-DB_PASSWORD ?= $(NAME)
+# Database connection settings for local development and Docker.
+LOCAL_DB_URL ?= jdbc:postgresql://localhost:5432/scubapal
+LOCAL_DB_USER ?= scubapal_runtime
+LOCAL_DB_PASSWORD ?= scubapal
+DOCKER_DB_URL ?= jdbc:postgresql://host.docker.internal:5432/scubapal
+DOCKER_DB_USER ?= scubapal_runtime
+DOCKER_DB_PASSWORD ?= scubapal
 # S3 settings for media storage (used in both development and production)
 MEDIA_S3_REGION ?= us-west-2
-MEDIA_S3_BUCKET ?= $(NAME)-user-media-test-817455142561-us-west-2-an
+MEDIA_S3_BUCKET ?= scuba-pal-user-media-test-817455142561-us-west-2-an
 
-MAIL_HOST ?= host.docker.internal
-MAIL_PORT ?= 1025
+LOCAL_SMTP_HOST ?= localhost
+LOCAL_SMTP_PORT ?= 1025
+DOCKER_SMTP_HOST ?= host.docker.internal
+DOCKER_SMTP_PORT ?= 1025
 
 .PHONY: help
 help:
@@ -50,12 +57,20 @@ help:
 
 .PHONY: app-reset
 app-reset:
-	cd $(APP_DIR) && docker compose down -v
-	cd $(APP_DIR) && docker compose up -d
+	docker compose --env-file $(COMPOSE_ENV_FILE) -f $(COMPOSE_FILE) down -v
+	docker compose --env-file $(COMPOSE_ENV_FILE) -f $(COMPOSE_FILE) up -d
+
+.PHONY: db-up
+db-up:
+	docker compose --env-file $(COMPOSE_ENV_FILE) -f $(COMPOSE_FILE) up -d postgres
+
+.PHONY: db-down
+db-down:
+	docker compose --env-file $(COMPOSE_ENV_FILE) -f $(COMPOSE_FILE) down
 
 .PHONY: app-dev
 app-dev:
-	cd $(APP_DIR) && SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
+	cd $(APP_DIR) && DB_URL="$(LOCAL_DB_URL)" DB_USER="$(LOCAL_DB_USER)" DB_PASSWORD="$(LOCAL_DB_PASSWORD)" SMTP_HOST="$(LOCAL_SMTP_HOST)" SMTP_PORT="$(LOCAL_SMTP_PORT)" SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
 
 .PHONY: app-prod
 app-prod:
@@ -94,6 +109,10 @@ docusaurus-build:
 test: app-test
 	@echo "All tests complete."
 
+.PHONY: app-test
+app-test:
+	cd $(APP_DIR) && ./mvnw test
+
 .PHONY: clean
 clean:
 	cd $(APP_DIR) && ./mvnw clean
@@ -116,11 +135,11 @@ app-docker-build:
 app-docker-run:
 	docker run --rm -p $(APP_PORT):8080 \
 		-e SPRING_PROFILES_ACTIVE=dev \
-		-e DB_URL="$(DB_URL)" \
-		-e DB_USER="$(DB_USER)" \
-		-e DB_PASSWORD="$(DB_PASSWORD)" \
-		-e SPRING_MAIL_HOST="$(MAIL_HOST)" \
-		-e SPRING_MAIL_PORT="$(MAIL_PORT)" \
+		-e DB_URL="$(DOCKER_DB_URL)" \
+		-e DB_USER="$(DOCKER_DB_USER)" \
+		-e DB_PASSWORD="$(DOCKER_DB_PASSWORD)" \
+		-e SMTP_HOST="$(DOCKER_SMTP_HOST)" \
+		-e SMTP_PORT="$(DOCKER_SMTP_PORT)" \
 		-e MEDIA_S3_REGION="$(MEDIA_S3_REGION)" \
 		-e MEDIA_S3_BUCKET="$(MEDIA_S3_BUCKET)" \
 		-e MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS="always" \
@@ -129,11 +148,11 @@ app-docker-run:
 app-docker-run-prod:
 	docker run --rm -p $(APP_PORT):8080 \
 		-e SPRING_PROFILES_ACTIVE=prod \
-		-e DB_URL="$(DB_URL)" \
-		-e DB_USER="$(DB_USER)" \
-		-e DB_PASSWORD="$(DB_PASSWORD)" \
-		-e SPRING_MAIL_HOST="$(MAIL_HOST)" \
-		-e SPRING_MAIL_PORT="$(MAIL_PORT)" \
+		-e DB_URL="$(DOCKER_DB_URL)" \
+		-e DB_USER="$(DOCKER_DB_USER)" \
+		-e DB_PASSWORD="$(DOCKER_DB_PASSWORD)" \
+		-e SMTP_HOST="$(DOCKER_SMTP_HOST)" \
+		-e SMTP_PORT="$(DOCKER_SMTP_PORT)" \
 		-e MEDIA_S3_REGION="$(MEDIA_S3_REGION)" \
 		-e MEDIA_S3_BUCKET="$(MEDIA_S3_BUCKET)" \
 		-e MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS="always" \
