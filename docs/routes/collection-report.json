@@ -1,0 +1,17 @@
+{
+  "mappingsSource": "",
+  "openapiSource": "scubapal-ios/OpenAPI/scubapal-openapi.json",
+  "routeCount": 86,
+  "sources": [
+    {
+      "detail": "scubapal-ios/OpenAPI/scubapal-openapi.json",
+      "name": "OpenAPI",
+      "status": "fallback-file"
+    },
+    {
+      "detail": "Run the app with the dev profile to collect runtime mappings.",
+      "name": "Actuator mappings",
+      "status": "not-collected"
+    }
+  ]
+}

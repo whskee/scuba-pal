@@ -1,0 +1,774 @@
+flowchart LR
+    CLIENT((Client))
+    AUTH_PUBLIC[Public]
+    AUTH_AUTH[Authenticated]
+    AUTH_ROLE[Role gated]
+    subgraph surface_REST_API["REST API"]
+        subgraph tag_REST_API_Admin_User_Management["Admin User Management"]
+            route_GET_api_admin_users_br_getAll_1["GET /api/admin/users<br/>getAll_1"]
+            route_POST_api_admin_users_br_create_2["POST /api/admin/users<br/>create_2"]
+            route_GET_api_admin_users_id_br_getById_1["GET /api/admin/users/{id}<br/>getById_1"]
+            route_PATCH_api_admin_users_id_br_update_2["PATCH /api/admin/users/{id}<br/>update_2"]
+            route_DELETE_api_admin_users_id_br_deactivate["DELETE /api/admin/users/{id}<br/>deactivate"]
+        end
+        subgraph tag_REST_API_Authentication["Authentication"]
+            route_POST_api_auth_forgot_password_br_forgotPassword["POST /api/auth/forgot-password<br/>forgotPassword"]
+            route_POST_api_auth_login_br_login["POST /api/auth/login<br/>login"]
+            route_POST_api_auth_logout_br_logout["POST /api/auth/logout<br/>logout"]
+            route_POST_api_auth_refresh_br_refresh["POST /api/auth/refresh<br/>refresh"]
+            route_POST_api_auth_register_br_register["POST /api/auth/register<br/>register"]
+            route_POST_api_auth_reset_password_br_resetPassword["POST /api/auth/reset-password<br/>resetPassword"]
+            route_GET_api_auth_username_available_br_usernameAvailable["GET /api/auth/username-available<br/>usernameAvailable"]
+        end
+        subgraph tag_REST_API_Current_User["Current User"]
+            route_GET_api_me_br_currentUser["GET /api/me<br/>currentUser"]
+            route_PATCH_api_me_password_br_changePassword["PATCH /api/me/password<br/>changePassword"]
+            route_PATCH_api_me_settings_br_updateSettings["PATCH /api/me/settings<br/>updateSettings"]
+        end
+        subgraph tag_REST_API_Dive_Locations["Dive Locations"]
+            route_GET_api_locations_br_getAll["GET /api/locations<br/>getAll"]
+            route_POST_api_locations_br_create_1["POST /api/locations<br/>create_1"]
+        end
+        subgraph tag_REST_API_Dive_Shops["Dive Shops"]
+            route_GET_api_shops_br_getAll_2["GET /api/shops<br/>getAll_2"]
+        end
+        subgraph tag_REST_API_Follows["Follows"]
+            route_POST_api_users_userId_follow_br_follow["POST /api/users/{userId}/follow<br/>follow"]
+            route_DELETE_api_users_userId_follow_br_unfollow["DELETE /api/users/{userId}/follow<br/>unfollow"]
+            route_GET_api_users_userId_follow_summary_br_summary["GET /api/users/{userId}/follow-summary<br/>summary"]
+            route_GET_api_users_userId_followers_br_followers["GET /api/users/{userId}/followers<br/>followers"]
+            route_GET_api_users_userId_following_br_following["GET /api/users/{userId}/following<br/>following"]
+        end
+        subgraph tag_REST_API_Learn["Learn"]
+            route_GET_api_learn_articles_br_articles["GET /api/learn/articles<br/>articles"]
+            route_GET_api_learn_articles_slug_br_article["GET /api/learn/articles/{slug}<br/>article"]
+        end
+        subgraph tag_REST_API_Media["Media"]
+            route_POST_api_media_uploads_br_createUpload["POST /api/media/uploads<br/>createUpload"]
+        end
+        subgraph tag_REST_API_Messaging["Messaging"]
+            route_GET_api_messages_conversations_br_conversations["GET /api/messages/conversations<br/>conversations"]
+            route_POST_api_messages_conversations_otherUserId_br_startConversation["POST /api/messages/conversations/{otherUserId}<br/>startConversation"]
+            route_GET_api_messages_unread_count_br_unreadCount_1["GET /api/messages/unread-count<br/>unreadCount_1"]
+            route_GET_api_messages_conversationId_br_messages["GET /api/messages/{conversationId}<br/>messages"]
+            route_POST_api_messages_conversationId_br_sendMessage["POST /api/messages/{conversationId}<br/>sendMessage"]
+            route_POST_api_messages_conversationId_read_br_markRead_2["POST /api/messages/{conversationId}/read<br/>markRead_2"]
+        end
+        subgraph tag_REST_API_Notifications["Notifications"]
+            route_GET_api_notifications_br_notifications["GET /api/notifications<br/>notifications"]
+            route_GET_api_notifications_unread_count_br_unreadCount["GET /api/notifications/unread-count<br/>unreadCount"]
+            route_POST_api_notifications_notificationId_read_br_markRead["POST /api/notifications/{notificationId}/read<br/>markRead"]
+            route_PATCH_api_notifications_notificationId_read_br_markRead_1["PATCH /api/notifications/{notificationId}/read<br/>markRead_1"]
+        end
+        subgraph tag_REST_API_Posts["Posts"]
+            route_GET_api_posts_br_getAll_3["GET /api/posts<br/>getAll_3"]
+            route_POST_api_posts_me_br_createForCurrentUser["POST /api/posts/me<br/>createForCurrentUser"]
+            route_GET_api_posts_search_br_search["GET /api/posts/search<br/>search"]
+            route_GET_api_posts_users_userId_br_getByUser["GET /api/posts/users/{userId}<br/>getByUser"]
+            route_GET_api_posts_id_br_getById["GET /api/posts/{id}<br/>getById"]
+            route_PUT_api_posts_id_br_update_1["PUT /api/posts/{id}<br/>update_1"]
+            route_DELETE_api_posts_id_br_delete["DELETE /api/posts/{id}<br/>delete"]
+            route_POST_api_posts_id_comments_br_comment["POST /api/posts/{id}/comments<br/>comment"]
+            route_POST_api_posts_id_like_br_like["POST /api/posts/{id}/like<br/>like"]
+            route_DELETE_api_posts_postId_comments_commentId_br_deleteComment["DELETE /api/posts/{postId}/comments/{commentId}<br/>deleteComment"]
+        end
+        subgraph tag_REST_API_Profiles["Profiles"]
+            route_GET_api_me_profile_br_currentProfile["GET /api/me/profile<br/>currentProfile"]
+            route_PUT_api_me_profile_br_updateCurrentProfile["PUT /api/me/profile<br/>updateCurrentProfile"]
+            route_GET_api_profiles_br_searchPublicProfiles["GET /api/profiles<br/>searchPublicProfiles"]
+            route_GET_api_profiles_userId_br_get["GET /api/profiles/{userId}<br/>get"]
+            route_POST_api_profiles_userId_br_create["POST /api/profiles/{userId}<br/>create"]
+            route_PUT_api_profiles_userId_br_update["PUT /api/profiles/{userId}<br/>update"]
+            route_GET_api_users_userId_profile_br_get_1["GET /api/users/{userId}/profile<br/>get_1"]
+        end
+        subgraph tag_REST_API_admin_controller["admin-controller"]
+            route_GET_api_admin_posts_br_posts["GET /api/admin/posts<br/>posts"]
+            route_GET_api_admin_stats_br_stats["GET /api/admin/stats<br/>stats"]
+        end
+    end
+    subgraph surface_Static_Media["Static/Media"]
+        subgraph tag_Static_Media_Media["Media"]
+            route_GET_media_br_getMedia["GET /media/**<br/>getMedia"]
+        end
+    end
+    subgraph surface_Web["Web"]
+        subgraph tag_Web_Buddies["Buddies"]
+            route_GET_buddies_br_buddies["GET /buddies<br/>buddies"]
+        end
+        subgraph tag_Web_Divers["Divers"]
+            route_GET_divers_br_divers["GET /divers<br/>divers"]
+        end
+        subgraph tag_Web_Feed["Feed"]
+            route_GET_feed_br_feed["GET /feed<br/>feed"]
+        end
+        subgraph tag_Web_Forgot_Password["Forgot Password"]
+            route_GET_forgot_password_br_forgotPassword["GET /forgot-password<br/>forgotPassword"]
+            route_POST_forgot_password_br_sendPasswordReset["POST /forgot-password<br/>sendPasswordReset"]
+        end
+        subgraph tag_Web_Home["Home"]
+            route_GET_br_home["GET /<br/>home"]
+        end
+        subgraph tag_Web_Learn["Learn"]
+            route_GET_learn_br_learn["GET /learn<br/>learn"]
+        end
+        subgraph tag_Web_Locations["Locations"]
+            route_GET_locations_br_locations["GET /locations<br/>locations"]
+        end
+        subgraph tag_Web_Login["Login"]
+            route_GET_login_br_login["GET /login<br/>login"]
+        end
+        subgraph tag_Web_Messages["Messages"]
+            route_GET_messages_br_messages["GET /messages<br/>messages"]
+            route_POST_messages_start_userId_br_startMessage["POST /messages/start/{userId}<br/>startMessage"]
+            route_GET_messages_conversationId_br_conversation["GET /messages/{conversationId}<br/>conversation"]
+            route_POST_messages_conversationId_br_sendMessage["POST /messages/{conversationId}<br/>sendMessage"]
+        end
+        subgraph tag_Web_Notifications["Notifications"]
+            route_GET_notifications_br_notifications["GET /notifications<br/>notifications"]
+        end
+        subgraph tag_Web_Posts["Posts"]
+            route_POST_posts_br_createPost["POST /posts<br/>createPost"]
+            route_GET_posts_id_br_postDetail["GET /posts/{id}<br/>postDetail"]
+            route_POST_posts_id_comments_br_addComment["POST /posts/{id}/comments<br/>addComment"]
+        end
+        subgraph tag_Web_Profile["Profile"]
+            route_GET_profile_username_br_profile["GET /profile/{username}<br/>profile"]
+            route_POST_profile_username_follow_br_followUser["POST /profile/{username}/follow<br/>followUser"]
+            route_POST_profile_username_unfollow_br_unfollowUser["POST /profile/{username}/unfollow<br/>unfollowUser"]
+        end
+        subgraph tag_Web_Register["Register"]
+            route_GET_register_br_register["GET /register<br/>register"]
+            route_POST_register_br_registerUser["POST /register<br/>registerUser"]
+        end
+        subgraph tag_Web_Reset_Password["Reset Password"]
+            route_GET_reset_password_br_resetPassword["GET /reset-password<br/>resetPassword"]
+            route_POST_reset_password_br_resetPasswordSubmit["POST /reset-password<br/>resetPasswordSubmit"]
+        end
+        subgraph tag_Web_Settings["Settings"]
+            route_GET_settings_br_settings["GET /settings<br/>settings"]
+            route_POST_settings_br_updateSettings["POST /settings<br/>updateSettings"]
+        end
+        subgraph tag_Web_Shops["Shops"]
+            route_GET_shops_br_shops["GET /shops<br/>shops"]
+        end
+        subgraph tag_Web_messaging_page_controller["messaging-page-controller"]
+            route_POST_messages_conversationId_send_br_sendMessageInline["POST /messages/{conversationId}/send<br/>sendMessageInline"]
+            route_GET_messages_conversationId_updates_br_updates["GET /messages/{conversationId}/updates<br/>updates"]
+        end
+        subgraph tag_Web_post_page_controller["post-page-controller"]
+            route_POST_posts_id_like_br_toggleLikeFetch["POST /posts/{id}/like<br/>toggleLikeFetch"]
+        end
+    end
+    CLIENT --> route_GET_api_admin_users_br_getAll_1
+    route_GET_api_admin_users_br_getAll_1 -.-> AUTH_ROLE
+    controller_UserAdminController["UserAdminController"]
+    route_GET_api_admin_users_br_getAll_1 --> controller_UserAdminController
+    table_identity_profiles["identity.profiles"]
+    route_GET_api_admin_users_br_getAll_1 -.-> table_identity_profiles
+    table_identity_roles["identity.roles"]
+    route_GET_api_admin_users_br_getAll_1 -.-> table_identity_roles
+    table_identity_users["identity.users"]
+    route_GET_api_admin_users_br_getAll_1 -.-> table_identity_users
+    CLIENT --> route_POST_api_admin_users_br_create_2
+    route_POST_api_admin_users_br_create_2 -.-> AUTH_ROLE
+    route_POST_api_admin_users_br_create_2 --> controller_UserAdminController
+    route_POST_api_admin_users_br_create_2 -.-> table_identity_profiles
+    route_POST_api_admin_users_br_create_2 -.-> table_identity_roles
+    route_POST_api_admin_users_br_create_2 -.-> table_identity_users
+    CLIENT --> route_GET_api_admin_users_id_br_getById_1
+    route_GET_api_admin_users_id_br_getById_1 -.-> AUTH_ROLE
+    route_GET_api_admin_users_id_br_getById_1 --> controller_UserAdminController
+    route_GET_api_admin_users_id_br_getById_1 -.-> table_identity_profiles
+    route_GET_api_admin_users_id_br_getById_1 -.-> table_identity_roles
+    route_GET_api_admin_users_id_br_getById_1 -.-> table_identity_users
+    CLIENT --> route_PATCH_api_admin_users_id_br_update_2
+    route_PATCH_api_admin_users_id_br_update_2 -.-> AUTH_ROLE
+    route_PATCH_api_admin_users_id_br_update_2 --> controller_UserAdminController
+    route_PATCH_api_admin_users_id_br_update_2 -.-> table_identity_profiles
+    route_PATCH_api_admin_users_id_br_update_2 -.-> table_identity_roles
+    route_PATCH_api_admin_users_id_br_update_2 -.-> table_identity_users
+    CLIENT --> route_DELETE_api_admin_users_id_br_deactivate
+    route_DELETE_api_admin_users_id_br_deactivate -.-> AUTH_ROLE
+    route_DELETE_api_admin_users_id_br_deactivate --> controller_UserAdminController
+    route_DELETE_api_admin_users_id_br_deactivate -.-> table_identity_profiles
+    route_DELETE_api_admin_users_id_br_deactivate -.-> table_identity_roles
+    route_DELETE_api_admin_users_id_br_deactivate -.-> table_identity_users
+    CLIENT --> route_POST_api_auth_forgot_password_br_forgotPassword
+    route_POST_api_auth_forgot_password_br_forgotPassword -.-> AUTH_PUBLIC
+    controller_AuthApiController["AuthApiController"]
+    route_POST_api_auth_forgot_password_br_forgotPassword --> controller_AuthApiController
+    table_identity_password_reset_tokens["identity.password_reset_tokens"]
+    route_POST_api_auth_forgot_password_br_forgotPassword -.-> table_identity_password_reset_tokens
+    table_identity_refresh_tokens["identity.refresh_tokens"]
+    route_POST_api_auth_forgot_password_br_forgotPassword -.-> table_identity_refresh_tokens
+    route_POST_api_auth_forgot_password_br_forgotPassword -.-> table_identity_roles
+    route_POST_api_auth_forgot_password_br_forgotPassword -.-> table_identity_users
+    CLIENT --> route_POST_api_auth_login_br_login
+    route_POST_api_auth_login_br_login -.-> AUTH_PUBLIC
+    route_POST_api_auth_login_br_login --> controller_AuthApiController
+    route_POST_api_auth_login_br_login -.-> table_identity_password_reset_tokens
+    route_POST_api_auth_login_br_login -.-> table_identity_refresh_tokens
+    route_POST_api_auth_login_br_login -.-> table_identity_roles
+    route_POST_api_auth_login_br_login -.-> table_identity_users
+    CLIENT --> route_POST_api_auth_logout_br_logout
+    route_POST_api_auth_logout_br_logout -.-> AUTH_PUBLIC
+    route_POST_api_auth_logout_br_logout --> controller_AuthApiController
+    route_POST_api_auth_logout_br_logout -.-> table_identity_password_reset_tokens
+    route_POST_api_auth_logout_br_logout -.-> table_identity_refresh_tokens
+    route_POST_api_auth_logout_br_logout -.-> table_identity_roles
+    route_POST_api_auth_logout_br_logout -.-> table_identity_users
+    CLIENT --> route_POST_api_auth_refresh_br_refresh
+    route_POST_api_auth_refresh_br_refresh -.-> AUTH_PUBLIC
+    route_POST_api_auth_refresh_br_refresh --> controller_AuthApiController
+    route_POST_api_auth_refresh_br_refresh -.-> table_identity_password_reset_tokens
+    route_POST_api_auth_refresh_br_refresh -.-> table_identity_refresh_tokens
+    route_POST_api_auth_refresh_br_refresh -.-> table_identity_roles
+    route_POST_api_auth_refresh_br_refresh -.-> table_identity_users
+    CLIENT --> route_POST_api_auth_register_br_register
+    route_POST_api_auth_register_br_register -.-> AUTH_PUBLIC
+    route_POST_api_auth_register_br_register --> controller_AuthApiController
+    route_POST_api_auth_register_br_register -.-> table_identity_password_reset_tokens
+    route_POST_api_auth_register_br_register -.-> table_identity_refresh_tokens
+    route_POST_api_auth_register_br_register -.-> table_identity_roles
+    route_POST_api_auth_register_br_register -.-> table_identity_users
+    CLIENT --> route_POST_api_auth_reset_password_br_resetPassword
+    route_POST_api_auth_reset_password_br_resetPassword -.-> AUTH_PUBLIC
+    route_POST_api_auth_reset_password_br_resetPassword --> controller_AuthApiController
+    route_POST_api_auth_reset_password_br_resetPassword -.-> table_identity_password_reset_tokens
+    route_POST_api_auth_reset_password_br_resetPassword -.-> table_identity_refresh_tokens
+    route_POST_api_auth_reset_password_br_resetPassword -.-> table_identity_roles
+    route_POST_api_auth_reset_password_br_resetPassword -.-> table_identity_users
+    CLIENT --> route_GET_api_auth_username_available_br_usernameAvailable
+    route_GET_api_auth_username_available_br_usernameAvailable -.-> AUTH_PUBLIC
+    route_GET_api_auth_username_available_br_usernameAvailable --> controller_AuthApiController
+    route_GET_api_auth_username_available_br_usernameAvailable -.-> table_identity_password_reset_tokens
+    route_GET_api_auth_username_available_br_usernameAvailable -.-> table_identity_refresh_tokens
+    route_GET_api_auth_username_available_br_usernameAvailable -.-> table_identity_roles
+    route_GET_api_auth_username_available_br_usernameAvailable -.-> table_identity_users
+    CLIENT --> route_GET_api_me_br_currentUser
+    route_GET_api_me_br_currentUser -.-> AUTH_AUTH
+    controller_CurrentUserController["CurrentUserController"]
+    route_GET_api_me_br_currentUser --> controller_CurrentUserController
+    route_GET_api_me_br_currentUser -.-> table_identity_profiles
+    route_GET_api_me_br_currentUser -.-> table_identity_users
+    CLIENT --> route_PATCH_api_me_password_br_changePassword
+    route_PATCH_api_me_password_br_changePassword -.-> AUTH_AUTH
+    route_PATCH_api_me_password_br_changePassword --> controller_CurrentUserController
+    route_PATCH_api_me_password_br_changePassword -.-> table_identity_profiles
+    route_PATCH_api_me_password_br_changePassword -.-> table_identity_users
+    CLIENT --> route_PATCH_api_me_settings_br_updateSettings
+    route_PATCH_api_me_settings_br_updateSettings -.-> AUTH_AUTH
+    route_PATCH_api_me_settings_br_updateSettings --> controller_CurrentUserController
+    route_PATCH_api_me_settings_br_updateSettings -.-> table_identity_profiles
+    route_PATCH_api_me_settings_br_updateSettings -.-> table_identity_users
+    CLIENT --> route_GET_api_locations_br_getAll
+    route_GET_api_locations_br_getAll -.-> AUTH_PUBLIC
+    controller_LocationController["LocationController"]
+    route_GET_api_locations_br_getAll --> controller_LocationController
+    table_dive_dive_locations["dive.dive_locations"]
+    route_GET_api_locations_br_getAll -.-> table_dive_dive_locations
+    CLIENT --> route_POST_api_locations_br_create_1
+    route_POST_api_locations_br_create_1 -.-> AUTH_ROLE
+    route_POST_api_locations_br_create_1 --> controller_LocationController
+    route_POST_api_locations_br_create_1 -.-> table_dive_dive_locations
+    CLIENT --> route_GET_api_shops_br_getAll_2
+    route_GET_api_shops_br_getAll_2 -.-> AUTH_PUBLIC
+    controller_DiveShopController["DiveShopController"]
+    route_GET_api_shops_br_getAll_2 --> controller_DiveShopController
+    table_dive_dive_shops["dive.dive_shops"]
+    route_GET_api_shops_br_getAll_2 -.-> table_dive_dive_shops
+    CLIENT --> route_POST_api_users_userId_follow_br_follow
+    route_POST_api_users_userId_follow_br_follow -.-> AUTH_AUTH
+    controller_FollowController["FollowController"]
+    route_POST_api_users_userId_follow_br_follow --> controller_FollowController
+    route_POST_api_users_userId_follow_br_follow -.-> table_identity_profiles
+    route_POST_api_users_userId_follow_br_follow -.-> table_identity_users
+    table_social_user_follows["social.user_follows"]
+    route_POST_api_users_userId_follow_br_follow -.-> table_social_user_follows
+    CLIENT --> route_DELETE_api_users_userId_follow_br_unfollow
+    route_DELETE_api_users_userId_follow_br_unfollow -.-> AUTH_AUTH
+    route_DELETE_api_users_userId_follow_br_unfollow --> controller_FollowController
+    route_DELETE_api_users_userId_follow_br_unfollow -.-> table_identity_profiles
+    route_DELETE_api_users_userId_follow_br_unfollow -.-> table_identity_users
+    route_DELETE_api_users_userId_follow_br_unfollow -.-> table_social_user_follows
+    CLIENT --> route_GET_api_users_userId_follow_summary_br_summary
+    route_GET_api_users_userId_follow_summary_br_summary -.-> AUTH_PUBLIC
+    route_GET_api_users_userId_follow_summary_br_summary --> controller_FollowController
+    route_GET_api_users_userId_follow_summary_br_summary -.-> table_identity_profiles
+    route_GET_api_users_userId_follow_summary_br_summary -.-> table_identity_users
+    route_GET_api_users_userId_follow_summary_br_summary -.-> table_social_user_follows
+    CLIENT --> route_GET_api_users_userId_followers_br_followers
+    route_GET_api_users_userId_followers_br_followers -.-> AUTH_PUBLIC
+    route_GET_api_users_userId_followers_br_followers --> controller_FollowController
+    route_GET_api_users_userId_followers_br_followers -.-> table_identity_profiles
+    route_GET_api_users_userId_followers_br_followers -.-> table_identity_users
+    route_GET_api_users_userId_followers_br_followers -.-> table_social_user_follows
+    CLIENT --> route_GET_api_users_userId_following_br_following
+    route_GET_api_users_userId_following_br_following -.-> AUTH_PUBLIC
+    route_GET_api_users_userId_following_br_following --> controller_FollowController
+    route_GET_api_users_userId_following_br_following -.-> table_identity_profiles
+    route_GET_api_users_userId_following_br_following -.-> table_identity_users
+    route_GET_api_users_userId_following_br_following -.-> table_social_user_follows
+    CLIENT --> route_GET_api_learn_articles_br_articles
+    route_GET_api_learn_articles_br_articles -.-> AUTH_PUBLIC
+    controller_LearnController["LearnController"]
+    route_GET_api_learn_articles_br_articles --> controller_LearnController
+    table_learn_articles["learn.articles"]
+    route_GET_api_learn_articles_br_articles -.-> table_learn_articles
+    CLIENT --> route_GET_api_learn_articles_slug_br_article
+    route_GET_api_learn_articles_slug_br_article -.-> AUTH_PUBLIC
+    route_GET_api_learn_articles_slug_br_article --> controller_LearnController
+    route_GET_api_learn_articles_slug_br_article -.-> table_learn_articles
+    CLIENT --> route_POST_api_media_uploads_br_createUpload
+    route_POST_api_media_uploads_br_createUpload -.-> AUTH_AUTH
+    controller_MediaController["MediaController"]
+    route_POST_api_media_uploads_br_createUpload --> controller_MediaController
+    route_POST_api_media_uploads_br_createUpload -.-> table_identity_users
+    CLIENT --> route_GET_api_messages_conversations_br_conversations
+    route_GET_api_messages_conversations_br_conversations -.-> AUTH_AUTH
+    controller_MessagingController["MessagingController"]
+    route_GET_api_messages_conversations_br_conversations --> controller_MessagingController
+    route_GET_api_messages_conversations_br_conversations -.-> table_identity_profiles
+    route_GET_api_messages_conversations_br_conversations -.-> table_identity_users
+    table_messaging_conversations["messaging.conversations"]
+    route_GET_api_messages_conversations_br_conversations -.-> table_messaging_conversations
+    table_messaging_messages["messaging.messages"]
+    route_GET_api_messages_conversations_br_conversations -.-> table_messaging_messages
+    table_notification_notifications["notification.notifications"]
+    route_GET_api_messages_conversations_br_conversations -.-> table_notification_notifications
+    CLIENT --> route_POST_api_messages_conversations_otherUserId_br_startConversation
+    route_POST_api_messages_conversations_otherUserId_br_startConversation -.-> AUTH_AUTH
+    route_POST_api_messages_conversations_otherUserId_br_startConversation --> controller_MessagingController
+    route_POST_api_messages_conversations_otherUserId_br_startConversation -.-> table_identity_profiles
+    route_POST_api_messages_conversations_otherUserId_br_startConversation -.-> table_identity_users
+    route_POST_api_messages_conversations_otherUserId_br_startConversation -.-> table_messaging_conversations
+    route_POST_api_messages_conversations_otherUserId_br_startConversation -.-> table_messaging_messages
+    route_POST_api_messages_conversations_otherUserId_br_startConversation -.-> table_notification_notifications
+    CLIENT --> route_GET_api_messages_unread_count_br_unreadCount_1
+    route_GET_api_messages_unread_count_br_unreadCount_1 -.-> AUTH_AUTH
+    route_GET_api_messages_unread_count_br_unreadCount_1 --> controller_MessagingController
+    route_GET_api_messages_unread_count_br_unreadCount_1 -.-> table_identity_profiles
+    route_GET_api_messages_unread_count_br_unreadCount_1 -.-> table_identity_users
+    route_GET_api_messages_unread_count_br_unreadCount_1 -.-> table_messaging_conversations
+    route_GET_api_messages_unread_count_br_unreadCount_1 -.-> table_messaging_messages
+    route_GET_api_messages_unread_count_br_unreadCount_1 -.-> table_notification_notifications
+    CLIENT --> route_GET_api_messages_conversationId_br_messages
+    route_GET_api_messages_conversationId_br_messages -.-> AUTH_AUTH
+    route_GET_api_messages_conversationId_br_messages --> controller_MessagingController
+    route_GET_api_messages_conversationId_br_messages -.-> table_identity_profiles
+    route_GET_api_messages_conversationId_br_messages -.-> table_identity_users
+    route_GET_api_messages_conversationId_br_messages -.-> table_messaging_conversations
+    route_GET_api_messages_conversationId_br_messages -.-> table_messaging_messages
+    route_GET_api_messages_conversationId_br_messages -.-> table_notification_notifications
+    CLIENT --> route_POST_api_messages_conversationId_br_sendMessage
+    route_POST_api_messages_conversationId_br_sendMessage -.-> AUTH_AUTH
+    route_POST_api_messages_conversationId_br_sendMessage --> controller_MessagingController
+    route_POST_api_messages_conversationId_br_sendMessage -.-> table_identity_profiles
+    route_POST_api_messages_conversationId_br_sendMessage -.-> table_identity_users
+    route_POST_api_messages_conversationId_br_sendMessage -.-> table_messaging_conversations
+    route_POST_api_messages_conversationId_br_sendMessage -.-> table_messaging_messages
+    route_POST_api_messages_conversationId_br_sendMessage -.-> table_notification_notifications
+    CLIENT --> route_POST_api_messages_conversationId_read_br_markRead_2
+    route_POST_api_messages_conversationId_read_br_markRead_2 -.-> AUTH_AUTH
+    route_POST_api_messages_conversationId_read_br_markRead_2 --> controller_MessagingController
+    route_POST_api_messages_conversationId_read_br_markRead_2 -.-> table_identity_profiles
+    route_POST_api_messages_conversationId_read_br_markRead_2 -.-> table_identity_users
+    route_POST_api_messages_conversationId_read_br_markRead_2 -.-> table_messaging_conversations
+    route_POST_api_messages_conversationId_read_br_markRead_2 -.-> table_messaging_messages
+    route_POST_api_messages_conversationId_read_br_markRead_2 -.-> table_notification_notifications
+    CLIENT --> route_GET_api_notifications_br_notifications
+    route_GET_api_notifications_br_notifications -.-> AUTH_AUTH
+    controller_NotificationController["NotificationController"]
+    route_GET_api_notifications_br_notifications --> controller_NotificationController
+    route_GET_api_notifications_br_notifications -.-> table_identity_users
+    route_GET_api_notifications_br_notifications -.-> table_notification_notifications
+    CLIENT --> route_GET_api_notifications_unread_count_br_unreadCount
+    route_GET_api_notifications_unread_count_br_unreadCount -.-> AUTH_AUTH
+    route_GET_api_notifications_unread_count_br_unreadCount --> controller_NotificationController
+    route_GET_api_notifications_unread_count_br_unreadCount -.-> table_identity_users
+    route_GET_api_notifications_unread_count_br_unreadCount -.-> table_notification_notifications
+    CLIENT --> route_POST_api_notifications_notificationId_read_br_markRead
+    route_POST_api_notifications_notificationId_read_br_markRead -.-> AUTH_AUTH
+    route_POST_api_notifications_notificationId_read_br_markRead --> controller_NotificationController
+    route_POST_api_notifications_notificationId_read_br_markRead -.-> table_identity_users
+    route_POST_api_notifications_notificationId_read_br_markRead -.-> table_notification_notifications
+    CLIENT --> route_PATCH_api_notifications_notificationId_read_br_markRead_1
+    route_PATCH_api_notifications_notificationId_read_br_markRead_1 -.-> AUTH_AUTH
+    route_PATCH_api_notifications_notificationId_read_br_markRead_1 --> controller_NotificationController
+    route_PATCH_api_notifications_notificationId_read_br_markRead_1 -.-> table_identity_users
+    route_PATCH_api_notifications_notificationId_read_br_markRead_1 -.-> table_notification_notifications
+    CLIENT --> route_GET_api_posts_br_getAll_3
+    route_GET_api_posts_br_getAll_3 -.-> AUTH_PUBLIC
+    controller_PostController["PostController"]
+    route_GET_api_posts_br_getAll_3 --> controller_PostController
+    route_GET_api_posts_br_getAll_3 -.-> table_identity_profiles
+    route_GET_api_posts_br_getAll_3 -.-> table_identity_users
+    table_social_post_comments["social.post_comments"]
+    route_GET_api_posts_br_getAll_3 -.-> table_social_post_comments
+    table_social_post_likes["social.post_likes"]
+    route_GET_api_posts_br_getAll_3 -.-> table_social_post_likes
+    table_social_posts["social.posts"]
+    route_GET_api_posts_br_getAll_3 -.-> table_social_posts
+    CLIENT --> route_POST_api_posts_me_br_createForCurrentUser
+    route_POST_api_posts_me_br_createForCurrentUser -.-> AUTH_AUTH
+    route_POST_api_posts_me_br_createForCurrentUser --> controller_PostController
+    route_POST_api_posts_me_br_createForCurrentUser -.-> table_identity_profiles
+    route_POST_api_posts_me_br_createForCurrentUser -.-> table_identity_users
+    route_POST_api_posts_me_br_createForCurrentUser -.-> table_social_post_comments
+    route_POST_api_posts_me_br_createForCurrentUser -.-> table_social_post_likes
+    route_POST_api_posts_me_br_createForCurrentUser -.-> table_social_posts
+    CLIENT --> route_GET_api_posts_search_br_search
+    route_GET_api_posts_search_br_search -.-> AUTH_PUBLIC
+    route_GET_api_posts_search_br_search --> controller_PostController
+    route_GET_api_posts_search_br_search -.-> table_identity_profiles
+    route_GET_api_posts_search_br_search -.-> table_identity_users
+    route_GET_api_posts_search_br_search -.-> table_social_post_comments
+    route_GET_api_posts_search_br_search -.-> table_social_post_likes
+    route_GET_api_posts_search_br_search -.-> table_social_posts
+    CLIENT --> route_GET_api_posts_users_userId_br_getByUser
+    route_GET_api_posts_users_userId_br_getByUser -.-> AUTH_PUBLIC
+    route_GET_api_posts_users_userId_br_getByUser --> controller_PostController
+    route_GET_api_posts_users_userId_br_getByUser -.-> table_identity_profiles
+    route_GET_api_posts_users_userId_br_getByUser -.-> table_identity_users
+    route_GET_api_posts_users_userId_br_getByUser -.-> table_social_post_comments
+    route_GET_api_posts_users_userId_br_getByUser -.-> table_social_post_likes
+    route_GET_api_posts_users_userId_br_getByUser -.-> table_social_posts
+    CLIENT --> route_GET_api_posts_id_br_getById
+    route_GET_api_posts_id_br_getById -.-> AUTH_PUBLIC
+    route_GET_api_posts_id_br_getById --> controller_PostController
+    route_GET_api_posts_id_br_getById -.-> table_identity_profiles
+    route_GET_api_posts_id_br_getById -.-> table_identity_users
+    route_GET_api_posts_id_br_getById -.-> table_social_post_comments
+    route_GET_api_posts_id_br_getById -.-> table_social_post_likes
+    route_GET_api_posts_id_br_getById -.-> table_social_posts
+    CLIENT --> route_PUT_api_posts_id_br_update_1
+    route_PUT_api_posts_id_br_update_1 -.-> AUTH_AUTH
+    route_PUT_api_posts_id_br_update_1 --> controller_PostController
+    route_PUT_api_posts_id_br_update_1 -.-> table_identity_profiles
+    route_PUT_api_posts_id_br_update_1 -.-> table_identity_users
+    route_PUT_api_posts_id_br_update_1 -.-> table_social_post_comments
+    route_PUT_api_posts_id_br_update_1 -.-> table_social_post_likes
+    route_PUT_api_posts_id_br_update_1 -.-> table_social_posts
+    CLIENT --> route_DELETE_api_posts_id_br_delete
+    route_DELETE_api_posts_id_br_delete -.-> AUTH_AUTH
+    route_DELETE_api_posts_id_br_delete --> controller_PostController
+    route_DELETE_api_posts_id_br_delete -.-> table_identity_profiles
+    route_DELETE_api_posts_id_br_delete -.-> table_identity_users
+    route_DELETE_api_posts_id_br_delete -.-> table_social_post_comments
+    route_DELETE_api_posts_id_br_delete -.-> table_social_post_likes
+    route_DELETE_api_posts_id_br_delete -.-> table_social_posts
+    CLIENT --> route_POST_api_posts_id_comments_br_comment
+    route_POST_api_posts_id_comments_br_comment -.-> AUTH_AUTH
+    route_POST_api_posts_id_comments_br_comment --> controller_PostController
+    route_POST_api_posts_id_comments_br_comment -.-> table_identity_profiles
+    route_POST_api_posts_id_comments_br_comment -.-> table_identity_users
+    route_POST_api_posts_id_comments_br_comment -.-> table_social_post_comments
+    route_POST_api_posts_id_comments_br_comment -.-> table_social_post_likes
+    route_POST_api_posts_id_comments_br_comment -.-> table_social_posts
+    CLIENT --> route_POST_api_posts_id_like_br_like
+    route_POST_api_posts_id_like_br_like -.-> AUTH_AUTH
+    route_POST_api_posts_id_like_br_like --> controller_PostController
+    route_POST_api_posts_id_like_br_like -.-> table_identity_profiles
+    route_POST_api_posts_id_like_br_like -.-> table_identity_users
+    route_POST_api_posts_id_like_br_like -.-> table_social_post_comments
+    route_POST_api_posts_id_like_br_like -.-> table_social_post_likes
+    route_POST_api_posts_id_like_br_like -.-> table_social_posts
+    CLIENT --> route_DELETE_api_posts_postId_comments_commentId_br_deleteComment
+    route_DELETE_api_posts_postId_comments_commentId_br_deleteComment -.-> AUTH_AUTH
+    route_DELETE_api_posts_postId_comments_commentId_br_deleteComment --> controller_PostController
+    route_DELETE_api_posts_postId_comments_commentId_br_deleteComment -.-> table_identity_profiles
+    route_DELETE_api_posts_postId_comments_commentId_br_deleteComment -.-> table_identity_users
+    route_DELETE_api_posts_postId_comments_commentId_br_deleteComment -.-> table_social_post_comments
+    route_DELETE_api_posts_postId_comments_commentId_br_deleteComment -.-> table_social_post_likes
+    route_DELETE_api_posts_postId_comments_commentId_br_deleteComment -.-> table_social_posts
+    CLIENT --> route_GET_api_me_profile_br_currentProfile
+    route_GET_api_me_profile_br_currentProfile -.-> AUTH_AUTH
+    controller_ProfileController["ProfileController"]
+    route_GET_api_me_profile_br_currentProfile --> controller_ProfileController
+    route_GET_api_me_profile_br_currentProfile -.-> table_identity_profiles
+    route_GET_api_me_profile_br_currentProfile -.-> table_identity_users
+    CLIENT --> route_PUT_api_me_profile_br_updateCurrentProfile
+    route_PUT_api_me_profile_br_updateCurrentProfile -.-> AUTH_AUTH
+    route_PUT_api_me_profile_br_updateCurrentProfile --> controller_ProfileController
+    route_PUT_api_me_profile_br_updateCurrentProfile -.-> table_identity_profiles
+    route_PUT_api_me_profile_br_updateCurrentProfile -.-> table_identity_users
+    CLIENT --> route_GET_api_profiles_br_searchPublicProfiles
+    route_GET_api_profiles_br_searchPublicProfiles -.-> AUTH_PUBLIC
+    route_GET_api_profiles_br_searchPublicProfiles --> controller_ProfileController
+    route_GET_api_profiles_br_searchPublicProfiles -.-> table_identity_profiles
+    route_GET_api_profiles_br_searchPublicProfiles -.-> table_identity_users
+    CLIENT --> route_GET_api_profiles_userId_br_get
+    route_GET_api_profiles_userId_br_get -.-> AUTH_PUBLIC
+    route_GET_api_profiles_userId_br_get --> controller_ProfileController
+    route_GET_api_profiles_userId_br_get -.-> table_identity_profiles
+    route_GET_api_profiles_userId_br_get -.-> table_identity_users
+    CLIENT --> route_POST_api_profiles_userId_br_create
+    route_POST_api_profiles_userId_br_create -.-> AUTH_AUTH
+    route_POST_api_profiles_userId_br_create --> controller_ProfileController
+    route_POST_api_profiles_userId_br_create -.-> table_identity_profiles
+    route_POST_api_profiles_userId_br_create -.-> table_identity_users
+    CLIENT --> route_PUT_api_profiles_userId_br_update
+    route_PUT_api_profiles_userId_br_update -.-> AUTH_AUTH
+    route_PUT_api_profiles_userId_br_update --> controller_ProfileController
+    route_PUT_api_profiles_userId_br_update -.-> table_identity_profiles
+    route_PUT_api_profiles_userId_br_update -.-> table_identity_users
+    CLIENT --> route_GET_api_users_userId_profile_br_get_1
+    route_GET_api_users_userId_profile_br_get_1 -.-> AUTH_PUBLIC
+    route_GET_api_users_userId_profile_br_get_1 --> controller_ProfileController
+    route_GET_api_users_userId_profile_br_get_1 -.-> table_identity_profiles
+    route_GET_api_users_userId_profile_br_get_1 -.-> table_identity_users
+    CLIENT --> route_GET_api_admin_posts_br_posts
+    route_GET_api_admin_posts_br_posts -.-> AUTH_ROLE
+    controller_AdminController["AdminController"]
+    route_GET_api_admin_posts_br_posts --> controller_AdminController
+    route_GET_api_admin_posts_br_posts -.-> table_dive_dive_locations
+    route_GET_api_admin_posts_br_posts -.-> table_dive_dive_shops
+    route_GET_api_admin_posts_br_posts -.-> table_identity_profiles
+    route_GET_api_admin_posts_br_posts -.-> table_identity_users
+    route_GET_api_admin_posts_br_posts -.-> table_notification_notifications
+    route_GET_api_admin_posts_br_posts -.-> table_social_post_comments
+    route_GET_api_admin_posts_br_posts -.-> table_social_post_likes
+    route_GET_api_admin_posts_br_posts -.-> table_social_posts
+    CLIENT --> route_GET_api_admin_stats_br_stats
+    route_GET_api_admin_stats_br_stats -.-> AUTH_ROLE
+    route_GET_api_admin_stats_br_stats --> controller_AdminController
+    route_GET_api_admin_stats_br_stats -.-> table_dive_dive_locations
+    route_GET_api_admin_stats_br_stats -.-> table_dive_dive_shops
+    route_GET_api_admin_stats_br_stats -.-> table_identity_profiles
+    route_GET_api_admin_stats_br_stats -.-> table_identity_users
+    route_GET_api_admin_stats_br_stats -.-> table_notification_notifications
+    route_GET_api_admin_stats_br_stats -.-> table_social_post_comments
+    route_GET_api_admin_stats_br_stats -.-> table_social_post_likes
+    route_GET_api_admin_stats_br_stats -.-> table_social_posts
+    CLIENT --> route_GET_media_br_getMedia
+    route_GET_media_br_getMedia -.-> AUTH_PUBLIC
+    controller_PublicMediaController["PublicMediaController"]
+    route_GET_media_br_getMedia --> controller_PublicMediaController
+    CLIENT --> route_GET_buddies_br_buddies
+    route_GET_buddies_br_buddies -.-> AUTH_PUBLIC
+    controller_ProfilePageController["ProfilePageController"]
+    route_GET_buddies_br_buddies --> controller_ProfilePageController
+    route_GET_buddies_br_buddies -.-> table_identity_profiles
+    route_GET_buddies_br_buddies -.-> table_identity_users
+    route_GET_buddies_br_buddies -.-> table_social_post_comments
+    route_GET_buddies_br_buddies -.-> table_social_post_likes
+    route_GET_buddies_br_buddies -.-> table_social_posts
+    route_GET_buddies_br_buddies -.-> table_social_user_follows
+    CLIENT --> route_GET_divers_br_divers
+    route_GET_divers_br_divers -.-> AUTH_PUBLIC
+    route_GET_divers_br_divers --> controller_ProfilePageController
+    route_GET_divers_br_divers -.-> table_identity_profiles
+    route_GET_divers_br_divers -.-> table_identity_users
+    route_GET_divers_br_divers -.-> table_social_post_comments
+    route_GET_divers_br_divers -.-> table_social_post_likes
+    route_GET_divers_br_divers -.-> table_social_posts
+    route_GET_divers_br_divers -.-> table_social_user_follows
+    CLIENT --> route_GET_feed_br_feed
+    route_GET_feed_br_feed -.-> AUTH_PUBLIC
+    controller_PostPageController["PostPageController"]
+    route_GET_feed_br_feed --> controller_PostPageController
+    route_GET_feed_br_feed -.-> table_identity_profiles
+    route_GET_feed_br_feed -.-> table_identity_users
+    route_GET_feed_br_feed -.-> table_social_post_comments
+    route_GET_feed_br_feed -.-> table_social_post_likes
+    route_GET_feed_br_feed -.-> table_social_posts
+    CLIENT --> route_GET_forgot_password_br_forgotPassword
+    route_GET_forgot_password_br_forgotPassword -.-> AUTH_PUBLIC
+    controller_AuthPageController["AuthPageController"]
+    route_GET_forgot_password_br_forgotPassword --> controller_AuthPageController
+    route_GET_forgot_password_br_forgotPassword -.-> table_identity_password_reset_tokens
+    route_GET_forgot_password_br_forgotPassword -.-> table_identity_refresh_tokens
+    route_GET_forgot_password_br_forgotPassword -.-> table_identity_roles
+    route_GET_forgot_password_br_forgotPassword -.-> table_identity_users
+    CLIENT --> route_POST_forgot_password_br_sendPasswordReset
+    route_POST_forgot_password_br_sendPasswordReset -.-> AUTH_PUBLIC
+    route_POST_forgot_password_br_sendPasswordReset --> controller_AuthPageController
+    route_POST_forgot_password_br_sendPasswordReset -.-> table_identity_password_reset_tokens
+    route_POST_forgot_password_br_sendPasswordReset -.-> table_identity_refresh_tokens
+    route_POST_forgot_password_br_sendPasswordReset -.-> table_identity_roles
+    route_POST_forgot_password_br_sendPasswordReset -.-> table_identity_users
+    CLIENT --> route_GET_br_home
+    route_GET_br_home -.-> AUTH_PUBLIC
+    controller_HomePageController["HomePageController"]
+    route_GET_br_home --> controller_HomePageController
+    route_GET_br_home -.-> table_dive_dive_locations
+    route_GET_br_home -.-> table_dive_dive_shops
+    route_GET_br_home -.-> table_identity_profiles
+    route_GET_br_home -.-> table_identity_users
+    route_GET_br_home -.-> table_notification_notifications
+    route_GET_br_home -.-> table_social_post_comments
+    route_GET_br_home -.-> table_social_post_likes
+    route_GET_br_home -.-> table_social_posts
+    CLIENT --> route_GET_learn_br_learn
+    route_GET_learn_br_learn -.-> AUTH_PUBLIC
+    controller_LearnPageController["LearnPageController"]
+    route_GET_learn_br_learn --> controller_LearnPageController
+    route_GET_learn_br_learn -.-> table_learn_articles
+    CLIENT --> route_GET_locations_br_locations
+    route_GET_locations_br_locations -.-> AUTH_PUBLIC
+    controller_LocationPageController["LocationPageController"]
+    route_GET_locations_br_locations --> controller_LocationPageController
+    route_GET_locations_br_locations -.-> table_dive_dive_locations
+    CLIENT --> route_GET_login_br_login
+    route_GET_login_br_login -.-> AUTH_PUBLIC
+    route_GET_login_br_login --> controller_AuthPageController
+    route_GET_login_br_login -.-> table_identity_password_reset_tokens
+    route_GET_login_br_login -.-> table_identity_refresh_tokens
+    route_GET_login_br_login -.-> table_identity_roles
+    route_GET_login_br_login -.-> table_identity_users
+    CLIENT --> route_GET_messages_br_messages
+    route_GET_messages_br_messages -.-> AUTH_AUTH
+    controller_MessagingPageController["MessagingPageController"]
+    route_GET_messages_br_messages --> controller_MessagingPageController
+    route_GET_messages_br_messages -.-> table_identity_profiles
+    route_GET_messages_br_messages -.-> table_identity_users
+    route_GET_messages_br_messages -.-> table_messaging_conversations
+    route_GET_messages_br_messages -.-> table_messaging_messages
+    CLIENT --> route_POST_messages_start_userId_br_startMessage
+    route_POST_messages_start_userId_br_startMessage -.-> AUTH_AUTH
+    route_POST_messages_start_userId_br_startMessage --> controller_MessagingPageController
+    route_POST_messages_start_userId_br_startMessage -.-> table_identity_profiles
+    route_POST_messages_start_userId_br_startMessage -.-> table_identity_users
+    route_POST_messages_start_userId_br_startMessage -.-> table_messaging_conversations
+    route_POST_messages_start_userId_br_startMessage -.-> table_messaging_messages
+    CLIENT --> route_GET_messages_conversationId_br_conversation
+    route_GET_messages_conversationId_br_conversation -.-> AUTH_AUTH
+    route_GET_messages_conversationId_br_conversation --> controller_MessagingPageController
+    route_GET_messages_conversationId_br_conversation -.-> table_identity_profiles
+    route_GET_messages_conversationId_br_conversation -.-> table_identity_users
+    route_GET_messages_conversationId_br_conversation -.-> table_messaging_conversations
+    route_GET_messages_conversationId_br_conversation -.-> table_messaging_messages
+    CLIENT --> route_POST_messages_conversationId_br_sendMessage
+    route_POST_messages_conversationId_br_sendMessage -.-> AUTH_AUTH
+    route_POST_messages_conversationId_br_sendMessage --> controller_MessagingPageController
+    route_POST_messages_conversationId_br_sendMessage -.-> table_identity_profiles
+    route_POST_messages_conversationId_br_sendMessage -.-> table_identity_users
+    route_POST_messages_conversationId_br_sendMessage -.-> table_messaging_conversations
+    route_POST_messages_conversationId_br_sendMessage -.-> table_messaging_messages
+    CLIENT --> route_GET_notifications_br_notifications
+    route_GET_notifications_br_notifications -.-> AUTH_AUTH
+    controller_NotificationPageController["NotificationPageController"]
+    route_GET_notifications_br_notifications --> controller_NotificationPageController
+    route_GET_notifications_br_notifications -.-> table_identity_users
+    route_GET_notifications_br_notifications -.-> table_notification_notifications
+    CLIENT --> route_POST_posts_br_createPost
+    route_POST_posts_br_createPost -.-> AUTH_AUTH
+    route_POST_posts_br_createPost --> controller_PostPageController
+    route_POST_posts_br_createPost -.-> table_identity_profiles
+    route_POST_posts_br_createPost -.-> table_identity_users
+    route_POST_posts_br_createPost -.-> table_social_post_comments
+    route_POST_posts_br_createPost -.-> table_social_post_likes
+    route_POST_posts_br_createPost -.-> table_social_posts
+    CLIENT --> route_GET_posts_id_br_postDetail
+    route_GET_posts_id_br_postDetail -.-> AUTH_PUBLIC
+    route_GET_posts_id_br_postDetail --> controller_PostPageController
+    route_GET_posts_id_br_postDetail -.-> table_identity_profiles
+    route_GET_posts_id_br_postDetail -.-> table_identity_users
+    route_GET_posts_id_br_postDetail -.-> table_social_post_comments
+    route_GET_posts_id_br_postDetail -.-> table_social_post_likes
+    route_GET_posts_id_br_postDetail -.-> table_social_posts
+    CLIENT --> route_POST_posts_id_comments_br_addComment
+    route_POST_posts_id_comments_br_addComment -.-> AUTH_AUTH
+    route_POST_posts_id_comments_br_addComment --> controller_PostPageController
+    route_POST_posts_id_comments_br_addComment -.-> table_identity_profiles
+    route_POST_posts_id_comments_br_addComment -.-> table_identity_users
+    route_POST_posts_id_comments_br_addComment -.-> table_social_post_comments
+    route_POST_posts_id_comments_br_addComment -.-> table_social_post_likes
+    route_POST_posts_id_comments_br_addComment -.-> table_social_posts
+    CLIENT --> route_GET_profile_username_br_profile
+    route_GET_profile_username_br_profile -.-> AUTH_PUBLIC
+    route_GET_profile_username_br_profile --> controller_ProfilePageController
+    route_GET_profile_username_br_profile -.-> table_identity_profiles
+    route_GET_profile_username_br_profile -.-> table_identity_users
+    route_GET_profile_username_br_profile -.-> table_social_post_comments
+    route_GET_profile_username_br_profile -.-> table_social_post_likes
+    route_GET_profile_username_br_profile -.-> table_social_posts
+    route_GET_profile_username_br_profile -.-> table_social_user_follows
+    CLIENT --> route_POST_profile_username_follow_br_followUser
+    route_POST_profile_username_follow_br_followUser -.-> AUTH_AUTH
+    route_POST_profile_username_follow_br_followUser --> controller_ProfilePageController
+    route_POST_profile_username_follow_br_followUser -.-> table_identity_profiles
+    route_POST_profile_username_follow_br_followUser -.-> table_identity_users
+    route_POST_profile_username_follow_br_followUser -.-> table_social_post_comments
+    route_POST_profile_username_follow_br_followUser -.-> table_social_post_likes
+    route_POST_profile_username_follow_br_followUser -.-> table_social_posts
+    route_POST_profile_username_follow_br_followUser -.-> table_social_user_follows
+    CLIENT --> route_POST_profile_username_unfollow_br_unfollowUser
+    route_POST_profile_username_unfollow_br_unfollowUser -.-> AUTH_AUTH
+    route_POST_profile_username_unfollow_br_unfollowUser --> controller_ProfilePageController
+    route_POST_profile_username_unfollow_br_unfollowUser -.-> table_identity_profiles
+    route_POST_profile_username_unfollow_br_unfollowUser -.-> table_identity_users
+    route_POST_profile_username_unfollow_br_unfollowUser -.-> table_social_post_comments
+    route_POST_profile_username_unfollow_br_unfollowUser -.-> table_social_post_likes
+    route_POST_profile_username_unfollow_br_unfollowUser -.-> table_social_posts
+    route_POST_profile_username_unfollow_br_unfollowUser -.-> table_social_user_follows
+    CLIENT --> route_GET_register_br_register
+    route_GET_register_br_register -.-> AUTH_PUBLIC
+    route_GET_register_br_register --> controller_AuthPageController
+    route_GET_register_br_register -.-> table_identity_password_reset_tokens
+    route_GET_register_br_register -.-> table_identity_refresh_tokens
+    route_GET_register_br_register -.-> table_identity_roles
+    route_GET_register_br_register -.-> table_identity_users
+    CLIENT --> route_POST_register_br_registerUser
+    route_POST_register_br_registerUser -.-> AUTH_PUBLIC
+    route_POST_register_br_registerUser --> controller_AuthPageController
+    route_POST_register_br_registerUser -.-> table_identity_password_reset_tokens
+    route_POST_register_br_registerUser -.-> table_identity_refresh_tokens
+    route_POST_register_br_registerUser -.-> table_identity_roles
+    route_POST_register_br_registerUser -.-> table_identity_users
+    CLIENT --> route_GET_reset_password_br_resetPassword
+    route_GET_reset_password_br_resetPassword -.-> AUTH_PUBLIC
+    route_GET_reset_password_br_resetPassword --> controller_AuthPageController
+    route_GET_reset_password_br_resetPassword -.-> table_identity_password_reset_tokens
+    route_GET_reset_password_br_resetPassword -.-> table_identity_refresh_tokens
+    route_GET_reset_password_br_resetPassword -.-> table_identity_roles
+    route_GET_reset_password_br_resetPassword -.-> table_identity_users
+    CLIENT --> route_POST_reset_password_br_resetPasswordSubmit
+    route_POST_reset_password_br_resetPasswordSubmit -.-> AUTH_PUBLIC
+    route_POST_reset_password_br_resetPasswordSubmit --> controller_AuthPageController
+    route_POST_reset_password_br_resetPasswordSubmit -.-> table_identity_password_reset_tokens
+    route_POST_reset_password_br_resetPasswordSubmit -.-> table_identity_refresh_tokens
+    route_POST_reset_password_br_resetPasswordSubmit -.-> table_identity_roles
+    route_POST_reset_password_br_resetPasswordSubmit -.-> table_identity_users
+    CLIENT --> route_GET_settings_br_settings
+    route_GET_settings_br_settings -.-> AUTH_AUTH
+    controller_SettingsPageController["SettingsPageController"]
+    route_GET_settings_br_settings --> controller_SettingsPageController
+    route_GET_settings_br_settings -.-> table_identity_profiles
+    route_GET_settings_br_settings -.-> table_identity_users
+    CLIENT --> route_POST_settings_br_updateSettings
+    route_POST_settings_br_updateSettings -.-> AUTH_AUTH
+    route_POST_settings_br_updateSettings --> controller_SettingsPageController
+    route_POST_settings_br_updateSettings -.-> table_identity_profiles
+    route_POST_settings_br_updateSettings -.-> table_identity_users
+    CLIENT --> route_GET_shops_br_shops
+    route_GET_shops_br_shops -.-> AUTH_PUBLIC
+    controller_DiveShopPageController["DiveShopPageController"]
+    route_GET_shops_br_shops --> controller_DiveShopPageController
+    route_GET_shops_br_shops -.-> table_dive_dive_shops
+    CLIENT --> route_POST_messages_conversationId_send_br_sendMessageInline
+    route_POST_messages_conversationId_send_br_sendMessageInline -.-> AUTH_AUTH
+    route_POST_messages_conversationId_send_br_sendMessageInline --> controller_MessagingPageController
+    route_POST_messages_conversationId_send_br_sendMessageInline -.-> table_identity_profiles
+    route_POST_messages_conversationId_send_br_sendMessageInline -.-> table_identity_users
+    route_POST_messages_conversationId_send_br_sendMessageInline -.-> table_messaging_conversations
+    route_POST_messages_conversationId_send_br_sendMessageInline -.-> table_messaging_messages
+    CLIENT --> route_GET_messages_conversationId_updates_br_updates
+    route_GET_messages_conversationId_updates_br_updates -.-> AUTH_AUTH
+    route_GET_messages_conversationId_updates_br_updates --> controller_MessagingPageController
+    route_GET_messages_conversationId_updates_br_updates -.-> table_identity_profiles
+    route_GET_messages_conversationId_updates_br_updates -.-> table_identity_users
+    route_GET_messages_conversationId_updates_br_updates -.-> table_messaging_conversations
+    route_GET_messages_conversationId_updates_br_updates -.-> table_messaging_messages
+    CLIENT --> route_POST_posts_id_like_br_toggleLikeFetch
+    route_POST_posts_id_like_br_toggleLikeFetch -.-> AUTH_AUTH
+    route_POST_posts_id_like_br_toggleLikeFetch --> controller_PostPageController
+    route_POST_posts_id_like_br_toggleLikeFetch -.-> table_identity_profiles
+    route_POST_posts_id_like_br_toggleLikeFetch -.-> table_identity_users
+    route_POST_posts_id_like_br_toggleLikeFetch -.-> table_social_post_comments
+    route_POST_posts_id_like_br_toggleLikeFetch -.-> table_social_post_likes
+    route_POST_posts_id_like_br_toggleLikeFetch -.-> table_social_posts
+    classDef public fill:#e8fff3,stroke:#087f5b,color:#0b3d2e
+    classDef auth fill:#fff4d6,stroke:#b7791f,color:#4a2a00
+    class AUTH_PUBLIC public
+    class AUTH_AUTH,AUTH_ROLE auth

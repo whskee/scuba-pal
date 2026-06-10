@@ -1,0 +1,3833 @@
+{
+  "routes": [
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "HomePageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "home",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/shared/web/page/HomePageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "dive.dive_locations",
+        "dive.dive_shops",
+        "identity.profiles",
+        "identity.users",
+        "notification.notifications",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Role",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AdminController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "posts",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "posts",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/admin/posts",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PageResponseFeedPostView",
+      "roles": [
+        "ADMIN"
+      ],
+      "routeKey": "GET /api/admin/posts",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/admin/AdminController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "dive.dive_locations",
+        "dive.dive_shops",
+        "identity.profiles",
+        "identity.users",
+        "notification.notifications",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "admin-controller"
+    },
+    {
+      "auth": "Role",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AdminController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "stats",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "stats",
+      "parameters": [],
+      "path": "/api/admin/stats",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "AdminStatsView",
+      "roles": [
+        "ADMIN"
+      ],
+      "routeKey": "GET /api/admin/stats",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/admin/AdminController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "dive.dive_locations",
+        "dive.dive_shops",
+        "identity.profiles",
+        "identity.users",
+        "notification.notifications",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "admin-controller"
+    },
+    {
+      "auth": "Role",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "UserAdminController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "getAll",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "getAll_1",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/admin/users",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PageResponseAdminUserView",
+      "roles": [
+        "ADMIN"
+      ],
+      "routeKey": "GET /api/admin/users",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/UserAdminController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Admin User Management"
+    },
+    {
+      "auth": "Role",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "UserAdminController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "create",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "create_2",
+      "parameters": [],
+      "path": "/api/admin/users",
+      "requestDto": "AdminCreateUserRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "AdminUserView",
+      "roles": [
+        "ADMIN"
+      ],
+      "routeKey": "POST /api/admin/users",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/UserAdminController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Admin User Management"
+    },
+    {
+      "auth": "Role",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "UserAdminController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "getById",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "getById_1",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/admin/users/{id}",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "AdminUserView",
+      "roles": [
+        "ADMIN"
+      ],
+      "routeKey": "GET /api/admin/users/{id}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/UserAdminController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Admin User Management"
+    },
+    {
+      "auth": "Role",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "UserAdminController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "update",
+      "method": "PATCH",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "update_2",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/admin/users/{id}",
+      "requestDto": "UpdateUserRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "AdminUserView",
+      "roles": [
+        "ADMIN"
+      ],
+      "routeKey": "PATCH /api/admin/users/{id}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/UserAdminController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Admin User Management"
+    },
+    {
+      "auth": "Role",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "UserAdminController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "deactivate",
+      "method": "DELETE",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "deactivate",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/admin/users/{id}",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "MessageResponse",
+      "roles": [
+        "ADMIN"
+      ],
+      "routeKey": "DELETE /api/admin/users/{id}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/UserAdminController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Admin User Management"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthApiController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "forgotPassword",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "forgotPassword",
+      "parameters": [],
+      "path": "/api/auth/forgot-password",
+      "requestDto": "ForgotPasswordRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "MessageResponse",
+      "roles": [],
+      "routeKey": "POST /api/auth/forgot-password",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/api/AuthApiController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Authentication"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthApiController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "login",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "login",
+      "parameters": [],
+      "path": "/api/auth/login",
+      "requestDto": "LoginRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "AuthResponse",
+      "roles": [],
+      "routeKey": "POST /api/auth/login",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/api/AuthApiController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Authentication"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthApiController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "logout",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "logout",
+      "parameters": [],
+      "path": "/api/auth/logout",
+      "requestDto": "RefreshTokenRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "MessageResponse",
+      "roles": [],
+      "routeKey": "POST /api/auth/logout",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/api/AuthApiController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Authentication"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthApiController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "refresh",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "refresh",
+      "parameters": [],
+      "path": "/api/auth/refresh",
+      "requestDto": "RefreshTokenRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "AuthResponse",
+      "roles": [],
+      "routeKey": "POST /api/auth/refresh",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/api/AuthApiController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Authentication"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthApiController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "register",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "register",
+      "parameters": [],
+      "path": "/api/auth/register",
+      "requestDto": "RegisterRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "AuthResponse",
+      "roles": [],
+      "routeKey": "POST /api/auth/register",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/api/AuthApiController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Authentication"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthApiController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "resetPassword",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "resetPassword",
+      "parameters": [],
+      "path": "/api/auth/reset-password",
+      "requestDto": "ResetPasswordRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "MessageResponse",
+      "roles": [],
+      "routeKey": "POST /api/auth/reset-password",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/api/AuthApiController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Authentication"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthApiController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "usernameAvailable",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "usernameAvailable",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "username",
+          "required": "true",
+          "schema": "string"
+        }
+      ],
+      "path": "/api/auth/username-available",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "map[string,boolean]",
+      "roles": [],
+      "routeKey": "GET /api/auth/username-available",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/api/AuthApiController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": "Authentication"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "LearnController",
+      "description": "Returns published scuba education articles.",
+      "eventsEmitted": [],
+      "handler": "articles",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "articles",
+      "parameters": [],
+      "path": "/api/learn/articles",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "array[LearnArticleResponse]",
+      "roles": [],
+      "routeKey": "GET /api/learn/articles",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/learn/LearnController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "List learn articles",
+      "surface": "REST API",
+      "tablesTouched": [
+        "learn.articles"
+      ],
+      "tag": "Learn"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "LearnController",
+      "description": "Returns one published scuba education article by slug.",
+      "eventsEmitted": [],
+      "handler": "article",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "article",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "slug",
+          "required": "true",
+          "schema": "string"
+        }
+      ],
+      "path": "/api/learn/articles/{slug}",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "LearnArticleResponse",
+      "roles": [],
+      "routeKey": "GET /api/learn/articles/{slug}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/learn/LearnController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Get learn article",
+      "surface": "REST API",
+      "tablesTouched": [
+        "learn.articles"
+      ],
+      "tag": "Learn"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "LocationController",
+      "description": "Returns dive locations, optionally filtered by city.",
+      "eventsEmitted": [],
+      "handler": "getAll",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "getAll",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "city",
+          "required": "false",
+          "schema": "string"
+        },
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/locations",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PageResponseDiveLocationResponse",
+      "roles": [],
+      "routeKey": "GET /api/locations",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/location/LocationController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "List dive locations",
+      "surface": "REST API",
+      "tablesTouched": [
+        "dive.dive_locations"
+      ],
+      "tag": "Dive Locations"
+    },
+    {
+      "auth": "Role",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "LocationController",
+      "description": "Creates a new dive location.",
+      "eventsEmitted": [],
+      "handler": "create",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "create_1",
+      "parameters": [],
+      "path": "/api/locations",
+      "requestDto": "CreateLocationRequest",
+      "responseCodes": [
+        "201",
+        "400",
+        "401"
+      ],
+      "responseDto": "DiveLocationResponse",
+      "roles": [
+        "ADMIN",
+        "MODERATOR",
+        "SHOP_OWNER"
+      ],
+      "routeKey": "POST /api/locations",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/location/LocationController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Create dive location",
+      "surface": "REST API",
+      "tablesTouched": [
+        "dive.dive_locations"
+      ],
+      "tag": "Dive Locations"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "CurrentUserController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "currentUser",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "currentUser",
+      "parameters": [],
+      "path": "/api/me",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "CurrentUserView",
+      "roles": [],
+      "routeKey": "GET /api/me",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/CurrentUserController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Current User"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "CurrentUserController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "changePassword",
+      "method": "PATCH",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "changePassword",
+      "parameters": [],
+      "path": "/api/me/password",
+      "requestDto": "ChangePasswordRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "MessageResponse",
+      "roles": [],
+      "routeKey": "PATCH /api/me/password",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/CurrentUserController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Current User"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfileController",
+      "description": "Returns profile details for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "currentProfile",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "currentProfile",
+      "parameters": [],
+      "path": "/api/me/profile",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "ProfileResponse",
+      "roles": [],
+      "routeKey": "GET /api/me/profile",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Get current user's profile",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Profiles"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfileController",
+      "description": "Updates profile details for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "updateCurrentProfile",
+      "method": "PUT",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "updateCurrentProfile",
+      "parameters": [],
+      "path": "/api/me/profile",
+      "requestDto": "UpsertProfileRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "ProfileResponse",
+      "roles": [],
+      "routeKey": "PUT /api/me/profile",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Update current user's profile",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Profiles"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "CurrentUserController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "updateSettings",
+      "method": "PATCH",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "updateSettings",
+      "parameters": [],
+      "path": "/api/me/settings",
+      "requestDto": "UpdateCurrentUserSettingsRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "CurrentUserView",
+      "roles": [],
+      "routeKey": "PATCH /api/me/settings",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/CurrentUserController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Current User"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MediaController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "createUpload",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "createUpload",
+      "parameters": [],
+      "path": "/api/media/uploads",
+      "requestDto": "CreateMediaUploadRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "MediaUploadResponse",
+      "roles": [],
+      "routeKey": "POST /api/media/uploads",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/media/MediaController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.users"
+      ],
+      "tag": "Media"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingController",
+      "description": "Returns paged conversations for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "conversations",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "conversations",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/messages/conversations",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "401"
+      ],
+      "responseDto": "ConversationListResponse",
+      "roles": [],
+      "routeKey": "GET /api/messages/conversations",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "List conversations",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages",
+        "notification.notifications"
+      ],
+      "tag": "Messaging"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingController",
+      "description": "Finds or creates a direct-message conversation with another user.",
+      "eventsEmitted": [],
+      "handler": "startConversation",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "startConversation",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "otherUserId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/messages/conversations/{otherUserId}",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "400",
+        "401",
+        "404"
+      ],
+      "responseDto": "ConversationView",
+      "roles": [],
+      "routeKey": "POST /api/messages/conversations/{otherUserId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Start conversation",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages",
+        "notification.notifications"
+      ],
+      "tag": "Messaging"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingController",
+      "description": "Returns unread message and notification counters for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "unreadCount",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "unreadCount_1",
+      "parameters": [],
+      "path": "/api/messages/unread-count",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "401"
+      ],
+      "responseDto": "UnreadCountView",
+      "roles": [],
+      "routeKey": "GET /api/messages/unread-count",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Get unread message count",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages",
+        "notification.notifications"
+      ],
+      "tag": "Messaging"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingController",
+      "description": "Returns paged direct messages for a conversation and marks unread items as read.",
+      "eventsEmitted": [],
+      "handler": "messages",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "messages",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "conversationId",
+          "required": "true",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/messages/{conversationId}",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "401",
+        "404"
+      ],
+      "responseDto": "MessageListResponse",
+      "roles": [],
+      "routeKey": "GET /api/messages/{conversationId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "List direct messages",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages",
+        "notification.notifications"
+      ],
+      "tag": "Messaging"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingController",
+      "description": "Sends a message to a conversation participant.",
+      "eventsEmitted": [],
+      "handler": "sendMessage",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "sendMessage",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "conversationId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/messages/{conversationId}",
+      "requestDto": "SendMessageRequest",
+      "responseCodes": [
+        "201",
+        "400",
+        "401",
+        "404"
+      ],
+      "responseDto": "MessageResponse",
+      "roles": [],
+      "routeKey": "POST /api/messages/{conversationId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Send direct message",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages",
+        "notification.notifications"
+      ],
+      "tag": "Messaging"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingController",
+      "description": "Marks all unread messages in a conversation as read for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "markRead",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "markRead_2",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "conversationId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/messages/{conversationId}/read",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "401",
+        "404"
+      ],
+      "responseDto": "UnreadCountView",
+      "roles": [],
+      "routeKey": "POST /api/messages/{conversationId}/read",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Mark conversation messages as read",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages",
+        "notification.notifications"
+      ],
+      "tag": "Messaging"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "NotificationController",
+      "description": "Returns paged notifications for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "notifications",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "notifications",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/notifications",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "401"
+      ],
+      "responseDto": "NotificationListResponse",
+      "roles": [],
+      "routeKey": "GET /api/notifications",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/notification/NotificationController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "List notifications",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.users",
+        "notification.notifications"
+      ],
+      "tag": "Notifications"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "NotificationController",
+      "description": "Returns unread notification count for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "unreadCount",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "unreadCount",
+      "parameters": [],
+      "path": "/api/notifications/unread-count",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "401"
+      ],
+      "responseDto": "UnreadNotificationCountView",
+      "roles": [],
+      "routeKey": "GET /api/notifications/unread-count",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/notification/NotificationController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Get unread notification count",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.users",
+        "notification.notifications"
+      ],
+      "tag": "Notifications"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "NotificationController",
+      "description": "Marks one notification as read for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "markRead",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "markRead",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "notificationId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/notifications/{notificationId}/read",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "401",
+        "404"
+      ],
+      "responseDto": "NotificationView",
+      "roles": [],
+      "routeKey": "POST /api/notifications/{notificationId}/read",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/notification/NotificationController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Mark notification as read",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.users",
+        "notification.notifications"
+      ],
+      "tag": "Notifications"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "NotificationController",
+      "description": "Marks one notification as read for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "markRead",
+      "method": "PATCH",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "markRead_1",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "notificationId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/notifications/{notificationId}/read",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "401",
+        "404"
+      ],
+      "responseDto": "NotificationView",
+      "roles": [],
+      "routeKey": "PATCH /api/notifications/{notificationId}/read",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/notification/NotificationController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Mark notification as read",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.users",
+        "notification.notifications"
+      ],
+      "tag": "Notifications"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "getAll",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "getAll_3",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/posts",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PageResponseFeedPostView",
+      "roles": [],
+      "routeKey": "GET /api/posts",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "createForCurrentUser",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "createForCurrentUser",
+      "parameters": [],
+      "path": "/api/posts/me",
+      "requestDto": "CreateCurrentUserPostRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "FeedPostView",
+      "roles": [],
+      "routeKey": "POST /api/posts/me",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "search",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "search",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/posts/search",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PageResponseFeedPostView",
+      "roles": [],
+      "routeKey": "GET /api/posts/search",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "getByUser",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "getByUser",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/posts/users/{userId}",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PageResponseFeedPostView",
+      "roles": [],
+      "routeKey": "GET /api/posts/users/{userId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "getById",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "getById",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/posts/{id}",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PostDetailView",
+      "roles": [],
+      "routeKey": "GET /api/posts/{id}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "update",
+      "method": "PUT",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "update_1",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/posts/{id}",
+      "requestDto": "UpdatePostRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "FeedPostView",
+      "roles": [],
+      "routeKey": "PUT /api/posts/{id}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "delete",
+      "method": "DELETE",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "delete",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/posts/{id}",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "MessageResponse",
+      "roles": [],
+      "routeKey": "DELETE /api/posts/{id}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "comment",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "comment",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/posts/{id}/comments",
+      "requestDto": "CreateCommentRequest",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PostDetailView",
+      "roles": [],
+      "routeKey": "POST /api/posts/{id}/comments",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "like",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "like",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/posts/{id}/like",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PostDetailView",
+      "roles": [],
+      "routeKey": "POST /api/posts/{id}/like",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "deleteComment",
+      "method": "DELETE",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "deleteComment",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "commentId",
+          "required": "true",
+          "schema": "integer"
+        },
+        {
+          "in": "path",
+          "name": "postId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/posts/{postId}/comments/{commentId}",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "MessageResponse",
+      "roles": [],
+      "routeKey": "DELETE /api/posts/{postId}/comments/{commentId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "Posts"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfileController",
+      "description": "Returns active public diver profiles visible to all users.",
+      "eventsEmitted": [],
+      "handler": "search",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "searchPublicProfiles",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "q",
+          "required": "false",
+          "schema": "string"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/profiles",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PageResponsePublicProfileResponse",
+      "roles": [],
+      "routeKey": "GET /api/profiles",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Search public profiles",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Profiles"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfileController",
+      "description": "Returns profile details for a user.",
+      "eventsEmitted": [],
+      "handler": "get",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "get",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/profiles/{userId}",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "404"
+      ],
+      "responseDto": "PublicProfileResponse",
+      "roles": [],
+      "routeKey": "GET /api/profiles/{userId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Get profile",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Profiles"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfileController",
+      "description": "Creates a profile for a user if one does not already exist.",
+      "eventsEmitted": [],
+      "handler": "create",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "create",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/profiles/{userId}",
+      "requestDto": "UpsertProfileRequest",
+      "responseCodes": [
+        "201",
+        "400",
+        "404"
+      ],
+      "responseDto": "ProfileResponse",
+      "roles": [],
+      "routeKey": "POST /api/profiles/{userId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Create profile",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Profiles"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfileController",
+      "description": "Updates profile details for a user.",
+      "eventsEmitted": [],
+      "handler": "update",
+      "method": "PUT",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "update",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/profiles/{userId}",
+      "requestDto": "UpsertProfileRequest",
+      "responseCodes": [
+        "200",
+        "400",
+        "404"
+      ],
+      "responseDto": "ProfileResponse",
+      "roles": [],
+      "routeKey": "PUT /api/profiles/{userId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Update profile",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Profiles"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "DiveShopController",
+      "description": "Returns paged dive shops, optionally filtered by shop name, city, state, country, or linked dive location.",
+      "eventsEmitted": [],
+      "handler": "getAll",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "getAll_2",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "q",
+          "required": "false",
+          "schema": "string"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/shops",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PageResponseDiveShopResponse",
+      "roles": [],
+      "routeKey": "GET /api/shops",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/shop/DiveShopController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "List dive shops",
+      "surface": "REST API",
+      "tablesTouched": [
+        "dive.dive_shops"
+      ],
+      "tag": "Dive Shops"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "FollowController",
+      "description": "Creates a follow relationship from the authenticated user to the target user.",
+      "eventsEmitted": [],
+      "handler": "follow",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "follow",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/users/{userId}/follow",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "400",
+        "401",
+        "404"
+      ],
+      "responseDto": "FollowSummaryView",
+      "roles": [],
+      "routeKey": "POST /api/users/{userId}/follow",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/follow/FollowController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Follow user",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.user_follows"
+      ],
+      "tag": "Follows"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "FollowController",
+      "description": "Removes a follow relationship for the authenticated user.",
+      "eventsEmitted": [],
+      "handler": "unfollow",
+      "method": "DELETE",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "unfollow",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/users/{userId}/follow",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "401"
+      ],
+      "responseDto": "FollowSummaryView",
+      "roles": [],
+      "routeKey": "DELETE /api/users/{userId}/follow",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/follow/FollowController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Unfollow user",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.user_follows"
+      ],
+      "tag": "Follows"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "FollowController",
+      "description": "Returns follower/following counts and whether the current user follows the target user.",
+      "eventsEmitted": [],
+      "handler": "summary",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "summary",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/users/{userId}/follow-summary",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "404"
+      ],
+      "responseDto": "FollowSummaryView",
+      "roles": [],
+      "routeKey": "GET /api/users/{userId}/follow-summary",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/follow/FollowController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Get follow summary",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.user_follows"
+      ],
+      "tag": "Follows"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "FollowController",
+      "description": "Returns a read-only paged list of users following the target user.",
+      "eventsEmitted": [],
+      "handler": "followers",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "followers",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/users/{userId}/followers",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "404"
+      ],
+      "responseDto": "UserListResponse",
+      "roles": [],
+      "routeKey": "GET /api/users/{userId}/followers",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/follow/FollowController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "List followers",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.user_follows"
+      ],
+      "tag": "Follows"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "FollowController",
+      "description": "Returns a read-only paged list of users followed by the target user.",
+      "eventsEmitted": [],
+      "handler": "following",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "following",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/users/{userId}/following",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "404"
+      ],
+      "responseDto": "UserListResponse",
+      "roles": [],
+      "routeKey": "GET /api/users/{userId}/following",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/follow/FollowController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "List following",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.user_follows"
+      ],
+      "tag": "Follows"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfileController",
+      "description": "Returns profile details for a user.",
+      "eventsEmitted": [],
+      "handler": "get",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "get_1",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/api/users/{userId}/profile",
+      "requestDto": "",
+      "responseCodes": [
+        "200",
+        "404"
+      ],
+      "responseDto": "PublicProfileResponse",
+      "roles": [],
+      "routeKey": "GET /api/users/{userId}/profile",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "Get profile",
+      "surface": "REST API",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": "Profiles"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfilePageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "buddies",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/buddies",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /buddies",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/profile/ProfilePageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts",
+        "social.user_follows"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfilePageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "divers",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/divers",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /divers",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/profile/ProfilePageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts",
+        "social.user_follows"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "feed",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/feed",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /feed",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "forgotPassword",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/forgot-password",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /forgot-password",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/web/AuthPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "sendPasswordReset",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/forgot-password",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /forgot-password",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/web/AuthPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "LearnPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "learn",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/learn",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /learn",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/learn/LearnPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "learn.articles"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "LocationPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "locations",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/locations",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /locations",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/location/LocationPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "dive.dive_locations"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "login",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/login",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /login",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/web/AuthPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PublicMediaController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "getMedia",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/media/**",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /media/**",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/media/PublicMediaController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Static/Media",
+      "tablesTouched": [],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "messages",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/messages",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /messages",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "startMessage",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/messages/start/{userId}",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /messages/start/{userId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "conversation",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/messages/{conversationId}",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /messages/{conversationId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "sendMessage",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/messages/{conversationId}",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /messages/{conversationId}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "sendMessageInline",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "sendMessageInline",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "conversationId",
+          "required": "true",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "messageText",
+          "required": "true",
+          "schema": "string"
+        }
+      ],
+      "path": "/messages/{conversationId}/send",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "ConversationPollResponse",
+      "roles": [],
+      "routeKey": "POST /messages/{conversationId}/send",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingPageController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages"
+      ],
+      "tag": "messaging-page-controller"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "MessagingPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "updates",
+      "method": "GET",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "updates",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "conversationId",
+          "required": "true",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "page",
+          "required": "false",
+          "schema": "integer"
+        },
+        {
+          "in": "query",
+          "name": "size",
+          "required": "false",
+          "schema": "integer"
+        }
+      ],
+      "path": "/messages/{conversationId}/updates",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "ConversationPollResponse",
+      "roles": [],
+      "routeKey": "GET /messages/{conversationId}/updates",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingPageController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "messaging.conversations",
+        "messaging.messages"
+      ],
+      "tag": "messaging-page-controller"
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "NotificationPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "notifications",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/notifications",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /notifications",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/notification/NotificationPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.users",
+        "notification.notifications"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "createPost",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/posts",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /posts",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "postDetail",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/posts/{id}",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /posts/{id}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "addComment",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/posts/{id}/comments",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /posts/{id}/comments",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "PostPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "toggleLikeFetch",
+      "method": "POST",
+      "openapiSecurity": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "operationId": "toggleLikeFetch",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Requested-With",
+          "required": "false",
+          "schema": "string"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": "true",
+          "schema": "integer"
+        }
+      ],
+      "path": "/posts/{id}/like",
+      "requestDto": "",
+      "responseCodes": [
+        "200"
+      ],
+      "responseDto": "PostDetailView",
+      "roles": [],
+      "routeKey": "POST /posts/{id}/like",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "openapi",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostPageController.java",
+      "sources": [
+        "java",
+        "openapi"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts"
+      ],
+      "tag": "post-page-controller"
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfilePageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "profile",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/profile/{username}",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /profile/{username}",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/profile/ProfilePageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts",
+        "social.user_follows"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfilePageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "followUser",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/profile/{username}/follow",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /profile/{username}/follow",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/profile/ProfilePageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts",
+        "social.user_follows"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "ProfilePageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "unfollowUser",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/profile/{username}/unfollow",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /profile/{username}/unfollow",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/profile/ProfilePageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users",
+        "social.post_comments",
+        "social.post_likes",
+        "social.posts",
+        "social.user_follows"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "register",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/register",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /register",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/web/AuthPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "registerUser",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/register",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /register",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/web/AuthPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "resetPassword",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/reset-password",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /reset-password",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/web/AuthPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "AuthPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "resetPasswordSubmit",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/reset-password",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /reset-password",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/web/AuthPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.password_reset_tokens",
+        "identity.refresh_tokens",
+        "identity.roles",
+        "identity.users"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "SettingsPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "settings",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/settings",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /settings",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/SettingsPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Authenticated",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "SettingsPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "updateSettings",
+      "method": "POST",
+      "operationId": "",
+      "parameters": [],
+      "path": "/settings",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "POST /settings",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/SettingsPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "identity.profiles",
+        "identity.users"
+      ],
+      "tag": ""
+    },
+    {
+      "auth": "Public",
+      "calledBy": [],
+      "contractOnly": false,
+      "controller": "DiveShopPageController",
+      "description": "",
+      "eventsEmitted": [],
+      "handler": "shops",
+      "method": "GET",
+      "operationId": "",
+      "parameters": [],
+      "path": "/shops",
+      "requestDto": "",
+      "responseCodes": [],
+      "responseDto": "",
+      "roles": [],
+      "routeKey": "GET /shops",
+      "runtimeHandler": "",
+      "runtimeOnly": false,
+      "source": "java",
+      "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/shop/DiveShopPageController.java",
+      "sources": [
+        "java"
+      ],
+      "summary": "",
+      "surface": "Web",
+      "tablesTouched": [
+        "dive.dive_shops"
+      ],
+      "tag": ""
+    }
+  ]
+}

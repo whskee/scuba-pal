@@ -1,0 +1,695 @@
+{
+  "backend": {
+    "controllers": [
+      {
+        "basePath": "/api/admin",
+        "className": "AdminController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/admin/AdminController.java"
+      },
+      {
+        "basePath": "/api/auth",
+        "className": "AuthApiController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/api/AuthApiController.java"
+      },
+      {
+        "basePath": "",
+        "className": "AuthPageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/web/AuthPageController.java"
+      },
+      {
+        "basePath": "/api/me",
+        "className": "CurrentUserController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/CurrentUserController.java"
+      },
+      {
+        "basePath": "/api/shops",
+        "className": "DiveShopController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/shop/DiveShopController.java"
+      },
+      {
+        "basePath": "",
+        "className": "DiveShopPageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/shop/DiveShopPageController.java"
+      },
+      {
+        "basePath": "/api/users",
+        "className": "FollowController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/follow/FollowController.java"
+      },
+      {
+        "basePath": "",
+        "className": "HomePageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/shared/web/page/HomePageController.java"
+      },
+      {
+        "basePath": "/api/learn",
+        "className": "LearnController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/learn/LearnController.java"
+      },
+      {
+        "basePath": "",
+        "className": "LearnPageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/learn/LearnPageController.java"
+      },
+      {
+        "basePath": "/api/locations",
+        "className": "LocationController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/location/LocationController.java"
+      },
+      {
+        "basePath": "",
+        "className": "LocationPageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/location/LocationPageController.java"
+      },
+      {
+        "basePath": "/api/media",
+        "className": "MediaController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/media/MediaController.java"
+      },
+      {
+        "basePath": "/api/messages",
+        "className": "MessagingController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingController.java"
+      },
+      {
+        "basePath": "",
+        "className": "MessagingPageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingPageController.java"
+      },
+      {
+        "basePath": "/api/notifications",
+        "className": "NotificationController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/notification/NotificationController.java"
+      },
+      {
+        "basePath": "",
+        "className": "NotificationPageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/notification/NotificationPageController.java"
+      },
+      {
+        "basePath": "/api/posts",
+        "className": "PostController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostController.java"
+      },
+      {
+        "basePath": "",
+        "className": "PostPageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostPageController.java"
+      },
+      {
+        "basePath": "/api",
+        "className": "ProfileController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileController.java"
+      },
+      {
+        "basePath": "",
+        "className": "ProfilePageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/profile/ProfilePageController.java"
+      },
+      {
+        "basePath": "",
+        "className": "PublicMediaController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/media/PublicMediaController.java"
+      },
+      {
+        "basePath": "",
+        "className": "SettingsPageController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/SettingsPageController.java"
+      },
+      {
+        "basePath": "/api/admin/users",
+        "className": "UserAdminController",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/UserAdminController.java"
+      }
+    ],
+    "entities": [
+      {
+        "className": "Conversation",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/conversation/Conversation.java",
+        "table": "messaging.conversations"
+      },
+      {
+        "className": "ConversationRepository",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/conversation/ConversationRepository.java",
+        "table": ""
+      },
+      {
+        "className": "DiveLocation",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/location/DiveLocation.java",
+        "table": "dive.dive_locations"
+      },
+      {
+        "className": "DiveShop",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/shop/DiveShop.java",
+        "table": "dive.dive_shops"
+      },
+      {
+        "className": "DiveShopRepository",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/shop/DiveShopRepository.java",
+        "table": ""
+      },
+      {
+        "className": "LearnArticle",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/learn/LearnArticle.java",
+        "table": "learn.articles"
+      },
+      {
+        "className": "Message",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/message/Message.java",
+        "table": "messaging.messages"
+      },
+      {
+        "className": "MessageRepository",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/message/MessageRepository.java",
+        "table": ""
+      },
+      {
+        "className": "Notification",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/notification/Notification.java",
+        "table": "notification.notifications"
+      },
+      {
+        "className": "PasswordResetToken",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/passwordreset/PasswordResetToken.java",
+        "table": "identity.password_reset_tokens"
+      },
+      {
+        "className": "Post",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/Post.java",
+        "table": "social.posts"
+      },
+      {
+        "className": "PostComment",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/comment/PostComment.java",
+        "table": "social.post_comments"
+      },
+      {
+        "className": "PostLike",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/like/PostLike.java",
+        "table": "social.post_likes"
+      },
+      {
+        "className": "PostMedia",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostMedia.java",
+        "table": "social.post_media"
+      },
+      {
+        "className": "PostRepository",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostRepository.java",
+        "table": ""
+      },
+      {
+        "className": "Profile",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/Profile.java",
+        "table": "identity.profiles"
+      },
+      {
+        "className": "ProfileRepository",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileRepository.java",
+        "table": ""
+      },
+      {
+        "className": "RefreshToken",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/token/RefreshToken.java",
+        "table": "identity.refresh_tokens"
+      },
+      {
+        "className": "Role",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/role/Role.java",
+        "table": "identity.roles"
+      },
+      {
+        "className": "User",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/User.java",
+        "table": "identity.users"
+      },
+      {
+        "className": "UserFollow",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/follow/UserFollow.java",
+        "table": "social.user_follows"
+      },
+      {
+        "className": "UserRepository",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/UserRepository.java",
+        "table": ""
+      }
+    ],
+    "repositories": [
+      {
+        "className": "ConversationRepository",
+        "entity": "Conversation",
+        "table": "messaging.conversations"
+      },
+      {
+        "className": "DiveLocationRepository",
+        "entity": "DiveLocation",
+        "table": "dive.dive_locations"
+      },
+      {
+        "className": "DiveShopRepository",
+        "entity": "DiveShop",
+        "table": "dive.dive_shops"
+      },
+      {
+        "className": "LearnArticleRepository",
+        "entity": "LearnArticle",
+        "table": "learn.articles"
+      },
+      {
+        "className": "MessageRepository",
+        "entity": "Message",
+        "table": "messaging.messages"
+      },
+      {
+        "className": "NotificationRepository",
+        "entity": "Notification",
+        "table": "notification.notifications"
+      },
+      {
+        "className": "PasswordResetTokenRepository",
+        "entity": "PasswordResetToken",
+        "table": "identity.password_reset_tokens"
+      },
+      {
+        "className": "PostCommentRepository",
+        "entity": "PostComment",
+        "table": "social.post_comments"
+      },
+      {
+        "className": "PostLikeRepository",
+        "entity": "PostLike",
+        "table": "social.post_likes"
+      },
+      {
+        "className": "PostMediaRepository",
+        "entity": "PostMedia",
+        "table": "social.post_media"
+      },
+      {
+        "className": "PostRepository",
+        "entity": "Post",
+        "table": "social.posts"
+      },
+      {
+        "className": "ProfileRepository",
+        "entity": "Profile",
+        "table": "identity.profiles"
+      },
+      {
+        "className": "RefreshTokenRepository",
+        "entity": "RefreshToken",
+        "table": "identity.refresh_tokens"
+      },
+      {
+        "className": "RoleRepository",
+        "entity": "Role",
+        "table": "identity.roles"
+      },
+      {
+        "className": "UserFollowRepository",
+        "entity": "UserFollow",
+        "table": "social.user_follows"
+      },
+      {
+        "className": "UserRepository",
+        "entity": "User",
+        "table": "identity.users"
+      }
+    ],
+    "services": [
+      {
+        "className": "AdminService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/admin/AdminService.java"
+      },
+      {
+        "className": "AuthService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/AuthService.java"
+      },
+      {
+        "className": "ConsoleFallbackEmailService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/shared/mail/ConsoleFallbackEmailService.java"
+      },
+      {
+        "className": "CurrentUserService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/CurrentUserService.java"
+      },
+      {
+        "className": "DatabaseUserDetailsService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/shared/security/DatabaseUserDetailsService.java"
+      },
+      {
+        "className": "DiveShopService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/shop/DiveShopService.java"
+      },
+      {
+        "className": "EmailService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/shared/mail/EmailService.java"
+      },
+      {
+        "className": "FollowService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/follow/FollowService.java"
+      },
+      {
+        "className": "IdentityQueryService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/IdentityQueryService.java"
+      },
+      {
+        "className": "JwtTokenService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/token/JwtTokenService.java"
+      },
+      {
+        "className": "LearnService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/learn/LearnService.java"
+      },
+      {
+        "className": "LocationService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/dive/location/LocationService.java"
+      },
+      {
+        "className": "MediaStorageService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/media/MediaStorageService.java"
+      },
+      {
+        "className": "MessagingService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/messaging/MessagingService.java"
+      },
+      {
+        "className": "NotificationService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/notification/NotificationService.java"
+      },
+      {
+        "className": "PasswordResetService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/auth/passwordreset/PasswordResetService.java"
+      },
+      {
+        "className": "PostService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/social/post/PostService.java"
+      },
+      {
+        "className": "ProfileService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/profile/ProfileService.java"
+      },
+      {
+        "className": "SmtpEmailService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/shared/mail/SmtpEmailService.java"
+      },
+      {
+        "className": "UserAdminService",
+        "sourceFile": "scubapal-app/src/main/java/com/scubapal/identity/user/UserAdminService.java"
+      }
+    ]
+  },
+  "counts": {
+    "controllers": 24,
+    "databaseTables": 20,
+    "entities": 22,
+    "flywayMigrations": 14,
+    "openapiEndpoints": 58,
+    "openapiSchemas": 48,
+    "repositories": 16,
+    "services": 20
+  },
+  "database": {
+    "migrations": [
+      "scubapal-app/src/main/resources/db/migration/V000__init_schemas.sql",
+      "scubapal-app/src/main/resources/db/migration/V001__init_users.sql",
+      "scubapal-app/src/main/resources/db/migration/V002__init_posts.sql",
+      "scubapal-app/src/main/resources/db/migration/V003__init_dive.sql",
+      "scubapal-app/src/main/resources/db/migration/V004__init_certifications.sql",
+      "scubapal-app/src/main/resources/db/migration/V005__init_messaging.sql",
+      "scubapal-app/src/main/resources/db/migration/V006__init_notifications.sql",
+      "scubapal-app/src/main/resources/db/migration/V007__init_learn.sql",
+      "scubapal-app/src/main/resources/db/migration/V008__ensure_post_media.sql",
+      "scubapal-app/src/main/resources/db/migration/V009__init_follows.sql",
+      "scubapal-app/src/main/resources/db/migration/V010__add_dive_discovery_images.sql",
+      "scubapal-app/src/main/resources/db/migration/V011__production_data_integrity_indexes.sql",
+      "scubapal-app/src/main/resources/db/migration/V012__init_refresh_tokens.sql",
+      "scubapal-app/src/main/resources/db/migration/V013__add_refresh_token_revocation_reason.sql"
+    ],
+    "tables": [
+      {
+        "name": "certification_agencies",
+        "qualifiedName": "certification.certification_agencies",
+        "schema": "certification"
+      },
+      {
+        "name": "certification_levels",
+        "qualifiedName": "certification.certification_levels",
+        "schema": "certification"
+      },
+      {
+        "name": "user_certifications",
+        "qualifiedName": "certification.user_certifications",
+        "schema": "certification"
+      },
+      {
+        "name": "dive_locations",
+        "qualifiedName": "dive.dive_locations",
+        "schema": "dive"
+      },
+      {
+        "name": "dive_shops",
+        "qualifiedName": "dive.dive_shops",
+        "schema": "dive"
+      },
+      {
+        "name": "flyway_schema_history",
+        "qualifiedName": "identity.flyway_schema_history",
+        "schema": "identity"
+      },
+      {
+        "name": "password_reset_tokens",
+        "qualifiedName": "identity.password_reset_tokens",
+        "schema": "identity"
+      },
+      {
+        "name": "profiles",
+        "qualifiedName": "identity.profiles",
+        "schema": "identity"
+      },
+      {
+        "name": "refresh_tokens",
+        "qualifiedName": "identity.refresh_tokens",
+        "schema": "identity"
+      },
+      {
+        "name": "roles",
+        "qualifiedName": "identity.roles",
+        "schema": "identity"
+      },
+      {
+        "name": "users",
+        "qualifiedName": "identity.users",
+        "schema": "identity"
+      },
+      {
+        "name": "articles",
+        "qualifiedName": "learn.articles",
+        "schema": "learn"
+      },
+      {
+        "name": "conversations",
+        "qualifiedName": "messaging.conversations",
+        "schema": "messaging"
+      },
+      {
+        "name": "messages",
+        "qualifiedName": "messaging.messages",
+        "schema": "messaging"
+      },
+      {
+        "name": "notifications",
+        "qualifiedName": "notification.notifications",
+        "schema": "notification"
+      },
+      {
+        "name": "post_comments",
+        "qualifiedName": "social.post_comments",
+        "schema": "social"
+      },
+      {
+        "name": "post_likes",
+        "qualifiedName": "social.post_likes",
+        "schema": "social"
+      },
+      {
+        "name": "post_media",
+        "qualifiedName": "social.post_media",
+        "schema": "social"
+      },
+      {
+        "name": "posts",
+        "qualifiedName": "social.posts",
+        "schema": "social"
+      },
+      {
+        "name": "user_follows",
+        "qualifiedName": "social.user_follows",
+        "schema": "social"
+      }
+    ]
+  },
+  "openapi": {
+    "schemas": [
+      "AdminCreateUserRequest",
+      "AdminStatsView",
+      "AdminUserView",
+      "AuthResponse",
+      "ChangePasswordRequest",
+      "CommentView",
+      "ConversationListResponse",
+      "ConversationPollResponse",
+      "ConversationView",
+      "CreateCommentRequest",
+      "CreateCurrentUserPostRequest",
+      "CreateLocationRequest",
+      "CreateMediaUploadRequest",
+      "CurrentUserView",
+      "DiveLocationResponse",
+      "DiveShopResponse",
+      "FeedPostView",
+      "FollowSummaryView",
+      "ForgotPasswordRequest",
+      "LearnArticleResponse",
+      "LoginRequest",
+      "MediaUploadResponse",
+      "MessageListResponse",
+      "MessageResponse",
+      "MessageView",
+      "NotificationListResponse",
+      "NotificationView",
+      "PageMetaResponse",
+      "PageResponseAdminUserView",
+      "PageResponseDiveLocationResponse",
+      "PageResponseDiveShopResponse",
+      "PageResponseFeedPostView",
+      "PageResponsePublicProfileResponse",
+      "PostDetailView",
+      "ProfileResponse",
+      "PublicProfileResponse",
+      "PublicUserView",
+      "RefreshTokenRequest",
+      "RegisterRequest",
+      "ResetPasswordRequest",
+      "SendMessageRequest",
+      "UnreadCountView",
+      "UnreadNotificationCountView",
+      "UpdateCurrentUserSettingsRequest",
+      "UpdatePostRequest",
+      "UpdateUserRequest",
+      "UpsertProfileRequest",
+      "UserListResponse"
+    ],
+    "tags": [
+      {
+        "description": "Admin endpoints for managing user accounts",
+        "name": "Admin User Management"
+      },
+      {
+        "description": "Endpoints for user registration, login, and password management.",
+        "name": "Authentication"
+      },
+      {
+        "description": "Endpoints for the authenticated user's account.",
+        "name": "Current User"
+      },
+      {
+        "description": "Endpoints for discovering and creating dive locations",
+        "name": "Dive Locations"
+      },
+      {
+        "description": "Endpoints for discovering dive shops",
+        "name": "Dive Shops"
+      },
+      {
+        "description": "Endpoints for follow actions and read-only follow lists",
+        "name": "Follows"
+      },
+      {
+        "description": "Endpoints for scuba education content",
+        "name": "Learn"
+      },
+      {
+        "description": "Endpoints for requesting direct-to-S3 media uploads",
+        "name": "Media"
+      },
+      {
+        "description": "Endpoints for conversations and direct messaging",
+        "name": "Messaging"
+      },
+      {
+        "description": "Endpoints for listing and acknowledging notifications",
+        "name": "Notifications"
+      },
+      {
+        "description": "Endpoints for creating, retrieving, updating, and deleting posts and comments",
+        "name": "Posts"
+      },
+      {
+        "description": "Endpoints for creating and managing diver profiles",
+        "name": "Profiles"
+      }
+    ],
+    "title": "ScubaPal API",
+    "version": "v1"
+  },
+  "project": {
+    "description": "Scuba Pal is a community of scuba divers. A platform for connecting divers to dive deep, and connect deeper. Access developer documentation on GitHub Pages.",
+    "features": [
+      "Main Feed: consists of ocean videos by users",
+      "The app will allow users to connect with other Scuba Divers",
+      "Find People to Dive with",
+      "Find Dive Shops.",
+      "Find Dive Locations",
+      "Recommended PADI Certifications",
+      "Users can log dives"
+    ],
+    "name": "Scuba Pal",
+    "stack": [
+      {
+        "core": "Spring Doc, Docusaurus",
+        "domain": "Documentation"
+      },
+      {
+        "core": "Java 25, Spring Boot 3.3",
+        "domain": "Backend"
+      },
+      {
+        "core": "Spring Security, Validation",
+        "domain": "Auth"
+      },
+      {
+        "core": "PostgreSQL, AWS RDS",
+        "domain": "Database"
+      },
+      {
+        "core": "AWS S3",
+        "domain": "Storage"
+      },
+      {
+        "core": "Mailpit, AWS SES",
+        "domain": "Mailing"
+      },
+      {
+        "core": "REST, OpenAPI, Swagger UI, Postman",
+        "domain": "API"
+      },
+      {
+        "core": "Thymeleaf, Spring Web",
+        "domain": "Web"
+      },
+      {
+        "core": "React Native Expo (TypeScript OpenAPI client generation Axios)",
+        "domain": "Mobile"
+      },
+      {
+        "core": "GitHub Workflows, Fastlane",
+        "domain": "CI/CD"
+      },
+      {
+        "core": "Docker, AWS EKS, AWS EC2",
+        "domain": "Deployment"
+      }
+    ]
+  }
+}
