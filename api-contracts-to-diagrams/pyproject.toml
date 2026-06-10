@@ -1,0 +1,14 @@
+[project]
+name = "scubapal-contract-diagrams"
+version = "0.1.0"
+description = "Deterministically collect Scuba Pal API contracts and generate route diagrams."
+requires-python = ">=3.11"
+readme = "README.md"
+dependencies = []
+
+[project.scripts]
+scubapal-contract-diagrams = "scubapal_contract_diagrams.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.11.0,<0.12.0"]
+build-backend = "uv_build"
