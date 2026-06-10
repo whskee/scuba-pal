@@ -29,6 +29,15 @@ Scuba Pal is a community of scuba divers. A platform for connecting divers to di
 
 Full-stack Java Spring Boot social app for scuba divers, featuring a [Thymeleaf](https://www.thymeleaf.org) web frontend, REST APIs, authentication, profiles, posts, messaging, notifications, dive locations, PostgreSQL/Flyway migrations, and OpenAPI docs for native/mobile clients.
 
+## Automation
+
+Scuba Pal includes a deterministic contract-to-diagram tool in `api-contracts-to-diagrams`.
+
+- `make routes-generate` collects live `/v3/api-docs` and `/actuator/mappings` when the app is running, then falls back to checked-in contracts/source.
+- `make routes-generate-offline` regenerates from checked-in OpenAPI, Java controllers, README, and database metadata only.
+- `make routes-generate-live` fails unless both live API contract sources are reachable.
+- Generated machine artifacts are written to `docs/routes/`; generated Docusaurus pages are written to `docs/content/api/routes/`.
+
 
 |                Domain                |                                                   Core                                                    |
 | :----------------------------------: | :-------------------------------------------------------------------------------------------------------: |

@@ -1,12 +1,17 @@
 {
   "mappingsSource": "",
-  "openapiSource": "scubapal-ios/OpenAPI/scubapal-openapi.json",
+  "openapiSource": "http://localhost:8080/v3/api-docs",
   "routeCount": 86,
   "sources": [
     {
-      "detail": "scubapal-ios/OpenAPI/scubapal-openapi.json",
+      "detail": "http://localhost:8080/v3/api-docs",
       "name": "OpenAPI",
-      "status": "fallback-file"
+      "status": "live"
+    },
+    {
+      "detail": "Invalid JSON from http://localhost:8080/actuator/mappings: Expecting value: line 1 column 1 (char 0)",
+      "name": "Actuator mappings live",
+      "status": "unavailable"
     },
     {
       "detail": "Run the app with the dev profile to collect runtime mappings.",

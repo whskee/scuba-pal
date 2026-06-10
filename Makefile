@@ -13,6 +13,9 @@ DOCS_DIR := docs
 APP_DIR := scubapal-app
 WEB_DIR := scubapal-fe-react
 MOBILE_DIR := scubapal-mobile
+ROUTE_TOOL_DIR := api-contracts-to-diagrams
+ROUTE_BASE_URL ?= http://localhost:$(APP_PORT)
+ROUTE_UV := UV_CACHE_DIR="$(CURDIR)/$(ROUTE_TOOL_DIR)/.uv-cache" uv run --project "$(ROUTE_TOOL_DIR)"
 
 # Database connection settings for local development and Docker.
 LOCAL_DB_URL ?= jdbc:postgresql://localhost:5432/scubapal
@@ -51,6 +54,11 @@ help:
 	@echo ""
 	@echo "  make docs-dev      Run Astro docs"
 	@echo "  make docs-build    Build Astro docs"
+	@echo ""
+	@echo "  make routes-generate          Generate route contracts and diagrams"
+	@echo "  make routes-generate-offline  Generate from checked-in contracts/source only"
+	@echo "  make routes-generate-live     Require live OpenAPI and Actuator mappings"
+	@echo "  make routes-test              Test the route generation tool"
 	@echo ""
 	@echo "  make test          Run all tests"
 	@echo "  make clean         Clean build artifacts"
@@ -109,6 +117,22 @@ docusaurus-build:
 test: app-test
 	@echo "All tests complete."
 
+.PHONY: routes-generate
+routes-generate:
+	$(ROUTE_UV) python -m scubapal_contract_diagrams --repo-root "$(CURDIR)" --base-url "$(ROUTE_BASE_URL)"
+
+.PHONY: routes-generate-offline
+routes-generate-offline:
+	$(ROUTE_UV) python -m scubapal_contract_diagrams --repo-root "$(CURDIR)" --base-url "$(ROUTE_BASE_URL)" --skip-fetch
+
+.PHONY: routes-generate-live
+routes-generate-live:
+	$(ROUTE_UV) python -m scubapal_contract_diagrams --repo-root "$(CURDIR)" --base-url "$(ROUTE_BASE_URL)" --require-live
+
+.PHONY: routes-test
+routes-test:
+	$(ROUTE_UV) python -m unittest discover -s "$(ROUTE_TOOL_DIR)/tests"
+
 .PHONY: app-test
 app-test:
 	cd $(APP_DIR) && ./mvnw test
@@ -142,6 +166,7 @@ app-docker-run:
 		-e SMTP_PORT="$(DOCKER_SMTP_PORT)" \
 		-e MEDIA_S3_REGION="$(MEDIA_S3_REGION)" \
 		-e MEDIA_S3_BUCKET="$(MEDIA_S3_BUCKET)" \
+		-e MEDIA_LOCAL_ENABLED="false" \
 		-e MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS="always" \
 		$(APP_IMAGE)
 
