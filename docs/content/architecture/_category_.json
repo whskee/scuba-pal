@@ -1,0 +1,11 @@
+{
+  "label": "Architecture",
+  "position": 1,
+  "link": {
+    "type": "doc",
+    "id": "architecture/index"
+  },
+  "customProps": {
+    "description": "Scuba Pal architecture source of truth"
+  }
+}

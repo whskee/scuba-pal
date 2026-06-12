@@ -39,6 +39,17 @@ DiagramView identity_view {
   }
 }
 
+DiagramView social_view {
+  TableGroups {
+    messaging
+  }
+
+  Schemas {
+    identity
+    social
+  }
+}
+
 
 Table "certification"."certification_agencies" {
   "certification_agency_id" int8 [pk, not null, increment]

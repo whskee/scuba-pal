@@ -59,6 +59,8 @@ const config: Config = {
       title: 'Scuba Pal',
       logo: { alt: 'Scuba Pal Logo', src: 'img/logo.png', },
       items: [
+        { type: 'docSidebar', position: 'left', sidebarId: 'topicsSidebar', label: 'Topics', },
+        { type: 'docSidebar', position: 'left', sidebarId: 'architectureSidebar', label: 'Architecture', },
         { type: 'docSidebar', position: 'left', sidebarId: 'tutorialSidebar', label: 'Tutorial', },
         { type: 'docSidebar', position: 'left', sidebarId: 'apiSidebar', label: '🔌 API', },
         { type: 'docSidebar', position: 'left', sidebarId: 'databaseSidebar', label: '🗄️ Data', },
