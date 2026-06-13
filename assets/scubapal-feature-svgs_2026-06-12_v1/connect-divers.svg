@@ -1,0 +1,66 @@
+<svg width="640" height="480" viewBox="0 0 640 480" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Connect with others</title>
+  <desc id="desc">Divers connected by an underwater network of profile nodes and messages.</desc>
+  <defs>
+    <linearGradient id="node" x1="137" y1="105" x2="490" y2="399" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#CAF0F8"/>
+      <stop offset="1" stop-color="#48CAE4"/>
+    </linearGradient>
+    <linearGradient id="deep" x1="90" y1="55" x2="556" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00B4D8"/>
+      <stop offset="0.6" stop-color="#0077B6"/>
+      <stop offset="1" stop-color="#03045E"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#03045E" flood-opacity="0.17"/>
+    </filter>
+  </defs>
+
+  <path d="M96 238C96 116 190 54 320 54c150 0 224 82 224 190 0 118-88 184-224 184-135 0-224-72-224-190Z" fill="url(#deep)" opacity="0.12"/>
+  <path d="M118 321c78-32 144-32 210 0 61 29 121 28 194-2" stroke="#48CAE4" stroke-width="9" stroke-linecap="round" opacity="0.22"/>
+
+  <path d="M199 179l108 75M440 177l-104 77M214 316l93-62M426 317l-90-63M199 179l15 137M440 177l-14 140" stroke="#48CAE4" stroke-width="8" stroke-linecap="round" opacity="0.62"/>
+  <path d="M307 254h29" stroke="#90E0EF" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
+
+  <g filter="url(#softShadow)">
+    <circle cx="320" cy="248" r="78" fill="#023E8A"/>
+    <circle cx="320" cy="248" r="58" fill="#CAF0F8"/>
+    <path d="M284 246c11-20 31-31 60-31 18 0 32 4 42 12-3 33-30 57-66 57-22 0-40-8-54-22 5-5 11-10 18-16Z" fill="#0077B6"/>
+    <path d="M283 231c18-22 45-31 76-25 13 2 23 8 30 17-7 8-17 13-29 13h-49c-12 0-22-2-28-5Z" fill="#ADE8F4"/>
+    <path d="M294 228c10-9 25-14 42-14 17 0 31 4 42 13" stroke="#03045E" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+    <path d="M249 277c-18 9-31 23-38 42" stroke="#48CAE4" stroke-width="16" stroke-linecap="round"/>
+    <path d="M390 279c19 10 33 24 42 43" stroke="#00B4D8" stroke-width="16" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <circle cx="199" cy="179" r="49" fill="url(#node)"/>
+    <circle cx="199" cy="165" r="15" fill="#0077B6"/>
+    <path d="M169 197c7-19 20-29 30-29s24 10 30 29" stroke="#0077B6" stroke-width="10" stroke-linecap="round"/>
+
+    <circle cx="440" cy="177" r="49" fill="url(#node)"/>
+    <circle cx="440" cy="163" r="15" fill="#0077B6"/>
+    <path d="M410 195c7-19 20-29 30-29s24 10 30 29" stroke="#0077B6" stroke-width="10" stroke-linecap="round"/>
+
+    <circle cx="214" cy="316" r="43" fill="#ADE8F4"/>
+    <circle cx="214" cy="304" r="13" fill="#0077B6"/>
+    <path d="M188 332c6-17 17-25 26-25s20 8 26 25" stroke="#0077B6" stroke-width="9" stroke-linecap="round"/>
+
+    <circle cx="426" cy="317" r="43" fill="#ADE8F4"/>
+    <circle cx="426" cy="305" r="13" fill="#0077B6"/>
+    <path d="M400 333c6-17 17-25 26-25s20 8 26 25" stroke="#0077B6" stroke-width="9" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <path d="M480 252h55c17 0 30 13 30 30v10c0 16-13 30-30 30h-19l-26 25v-25h-10c-17 0-30-14-30-30v-10c0-17 13-30 30-30Z" fill="#FFFFFF"/>
+    <path d="M485 281h45M485 301h30" stroke="#0077B6" stroke-width="8" stroke-linecap="round" opacity="0.72"/>
+  </g>
+
+  <g fill="#90E0EF" opacity="0.82">
+    <circle cx="123" cy="112" r="7"/>
+    <circle cx="146" cy="75" r="5"/>
+    <circle cx="525" cy="107" r="8"/>
+    <circle cx="554" cy="153" r="5"/>
+    <circle cx="103" cy="260" r="10"/>
+    <circle cx="539" cy="391" r="7"/>
+  </g>
+</svg>

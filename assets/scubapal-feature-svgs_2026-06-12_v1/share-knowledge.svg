@@ -1,0 +1,62 @@
+<svg width="640" height="480" viewBox="0 0 640 480" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Share your knowledge</title>
+  <desc id="desc">A dive log, compass, and shared learning bubbles floating underwater.</desc>
+  <defs>
+    <linearGradient id="panel" x1="184" y1="66" x2="454" y2="417" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#CAF0F8"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="182" y1="108" x2="486" y2="381" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00B4D8"/>
+      <stop offset="1" stop-color="#0077B6"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#03045E" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <path d="M88 238C88 116 183 54 322 54c148 0 230 78 230 192 0 113-89 180-230 180-141 0-234-69-234-188Z" fill="#00B4D8" opacity="0.11"/>
+  <path d="M111 315c83-31 148-31 219 1 65 29 126 30 201-1" stroke="#48CAE4" stroke-width="9" stroke-linecap="round" opacity="0.24"/>
+
+  <g filter="url(#softShadow)">
+    <rect x="188" y="90" width="262" height="320" rx="28" fill="url(#panel)"/>
+    <path d="M188 118c0-15 13-28 28-28h206c15 0 28 13 28 28v55H188v-55Z" fill="url(#accent)"/>
+    <circle cx="232" cy="130" r="12" fill="#CAF0F8"/>
+    <circle cx="276" cy="130" r="12" fill="#CAF0F8"/>
+    <circle cx="320" cy="130" r="12" fill="#CAF0F8"/>
+    <path d="M226 86v53M270 86v53M314 86v53" stroke="#023E8A" stroke-width="10" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <path d="M235 222h148M235 259h114M235 296h148" stroke="#0077B6" stroke-width="12" stroke-linecap="round" opacity="0.72"/>
+    <path d="M235 333h82" stroke="#00B4D8" stroke-width="12" stroke-linecap="round" opacity="0.8"/>
+    <rect x="229" y="194" width="168" height="164" rx="17" stroke="#03045E" stroke-width="8" opacity="0.08"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <circle cx="430" cy="302" r="72" fill="#023E8A"/>
+    <circle cx="430" cy="302" r="54" fill="#CAF0F8"/>
+    <path d="M430 252v22M430 330v22M380 302h22M458 302h22" stroke="#0077B6" stroke-width="8" stroke-linecap="round"/>
+    <path d="M447 285l-13 34-29 13 13-34 29-13Z" fill="#FFB703"/>
+    <path d="M434 319l-16-21" stroke="#03045E" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <circle cx="151" cy="203" r="39" fill="#90E0EF"/>
+    <path d="M132 203h38M151 184v38" stroke="#0077B6" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="515" cy="142" r="36" fill="#ADE8F4"/>
+    <path d="M497 142h35M515 124v36" stroke="#0077B6" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="510" cy="378" r="26" fill="#CAF0F8"/>
+    <path d="M497 378h26M510 365v26" stroke="#0077B6" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <path d="M183 200c-27-11-36-29-27-54M482 149c-26 10-42 31-45 62M489 363c-21-6-36-20-45-42" stroke="#48CAE4" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 18" opacity="0.88"/>
+
+  <g fill="#90E0EF" opacity="0.78">
+    <circle cx="115" cy="116" r="7"/>
+    <circle cx="141" cy="87" r="5"/>
+    <circle cx="546" cy="240" r="8"/>
+    <circle cx="561" cy="287" r="5"/>
+    <circle cx="120" cy="359" r="10"/>
+  </g>
+</svg>
